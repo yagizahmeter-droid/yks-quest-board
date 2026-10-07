@@ -1,0 +1,1710 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101114">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <title>YKS Quest Board</title>
+  <script src="./config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101114;
+      --panel: #181b20;
+      --panel-2: #20242b;
+      --text: #f2f3f5;
+      --muted: #a9b0bc;
+      --line: #2c333d;
+      --gold: #f1c75b;
+      --blue: #5fb4ff;
+      --green: #72d18b;
+      --red: #ff7c7c;
+      --purple: #b79cff;
+      --cyan: #63d6d6;
+      --orange: #f7a85b;
+      --shadow: 0 16px 50px rgba(0, 0, 0, .32);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(95, 180, 255, .08), transparent 280px),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .app {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 34px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: grid;
+      gap: 5px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .week-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .select,
+    .input,
+    .textarea {
+      min-height: 42px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .textarea {
+      min-height: 84px;
+      padding-top: 10px;
+      resize: vertical;
+    }
+
+    .select:focus,
+    .input:focus,
+    .textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(95, 180, 255, .16);
+    }
+
+    .button {
+      min-height: 42px;
+      border-radius: 8px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .button.primary {
+      background: var(--gold);
+      color: #17130a;
+      border-color: transparent;
+    }
+
+    .button.danger {
+      color: var(--red);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(241, 199, 91, .14), rgba(95, 180, 255, .12));
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .sync-card {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .sync-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sync-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .sync-title strong {
+      font-size: 1.02rem;
+    }
+
+    .auth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .signed-in-row {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .signed-in-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sync-status {
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.4;
+    }
+
+    .auth-disabled {
+      display: none;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      background: rgba(16, 17, 20, .54);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 8px;
+      padding: 12px;
+      min-width: 0;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: .84rem;
+      margin-bottom: 5px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+      line-height: 1.15;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 8px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .progress-track {
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .1);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      transition: width .24s ease;
+    }
+
+    .subject-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 0 12px;
+      scrollbar-width: thin;
+    }
+
+    .tab {
+      min-height: 38px;
+      border-radius: 999px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .tab[aria-pressed="true"] {
+      background: var(--text);
+      color: var(--bg);
+      border-color: transparent;
+    }
+
+    .tab-count {
+      font-variant-numeric: tabular-nums;
+      opacity: .78;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .subject-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .subject-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+      background: var(--subject-color);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--subject-color) 18%, transparent);
+    }
+
+    .subject-title h2 {
+      margin: 0;
+      font-size: 1.04rem;
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    .subject-xp {
+      color: var(--muted);
+      font-size: .9rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .quests {
+      display: grid;
+    }
+
+    .quest {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 11px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      background: transparent;
+      text-align: left;
+      width: 100%;
+    }
+
+    .quest:last-child {
+      border-bottom: 0;
+    }
+
+    .quest:hover {
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      border: 2px solid color-mix(in srgb, var(--subject-color) 62%, var(--line));
+      display: grid;
+      place-items: center;
+      color: transparent;
+      flex: 0 0 auto;
+      transition: background .18s ease, color .18s ease;
+    }
+
+    .quest.done .check {
+      background: var(--subject-color);
+      color: #0d1014;
+    }
+
+    .quest-main {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .quest-title {
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+
+    .quest.done .quest-title {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .quest-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .08);
+      padding: 3px 8px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    .xp {
+      color: var(--gold);
+      font-weight: 850;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .controls-card {
+      margin-top: 14px;
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .controls-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+    }
+
+    .quest-add-row {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1.4fr .65fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: .84rem;
+      font-weight: 700;
+    }
+
+    .empty {
+      padding: 20px 14px;
+      color: var(--muted);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      background: var(--text);
+      color: var(--bg);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      transition: opacity .18s ease, transform .18s ease;
+      max-width: calc(100% - 28px);
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, .68);
+      z-index: 10;
+    }
+
+    .modal-backdrop.open {
+      display: grid;
+    }
+
+    .modal {
+      width: min(980px, 100%);
+      max-height: min(760px, calc(100vh - 36px));
+      overflow: auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head,
+    .modal-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+
+    .modal-foot {
+      border-top: 1px solid var(--line);
+      border-bottom: 0;
+    }
+
+    .modal-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .modal-title h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .modal-body {
+      display: grid;
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .upload-box {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px dashed color-mix(in srgb, var(--blue) 42%, var(--line));
+      border-radius: 10px;
+      background: rgba(95, 180, 255, .06);
+    }
+
+    .draft-tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .draft-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .draft-row {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr .8fr .62fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .03);
+    }
+
+    .draft-empty,
+    .modal-note {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .analysis-text {
+      display: none;
+    }
+
+    .analysis-text.open {
+      display: grid;
+      gap: 8px;
+    }
+
+    @media (max-width: 850px) {
+      .stats,
+      .board {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app {
+        width: min(100% - 18px, 1180px);
+        padding-top: 14px;
+      }
+
+      .hero {
+        padding: 12px;
+      }
+
+      .stats,
+      .controls-row,
+      .quest-add-row,
+      .auth-grid,
+      .modal-grid,
+      .draft-row {
+        grid-template-columns: 1fr;
+      }
+
+      .quest {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .xp {
+        grid-column: 2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <h1>YKS QUEST BOARD</h1>
+        <span id="weekSubtitle">7-14 Ekim</span>
+      </div>
+      <div class="week-tools">
+        <select id="weekSelect" class="select" aria-label="Hafta seç"></select>
+        <button id="newWeekButton" class="button" type="button">Yeni hafta</button>
+      </div>
+    </header>
+
+    <section class="card sync-card" aria-label="Hesap ve senkronizasyon">
+      <div class="sync-head">
+        <div class="sync-title">
+          <strong>Hesap senkronizasyonu</strong>
+          <span id="syncStatus" class="sync-status">Bulut bağlantısı kontrol ediliyor.</span>
+        </div>
+      </div>
+      <div id="authDisabled" class="auth-disabled">
+        Bulut senkronizasyonu için Supabase bilgileri gerekiyor. Bu bilgiler eklendiğinde e-posta ve şifre ile giriş açılacak.
+      </div>
+      <div id="signedOutPanel" class="auth-grid">
+        <label class="field">
+          E-posta
+          <input id="authEmail" class="input" type="email" autocomplete="email" placeholder="mail@ornek.com">
+        </label>
+        <label class="field">
+          Şifre
+          <input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="En az 6 karakter">
+        </label>
+        <button id="signInButton" class="button primary" type="button">Giriş yap</button>
+        <button id="signUpButton" class="button" type="button">Hesap oluştur</button>
+      </div>
+      <div id="signedInPanel" class="signed-in-row">
+        <span id="signedInUser" class="sync-status"></span>
+        <div class="signed-in-actions">
+          <button id="syncNowButton" class="button" type="button">Şimdi eşitle</button>
+          <button id="signOutButton" class="button" type="button">Çıkış</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero" aria-label="Haftalık durum">
+      <div class="stats">
+        <div class="stat">
+          <span>Toplam XP</span>
+          <strong id="totalXp">0 XP</strong>
+        </div>
+        <div class="stat">
+          <span>Seviye</span>
+          <strong id="level">Level 1</strong>
+        </div>
+        <div class="stat">
+          <span>Görev</span>
+          <strong id="questCount">0 / 0</strong>
+        </div>
+        <div class="stat">
+          <span>Haftalık ilerleme</span>
+          <strong id="progressText">0%</strong>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span>Bu hafta bitmesi gereken görev havuzu</span>
+          <span id="remainingText">Başlamak için bir quest seç</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-label="Haftalık ilerleme" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <nav id="subjectNav" class="subject-nav" aria-label="Ders filtreleri"></nav>
+    <section id="board" class="board" aria-live="polite"></section>
+
+    <section class="card controls-card" aria-label="Quest ve hafta yönetimi">
+      <div class="quest-add-row">
+        <label class="field">
+          Ders
+          <select id="manualSubject" class="select"></select>
+        </label>
+        <label class="field">
+          Görev adı
+          <input id="manualTitle" class="input" type="text" placeholder="Örn. Problemler">
+        </label>
+        <label class="field">
+          Açıklama
+          <input id="manualDetail" class="input" type="text" placeholder="Örn. 40 soru ve analiz">
+        </label>
+        <label class="field">
+          XP
+          <input id="manualXp" class="input" type="number" min="5" step="5" value="100">
+        </label>
+        <button id="addQuestButton" class="button primary" type="button">Quest ekle</button>
+      </div>
+      <div class="controls-row">
+        <input id="weekNameInput" class="input" type="text" placeholder="Yeni hafta adı">
+        <input id="weekRangeInput" class="input" type="text" placeholder="Örn. 14-21 Ekim">
+        <button id="createWeekButton" class="button" type="button">Boş hafta oluştur</button>
+      </div>
+      <button id="resetButton" class="button danger" type="button">Bu haftayı sıfırla</button>
+    </section>
+  </main>
+
+  <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
+    <section class="modal">
+      <header class="modal-head">
+        <div class="modal-title">
+          <h2 id="weekModalTitle">Yeni hafta</h2>
+          <span class="modal-note">Program fotoğrafını quest havuzuna çevir, sonra kaydetmeden önce düzenle.</span>
+        </div>
+        <button id="closeWeekModal" class="button" type="button">Kapat</button>
+      </header>
+      <div class="modal-body">
+        <div class="modal-grid">
+          <label class="field">
+            Hafta adı
+            <input id="modalWeekName" class="input" type="text" placeholder="Örn. 14-21 Ekim Haftası">
+          </label>
+          <label class="field">
+            Tarih aralığı
+            <input id="modalWeekRange" class="input" type="text" placeholder="Örn. 14-21 Ekim">
+          </label>
+        </div>
+
+        <div class="upload-box">
+          <label class="field">
+            Program fotoğrafı
+            <input id="programPhoto" class="input" type="file" accept="image/*">
+          </label>
+          <div class="draft-tools">
+            <button id="analyzePhotoButton" class="button primary" type="button">Programı analiz et</button>
+            <button id="toggleOcrTextButton" class="button" type="button">OCR metnini göster</button>
+            <span id="analysisStatus" class="modal-note">Fotoğraf seçersen önce görevleri kontrol ekranına alırım.</span>
+          </div>
+          <div id="analysisTextWrap" class="analysis-text">
+            <label class="field">
+              Okunan metin
+              <textarea id="ocrText" class="textarea" placeholder="Fotoğraf okunamazsa metni buraya yapıştırıp tekrar görev çıkarabilirsin."></textarea>
+            </label>
+            <button id="parseTextButton" class="button" type="button">Metinden görev çıkar</button>
+          </div>
+        </div>
+
+        <section>
+          <div class="draft-tools">
+            <strong>Görevleri kontrol et</strong>
+            <button id="addDraftQuestButton" class="button" type="button">Satır ekle</button>
+          </div>
+          <div id="draftList" class="draft-list"></div>
+        </section>
+      </div>
+      <footer class="modal-foot">
+        <button id="emptyWeekModalButton" class="button" type="button">Boş hafta oluştur</button>
+        <button id="createFromDraftButton" class="button primary" type="button">Haftayı oluştur</button>
+      </footer>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const STORAGE_KEY = "yksQuestBoard.v1";
+    const META_KEY = "yksQuestBoard.meta.v1";
+    const CLIENT_ID_KEY = "yksQuestBoard.clientId.v1";
+    const SUPABASE_TABLE = "quest_board_states";
+    const subjects = [
+      { key: "all", name: "Tümü", color: "#f1c75b" },
+      { key: "turkce", name: "Türkçe", color: "#63d6d6" },
+      { key: "matematik", name: "Matematik", color: "#5fb4ff" },
+      { key: "fizik", name: "Fizik", color: "#b79cff" },
+      { key: "kimya", name: "Kimya", color: "#72d18b" },
+      { key: "biyoloji", name: "Biyoloji", color: "#f7a85b" },
+      { key: "tarih", name: "Tarih", color: "#ff7c7c" }
+    ];
+
+    const editableSubjects = subjects.filter((subject) => subject.key !== "all");
+    const topicHints = [
+      { subject: "turkce", title: "Dil bilgisi", keys: ["DIL BILGISI"] },
+      { subject: "turkce", title: "Sözcükte ve cümlede anlam", keys: ["SOZCUKTE", "CUMLEDE ANLAM"] },
+      { subject: "matematik", title: "Temel kavramlar", keys: ["TEMEL KAVRAM"] },
+      { subject: "matematik", title: "Sayı basamakları", keys: ["SAYI BASAMAK"] },
+      { subject: "fizik", title: "Basınç", keys: ["BASINC"] },
+      { subject: "fizik", title: "Sıvıların kaldırma kuvveti", keys: ["SIVILARIN KALDIRMA", "KALDIRMA KUVVETI"] },
+      { subject: "kimya", title: "Kimya bilimi", keys: ["KIMYA BILIMI"] },
+      { subject: "kimya", title: "Atomun yapısı", keys: ["ATOMUN YAPISI"] },
+      { subject: "biyoloji", title: "Canlıların ortak özellikleri", keys: ["CANLILARIN ORTAK"] },
+      { subject: "biyoloji", title: "Canlıların temel bileşenleri", keys: ["CANLILARIN TEMEL", "TEMEL BILESEN"] },
+      { subject: "tarih", title: "Osmanlı dağılma dönemi", keys: ["OSMANLI DAGILMA", "OSMANLI"] },
+      { subject: "tarih", title: "1. Dünya Savaşı", keys: ["1 DUNYA SAVASI", "1. DUNYA", "DUNYA SAVASI"] },
+      { subject: "tarih", title: "Milli mücadele dönemi", keys: ["MILLI MUCADELE"] }
+    ];
+
+    const seedWeek = {
+      id: "2026-10-07",
+      name: "7-14 Ekim Haftası",
+      range: "7-14 Ekim",
+      quests: [
+        q("turkce", "Dil bilgisi", "Konu anlatımı / soru çözümü", 85, "7 Ekim"),
+        q("turkce", "Dil bilgisi", "Konu anlatımı / soru çözümü", 85, "8 Ekim"),
+        q("turkce", "Dil bilgisi", "Konu anlatımı / soru çözümü", 85, "9 Ekim"),
+        q("turkce", "Sözcükte ve cümlede anlam", "Konu anlatımı / soru çözümü", 95, "10 Ekim"),
+        q("turkce", "Sözcükte ve cümlede anlam", "30 soru ve analiz", 125, "11 Ekim"),
+        q("turkce", "Sözcükte ve cümlede anlam", "30 soru ve analiz", 125, "12 Ekim"),
+
+        q("matematik", "Temel kavramlar", "30 soru çözümü", 115, "7 Ekim"),
+        q("matematik", "Temel kavramlar", "30 soru çözümü", 115, "8 Ekim"),
+        q("matematik", "Temel kavramlar", "30 soru çözümü", 115, "9 Ekim"),
+        q("matematik", "Sayı basamakları", "Konu anlatımı / soru çözümü", 120, "10 Ekim"),
+        q("matematik", "Sayı basamakları", "Konu anlatımı / soru çözümü", 120, "11 Ekim"),
+        q("matematik", "Sayı basamakları", "50 soru ve analiz", 170, "12 Ekim"),
+        q("matematik", "Sayı basamakları", "50 soru ve analiz", 170, "13 Ekim"),
+        q("matematik", "Sayı basamakları", "50 soru ve analiz", 170, "14 Ekim"),
+
+        q("fizik", "Basınç", "Soru çözümü", 100, "10 Ekim"),
+        q("fizik", "Basınç", "Soru çözümü", 100, "11 Ekim"),
+        q("fizik", "Sıvıların kaldırma kuvveti", "Konu anlatımı", 95, "13 Ekim"),
+        q("fizik", "Sıvıların kaldırma kuvveti", "Soru çözümü", 105, "14 Ekim"),
+
+        q("kimya", "Kimya bilimi", "30 soru ve analiz", 120, "8 Ekim"),
+        q("kimya", "Kimya bilimi", "30 soru ve analiz", 120, "9 Ekim"),
+        q("kimya", "Atomun yapısı", "Konu anlatımı / soru çözümü", 105, "10 Ekim"),
+        q("kimya", "Atomun yapısı", "Konu anlatımı / soru çözümü", 105, "11 Ekim"),
+        q("kimya", "Atomun yapısı", "Soru çözümü", 95, "12 Ekim"),
+
+        q("biyoloji", "Canlıların ortak özellikleri", "30 soru ve analiz", 120, "8 Ekim"),
+        q("biyoloji", "Canlıların ortak özellikleri", "30 soru ve analiz", 120, "9 Ekim"),
+        q("biyoloji", "Canlıların temel bileşenleri", "Konu anlatımı / soru çözümü", 105, "12 Ekim"),
+        q("biyoloji", "Canlıların temel bileşenleri", "Konu anlatımı / soru çözümü", 105, "13 Ekim"),
+        q("biyoloji", "Canlıların temel bileşenleri", "Konu anlatımı / soru çözümü", 105, "14 Ekim"),
+
+        q("tarih", "Osmanlı dağılma dönemi", "Video / not çalışması", 55, "7 Ekim"),
+        q("tarih", "Osmanlı dağılma dönemi", "Video / not çalışması", 55, "8 Ekim"),
+        q("tarih", "1. Dünya Savaşı", "Video / not çalışması", 55, "9 Ekim"),
+        q("tarih", "1. Dünya Savaşı", "Video / not çalışması", 55, "10 Ekim"),
+        q("tarih", "Milli mücadele dönemi", "Video / not çalışması", 60, "11 Ekim"),
+        q("tarih", "Milli mücadele dönemi", "Video / not çalışması", 60, "12 Ekim"),
+        q("tarih", "Milli mücadele dönemi", "Video / not çalışması", 60, "13 Ekim")
+      ]
+    };
+
+    function q(subject, title, detail, xp, sourceDay) {
+      const id = `${subject}-${sourceDay}-${title}-${detail}`.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      return { id, subject, title, detail, xp, sourceDay, done: false };
+    }
+
+    const els = {
+      weekSubtitle: document.getElementById("weekSubtitle"),
+      weekSelect: document.getElementById("weekSelect"),
+      subjectNav: document.getElementById("subjectNav"),
+      board: document.getElementById("board"),
+      totalXp: document.getElementById("totalXp"),
+      level: document.getElementById("level"),
+      questCount: document.getElementById("questCount"),
+      progressText: document.getElementById("progressText"),
+      progressFill: document.getElementById("progressFill"),
+      progressTrack: document.querySelector(".progress-track"),
+      remainingText: document.getElementById("remainingText"),
+      resetButton: document.getElementById("resetButton"),
+      newWeekButton: document.getElementById("newWeekButton"),
+      createWeekButton: document.getElementById("createWeekButton"),
+      weekNameInput: document.getElementById("weekNameInput"),
+      weekRangeInput: document.getElementById("weekRangeInput"),
+      manualSubject: document.getElementById("manualSubject"),
+      manualTitle: document.getElementById("manualTitle"),
+      manualDetail: document.getElementById("manualDetail"),
+      manualXp: document.getElementById("manualXp"),
+      addQuestButton: document.getElementById("addQuestButton"),
+      syncStatus: document.getElementById("syncStatus"),
+      authDisabled: document.getElementById("authDisabled"),
+      signedOutPanel: document.getElementById("signedOutPanel"),
+      signedInPanel: document.getElementById("signedInPanel"),
+      signedInUser: document.getElementById("signedInUser"),
+      authEmail: document.getElementById("authEmail"),
+      authPassword: document.getElementById("authPassword"),
+      signInButton: document.getElementById("signInButton"),
+      signUpButton: document.getElementById("signUpButton"),
+      signOutButton: document.getElementById("signOutButton"),
+      syncNowButton: document.getElementById("syncNowButton"),
+      weekModalBackdrop: document.getElementById("weekModalBackdrop"),
+      closeWeekModal: document.getElementById("closeWeekModal"),
+      modalWeekName: document.getElementById("modalWeekName"),
+      modalWeekRange: document.getElementById("modalWeekRange"),
+      programPhoto: document.getElementById("programPhoto"),
+      analyzePhotoButton: document.getElementById("analyzePhotoButton"),
+      toggleOcrTextButton: document.getElementById("toggleOcrTextButton"),
+      analysisTextWrap: document.getElementById("analysisTextWrap"),
+      ocrText: document.getElementById("ocrText"),
+      parseTextButton: document.getElementById("parseTextButton"),
+      analysisStatus: document.getElementById("analysisStatus"),
+      draftList: document.getElementById("draftList"),
+      addDraftQuestButton: document.getElementById("addDraftQuestButton"),
+      emptyWeekModalButton: document.getElementById("emptyWeekModalButton"),
+      createFromDraftButton: document.getElementById("createFromDraftButton"),
+      toast: document.getElementById("toast")
+    };
+
+    let state = loadState();
+    let activeSubject = "all";
+    let toastTimer = null;
+    let draftQuests = [];
+    let supabaseClient = null;
+    let currentUser = null;
+    let syncTimer = null;
+    let applyingRemote = false;
+    const clientId = getClientId();
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (saved && Array.isArray(saved.weeks) && saved.weeks.length) {
+          return saved;
+        }
+      } catch (error) {
+        console.warn("Saved board could not be loaded", error);
+      }
+      return { activeWeekId: seedWeek.id, weeks: [structuredClone(seedWeek)] };
+    }
+
+    function getClientId() {
+      const existing = localStorage.getItem(CLIENT_ID_KEY);
+      if (existing) return existing;
+      const id = crypto?.randomUUID ? crypto.randomUUID() : `client-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      localStorage.setItem(CLIENT_ID_KEY, id);
+      return id;
+    }
+
+    function getLocalMeta() {
+      try {
+        const meta = JSON.parse(localStorage.getItem(META_KEY));
+        if (meta && Number.isFinite(Number(meta.updatedAt))) return meta;
+      } catch (error) {
+        console.warn("Saved metadata could not be loaded", error);
+      }
+      return { updatedAt: Date.now(), pending: false };
+    }
+
+    function setLocalMeta(nextMeta) {
+      localStorage.setItem(META_KEY, JSON.stringify({
+        ...getLocalMeta(),
+        ...nextMeta
+      }));
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      if (!applyingRemote) {
+        setLocalMeta({ updatedAt: Date.now(), pending: true });
+        scheduleSync();
+      }
+    }
+
+    function activeWeek() {
+      return state.weeks.find((week) => week.id === state.activeWeekId) || state.weeks[0];
+    }
+
+    function subjectFor(key) {
+      return subjects.find((subject) => subject.key === key) || subjects[0];
+    }
+
+    function makeQuest(subject, title, detail, xp, sourceDay = "Haftalık havuz") {
+      const seed = `${subject}-${sourceDay}-${title}-${detail}-${Date.now()}-${Math.random()}`;
+      const id = seed.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      return {
+        id,
+        subject,
+        title: title.trim(),
+        detail: detail.trim() || "Çalışma görevi",
+        xp: Math.max(5, Number(xp) || 100),
+        sourceDay,
+        done: false
+      };
+    }
+
+    function createWeek(name, range, quests = []) {
+      const id = `week-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      state.weeks.push({ id, name, range, quests });
+      state.activeWeekId = id;
+      activeSubject = "all";
+      saveState();
+      render();
+      return id;
+    }
+
+    function cloudConfig() {
+      const config = window.YKS_CONFIG || {};
+      const supabaseUrl = config.supabaseUrl || "";
+      const supabaseAnonKey = config.supabaseAnonKey || "";
+      if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes("YOUR_")) return null;
+      return { supabaseUrl, supabaseAnonKey };
+    }
+
+    function updateAuthUi() {
+      const configured = Boolean(supabaseClient);
+      els.authDisabled.style.display = configured ? "none" : "block";
+      els.signedOutPanel.style.display = configured && !currentUser ? "grid" : "none";
+      els.signedInPanel.style.display = configured && currentUser ? "flex" : "none";
+      if (!configured) {
+        els.syncStatus.textContent = "Bulut senkronizasyonu henüz yapılandırılmadı. Uygulama bu cihazda çalışmaya devam eder.";
+        return;
+      }
+      if (currentUser) {
+        els.signedInUser.textContent = currentUser.email || "Giriş yapıldı";
+        const meta = getLocalMeta();
+        els.syncStatus.textContent = meta.pending
+          ? "Değişiklikler bu cihazda tutuldu, bağlantı uygun olunca eşitlenecek."
+          : "Bulutla eşitlendi.";
+      } else {
+        els.syncStatus.textContent = "PC ve telefon arasında eşitlemek için giriş yap.";
+      }
+    }
+
+    async function initCloud() {
+      const config = cloudConfig();
+      if (!config || !window.supabase?.createClient) {
+        updateAuthUi();
+        return;
+      }
+      supabaseClient = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
+      const { data } = await supabaseClient.auth.getSession();
+      currentUser = data.session?.user || null;
+      updateAuthUi();
+      if (currentUser) await syncAfterLogin();
+      supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+        currentUser = session?.user || null;
+        updateAuthUi();
+        if (currentUser) await syncAfterLogin();
+      });
+    }
+
+    function scheduleSync() {
+      updateAuthUi();
+      if (!supabaseClient || !currentUser || !navigator.onLine) return;
+      clearTimeout(syncTimer);
+      syncTimer = setTimeout(() => {
+        pushStateToCloud().catch((error) => {
+          console.error(error);
+          els.syncStatus.textContent = "Eşitleme bekliyor. İnternet gelince tekrar denenecek.";
+        });
+      }, 700);
+    }
+
+    async function fetchCloudState() {
+      const { data, error } = await supabaseClient
+        .from(SUPABASE_TABLE)
+        .select("state, updated_at, version")
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    }
+
+    async function pushStateToCloud() {
+      if (!supabaseClient || !currentUser) return;
+      const meta = getLocalMeta();
+      const updatedAt = new Date(meta.updatedAt || Date.now()).toISOString();
+      const { error } = await supabaseClient.from(SUPABASE_TABLE).upsert({
+        user_id: currentUser.id,
+        state,
+        updated_at: updatedAt,
+        client_id: clientId,
+        version: meta.updatedAt || Date.now()
+      });
+      if (error) throw error;
+      setLocalMeta({ pending: false });
+      updateAuthUi();
+    }
+
+    async function pullStateFromCloud() {
+      if (!supabaseClient || !currentUser) return;
+      const remote = await fetchCloudState();
+      if (!remote?.state?.weeks?.length) return;
+      const remoteTime = new Date(remote.updated_at).getTime();
+      const localMeta = getLocalMeta();
+      if (remoteTime > Number(localMeta.updatedAt || 0)) {
+        applyingRemote = true;
+        state = remote.state;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        setLocalMeta({ updatedAt: remoteTime, pending: false });
+        applyingRemote = false;
+        activeSubject = "all";
+        render();
+        showToast("Buluttaki ilerleme yüklendi");
+      }
+      updateAuthUi();
+    }
+
+    async function syncAfterLogin() {
+      try {
+        const remote = await fetchCloudState();
+        if (!remote) {
+          await pushStateToCloud();
+          showToast("Bu cihazdaki board buluta yüklendi");
+          return;
+        }
+        const remoteTime = new Date(remote.updated_at).getTime();
+        const localMeta = getLocalMeta();
+        if (remoteTime > Number(localMeta.updatedAt || 0) && remote.state?.weeks?.length) {
+          applyingRemote = true;
+          state = remote.state;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          setLocalMeta({ updatedAt: remoteTime, pending: false });
+          applyingRemote = false;
+          activeSubject = "all";
+          render();
+          showToast("Hesabındaki board yüklendi");
+        } else {
+          await pushStateToCloud();
+        }
+      } catch (error) {
+        console.error(error);
+        els.syncStatus.textContent = "Bulut eşitleme başarısız oldu. Değişiklikler cihazda saklanıyor.";
+      } finally {
+        updateAuthUi();
+      }
+    }
+
+    function getStats(quests) {
+      const total = quests.length;
+      const done = quests.filter((quest) => quest.done).length;
+      const earnedXp = quests.reduce((sum, quest) => sum + (quest.done ? quest.xp : 0), 0);
+      const possibleXp = quests.reduce((sum, quest) => sum + quest.xp, 0);
+      const percent = total ? Math.round((done / total) * 100) : 0;
+      const level = Math.max(1, Math.floor(earnedXp / 500) + 1);
+      return { total, done, earnedXp, possibleXp, percent, level };
+    }
+
+    function render() {
+      const week = activeWeek();
+      if (!week) return;
+      els.weekSubtitle.textContent = week.range || week.name;
+      document.title = `YKS Quest Board - ${week.range || week.name}`;
+      renderWeekSelect();
+      renderSubjectOptions();
+      renderSubjectNav(week);
+      renderStats(week);
+      renderBoard(week);
+    }
+
+    function renderSubjectOptions() {
+      const current = els.manualSubject.value || "matematik";
+      els.manualSubject.innerHTML = "";
+      editableSubjects.forEach((subject) => {
+        const option = document.createElement("option");
+        option.value = subject.key;
+        option.textContent = subject.name;
+        option.selected = subject.key === current;
+        els.manualSubject.append(option);
+      });
+    }
+
+    function renderWeekSelect() {
+      els.weekSelect.innerHTML = "";
+      state.weeks.forEach((week) => {
+        const option = document.createElement("option");
+        option.value = week.id;
+        option.textContent = week.name;
+        option.selected = week.id === state.activeWeekId;
+        els.weekSelect.append(option);
+      });
+    }
+
+    function renderSubjectNav(week) {
+      els.subjectNav.innerHTML = "";
+      subjects.forEach((subject) => {
+        const quests = subject.key === "all"
+          ? week.quests
+          : week.quests.filter((quest) => quest.subject === subject.key);
+        if (subject.key !== "all" && quests.length === 0) return;
+
+        const completed = quests.filter((quest) => quest.done).length;
+        const button = document.createElement("button");
+        button.className = "tab";
+        button.type = "button";
+        button.setAttribute("aria-pressed", String(activeSubject === subject.key));
+        button.innerHTML = `${subject.name} <span class="tab-count">${completed}/${quests.length}</span>`;
+        button.addEventListener("click", () => {
+          activeSubject = subject.key;
+          render();
+        });
+        els.subjectNav.append(button);
+      });
+    }
+
+    function renderStats(week) {
+      const stats = getStats(week.quests);
+      const left = stats.total - stats.done;
+      els.totalXp.textContent = `${stats.earnedXp} / ${stats.possibleXp} XP`;
+      els.level.textContent = `Level ${stats.level}`;
+      els.questCount.textContent = `${stats.done} / ${stats.total}`;
+      els.progressText.textContent = `${stats.percent}%`;
+      els.progressFill.style.width = `${stats.percent}%`;
+      els.progressTrack.setAttribute("aria-valuenow", String(stats.percent));
+      els.remainingText.textContent = left === 0
+        ? "Hafta tamamlandı"
+        : `${left} quest kaldı`;
+    }
+
+    function renderBoard(week) {
+      els.board.innerHTML = "";
+      const visibleSubjects = subjects.filter((subject) => {
+        if (subject.key === "all") return false;
+        return activeSubject === "all" || activeSubject === subject.key;
+      });
+
+      visibleSubjects.forEach((subject) => {
+        const quests = week.quests.filter((quest) => quest.subject === subject.key);
+        if (!quests.length) return;
+        els.board.append(createSubjectCard(subject, quests));
+      });
+
+      if (!els.board.children.length) {
+        const empty = document.createElement("div");
+        empty.className = "card empty";
+        empty.textContent = "Bu haftada gösterilecek quest yok.";
+        els.board.append(empty);
+      }
+    }
+
+    function createSubjectCard(subject, quests) {
+      const stats = getStats(quests);
+      const card = document.createElement("article");
+      card.className = "card";
+      card.style.setProperty("--subject-color", subject.color);
+
+      const head = document.createElement("div");
+      head.className = "card-head";
+      head.innerHTML = `
+        <div class="subject-title">
+          <span class="subject-dot" aria-hidden="true"></span>
+          <h2>${subject.name}</h2>
+        </div>
+        <span class="subject-xp">${stats.earnedXp}/${stats.possibleXp} XP</span>
+      `;
+
+      const list = document.createElement("div");
+      list.className = "quests";
+      quests.forEach((quest) => list.append(createQuestButton(quest, subject)));
+
+      card.append(head, list);
+      return card;
+    }
+
+    function createQuestButton(quest, subject) {
+      const button = document.createElement("button");
+      const sourceLabel = /\d+\s*Ekim/i.test(quest.sourceDay || "") ? "Haftalık havuz" : (quest.sourceDay || "Haftalık havuz");
+      button.type = "button";
+      button.className = `quest${quest.done ? " done" : ""}`;
+      button.style.setProperty("--subject-color", subject.color);
+      button.setAttribute("aria-pressed", String(quest.done));
+      button.setAttribute("aria-label", `${subject.name}: ${quest.title}, ${quest.detail}, ${quest.xp} XP`);
+      button.innerHTML = `
+        <span class="check" aria-hidden="true">${quest.done ? "✓" : ""}</span>
+        <span class="quest-main">
+          <span class="quest-title">${escapeHtml(quest.title)}</span>
+          <span class="quest-meta">
+            <span>${escapeHtml(quest.detail)}</span>
+            <span class="chip">${escapeHtml(sourceLabel)}</span>
+          </span>
+        </span>
+        <span class="xp">+${quest.xp} XP</span>
+      `;
+      button.addEventListener("click", () => toggleQuest(quest.id));
+      return button;
+    }
+
+    function toggleQuest(id) {
+      const week = activeWeek();
+      const quest = week.quests.find((item) => item.id === id);
+      if (!quest) return;
+      quest.done = !quest.done;
+      saveState();
+      render();
+      showToast(quest.done ? `+${quest.xp} XP kazandın` : "Quest geri alındı");
+    }
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => els.toast.classList.remove("show"), 1200);
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+
+    function openWeekModal() {
+      draftQuests = [];
+      els.modalWeekName.value = els.weekNameInput.value.trim() || "";
+      els.modalWeekRange.value = els.weekRangeInput.value.trim() || "";
+      els.programPhoto.value = "";
+      els.ocrText.value = "";
+      els.analysisTextWrap.classList.remove("open");
+      els.analysisStatus.textContent = "Fotoğraf seçersen önce görevleri kontrol ekranına alırım.";
+      renderDraftList();
+      els.weekModalBackdrop.classList.add("open");
+      els.modalWeekName.focus();
+    }
+
+    function closeWeekModal() {
+      els.weekModalBackdrop.classList.remove("open");
+    }
+
+    function renderDraftList() {
+      els.draftList.innerHTML = "";
+      if (!draftQuests.length) {
+        const empty = document.createElement("div");
+        empty.className = "draft-empty";
+        empty.textContent = "Henüz algılanan quest yok. Fotoğrafı analiz et, OCR metninden çıkar veya satır ekle.";
+        els.draftList.append(empty);
+        return;
+      }
+
+      draftQuests.forEach((quest, index) => {
+        const row = document.createElement("div");
+        row.className = "draft-row";
+        row.innerHTML = `
+          <select class="select" aria-label="Ders">${editableSubjects.map((subject) => `<option value="${subject.key}" ${subject.key === quest.subject ? "selected" : ""}>${subject.name}</option>`).join("")}</select>
+          <input class="input" type="text" aria-label="Görev adı" value="${escapeHtml(quest.title)}">
+          <input class="input" type="text" aria-label="Soru sayısı ve açıklama" value="${escapeHtml(quest.detail)}">
+          <input class="input" type="number" min="5" step="5" aria-label="XP" value="${quest.xp}">
+          <button class="button danger" type="button">Sil</button>
+        `;
+        const [subjectInput, titleInput, detailInput, xpInput, deleteButton] = row.children;
+        subjectInput.addEventListener("change", () => {
+          draftQuests[index].subject = subjectInput.value;
+        });
+        titleInput.addEventListener("input", () => {
+          draftQuests[index].title = titleInput.value;
+        });
+        detailInput.addEventListener("input", () => {
+          draftQuests[index].detail = detailInput.value;
+        });
+        xpInput.addEventListener("input", () => {
+          draftQuests[index].xp = Math.max(5, Number(xpInput.value) || 5);
+        });
+        deleteButton.addEventListener("click", () => {
+          draftQuests.splice(index, 1);
+          renderDraftList();
+        });
+        els.draftList.append(row);
+      });
+    }
+
+    function addDraftQuest(quest = {}) {
+      draftQuests.push({
+        subject: quest.subject || "matematik",
+        title: quest.title || "",
+        detail: quest.detail || "",
+        xp: Math.max(5, Number(quest.xp) || 100),
+        sourceDay: quest.sourceDay || "Haftalık havuz"
+      });
+      renderDraftList();
+    }
+
+    function normalizeText(value) {
+      return String(value || "")
+        .toLocaleUpperCase("tr-TR")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/İ/g, "I")
+        .replace(/Ş/g, "S")
+        .replace(/Ğ/g, "G")
+        .replace(/Ü/g, "U")
+        .replace(/Ö/g, "O")
+        .replace(/Ç/g, "C")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function inferTopic(line) {
+      const normalized = normalizeText(line);
+      return topicHints.find((hint) => hint.keys.some((key) => normalized.includes(key)));
+    }
+
+    function extractDetail(line) {
+      const normalized = normalizeText(line);
+      const numberMatch = normalized.match(/(\d+)\s*SORU/);
+      const hasAnalysis = normalized.includes("ANALIZ");
+      if (numberMatch && hasAnalysis) return `${numberMatch[1]} soru ve analiz`;
+      if (numberMatch && normalized.includes("COZUM")) return `${numberMatch[1]} soru çözümü`;
+      if (numberMatch) return `${numberMatch[1]} soru`;
+      if (normalized.includes("KONU ANLATIM") && normalized.includes("SORU COZUM")) return "Konu anlatımı / soru çözümü";
+      if (normalized.includes("KONU ANLATIM")) return "Konu anlatımı";
+      if (normalized.includes("SORU COZUM")) return "Soru çözümü";
+      if (normalized.includes("VIDEO")) return "Video / not çalışması";
+      return "";
+    }
+
+    function estimateXp(subject, detail) {
+      const normalized = normalizeText(detail);
+      const questionMatch = normalized.match(/(\d+)\s*SORU/);
+      let xp = subject === "tarih" ? 55 : 85;
+      if (normalized.includes("KONU ANLATIM")) xp += 15;
+      if (normalized.includes("SORU COZUM")) xp += 20;
+      if (normalized.includes("ANALIZ")) xp += 35;
+      if (questionMatch) xp += Math.min(80, Math.round(Number(questionMatch[1]) * 1.2));
+      if (subject === "matematik") xp += 15;
+      if (subject === "tarih") xp = Math.max(45, Math.round(xp * .62));
+      return Math.ceil(xp / 5) * 5;
+    }
+
+    function parseProgramText(text) {
+      const lines = String(text || "")
+        .split(/\n+/)
+        .map((line) => line.replace(/[|_]+/g, " ").replace(/\s+/g, " ").trim())
+        .filter(Boolean);
+      const ignored = /^(YAGIZ|AHMET|ER|TURKCE|FIZIK|KIMYA|BIYOLOJI|MATEMATIK|TARIH|CARSAMBA|PERSEMBE|CUMA|CUMARTESI|PAZAR|PAZARTESI|SALI|\d+\s*EKIM)$/i;
+      const found = [];
+      let pendingTopic = null;
+
+      lines.forEach((line) => {
+        const normalized = normalizeText(line);
+        if (!normalized || ignored.test(normalized)) return;
+        const topic = inferTopic(line);
+        const detail = extractDetail(line);
+
+        if (topic && detail) {
+          found.push({
+            subject: topic.subject,
+            title: topic.title,
+            detail,
+            xp: estimateXp(topic.subject, detail),
+            sourceDay: "Fotoğraftan"
+          });
+          pendingTopic = null;
+          return;
+        }
+
+        if (topic) {
+          pendingTopic = topic;
+          return;
+        }
+
+        if (pendingTopic && detail) {
+          found.push({
+            subject: pendingTopic.subject,
+            title: pendingTopic.title,
+            detail,
+            xp: estimateXp(pendingTopic.subject, detail),
+            sourceDay: "Fotoğraftan"
+          });
+          pendingTopic = null;
+        }
+      });
+
+      return found;
+    }
+
+    function loadTesseract() {
+      if (window.Tesseract) return Promise.resolve(window.Tesseract);
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+        script.onload = () => resolve(window.Tesseract);
+        script.onerror = () => reject(new Error("OCR kütüphanesi yüklenemedi"));
+        document.head.append(script);
+      });
+    }
+
+    async function analyzeProgramPhoto() {
+      const file = els.programPhoto.files[0];
+      if (!file) {
+        els.analysisStatus.textContent = "Önce program fotoğrafını seçmelisin.";
+        return;
+      }
+      els.analysisStatus.textContent = "Fotoğraf okunuyor. Bu işlem biraz sürebilir.";
+      els.analyzePhotoButton.disabled = true;
+      try {
+        const tesseract = await loadTesseract();
+        const result = await tesseract.recognize(file, "tur+eng", {
+          logger: (info) => {
+            if (info.status === "recognizing text") {
+              els.analysisStatus.textContent = `Fotoğraf okunuyor: %${Math.round(info.progress * 100)}`;
+            }
+          }
+        });
+        const text = result?.data?.text || "";
+        els.ocrText.value = text;
+        const parsed = parseProgramText(text);
+        draftQuests = parsed;
+        renderDraftList();
+        els.analysisStatus.textContent = parsed.length
+          ? `${parsed.length} quest bulundu. Kaydetmeden önce kontrol edebilirsin.`
+          : "Program fotoğrafı okunamadı. Daha net bir fotoğraf yükleyebilir veya görevleri manuel ekleyebilirsin.";
+      } catch (error) {
+        console.error(error);
+        els.analysisStatus.textContent = "Program fotoğrafı okunamadı. Daha net bir fotoğraf yükleyebilir veya görevleri manuel ekleyebilirsin.";
+      } finally {
+        els.analyzePhotoButton.disabled = false;
+      }
+    }
+
+    function createWeekFromDraft(empty = false) {
+      const name = els.modalWeekName.value.trim() || `Yeni Hafta ${state.weeks.length + 1}`;
+      const range = els.modalWeekRange.value.trim() || name;
+      const cleanDrafts = empty ? [] : draftQuests
+        .filter((quest) => quest.title.trim())
+        .map((quest) => makeQuest(quest.subject, quest.title, quest.detail, quest.xp, quest.sourceDay || "Haftalık havuz"));
+      createWeek(name, range, cleanDrafts);
+      closeWeekModal();
+      showToast(empty ? "Boş hafta oluşturuldu" : `${cleanDrafts.length} quest ile hafta oluşturuldu`);
+    }
+
+    els.weekSelect.addEventListener("change", () => {
+      state.activeWeekId = els.weekSelect.value;
+      activeSubject = "all";
+      saveState();
+      render();
+    });
+
+    els.resetButton.addEventListener("click", () => {
+      const week = activeWeek();
+      if (!week) return;
+      if (!confirm(`${week.name} ilerlemesi sıfırlansın mı?`)) return;
+      week.quests.forEach((quest) => {
+        quest.done = false;
+      });
+      saveState();
+      render();
+      showToast("Hafta sıfırlandı");
+    });
+
+    els.newWeekButton.addEventListener("click", openWeekModal);
+
+    els.closeWeekModal.addEventListener("click", closeWeekModal);
+
+    els.weekModalBackdrop.addEventListener("click", (event) => {
+      if (event.target === els.weekModalBackdrop) closeWeekModal();
+    });
+
+    els.toggleOcrTextButton.addEventListener("click", () => {
+      els.analysisTextWrap.classList.toggle("open");
+    });
+
+    els.analyzePhotoButton.addEventListener("click", analyzeProgramPhoto);
+
+    els.parseTextButton.addEventListener("click", () => {
+      const parsed = parseProgramText(els.ocrText.value);
+      draftQuests = parsed;
+      renderDraftList();
+      els.analysisStatus.textContent = parsed.length
+        ? `${parsed.length} quest bulundu. Kaydetmeden önce kontrol edebilirsin.`
+        : "Metinden görev çıkarılamadı. Satır ekleyerek manuel girebilirsin.";
+    });
+
+    els.addDraftQuestButton.addEventListener("click", () => addDraftQuest());
+
+    els.emptyWeekModalButton.addEventListener("click", () => createWeekFromDraft(true));
+
+    els.createFromDraftButton.addEventListener("click", () => createWeekFromDraft(false));
+
+    els.addQuestButton.addEventListener("click", () => {
+      const week = activeWeek();
+      const title = els.manualTitle.value.trim();
+      if (!week || !title) {
+        els.manualTitle.focus();
+        return;
+      }
+      week.quests.push(makeQuest(
+        els.manualSubject.value,
+        title,
+        els.manualDetail.value.trim(),
+        els.manualXp.value,
+        "Manuel"
+      ));
+      els.manualTitle.value = "";
+      els.manualDetail.value = "";
+      els.manualXp.value = "100";
+      saveState();
+      render();
+      showToast("Quest eklendi");
+    });
+
+    els.signUpButton.addEventListener("click", async () => {
+      if (!supabaseClient) return;
+      const email = els.authEmail.value.trim();
+      const password = els.authPassword.value;
+      if (!email || password.length < 6) {
+        els.syncStatus.textContent = "E-posta ve en az 6 karakter şifre gir.";
+        return;
+      }
+      const { error } = await supabaseClient.auth.signUp({ email, password });
+      if (error) {
+        els.syncStatus.textContent = error.message;
+        return;
+      }
+      els.syncStatus.textContent = "Hesap oluşturuldu. E-posta doğrulaması istenirse gelen kutunu kontrol et.";
+      showToast("Hesap oluşturuldu");
+    });
+
+    els.signInButton.addEventListener("click", async () => {
+      if (!supabaseClient) return;
+      const email = els.authEmail.value.trim();
+      const password = els.authPassword.value;
+      if (!email || !password) {
+        els.syncStatus.textContent = "E-posta ve şifre gir.";
+        return;
+      }
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        els.syncStatus.textContent = error.message;
+        return;
+      }
+      showToast("Giriş yapıldı");
+    });
+
+    els.signOutButton.addEventListener("click", async () => {
+      if (!supabaseClient) return;
+      await supabaseClient.auth.signOut();
+      currentUser = null;
+      updateAuthUi();
+      showToast("Çıkış yapıldı");
+    });
+
+    els.syncNowButton.addEventListener("click", async () => {
+      try {
+        await pullStateFromCloud();
+        await pushStateToCloud();
+        showToast("Eşitlendi");
+      } catch (error) {
+        console.error(error);
+        els.syncStatus.textContent = "Şu an eşitlenemedi. Bağlantıyı kontrol et.";
+      }
+    });
+
+    els.createWeekButton.addEventListener("click", () => {
+      const name = els.weekNameInput.value.trim() || `Yeni Hafta ${state.weeks.length + 1}`;
+      const range = els.weekRangeInput.value.trim() || name;
+      createWeek(name, range, []);
+      els.weekNameInput.value = "";
+      els.weekRangeInput.value = "";
+      showToast("Boş hafta oluşturuldu");
+    });
+
+    window.addEventListener("online", () => scheduleSync());
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        pullStateFromCloud().catch((error) => console.error(error));
+      }
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch((error) => console.warn("Service worker failed", error));
+      });
+    }
+
+    render();
+    initCloud();
+  </script>
+</body>
+</html>

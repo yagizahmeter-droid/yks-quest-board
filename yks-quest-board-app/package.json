@@ -1,0 +1,10 @@
+{
+  "name": "yks-quest-board",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npx serve .",
+    "deploy:vercel": "vercel --prod",
+    "deploy:netlify": "netlify deploy --prod --dir ."
+  }
+}
