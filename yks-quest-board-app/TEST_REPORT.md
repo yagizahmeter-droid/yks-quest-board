@@ -12,6 +12,8 @@ No service-role or secret API key is used by the frontend or tests. Live tests u
 
 GitHub feature branch `ders-teacher-system`, draft PR #1. Vercel reports successful Preview deployment. Production branch and frontend are unchanged. Preview remains authentication-protected unless the user explicitly approves a temporary share URL. The branch's config points ONLY to staging; switch to the confirmed production project as a separate reviewed release step.
 
+The staging-configured preview built successfully at commit 52ed780. After explicit approval for a temporary share link, Vercel rejected the lookup with HTTP 403 for the connector's project/team access. No share link was created and deployment protection was not changed. The preview still requires authorized Vercel sign-in. The development server serves an explicit static-asset allowlist, excluding credentials and account exports.
+
 ## Migration / Remaining Gates
 
 Staging migration applied and tested on PostgreSQL 17. Local fresh migration tested with PostgreSQL 18. Staging's follow-up adds the primary key now included in the standalone migration source. Following explicit user approval on 2026-10-12, the production teacher migration was applied successfully after a full external export outside the app. Both complete board rows (JSON, hashes, versions, timestamps and client IDs) match the export exactly. Both accounts retain 35 quests / 3595 possible XP; two private database backups match, two Auth users remain and no profiles were created for them. All six public application tables have RLS enabled. Production frontend release still needs separate approval.
