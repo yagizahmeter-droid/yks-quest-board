@@ -1,31 +1,47 @@
-# YKS Quest Board
+# D.E.R.S.
 
-Statik PWA uygulaması. Supabase bağlanınca e-posta/şifre girişiyle PC ve telefon arasında haftalar, questler, XP ve tamamlanma durumları eşitlenir.
+Dijital Eğitim ve Rutin Sistemi. Existing Quest Board design and JSON data model are retained.
 
-## Supabase kurulumu
+## Architecture
 
-1. Supabase'te ücretsiz bir proje oluştur.
-2. SQL Editor içinde `supabase-schema.sql` dosyasındaki SQL'i çalıştır.
-3. Authentication > Providers altında Email provider açık kalsın.
-4. Project Settings > API bölümünden Project URL ve anon public key değerlerini al.
-5. `config.js` dosyasındaki `YOUR_SUPABASE_URL` ve `YOUR_SUPABASE_ANON_KEY` alanlarını doldur.
+Static PWA: index.html, teacher.js, sync.js and locally bundled public Supabase SDK. Email/password authentication uses a publishable key only. Existing weeks, tasks, XP and history stay in quest_board_states.
 
-## Yayınlama
+Atomic teacher operations and optimistic synchronization use the authenticated ders_action RPC. Account-scoped offline storage and three-way merging preserve independent edits and remote additions. Explicit local edits win same-field conflicts; server-controlled teacher fields always win. Version checks prevent blind overwrites. PWA caches static same-origin assets only, never Supabase responses or student progress.
 
-Bu klasör doğrudan Vercel, Netlify veya GitHub Pages'e yüklenebilir.
+## Teacher / Student
 
-Vercel için:
+After registration choose the account type and enter a display name once. Teachers create a seven-day invite code; rotation cancels older codes. Students submit the code and teachers approve or reject the request. Approved teachers send weekly programs. Students review and accept or reject them. Acceptance appends a new week without replacing personal tasks.
 
-```bash
-vercel --prod
+Teacher tasks are marked, are not bound to a day and can be completed normally. Editing requires a change request and teacher decision. Either participant can disconnect; future teacher access is revoked.
+
+## Development
+
+Install pinned dependencies with npm or pnpm:
+
+```sh
+npm start
+npm test
 ```
 
-Netlify için:
+Development address: http://127.0.0.1:4173. Tests create a separate local PostgreSQL cluster with synthetic accounts and use headless Chrome. They never write to production. Set SKIP_BROWSER=1 for database-only tests. Browser tests use the standard installed Chrome path on Windows.
 
-```bash
-netlify deploy --prod --dir .
-```
+For desktop sandbox asynchronous-realpath limitations, run Node with -r ./scripts/windows-realpath.cjs. Tests can also resolve packages from the sibling ders-test-runtime directory used during development.
 
-## Telefona kurma
+tests/browser.cjs imitates GoTrue/REST transport with all data operations backed by real PostgreSQL and RLS. It does NOT verify live Supabase Auth configuration. Dedicated live Auth testing remains necessary.
 
-HTTPS adresini Chrome'da aç, menüden "Ana ekrana ekle" seçeneğini kullan.
+## Database
+
+Fresh staging projects need supabase-schema.sql followed by migrations/20261012_teacher_workflows.sql. Existing production already has the JSON table. Follow MIGRATION_PLAN.md first; do not apply the superseded 001 schema.
+
+Without the new migration, teacher workflows and atomic synchronization are unavailable. Production has not been migrated. Do not promote this frontend until backend migration and staging checks are approved.
+
+## Deployment
+
+Publish a feature branch to Vercel Preview. Never merge main or promote without approval. The existing GitHub-to-Vercel main check succeeds; the Vercel connector's scope 403 requires reauthorization. Do not disable deployment protection as a workaround.
+
+Publish only index.html, config.js, teacher.js, sync.js, service-worker.js, manifest.webmanifest, icons/ and vendor/. Tests, backups, SQL and dependencies are excluded by the static build script.
+
+On HTTPS, sign in with the same account on PC and phone. Chrome menu > Ana ekrana ekle installs the PWA. Completion remains available temporarily offline and retries after reconnect. Invitations, approvals and program changes need internet.
+
+Marka/domain uygunluğu doğrulanmadı.
+

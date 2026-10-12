@@ -13,19 +13,20 @@ create policy "Users can read their quest board"
 on public.quest_board_states
 for select
 to authenticated
-using (auth.uid() = user_id);
+using ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can insert their quest board" on public.quest_board_states;
 create policy "Users can insert their quest board"
 on public.quest_board_states
 for insert
 to authenticated
-with check (auth.uid() = user_id);
+with check ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can update their quest board" on public.quest_board_states;
 create policy "Users can update their quest board"
 on public.quest_board_states
 for update
 to authenticated
-using (auth.uid() = user_id)
-with check (auth.uid() = user_id);
+using ((select auth.uid()) = user_id)
+with check ((select auth.uid()) = user_id);
+

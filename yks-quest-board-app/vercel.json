@@ -1,4 +1,7 @@
 {
+  "installCommand": "echo Static assets use the bundled SDK",
+  "buildCommand": "node scripts/build.cjs",
+  "outputDirectory": "dist",
   "cleanUrls": true,
   "headers": [
     {
@@ -12,3 +15,4 @@
     }
   ]
 }
+

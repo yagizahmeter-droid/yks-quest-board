@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.pnpm-store/
+.test-db/
+test-results/
+.vercel/
+backups/
+.env*
+.store/
+

@@ -1,7 +1,7 @@
 {
-  "name": "YKS Quest Board",
-  "short_name": "YKS Quest",
-  "description": "Haftalık YKS çalışma questlerini takip et.",
+  "name": "D.E.R.S.",
+  "short_name": "D.E.R.S.",
+  "description": "Dijital Eğitim ve Rutin Sistemi",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -29,3 +29,4 @@
     }
   ]
 }
+

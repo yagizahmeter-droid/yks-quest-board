@@ -7,9 +7,10 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
-  <title>YKS Quest Board</title>
+  <title>D.E.R.S.</title>
   <script src="./config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./vendor/supabase.js"></script>
+  <script src="./sync.js"></script>
   <style>
     :root {
       color-scheme: dark;
@@ -145,6 +146,12 @@
       color: var(--red);
     }
 
+    .button.is-active {
+      background: var(--text);
+      color: var(--bg);
+      border-color: transparent;
+    }
+
     .hero {
       background: linear-gradient(135deg, rgba(241, 199, 91, .14), rgba(95, 180, 255, .12));
       border: 1px solid var(--line);
@@ -235,7 +242,7 @@
 
     .stat strong {
       display: block;
-      font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+      font-size: 1.5rem;
       line-height: 1.15;
       font-variant-numeric: tabular-nums;
       overflow-wrap: anywhere;
@@ -302,6 +309,13 @@
       opacity: .78;
     }
 
+    .tab-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
     .board {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -318,6 +332,7 @@
 
     .card-head {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
@@ -369,6 +384,7 @@
       background: transparent;
       text-align: left;
       width: 100%;
+      cursor: pointer;
     }
 
     .quest:last-child {
@@ -455,6 +471,123 @@
       grid-template-columns: 1fr 1.4fr 1.4fr .65fr auto;
       gap: 10px;
       align-items: end;
+    }
+
+    .teacher-card,
+    .history-card {
+      margin-top: 14px;
+    }
+
+    .teacher-panel,
+    .history-list {
+      display: grid;
+      gap: 8px;
+      padding: 14px;
+    }
+
+    .teacher-tools, .program-composer { display: grid; gap: 12px; padding: 12px 0; }
+    .program-composer { border-top: 1px solid var(--line); }
+    .invite-result { overflow-wrap: anywhere; color: var(--gold); user-select: all; }
+    .ders-dialog { width: min(780px, calc(100% - 24px)); max-height: calc(100dvh - 24px); padding: 0; background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 8px; }
+    .ders-dialog::backdrop { background: rgba(0,0,0,.7); }
+    .ders-dialog h2 { font-size: 1.15rem; margin: 0; }
+    .ders-dialog form { display: grid; gap: 12px; }
+    .input, .select, .textarea { min-width: 0; max-width: 100%; }
+    .week-tools > * { max-width: 100%; }
+    .quest-action { min-height: 44px; }
+    @media (prefers-reduced-motion: reduce) { .confetti-piece { display: none; } .fx-pop, .progress-fill { animation: none; transition: none; } }
+
+    .history-filters {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .history-item,
+    .teacher-item {
+      display: grid;
+      gap: 5px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .03);
+    }
+
+    .edit-tools {
+      display: none;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    body.edit-mode .edit-tools {
+      display: flex;
+    }
+
+    body.edit-mode .quest {
+      cursor: grab;
+    }
+
+    .quest > .check { grid-column: 1; grid-row: 1; }
+    .quest > .quest-main { grid-column: 2; grid-row: 1; }
+    .quest > .xp { grid-column: 3; grid-row: 1; }
+    .quest > .edit-tools { grid-column: 1 / -1; grid-row: 2; min-width: 0; }
+    .card-head > .edit-tools { flex-basis: 100%; }
+
+    .quest-action {
+      min-height: 44px;
+      padding: 0 9px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid var(--line);
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    .completed-badge {
+      color: var(--green);
+    }
+
+    .fx-pop {
+      position: fixed;
+      left: 50%;
+      top: 22%;
+      transform: translate(-50%, 18px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 20;
+      background: var(--gold);
+      color: #17130a;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 900;
+      box-shadow: var(--shadow);
+      animation: fx-pop .9s ease forwards;
+    }
+
+    .confetti-piece {
+      position: fixed;
+      width: 7px;
+      height: 12px;
+      top: -20px;
+      border-radius: 2px;
+      z-index: 19;
+      pointer-events: none;
+      animation: confetti-fall 900ms ease-out forwards;
+    }
+
+    @keyframes fx-pop {
+      0% { opacity: 0; transform: translate(-50%, 18px) scale(.96); }
+      20% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -26px) scale(1.02); }
+    }
+
+    @keyframes confetti-fall {
+      to {
+        transform: translate(var(--x), 110vh) rotate(420deg);
+        opacity: 0;
+      }
     }
 
     .field {
@@ -623,12 +756,12 @@
         padding: 12px;
       }
 
-      .stats,
       .controls-row,
       .quest-add-row,
       .auth-grid,
       .modal-grid,
-      .draft-row {
+      .draft-row,
+      .history-filters {
         grid-template-columns: 1fr;
       }
 
@@ -636,9 +769,8 @@
         grid-template-columns: auto minmax(0, 1fr);
       }
 
-      .xp {
-        grid-column: 2;
-      }
+      .quest > .xp { grid-column: 2; grid-row: 2; }
+      .quest > .edit-tools { grid-row: 3; }
     }
   </style>
 </head>
@@ -646,11 +778,12 @@
   <main class="app">
     <header class="topbar">
       <div class="brand">
-        <h1>YKS QUEST BOARD</h1>
-        <span id="weekSubtitle">7-14 Ekim</span>
+        <h1>D.E.R.S.</h1>
+        <span id="weekSubtitle">Dijital Eğitim ve Rutin Sistemi</span>
       </div>
       <div class="week-tools">
         <select id="weekSelect" class="select" aria-label="Hafta seç"></select>
+        <button id="editModeButton" class="button" type="button">Düzenleme modu</button>
         <button id="newWeekButton" class="button" type="button">Yeni hafta</button>
       </div>
     </header>
@@ -720,6 +853,11 @@
     <section id="board" class="board" aria-live="polite"></section>
 
     <section class="card controls-card" aria-label="Quest ve hafta yönetimi">
+      <div class="controls-row">
+        <input id="categoryNameInput" class="input" type="text" placeholder="Yeni ders / kategori adı">
+        <input id="categoryColorInput" class="input" type="color" value="#5fb4ff" aria-label="Kategori rengi">
+        <button id="addCategoryButton" class="button" type="button">Kategori ekle</button>
+      </div>
       <div class="quest-add-row">
         <label class="field">
           Ders
@@ -745,6 +883,35 @@
         <button id="createWeekButton" class="button" type="button">Boş hafta oluştur</button>
       </div>
       <button id="resetButton" class="button danger" type="button">Bu haftayı sıfırla</button>
+    </section>
+
+    <section class="card teacher-card" aria-label="Öğretmen paneli">
+      <div class="card-head">
+        <div class="subject-title">
+          <span class="subject-dot" aria-hidden="true" style="--subject-color: var(--purple)"></span>
+          <h2>Öğretmen paneli</h2>
+        </div>
+        <select id="roleSelect" class="select" aria-label="Rol seç">
+          <option value="student">Öğrenci</option>
+          <option value="teacher">Öğretmen</option>
+        </select>
+      </div>
+      <div id="teacherPanel" class="teacher-panel"></div>
+    </section>
+
+    <section class="card history-card" aria-label="Çalışma geçmişi">
+      <div class="card-head">
+        <div class="subject-title">
+          <span class="subject-dot" aria-hidden="true" style="--subject-color: var(--green)"></span>
+          <h2>Çalışma geçmişi</h2>
+        </div>
+      </div>
+      <div class="history-filters">
+        <input id="historyDateFilter" class="input" type="date" aria-label="Tarih filtresi">
+        <select id="historyWeekFilter" class="select" aria-label="Hafta filtresi"></select>
+        <select id="historyCategoryFilter" class="select" aria-label="Kategori filtresi"></select>
+      </div>
+      <div id="historyList" class="history-list"></div>
     </section>
   </main>
 
@@ -810,31 +977,31 @@
     const META_KEY = "yksQuestBoard.meta.v1";
     const CLIENT_ID_KEY = "yksQuestBoard.clientId.v1";
     const SUPABASE_TABLE = "quest_board_states";
-    const subjects = [
-      { key: "all", name: "Tümü", color: "#f1c75b" },
-      { key: "turkce", name: "Türkçe", color: "#63d6d6" },
-      { key: "matematik", name: "Matematik", color: "#5fb4ff" },
-      { key: "fizik", name: "Fizik", color: "#b79cff" },
-      { key: "kimya", name: "Kimya", color: "#72d18b" },
-      { key: "biyoloji", name: "Biyoloji", color: "#f7a85b" },
-      { key: "tarih", name: "Tarih", color: "#ff7c7c" }
+    const APP_VERSION = 2;
+    const COMPLETED_TAB_ID = "completed";
+    const LEGACY_CATEGORIES = [
+      { id: "turkce", key: "turkce", name: "Türkçe", color: "#63d6d6", sortOrder: 10 },
+      { id: "matematik", key: "matematik", name: "Matematik", color: "#5fb4ff", sortOrder: 20 },
+      { id: "fizik", key: "fizik", name: "Fizik", color: "#b79cff", sortOrder: 30 },
+      { id: "kimya", key: "kimya", name: "Kimya", color: "#72d18b", sortOrder: 40 },
+      { id: "biyoloji", key: "biyoloji", name: "Biyoloji", color: "#f7a85b", sortOrder: 50 },
+      { id: "tarih", key: "tarih", name: "Tarih", color: "#ff7c7c", sortOrder: 60 }
     ];
 
-    const editableSubjects = subjects.filter((subject) => subject.key !== "all");
     const topicHints = [
-      { subject: "turkce", title: "Dil bilgisi", keys: ["DIL BILGISI"] },
-      { subject: "turkce", title: "Sözcükte ve cümlede anlam", keys: ["SOZCUKTE", "CUMLEDE ANLAM"] },
-      { subject: "matematik", title: "Temel kavramlar", keys: ["TEMEL KAVRAM"] },
-      { subject: "matematik", title: "Sayı basamakları", keys: ["SAYI BASAMAK"] },
-      { subject: "fizik", title: "Basınç", keys: ["BASINC"] },
-      { subject: "fizik", title: "Sıvıların kaldırma kuvveti", keys: ["SIVILARIN KALDIRMA", "KALDIRMA KUVVETI"] },
-      { subject: "kimya", title: "Kimya bilimi", keys: ["KIMYA BILIMI"] },
-      { subject: "kimya", title: "Atomun yapısı", keys: ["ATOMUN YAPISI"] },
-      { subject: "biyoloji", title: "Canlıların ortak özellikleri", keys: ["CANLILARIN ORTAK"] },
-      { subject: "biyoloji", title: "Canlıların temel bileşenleri", keys: ["CANLILARIN TEMEL", "TEMEL BILESEN"] },
-      { subject: "tarih", title: "Osmanlı dağılma dönemi", keys: ["OSMANLI DAGILMA", "OSMANLI"] },
-      { subject: "tarih", title: "1. Dünya Savaşı", keys: ["1 DUNYA SAVASI", "1. DUNYA", "DUNYA SAVASI"] },
-      { subject: "tarih", title: "Milli mücadele dönemi", keys: ["MILLI MUCADELE"] }
+      { subject: "turkce", categoryName: "Türkçe", title: "Dil bilgisi", keys: ["DIL BILGISI"] },
+      { subject: "turkce", categoryName: "Türkçe", title: "Sözcükte ve cümlede anlam", keys: ["SOZCUKTE", "CUMLEDE ANLAM"] },
+      { subject: "matematik", categoryName: "Matematik", title: "Temel kavramlar", keys: ["TEMEL KAVRAM"] },
+      { subject: "matematik", categoryName: "Matematik", title: "Sayı basamakları", keys: ["SAYI BASAMAK"] },
+      { subject: "fizik", categoryName: "Fizik", title: "Basınç", keys: ["BASINC"] },
+      { subject: "fizik", categoryName: "Fizik", title: "Sıvıların kaldırma kuvveti", keys: ["SIVILARIN KALDIRMA", "KALDIRMA KUVVETI"] },
+      { subject: "kimya", categoryName: "Kimya", title: "Kimya bilimi", keys: ["KIMYA BILIMI"] },
+      { subject: "kimya", categoryName: "Kimya", title: "Atomun yapısı", keys: ["ATOMUN YAPISI"] },
+      { subject: "biyoloji", categoryName: "Biyoloji", title: "Canlıların ortak özellikleri", keys: ["CANLILARIN ORTAK"] },
+      { subject: "biyoloji", categoryName: "Biyoloji", title: "Canlıların temel bileşenleri", keys: ["CANLILARIN TEMEL", "TEMEL BILESEN"] },
+      { subject: "tarih", categoryName: "Tarih", title: "Osmanlı dağılma dönemi", keys: ["OSMANLI DAGILMA", "OSMANLI"] },
+      { subject: "tarih", categoryName: "Tarih", title: "1. Dünya Savaşı", keys: ["1 DUNYA SAVASI", "1. DUNYA", "DUNYA SAVASI"] },
+      { subject: "tarih", categoryName: "Tarih", title: "Milli mücadele dönemi", keys: ["MILLI MUCADELE"] }
     ];
 
     const seedWeek = {
@@ -914,6 +1081,16 @@
       manualDetail: document.getElementById("manualDetail"),
       manualXp: document.getElementById("manualXp"),
       addQuestButton: document.getElementById("addQuestButton"),
+      editModeButton: document.getElementById("editModeButton"),
+      categoryNameInput: document.getElementById("categoryNameInput"),
+      categoryColorInput: document.getElementById("categoryColorInput"),
+      addCategoryButton: document.getElementById("addCategoryButton"),
+      roleSelect: document.getElementById("roleSelect"),
+      teacherPanel: document.getElementById("teacherPanel"),
+      historyDateFilter: document.getElementById("historyDateFilter"),
+      historyWeekFilter: document.getElementById("historyWeekFilter"),
+      historyCategoryFilter: document.getElementById("historyCategoryFilter"),
+      historyList: document.getElementById("historyList"),
       syncStatus: document.getElementById("syncStatus"),
       authDisabled: document.getElementById("authDisabled"),
       signedOutPanel: document.getElementById("signedOutPanel"),
@@ -943,26 +1120,112 @@
       toast: document.getElementById("toast")
     };
 
+    let currentUser = null;
     let state = loadState();
     let activeSubject = "all";
     let toastTimer = null;
     let draftQuests = [];
     let supabaseClient = null;
-    let currentUser = null;
+    let syncInFlight = null;
+    let revision = 0;
+    let authGeneration = 0;
     let syncTimer = null;
     let applyingRemote = false;
+    let editMode = false;
     const clientId = getClientId();
+
+    function boardStorageKey() { return `${STORAGE_KEY}:${currentUser?.id || 'guest'}`; }
+    function metaStorageKey() { return `${META_KEY}:${currentUser?.id || 'guest'}`; }
 
     function loadState() {
       try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if (saved && Array.isArray(saved.weeks) && saved.weeks.length) {
-          return saved;
+        const saved = JSON.parse(localStorage.getItem(boardStorageKey()));
+        if (saved && Array.isArray(saved.weeks)) {
+          return normalizeState(saved);
         }
       } catch (error) {
         console.warn("Saved board could not be loaded", error);
       }
-      return { activeWeekId: seedWeek.id, weeks: [structuredClone(seedWeek)] };
+      return emptyState();
+    }
+
+    function emptyState() {
+      const weekId = `week-${Date.now()}`;
+      return {
+        version: APP_VERSION,
+        profile: { role: "student", displayName: "" },
+        categories: [],
+        completedTabOrder: 999,
+        studyHistory: [],
+        teacherConnections: [],
+        teacherAssignments: [],
+        changeRequests: [],
+        activeWeekId: weekId,
+        weeks: [{ id: weekId, name: "İlk Hafta", range: "", sortOrder: 0, quests: [] }]
+      };
+    }
+
+    function normalizeState(rawState) {
+      const next = {
+        ...emptyState(),
+        ...rawState,
+        profile: { role: "student", displayName: "", ...(rawState.profile || {}) },
+        weeks: Array.isArray(rawState.weeks) ? rawState.weeks : [],
+        studyHistory: Array.isArray(rawState.studyHistory) ? rawState.studyHistory : [],
+        teacherConnections: Array.isArray(rawState.teacherConnections) ? rawState.teacherConnections : [],
+        teacherAssignments: Array.isArray(rawState.teacherAssignments) ? rawState.teacherAssignments : [],
+        changeRequests: Array.isArray(rawState.changeRequests) ? rawState.changeRequests : []
+      };
+      if (!next.weeks.length) next.weeks = emptyState().weeks;
+      if (!next.activeWeekId || !next.weeks.some((week) => week.id === next.activeWeekId)) {
+        next.activeWeekId = next.weeks[0].id;
+      }
+      next.categories = normalizeCategories(rawState.categories, next.weeks);
+      next.weeks = next.weeks.map((week, weekIndex) => ({
+        sortOrder: weekIndex,
+        ...week,
+        quests: (week.quests || []).map((quest, questIndex) => ({
+          source: quest.source || quest.sourceDay || "Manuel",
+          sortOrder: quest.sortOrder ?? questIndex,
+          categoryId: quest.categoryId || quest.subject || next.categories[0]?.id || "genel",
+          subject: quest.categoryId || quest.subject || next.categories[0]?.id || "genel",
+          lockedForStudent: Boolean(quest.lockedForStudent),
+          completionId: quest.completionId || null,
+          ...quest
+        }))
+      }));
+      return next;
+    }
+
+    function normalizeCategories(categories, weeks) {
+      const existing = Array.isArray(categories) ? categories : [];
+      const byId = new Map(existing.map((category, index) => [category.id || category.key, {
+        id: category.id || category.key,
+        key: category.id || category.key,
+        name: category.name,
+        color: category.color || LEGACY_CATEGORIES[index % LEGACY_CATEGORIES.length]?.color || "#5fb4ff",
+        sortOrder: category.sortOrder ?? index * 10
+      }]));
+      weeks.forEach((week) => {
+        (week.quests || []).forEach((quest) => {
+          const id = quest.categoryId || quest.subject || "genel";
+          if (!byId.has(id)) {
+            const legacy = LEGACY_CATEGORIES.find((category) => category.id === id);
+            byId.set(id, {
+              id,
+              key: id,
+              name: legacy?.name || titleCase(id),
+              color: legacy?.color || "#5fb4ff",
+              sortOrder: legacy?.sortOrder ?? byId.size * 10
+            });
+          }
+        });
+      });
+      return [...byId.values()].sort((a, b) => a.sortOrder - b.sortOrder);
+    }
+
+    function titleCase(value) {
+      return String(value || "Genel").replace(/[-_]/g, " ").replace(/\b\w/g, (char) => char.toLocaleUpperCase("tr-TR"));
     }
 
     function getClientId() {
@@ -975,23 +1238,25 @@
 
     function getLocalMeta() {
       try {
-        const meta = JSON.parse(localStorage.getItem(META_KEY));
+        const meta = JSON.parse(localStorage.getItem(metaStorageKey()));
         if (meta && Number.isFinite(Number(meta.updatedAt))) return meta;
       } catch (error) {
         console.warn("Saved metadata could not be loaded", error);
       }
-      return { updatedAt: Date.now(), pending: false };
+      return { updatedAt: 0, pending: false };
     }
 
     function setLocalMeta(nextMeta) {
-      localStorage.setItem(META_KEY, JSON.stringify({
+      localStorage.setItem(metaStorageKey(), JSON.stringify({
         ...getLocalMeta(),
         ...nextMeta
       }));
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      state = normalizeState(state);
+      localStorage.setItem(boardStorageKey(), JSON.stringify(state));
+      revision += 1;
       if (!applyingRemote) {
         setLocalMeta({ updatedAt: Date.now(), pending: true });
         scheduleSync();
@@ -1002,8 +1267,19 @@
       return state.weeks.find((week) => week.id === state.activeWeekId) || state.weeks[0];
     }
 
+    function getCategories() {
+      state.categories = normalizeCategories(state.categories, state.weeks);
+      return state.categories;
+    }
+
     function subjectFor(key) {
-      return subjects.find((subject) => subject.key === key) || subjects[0];
+      return getCategories().find((subject) => subject.id === key || subject.key === key) || getCategories()[0] || {
+        id: "genel",
+        key: "genel",
+        name: "Genel",
+        color: "#5fb4ff",
+        sortOrder: 0
+      };
     }
 
     function makeQuest(subject, title, detail, xp, sourceDay = "Haftalık havuz") {
@@ -1014,17 +1290,27 @@
       return {
         id,
         subject,
+        categoryId: subject,
         title: title.trim(),
         detail: detail.trim() || "Çalışma görevi",
         xp: Math.max(5, Number(xp) || 100),
         sourceDay,
+        source: sourceDay,
+        sortOrder: 0,
+        lockedForStudent: false,
         done: false
       };
     }
 
     function createWeek(name, range, quests = []) {
       const id = `week-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      state.weeks.push({ id, name, range, quests });
+      state.weeks.push({
+        id,
+        name,
+        range,
+        sortOrder: state.weeks.length,
+        quests: quests.map((quest, index) => ({ ...quest, sortOrder: quest.sortOrder ?? index }))
+      });
       state.activeWeekId = id;
       activeSubject = "all";
       saveState();
@@ -1060,110 +1346,101 @@
       }
     }
 
+    async function switchAccount(user) {
+      if ((currentUser?.id || null) === (user?.id || null)) return;
+      authGeneration += 1;
+      clearTimeout(syncTimer);
+      currentUser = user;
+      state = loadState();
+      activeSubject = "all";
+      revision += 1;
+      render();
+      updateAuthUi();
+      if (user) await pushStateToCloud();
+      await window.DersTeacher?.refresh();
+    }
+
     async function initCloud() {
       const config = cloudConfig();
-      if (!config || !window.supabase?.createClient) {
-        updateAuthUi();
-        return;
-      }
+      if (!config || !window.supabase?.createClient) { updateAuthUi(); return; }
       supabaseClient = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
-      const { data } = await supabaseClient.auth.getSession();
-      currentUser = data.session?.user || null;
-      updateAuthUi();
-      if (currentUser) await syncAfterLogin();
-      supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-        currentUser = session?.user || null;
-        updateAuthUi();
-        if (currentUser) await syncAfterLogin();
+      supabaseClient.auth.onAuthStateChange((_event, session) => {
+        setTimeout(() => switchAccount(session?.user || null).catch(syncError), 0);
       });
+      const { data, error } = await supabaseClient.auth.getSession();
+      if (error) syncError(error);
+      await switchAccount(data.session?.user || null);
+      updateAuthUi();
+      setInterval(() => {
+        if (currentUser && navigator.onLine && !document.hidden) {
+          pushStateToCloud().catch(syncError);
+          window.DersTeacher?.refresh();
+        }
+      }, 15000);
+    }
+
+    function syncError(error) {
+      console.error(error);
+      els.syncStatus.textContent = "Eşitlenemedi. Değişiklikler bu cihazda saklanıyor.";
     }
 
     function scheduleSync() {
       updateAuthUi();
       if (!supabaseClient || !currentUser || !navigator.onLine) return;
       clearTimeout(syncTimer);
-      syncTimer = setTimeout(() => {
-        pushStateToCloud().catch((error) => {
-          console.error(error);
-          els.syncStatus.textContent = "Eşitleme bekliyor. İnternet gelince tekrar denenecek.";
-        });
-      }, 700);
+      syncTimer = setTimeout(() => pushStateToCloud().catch(syncError), 700);
     }
 
     async function fetchCloudState() {
-      const { data, error } = await supabaseClient
-        .from(SUPABASE_TABLE)
-        .select("state, updated_at, version")
-        .eq("user_id", currentUser.id)
-        .maybeSingle();
+      const { data, error } = await supabaseClient.from(SUPABASE_TABLE)
+        .select("state, updated_at, version").eq("user_id", currentUser.id).maybeSingle();
       if (error) throw error;
       return data;
     }
 
     async function pushStateToCloud() {
-      if (!supabaseClient || !currentUser) return;
-      const meta = getLocalMeta();
-      const updatedAt = new Date(meta.updatedAt || Date.now()).toISOString();
-      const { error } = await supabaseClient.from(SUPABASE_TABLE).upsert({
-        user_id: currentUser.id,
-        state,
-        updated_at: updatedAt,
-        client_id: clientId,
-        version: meta.updatedAt || Date.now()
-      });
-      if (error) throw error;
-      setLocalMeta({ pending: false });
-      updateAuthUi();
-    }
-
-    async function pullStateFromCloud() {
-      if (!supabaseClient || !currentUser) return;
-      const remote = await fetchCloudState();
-      if (!remote?.state?.weeks?.length) return;
-      const remoteTime = new Date(remote.updated_at).getTime();
-      const localMeta = getLocalMeta();
-      if (remoteTime > Number(localMeta.updatedAt || 0)) {
-        applyingRemote = true;
-        state = remote.state;
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        setLocalMeta({ updatedAt: remoteTime, pending: false });
-        applyingRemote = false;
-        activeSubject = "all";
-        render();
-        showToast("Buluttaki ilerleme yüklendi");
-      }
-      updateAuthUi();
-    }
-
-    async function syncAfterLogin() {
-      try {
-        const remote = await fetchCloudState();
-        if (!remote) {
-          await pushStateToCloud();
-          showToast("Bu cihazdaki board buluta yüklendi");
+      if (!supabaseClient || !currentUser || !navigator.onLine) return;
+      if (syncInFlight) { await syncInFlight; return pushStateToCloud(); }
+      const generation = authGeneration;
+      const userId = currentUser.id;
+      const job = (async () => {
+        let remote = await fetchCloudState();
+        if (generation !== authGeneration) return;
+        let meta = getLocalMeta();
+        if (!meta.pending && remote) {
+          state = normalizeState(remote.state);
+          localStorage.setItem(boardStorageKey(), JSON.stringify(state));
+          setLocalMeta({ version: remote.version, baseState: state, pending: false, updatedAt: new Date(remote.updated_at).getTime() });
+          render(); updateAuthUi(); return;
+        }
+        for (let attempt = 0; attempt < 4; attempt += 1) {
+          const startRevision = revision;
+          const localSnapshot = JSON.parse(JSON.stringify(state));
+          const base = meta.baseState || remote?.state || emptyState();
+          const candidate = normalizeState(remote ? window.DersSync.mergeState(base, localSnapshot, normalizeState(remote.state)) : localSnapshot);
+          const { data, error } = await supabaseClient.rpc("ders_action", { p_action: "sync_board", p_payload: {
+            state: candidate, expected_version: remote?.version || 0, client_id: clientId
+          } });
+          if (generation !== authGeneration || userId !== currentUser?.id) return;
+          if (error) throw error;
+          if (data.error) throw new Error(data.error);
+          if (data.conflict) { remote = data; continue; }
+          const changed = revision !== startRevision;
+          state = changed ? normalizeState(window.DersSync.mergeState(localSnapshot, state, candidate)) : candidate;
+          localStorage.setItem(boardStorageKey(), JSON.stringify(state));
+          setLocalMeta({ version: data.version, baseState: candidate, pending: changed, updatedAt: Date.now() });
+          render(); updateAuthUi();
+          if (changed) scheduleSync();
           return;
         }
-        const remoteTime = new Date(remote.updated_at).getTime();
-        const localMeta = getLocalMeta();
-        if (remoteTime > Number(localMeta.updatedAt || 0) && remote.state?.weeks?.length) {
-          applyingRemote = true;
-          state = remote.state;
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-          setLocalMeta({ updatedAt: remoteTime, pending: false });
-          applyingRemote = false;
-          activeSubject = "all";
-          render();
-          showToast("Hesabındaki board yüklendi");
-        } else {
-          await pushStateToCloud();
-        }
-      } catch (error) {
-        console.error(error);
-        els.syncStatus.textContent = "Bulut eşitleme başarısız oldu. Değişiklikler cihazda saklanıyor.";
-      } finally {
-        updateAuthUi();
-      }
+        throw new Error("Board eşitlemesi yoğun. Tekrar denenecek.");
+      })();
+      syncInFlight = job;
+      try { await job; } finally { if (syncInFlight === job) syncInFlight = null; }
     }
+
+    async function pullStateFromCloud() { return pushStateToCloud(); }
+    async function syncAfterLogin() { return pushStateToCloud(); }
 
     function getStats(quests) {
       const total = quests.length;
@@ -1178,25 +1455,32 @@
     function render() {
       const week = activeWeek();
       if (!week) return;
-      els.weekSubtitle.textContent = week.range || week.name;
-      document.title = `YKS Quest Board - ${week.range || week.name}`;
+      els.weekSubtitle.textContent = week.range || week.name || "Dijital Eğitim ve Rutin Sistemi";
+      document.title = `D.E.R.S. - ${week.range || week.name}`;
+      document.body.classList.toggle("edit-mode", editMode);
+      els.editModeButton.classList.toggle("is-active", editMode);
+      els.editModeButton.textContent = editMode ? "Düzenleme açık" : "Düzenleme modu";
       renderWeekSelect();
       renderSubjectOptions();
       renderSubjectNav(week);
       renderStats(week);
       renderBoard(week);
+      renderHistory();
+      renderTeacherPanel();
     }
 
     function renderSubjectOptions() {
-      const current = els.manualSubject.value || "matematik";
+      const categories = getCategories();
+      const current = els.manualSubject.value || categories[0]?.id || "";
       els.manualSubject.innerHTML = "";
-      editableSubjects.forEach((subject) => {
+      categories.forEach((subject) => {
         const option = document.createElement("option");
-        option.value = subject.key;
+        option.value = subject.id;
         option.textContent = subject.name;
-        option.selected = subject.key === current;
+        option.selected = subject.id === current;
         els.manualSubject.append(option);
       });
+      els.addQuestButton.disabled = !categories.length;
     }
 
     function renderWeekSelect() {
@@ -1212,31 +1496,77 @@
 
     function renderSubjectNav(week) {
       els.subjectNav.innerHTML = "";
-      subjects.forEach((subject) => {
-        const quests = subject.key === "all"
-          ? week.quests
-          : week.quests.filter((quest) => quest.subject === subject.key);
-        if (subject.key !== "all" && quests.length === 0) return;
+      const categories = getCategories();
+      const navItems = [
+        { id: "all", name: "Tümü", color: "#f1c75b", order: -10, quests: week.quests },
+        ...categories.map((category) => ({
+          ...category,
+          order: category.sortOrder,
+          quests: week.quests.filter((quest) => (quest.categoryId || quest.subject) === category.id)
+        })),
+        { id: COMPLETED_TAB_ID, name: "Tamamlananlar", color: "#72d18b", order: state.completedTabOrder ?? 999, quests: week.quests.filter((quest) => quest.done) }
+      ].sort((a, b) => a.order - b.order);
+
+      navItems.forEach((subject) => {
+        const quests = subject.quests;
+        if (subject.id !== "all" && subject.id !== COMPLETED_TAB_ID && quests.length === 0 && !editMode) return;
 
         const completed = quests.filter((quest) => quest.done).length;
         const button = document.createElement("button");
         button.className = "tab";
         button.type = "button";
-        button.setAttribute("aria-pressed", String(activeSubject === subject.key));
-        button.innerHTML = `${subject.name} <span class="tab-count">${completed}/${quests.length}</span>`;
+        button.setAttribute("aria-pressed", String(activeSubject === subject.id));
+        button.innerHTML = `${escapeHtml(subject.name)} <span class="tab-count">${completed}/${quests.length}</span>`;
         button.addEventListener("click", () => {
-          activeSubject = subject.key;
+          activeSubject = subject.id;
           render();
         });
+        if (editMode && subject.id !== "all") {
+          const wrapper = document.createElement("span");
+          wrapper.className = "tab-wrap";
+          wrapper.draggable = true;
+          wrapper.addEventListener("dragstart", event => event.dataTransfer.setData("application/ders-tab", subject.id));
+          wrapper.addEventListener("dragover", event => event.preventDefault());
+          wrapper.addEventListener("drop", event => {
+            event.preventDefault(); const id = event.dataTransfer.getData("application/ders-tab");
+            if (!id || id === subject.id) return;
+            const tabs = [...getCategories().map(c => ({id:c.id,order:c.sortOrder})),{id:COMPLETED_TAB_ID,order:state.completedTabOrder ?? 999}].sort((a,b)=>a.order-b.order);
+            const from=tabs.findIndex(t=>t.id===id), to=tabs.findIndex(t=>t.id===subject.id);
+            if(from<0 || to<0)return; tabs.splice(to,0,tabs.splice(from,1)[0]);
+            tabs.forEach((t,i)=>{if(t.id===COMPLETED_TAB_ID)state.completedTabOrder=i*10;else state.categories.find(c=>c.id===t.id).sortOrder=i*10;});
+            saveState();render();
+          });
+          wrapper.append(button);
+          const up = document.createElement("button");
+          up.className = "quest-action";
+          up.type = "button";
+          up.textContent = "↑";
+          up.addEventListener("click", (event) => {
+            event.stopPropagation();
+            moveTab(subject.id, -1);
+          });
+          const down = document.createElement("button");
+          down.className = "quest-action";
+          down.type = "button";
+          down.textContent = "↓";
+          down.addEventListener("click", (event) => {
+            event.stopPropagation();
+            moveTab(subject.id, 1);
+          });
+          wrapper.append(up, down);
+          els.subjectNav.append(wrapper);
+          return;
+        }
         els.subjectNav.append(button);
       });
     }
 
     function renderStats(week) {
       const stats = getStats(week.quests);
+      const accountStats = getStats(state.weeks.flatMap(item => item.quests));
       const left = stats.total - stats.done;
-      els.totalXp.textContent = `${stats.earnedXp} / ${stats.possibleXp} XP`;
-      els.level.textContent = `Level ${stats.level}`;
+      els.totalXp.textContent = `${accountStats.earnedXp} XP`;
+      els.level.textContent = `Level ${accountStats.level}`;
       els.questCount.textContent = `${stats.done} / ${stats.total}`;
       els.progressText.textContent = `${stats.percent}%`;
       els.progressFill.style.width = `${stats.percent}%`;
@@ -1248,26 +1578,41 @@
 
     function renderBoard(week) {
       els.board.innerHTML = "";
-      const visibleSubjects = subjects.filter((subject) => {
-        if (subject.key === "all") return false;
-        return activeSubject === "all" || activeSubject === subject.key;
-      });
+      const categories = getCategories();
+      if (activeSubject === COMPLETED_TAB_ID) {
+        const completed = week.quests.filter((quest) => quest.done);
+        const completedByCategory = categories
+          .map((category) => ({ category, quests: completed.filter((quest) => (quest.categoryId || quest.subject) === category.id) }))
+          .filter((group) => group.quests.length);
+        completedByCategory.forEach((group) => els.board.append(createSubjectCard(group.category, group.quests, true)));
+        if (!completedByCategory.length) {
+          const empty = document.createElement("div");
+          empty.className = "card empty";
+          empty.textContent = "Henüz tamamlanan quest yok.";
+          els.board.append(empty);
+        }
+        return;
+      }
+
+      const visibleSubjects = categories.filter((subject) => activeSubject === "all" || activeSubject === subject.id);
 
       visibleSubjects.forEach((subject) => {
-        const quests = week.quests.filter((quest) => quest.subject === subject.key);
-        if (!quests.length) return;
+        const quests = week.quests
+          .filter((quest) => (quest.categoryId || quest.subject) === subject.id)
+          .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+        if (!quests.length && !editMode) return;
         els.board.append(createSubjectCard(subject, quests));
       });
 
       if (!els.board.children.length) {
         const empty = document.createElement("div");
         empty.className = "card empty";
-        empty.textContent = "Bu haftada gösterilecek quest yok.";
+        empty.textContent = "Programına bir şeyler ekle";
         els.board.append(empty);
       }
     }
 
-    function createSubjectCard(subject, quests) {
+    function createSubjectCard(subject, quests, completedView = false) {
       const stats = getStats(quests);
       const card = document.createElement("article");
       card.className = "card";
@@ -1278,25 +1623,33 @@
       head.innerHTML = `
         <div class="subject-title">
           <span class="subject-dot" aria-hidden="true"></span>
-          <h2>${subject.name}</h2>
+          <h2>${escapeHtml(subject.name)}</h2>
         </div>
         <span class="subject-xp">${stats.earnedXp}/${stats.possibleXp} XP</span>
       `;
+      if (editMode && !completedView) {
+        const tools = document.createElement("div");
+        tools.className = "edit-tools";
+        tools.innerHTML = `<button class="quest-action" type="button">Kategori sil</button>`;
+        tools.querySelector("button").addEventListener("click", () => deleteCategory(subject.id));
+        head.append(tools);
+      }
 
       const list = document.createElement("div");
       list.className = "quests";
-      quests.forEach((quest) => list.append(createQuestButton(quest, subject)));
+      quests.forEach((quest, index) => list.append(createQuestButton(quest, subject, index, completedView)));
 
       card.append(head, list);
       return card;
     }
 
-    function createQuestButton(quest, subject) {
-      const button = document.createElement("button");
+    function createQuestButton(quest, subject, index, completedView = false) {
+      const button = document.createElement("div");
       const sourceLabel = /\d+\s*Ekim/i.test(quest.sourceDay || "") ? "Haftalık havuz" : (quest.sourceDay || "Haftalık havuz");
-      button.type = "button";
       button.className = `quest${quest.done ? " done" : ""}`;
       button.style.setProperty("--subject-color", subject.color);
+      button.setAttribute("role", "button");
+      button.setAttribute("tabindex", "0");
       button.setAttribute("aria-pressed", String(quest.done));
       button.setAttribute("aria-label", `${subject.name}: ${quest.title}, ${quest.detail}, ${quest.xp} XP`);
       button.innerHTML = `
@@ -1310,7 +1663,60 @@
         </span>
         <span class="xp">+${quest.xp} XP</span>
       `;
+      if (completedView) {
+        button.querySelector(".quest-meta").insertAdjacentHTML("beforeend", `<span class="chip completed-badge">Tamamlandı</span>`);
+      }
+      if (editMode && !completedView && !quest.lockedForStudent) {
+        button.draggable = true;
+        button.addEventListener("dragstart", event => event.dataTransfer.setData("application/ders-quest", quest.id));
+        button.addEventListener("dragover", event => event.preventDefault());
+        button.addEventListener("drop", event => {
+          event.preventDefault(); const id = event.dataTransfer.getData("application/ders-quest");
+          const source = activeWeek().quests.find(q => q.id === id);
+          if (!source || source.lockedForStudent || source.id === quest.id) return;
+          const siblings = activeWeek().quests.filter(q=>(q.categoryId||q.subject)===subject.id && q.id!==id).sort((a,b)=>(a.sortOrder??0)-(b.sortOrder??0));
+          source.categoryId=subject.id; source.subject=subject.id;
+          siblings.splice(siblings.findIndex(q=>q.id===quest.id),0,source);
+          siblings.forEach((q,i)=>{q.sortOrder=i*10;}); saveState();render();
+        });
+        const tools = document.createElement("span");
+        tools.className = "edit-tools";
+        tools.innerHTML = `
+          <button class="quest-action" type="button" data-action="up">↑</button>
+          <button class="quest-action" type="button" data-action="down">↓</button>
+          <button class="quest-action" type="button" data-action="edit">Düzenle</button>
+          <button class="quest-action" type="button" data-action="delete">Sil</button>
+          <select class="select" aria-label="Derse taşı">${getCategories().map((category) => `<option value="${escapeHtml(category.id)}" ${category.id === (quest.categoryId || quest.subject) ? "selected" : ""}>${escapeHtml(category.name)}</option>`).join("")}</select>
+        `;
+        tools.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const action = event.target.dataset.action;
+          if (action === "up") moveQuest(quest.id, -1);
+          if (action === "down") moveQuest(quest.id, 1);
+          if (action === "edit") window.DersTeacher.editQuest(quest, activeWeek());
+          if (action === "delete" && confirm("Quest silinsin mi?")) {
+            if (quest.done) removeHistoryRecord(quest);
+            activeWeek().quests = activeWeek().quests.filter(q => q.id !== quest.id);
+            saveState(); render();
+          }
+        });
+        tools.querySelector("select").addEventListener("click", (event) => event.stopPropagation());
+        tools.querySelector("select").addEventListener("change", (event) => moveQuestToCategory(quest.id, event.target.value));
+        button.append(tools);
+      }
+      if (quest.lockedForStudent) {
+        const change = document.createElement('button');
+        change.className = 'quest-action'; change.type = 'button'; change.textContent = 'Değişiklik iste';
+        change.addEventListener('click', event => { event.stopPropagation(); window.DersTeacher.requestChange(quest, activeWeek()); });
+        button.querySelector('.quest-main').append(change);
+      }
       button.addEventListener("click", () => toggleQuest(quest.id));
+      button.addEventListener("keydown", (event) => {
+        if (event.target === button && (event.key === "Enter" || event.key === " ")) {
+          event.preventDefault();
+          toggleQuest(quest.id);
+        }
+      });
       return button;
     }
 
@@ -1318,10 +1724,69 @@
       const week = activeWeek();
       const quest = week.quests.find((item) => item.id === id);
       if (!quest) return;
+      const beforeLevel = getStats(state.weeks.flatMap(item => item.quests)).level;
       quest.done = !quest.done;
+      if (quest.done) {
+        const history = addHistoryRecord(quest, week);
+        quest.completionId = history.id;
+      } else {
+        removeHistoryRecord(quest);
+        quest.completionId = null;
+      }
       saveState();
       render();
+      const afterLevel = getStats(state.weeks.flatMap(item => item.quests)).level;
+      if (quest.done) {
+        showXpEffect(quest.xp, afterLevel > beforeLevel);
+      }
       showToast(quest.done ? `+${quest.xp} XP kazandın` : "Quest geri alındı");
+    }
+
+    function addHistoryRecord(quest, week) {
+      const category = subjectFor(quest.categoryId || quest.subject);
+      const record = {
+        id: crypto?.randomUUID ? crypto.randomUUID() : `history-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        userId: currentUser?.id || "local",
+        questId: quest.id,
+        categoryId: category.id,
+        categoryName: category.name,
+        title: quest.title,
+        detail: quest.detail,
+        xp: quest.xp,
+        completedAt: new Date().toISOString(),
+        weekId: week.id,
+        weekName: week.name,
+        source: quest.source || quest.sourceDay || "Manuel"
+      };
+      state.studyHistory = [...(state.studyHistory || []), record];
+      return record;
+    }
+
+    function removeHistoryRecord(quest) {
+      const history = [...(state.studyHistory || [])];
+      const index = quest.completionId
+        ? history.findIndex((record) => record.id === quest.completionId)
+        : history.map((record) => record.questId).lastIndexOf(quest.id);
+      if (index >= 0) history.splice(index, 1);
+      state.studyHistory = history;
+    }
+
+    function showXpEffect(xp, leveledUp) {
+      const pop = document.createElement("div");
+      pop.className = "fx-pop";
+      pop.textContent = leveledUp ? `LEVEL UP! +${xp} XP` : `+${xp} XP`;
+      document.body.append(pop);
+      setTimeout(() => pop.remove(), 950);
+      const colors = ["#f1c75b", "#72d18b", "#5fb4ff", "#b79cff"];
+      for (let i = 0; i < 18; i += 1) {
+        const piece = document.createElement("span");
+        piece.className = "confetti-piece";
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.background = colors[i % colors.length];
+        piece.style.setProperty("--x", `${(Math.random() - .5) * 150}px`);
+        document.body.append(piece);
+        setTimeout(() => piece.remove(), 950);
+      }
     }
 
     function showToast(message) {
@@ -1339,6 +1804,91 @@
         '"': "&quot;",
         "'": "&#039;"
       })[char]);
+    }
+
+    function moveTab(id, direction) {
+      const categories = getCategories();
+      const tabs = [...categories.map(c => ({id:c.id,order:c.sortOrder})), {id:COMPLETED_TAB_ID,order:state.completedTabOrder ?? 999}].sort((a,b) => a.order-b.order);
+      const index = tabs.findIndex(t => t.id === id);
+      if (index+direction < 0 || index+direction >= tabs.length) return;
+      [tabs[index],tabs[index+direction]] = [tabs[index+direction],tabs[index]];
+      tabs.forEach((t,i) => { if(t.id === COMPLETED_TAB_ID) state.completedTabOrder=i*10; else categories.find(c => c.id===t.id).sortOrder=i*10; });
+      saveState(); render();
+    }
+
+    function moveQuest(id, direction) {
+      const week = activeWeek();
+      const quest = week.quests.find((item) => item.id === id);
+      if (!quest) return;
+      const categoryId = quest.categoryId || quest.subject;
+      const siblings = week.quests
+        .filter((item) => (item.categoryId || item.subject) === categoryId)
+        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+      const index = siblings.findIndex((item) => item.id === id);
+      const target = siblings[index + direction];
+      if (!target) return;
+      [siblings[index], siblings[index + direction]] = [siblings[index + direction], siblings[index]];
+      siblings.forEach((item, i) => { item.sortOrder = i * 10; });
+      saveState();
+      render();
+    }
+
+    function moveQuestToCategory(id, categoryId) {
+      const week = activeWeek();
+      const quest = week.quests.find((item) => item.id === id);
+      if (!quest || quest.lockedForStudent) return;
+      quest.categoryId = categoryId;
+      quest.subject = categoryId;
+      quest.sortOrder = week.quests.filter((item) => (item.categoryId || item.subject) === categoryId).length;
+      saveState();
+      render();
+    }
+
+    function deleteCategory(categoryId) {
+      const hasQuests = state.weeks.some((week) => week.quests.some((quest) => (quest.categoryId || quest.subject) === categoryId));
+      if (hasQuests) {
+        showToast("Önce bu kategorideki questleri taşı.");
+        return;
+      }
+      state.categories = getCategories().filter((category) => category.id !== categoryId);
+      saveState();
+      render();
+    }
+
+    function renderHistory() {
+      const categories = getCategories();
+      const date = els.historyDateFilter.value;
+      const weekId = els.historyWeekFilter.value;
+      const categoryId = els.historyCategoryFilter.value;
+      els.historyWeekFilter.innerHTML = `<option value="">Tüm haftalar</option>${state.weeks.map((week) => `<option value="${week.id}">${escapeHtml(week.name)}</option>`).join("")}`;
+      els.historyCategoryFilter.innerHTML = `<option value="">Tüm kategoriler</option>${categories.map((category) => `<option value="${category.id}">${escapeHtml(category.name)}</option>`).join("")}`;
+      els.historyWeekFilter.value = weekId;
+      els.historyCategoryFilter.value = categoryId;
+      const records = (state.studyHistory || [])
+        .filter((record) => !date || localDateKey(record.completedAt) === date)
+        .filter((record) => !weekId || record.weekId === weekId)
+        .filter((record) => !categoryId || record.categoryId === categoryId)
+        .sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
+      els.historyList.innerHTML = records.length ? "" : `<div class="empty">Henüz çalışma geçmişi yok.</div>`;
+      records.slice(0, 80).forEach((record) => {
+        const item = document.createElement("div");
+        item.className = "history-item";
+        item.innerHTML = `
+          <strong>${escapeHtml(record.categoryName)} · ${escapeHtml(record.title)}</strong>
+          <span class="text-muted">${escapeHtml(record.detail)} · +${record.xp} XP · ${new Date(record.completedAt).toLocaleString("tr-TR")}</span>
+          <span class="chip">${escapeHtml(record.weekName || record.weekId)} · ${escapeHtml(record.source || "Manuel")}</span>
+        `;
+        els.historyList.append(item);
+      });
+    }
+
+    function renderTeacherPanel() {
+      window.DersTeacher?.render();
+    }
+
+    function localDateKey(value) {
+      const date = new Date(value);
+      return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
     }
 
     function openWeekModal() {
@@ -1360,6 +1910,7 @@
 
     function renderDraftList() {
       els.draftList.innerHTML = "";
+      const categories = getCategories();
       if (!draftQuests.length) {
         const empty = document.createElement("div");
         empty.className = "draft-empty";
@@ -1372,7 +1923,7 @@
         const row = document.createElement("div");
         row.className = "draft-row";
         row.innerHTML = `
-          <select class="select" aria-label="Ders">${editableSubjects.map((subject) => `<option value="${subject.key}" ${subject.key === quest.subject ? "selected" : ""}>${subject.name}</option>`).join("")}</select>
+          <select class="select" aria-label="Ders">${categories.map((subject) => `<option value="${escapeHtml(subject.id)}" ${subject.id === quest.subject ? "selected" : ""}>${escapeHtml(subject.name)}</option>`).join("")}</select>
           <input class="input" type="text" aria-label="Görev adı" value="${escapeHtml(quest.title)}">
           <input class="input" type="text" aria-label="Soru sayısı ve açıklama" value="${escapeHtml(quest.detail)}">
           <input class="input" type="number" min="5" step="5" aria-label="XP" value="${quest.xp}">
@@ -1400,8 +1951,9 @@
     }
 
     function addDraftQuest(quest = {}) {
+      const firstCategory = getCategories()[0]?.id || "genel";
       draftQuests.push({
-        subject: quest.subject || "matematik",
+        subject: quest.subject || firstCategory,
         title: quest.title || "",
         detail: quest.detail || "",
         xp: Math.max(5, Number(quest.xp) || 100),
@@ -1428,6 +1980,21 @@
     function inferTopic(line) {
       const normalized = normalizeText(line);
       return topicHints.find((hint) => hint.keys.some((key) => normalized.includes(key)));
+    }
+
+    function ensureCategoryForHint(hint) {
+      const categories = getCategories();
+      const existing = categories.find((category) => category.id === hint.subject || normalizeText(category.name) === normalizeText(hint.categoryName));
+      if (existing) return existing.id;
+      const legacy = LEGACY_CATEGORIES.find((category) => category.id === hint.subject);
+      state.categories.push({
+        id: hint.subject,
+        key: hint.subject,
+        name: hint.categoryName || titleCase(hint.subject),
+        color: legacy?.color || "#5fb4ff",
+        sortOrder: legacy?.sortOrder ?? state.categories.length * 10
+      });
+      return hint.subject;
     }
 
     function extractDetail(line) {
@@ -1474,7 +2041,7 @@
 
         if (topic && detail) {
           found.push({
-            subject: topic.subject,
+            subject: ensureCategoryForHint(topic),
             title: topic.title,
             detail,
             xp: estimateXp(topic.subject, detail),
@@ -1491,7 +2058,7 @@
 
         if (pendingTopic && detail) {
           found.push({
-            subject: pendingTopic.subject,
+            subject: ensureCategoryForHint(pendingTopic),
             title: pendingTopic.title,
             detail,
             xp: estimateXp(pendingTopic.subject, detail),
@@ -1566,12 +2133,43 @@
       render();
     });
 
+    els.editModeButton.addEventListener("click", () => {
+      editMode = !editMode;
+      render();
+    });
+
+    els.addCategoryButton.addEventListener("click", () => {
+      const name = els.categoryNameInput.value.trim();
+      if (!name) {
+        els.categoryNameInput.focus();
+        return;
+      }
+      const id = `cat-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      state.categories.push({
+        id,
+        key: id,
+        name,
+        color: els.categoryColorInput.value || "#5fb4ff",
+        sortOrder: getCategories().length * 10
+      });
+      els.categoryNameInput.value = "";
+      saveState();
+      render();
+      showToast("Kategori eklendi");
+    });
+
+    [els.historyDateFilter, els.historyWeekFilter, els.historyCategoryFilter].forEach((filter) => {
+      filter.addEventListener("change", renderHistory);
+    });
+
     els.resetButton.addEventListener("click", () => {
       const week = activeWeek();
       if (!week) return;
       if (!confirm(`${week.name} ilerlemesi sıfırlansın mı?`)) return;
       week.quests.forEach((quest) => {
+        if (quest.done) removeHistoryRecord(quest);
         quest.done = false;
+        quest.completionId = null;
       });
       saveState();
       render();
@@ -1614,13 +2212,15 @@
         els.manualTitle.focus();
         return;
       }
-      week.quests.push(makeQuest(
+      const quest = makeQuest(
         els.manualSubject.value,
         title,
         els.manualDetail.value.trim(),
         els.manualXp.value,
         "Manuel"
-      ));
+      );
+      quest.sortOrder = Math.max(-1, ...week.quests.filter(item => (item.categoryId || item.subject) === quest.categoryId).map(item => item.sortOrder || 0)) + 1;
+      week.quests.push(quest);
       els.manualTitle.value = "";
       els.manualDetail.value = "";
       els.manualXp.value = "100";
@@ -1665,7 +2265,7 @@
     els.signOutButton.addEventListener("click", async () => {
       if (!supabaseClient) return;
       await supabaseClient.auth.signOut();
-      currentUser = null;
+      await switchAccount(null);
       updateAuthUi();
       showToast("Çıkış yapıldı");
     });
@@ -1703,8 +2303,20 @@
       });
     }
 
+    window.DersBoard = {
+      get client() { return supabaseClient; }, get user() { return currentUser; }, get state() { return state; },
+      week: activeWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud,
+      setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; },
+      editQuest(id, weekId, changes) {
+        const q = state.weeks.find(w => w.id === weekId)?.quests.find(q => q.id === id);
+        if (!q || q.lockedForStudent) return;
+        Object.assign(q, changes); saveState(); render();
+      }
+    };
     render();
     initCloud();
   </script>
+  <script src="./teacher.js"></script>
 </body>
 </html>
+

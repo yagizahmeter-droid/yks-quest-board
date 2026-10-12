@@ -1,7 +1,9 @@
 [build]
-  publish = "."
+  publish = "dist"
+  command = "node scripts/build.cjs"
 
 [[headers]]
   for = "/service-worker.js"
   [headers.values]
     Cache-Control = "no-cache"
+
