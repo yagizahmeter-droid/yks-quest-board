@@ -25,6 +25,7 @@ create table ders_private.teacher_invite_codes (
   active boolean not null default true, created_at timestamptz not null default now()
 );
 create table ders_private.invite_attempts (
+  id bigint generated always as identity primary key,
   user_id uuid not null references auth.users(id) on delete cascade, attempted_at timestamptz not null default now()
 );
 create table public.student_teacher_connections (

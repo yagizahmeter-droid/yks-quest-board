@@ -6,6 +6,7 @@
     "start": "node scripts/server.cjs",
     "build": "node scripts/build.cjs",
     "test": "node tests/integration.cjs",
+    "test:staging": "node tests/staging.cjs",
     "deploy:vercel": "vercel",
     "deploy:netlify": "netlify deploy --prod --dir ."
   },

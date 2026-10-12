@@ -27,13 +27,13 @@ Development address: http://127.0.0.1:4173. Tests create a separate local Postgr
 
 For desktop sandbox asynchronous-realpath limitations, run Node with -r ./scripts/windows-realpath.cjs. Tests can also resolve packages from the sibling ders-test-runtime directory used during development.
 
-tests/browser.cjs imitates GoTrue/REST transport with all data operations backed by real PostgreSQL and RLS. It does NOT verify live Supabase Auth configuration. Dedicated live Auth testing remains necessary.
+tests/browser.cjs imitates GoTrue/REST transport with all data operations backed by real PostgreSQL and RLS. In addition, tests/staging.cjs verifies REAL Supabase Auth, REST API and browser sessions on the explicitly approved separate staging project. It requires an ignored local credentials fixture; no secret key is used. See TEST_REPORT.md for actual results.
 
 ## Database
 
 Fresh staging projects need supabase-schema.sql followed by migrations/20261012_teacher_workflows.sql. Existing production already has the JSON table. Follow MIGRATION_PLAN.md first; do not apply the superseded 001 schema.
 
-Without the new migration, teacher workflows and atomic synchronization are unavailable. Production has not been migrated. Do not promote this frontend until backend migration and staging checks are approved.
+The separate free ders-staging project has been migrated and tested. This feature branch's config.js points only to staging. Following explicit approval, the production teacher migration was also applied with external and private database backups; both complete existing board rows and Auth accounts were preserved. Before promotion, change the target config only in a separately approved frontend release.
 
 ## Deployment
 

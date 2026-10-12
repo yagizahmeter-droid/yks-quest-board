@@ -2,12 +2,12 @@
 
 ## Status
 
-Production has NOT been migrated. Obtain explicit approval before database changes or production release. The unimplemented 001 migration is superseded; apply only 20261012_teacher_workflows.sql.
+Production teacher migration was applied on 2026-10-12 after explicit user approval and a full external export outside published assets. Both complete board rows are unchanged, both private backups match, and the two Auth accounts are preserved. Do not reapply this migration. Production frontend release still requires separate approval. The unimplemented 001 migration is superseded.
 
 ## Before Applying
 
 1. Run the isolated PostgreSQL and browser tests.
-2. Repeat Auth and device tests on a dedicated Supabase staging project. Local browser tests imitate GoTrue transport, not live Auth.
+2. Repeat Auth and device tests on a dedicated Supabase staging project. This was completed on ders-staging; tests/staging.cjs uses REAL Auth and REST. Local browser tests separately imitate GoTrue transport.
 3. Export quest_board_states with user_id, state, version, updated_at and client_id to a secure location outside published assets. Never commit user exports.
 4. Capture row count, quest counts, XP, versions and md5(state::text). Review existing grants and policies.
 5. Obtain approval for target project and maintenance window. Apply migrations/20261012_teacher_workflows.sql through the migration tool.
