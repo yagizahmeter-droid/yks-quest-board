@@ -1,0 +1,2321 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101114">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <title>D.E.R.S.</title>
+  <script src="./config.js"></script>
+  <script src="./vendor/supabase.js"></script>
+  <script src="./sync.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101114;
+      --panel: #181b20;
+      --panel-2: #20242b;
+      --text: #f2f3f5;
+      --muted: #a9b0bc;
+      --line: #2c333d;
+      --gold: #f1c75b;
+      --blue: #5fb4ff;
+      --green: #72d18b;
+      --red: #ff7c7c;
+      --purple: #b79cff;
+      --cyan: #63d6d6;
+      --orange: #f7a85b;
+      --shadow: 0 16px 50px rgba(0, 0, 0, .32);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(95, 180, 255, .08), transparent 280px),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .app {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 34px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: grid;
+      gap: 5px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .week-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .select,
+    .input,
+    .textarea {
+      min-height: 42px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .textarea {
+      min-height: 84px;
+      padding-top: 10px;
+      resize: vertical;
+    }
+
+    .select:focus,
+    .input:focus,
+    .textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(95, 180, 255, .16);
+    }
+
+    .button {
+      min-height: 42px;
+      border-radius: 8px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .button.primary {
+      background: var(--gold);
+      color: #17130a;
+      border-color: transparent;
+    }
+
+    .button.danger {
+      color: var(--red);
+    }
+
+    .button.is-active {
+      background: var(--text);
+      color: var(--bg);
+      border-color: transparent;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(241, 199, 91, .14), rgba(95, 180, 255, .12));
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .sync-card {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .sync-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sync-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .sync-title strong {
+      font-size: 1.02rem;
+    }
+
+    .auth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .signed-in-row {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .signed-in-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sync-status {
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.4;
+    }
+
+    .auth-disabled {
+      display: none;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      background: rgba(16, 17, 20, .54);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 8px;
+      padding: 12px;
+      min-width: 0;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: .84rem;
+      margin-bottom: 5px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.5rem;
+      line-height: 1.15;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 8px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .progress-track {
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .1);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      transition: width .24s ease;
+    }
+
+    .subject-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 0 12px;
+      scrollbar-width: thin;
+    }
+
+    .tab {
+      min-height: 38px;
+      border-radius: 999px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .tab[aria-pressed="true"] {
+      background: var(--text);
+      color: var(--bg);
+      border-color: transparent;
+    }
+
+    .tab-count {
+      font-variant-numeric: tabular-nums;
+      opacity: .78;
+    }
+
+    .tab-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .card-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .subject-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .subject-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+      background: var(--subject-color);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--subject-color) 18%, transparent);
+    }
+
+    .subject-title h2 {
+      margin: 0;
+      font-size: 1.04rem;
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    .subject-xp {
+      color: var(--muted);
+      font-size: .9rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .quests {
+      display: grid;
+    }
+
+    .quest {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 11px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      background: transparent;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .quest:last-child {
+      border-bottom: 0;
+    }
+
+    .quest:hover {
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      border: 2px solid color-mix(in srgb, var(--subject-color) 62%, var(--line));
+      display: grid;
+      place-items: center;
+      color: transparent;
+      flex: 0 0 auto;
+      transition: background .18s ease, color .18s ease;
+    }
+
+    .quest.done .check {
+      background: var(--subject-color);
+      color: #0d1014;
+    }
+
+    .quest-main {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .quest-title {
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+
+    .quest.done .quest-title {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .quest-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .08);
+      padding: 3px 8px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    .xp {
+      color: var(--gold);
+      font-weight: 850;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .controls-card {
+      margin-top: 14px;
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .controls-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+    }
+
+    .quest-add-row {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1.4fr .65fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .teacher-card,
+    .history-card {
+      margin-top: 14px;
+    }
+
+    .teacher-panel,
+    .history-list {
+      display: grid;
+      gap: 8px;
+      padding: 14px;
+    }
+
+    .teacher-tools, .program-composer { display: grid; gap: 12px; padding: 12px 0; }
+    .program-composer { border-top: 1px solid var(--line); }
+    .invite-result { overflow-wrap: anywhere; color: var(--gold); user-select: all; }
+    .ders-dialog { width: min(780px, calc(100% - 24px)); max-height: calc(100dvh - 24px); padding: 0; background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 8px; }
+    .ders-dialog::backdrop { background: rgba(0,0,0,.7); }
+    .ders-dialog h2 { font-size: 1.15rem; margin: 0; }
+    .ders-dialog form { display: grid; gap: 12px; }
+    .input, .select, .textarea { min-width: 0; max-width: 100%; }
+    .week-tools > * { max-width: 100%; }
+    .quest-action { min-height: 44px; }
+    @media (prefers-reduced-motion: reduce) { .confetti-piece { display: none; } .fx-pop, .progress-fill { animation: none; transition: none; } }
+
+    .history-filters {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .history-item,
+    .teacher-item {
+      display: grid;
+      gap: 5px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .03);
+    }
+
+    .edit-tools {
+      display: none;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    body.edit-mode .edit-tools {
+      display: flex;
+    }
+
+    body.edit-mode .quest {
+      cursor: grab;
+    }
+
+    .quest > .check { grid-column: 1; grid-row: 1; }
+    .quest > .quest-main { grid-column: 2; grid-row: 1; }
+    .quest > .xp { grid-column: 3; grid-row: 1; }
+    .quest > .edit-tools { grid-column: 1 / -1; grid-row: 2; min-width: 0; }
+    .card-head > .edit-tools { flex-basis: 100%; }
+
+    .quest-action {
+      min-height: 44px;
+      padding: 0 9px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid var(--line);
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    .completed-badge {
+      color: var(--green);
+    }
+
+    .fx-pop {
+      position: fixed;
+      left: 50%;
+      top: 22%;
+      transform: translate(-50%, 18px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 20;
+      background: var(--gold);
+      color: #17130a;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 900;
+      box-shadow: var(--shadow);
+      animation: fx-pop .9s ease forwards;
+    }
+
+    .confetti-piece {
+      position: fixed;
+      width: 7px;
+      height: 12px;
+      top: -20px;
+      border-radius: 2px;
+      z-index: 19;
+      pointer-events: none;
+      animation: confetti-fall 900ms ease-out forwards;
+    }
+
+    @keyframes fx-pop {
+      0% { opacity: 0; transform: translate(-50%, 18px) scale(.96); }
+      20% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -26px) scale(1.02); }
+    }
+
+    @keyframes confetti-fall {
+      to {
+        transform: translate(var(--x), 110vh) rotate(420deg);
+        opacity: 0;
+      }
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: .84rem;
+      font-weight: 700;
+    }
+
+    .empty {
+      padding: 20px 14px;
+      color: var(--muted);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      background: var(--text);
+      color: var(--bg);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      transition: opacity .18s ease, transform .18s ease;
+      max-width: calc(100% - 28px);
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, .68);
+      z-index: 10;
+    }
+
+    .modal-backdrop.open {
+      display: grid;
+    }
+
+    .modal {
+      width: min(980px, 100%);
+      max-height: min(760px, calc(100vh - 36px));
+      overflow: auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head,
+    .modal-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+
+    .modal-foot {
+      border-top: 1px solid var(--line);
+      border-bottom: 0;
+    }
+
+    .modal-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .modal-title h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .modal-body {
+      display: grid;
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .upload-box {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px dashed color-mix(in srgb, var(--blue) 42%, var(--line));
+      border-radius: 10px;
+      background: rgba(95, 180, 255, .06);
+    }
+
+    .draft-tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .draft-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .draft-row {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr .8fr .62fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .03);
+    }
+
+    .draft-empty,
+    .modal-note {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .analysis-text {
+      display: none;
+    }
+
+    .analysis-text.open {
+      display: grid;
+      gap: 8px;
+    }
+
+    @media (max-width: 850px) {
+      .stats,
+      .board {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app {
+        width: min(100% - 18px, 1180px);
+        padding-top: 14px;
+      }
+
+      .hero {
+        padding: 12px;
+      }
+
+      .controls-row,
+      .quest-add-row,
+      .auth-grid,
+      .modal-grid,
+      .draft-row,
+      .history-filters {
+        grid-template-columns: 1fr;
+      }
+
+      .quest {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .quest > .xp { grid-column: 2; grid-row: 2; }
+      .quest > .edit-tools { grid-row: 3; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <h1>D.E.R.S.</h1>
+        <span id="weekSubtitle">Dijital Eğitim ve Rutin Sistemi</span>
+      </div>
+      <div class="week-tools">
+        <select id="weekSelect" class="select" aria-label="Hafta seç"></select>
+        <button id="editModeButton" class="button" type="button">Düzenleme modu</button>
+        <button id="newWeekButton" class="button" type="button">Yeni hafta</button>
+      </div>
+    </header>
+
+    <section class="card sync-card" aria-label="Hesap ve senkronizasyon">
+      <div class="sync-head">
+        <div class="sync-title">
+          <strong>Hesap senkronizasyonu</strong>
+          <span id="syncStatus" class="sync-status">Bulut bağlantısı kontrol ediliyor.</span>
+        </div>
+      </div>
+      <div id="authDisabled" class="auth-disabled">
+        Bulut senkronizasyonu için Supabase bilgileri gerekiyor. Bu bilgiler eklendiğinde e-posta ve şifre ile giriş açılacak.
+      </div>
+      <div id="signedOutPanel" class="auth-grid">
+        <label class="field">
+          E-posta
+          <input id="authEmail" class="input" type="email" autocomplete="email" placeholder="mail@ornek.com">
+        </label>
+        <label class="field">
+          Şifre
+          <input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="En az 6 karakter">
+        </label>
+        <button id="signInButton" class="button primary" type="button">Giriş yap</button>
+        <button id="signUpButton" class="button" type="button">Hesap oluştur</button>
+      </div>
+      <div id="signedInPanel" class="signed-in-row">
+        <span id="signedInUser" class="sync-status"></span>
+        <div class="signed-in-actions">
+          <button id="syncNowButton" class="button" type="button">Şimdi eşitle</button>
+          <button id="signOutButton" class="button" type="button">Çıkış</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero" aria-label="Haftalık durum">
+      <div class="stats">
+        <div class="stat">
+          <span>Toplam XP</span>
+          <strong id="totalXp">0 XP</strong>
+        </div>
+        <div class="stat">
+          <span>Seviye</span>
+          <strong id="level">Level 1</strong>
+        </div>
+        <div class="stat">
+          <span>Görev</span>
+          <strong id="questCount">0 / 0</strong>
+        </div>
+        <div class="stat">
+          <span>Haftalık ilerleme</span>
+          <strong id="progressText">0%</strong>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span>Bu hafta bitmesi gereken görev havuzu</span>
+          <span id="remainingText">Başlamak için bir quest seç</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-label="Haftalık ilerleme" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <nav id="subjectNav" class="subject-nav" aria-label="Ders filtreleri"></nav>
+    <section id="board" class="board" aria-live="polite"></section>
+
+    <section class="card controls-card" aria-label="Quest ve hafta yönetimi">
+      <div class="controls-row">
+        <input id="categoryNameInput" class="input" type="text" placeholder="Yeni ders / kategori adı">
+        <input id="categoryColorInput" class="input" type="color" value="#5fb4ff" aria-label="Kategori rengi">
+        <button id="addCategoryButton" class="button" type="button">Kategori ekle</button>
+      </div>
+      <div class="quest-add-row">
+        <label class="field">
+          Ders
+          <select id="manualSubject" class="select"></select>
+        </label>
+        <label class="field">
+          Görev adı
+          <input id="manualTitle" class="input" type="text" placeholder="Örn. Problemler">
+        </label>
+        <label class="field">
+          Açıklama
+          <input id="manualDetail" class="input" type="text" placeholder="Örn. 40 soru ve analiz">
+        </label>
+        <label class="field">
+          XP
+          <input id="manualXp" class="input" type="number" min="5" step="5" value="100">
+        </label>
+        <button id="addQuestButton" class="button primary" type="button">Quest ekle</button>
+      </div>
+      <div class="controls-row">
+        <input id="weekNameInput" class="input" type="text" placeholder="Yeni hafta adı">
+        <input id="weekRangeInput" class="input" type="text" placeholder="Örn. 14-21 Ekim">
+        <button id="createWeekButton" class="button" type="button">Boş hafta oluştur</button>
+      </div>
+      <button id="resetButton" class="button danger" type="button">Bu haftayı sıfırla</button>
+    </section>
+
+    <section class="card teacher-card" aria-label="Öğretmen paneli">
+      <div class="card-head">
+        <div class="subject-title">
+          <span class="subject-dot" aria-hidden="true" style="--subject-color: var(--purple)"></span>
+          <h2>Öğretmen paneli</h2>
+        </div>
+        <select id="roleSelect" class="select" aria-label="Rol seç">
+          <option value="student">Öğrenci</option>
+          <option value="teacher">Öğretmen</option>
+        </select>
+      </div>
+      <div id="teacherPanel" class="teacher-panel"></div>
+    </section>
+
+    <section class="card history-card" aria-label="Çalışma geçmişi">
+      <div class="card-head">
+        <div class="subject-title">
+          <span class="subject-dot" aria-hidden="true" style="--subject-color: var(--green)"></span>
+          <h2>Çalışma geçmişi</h2>
+        </div>
+      </div>
+      <div class="history-filters">
+        <input id="historyDateFilter" class="input" type="date" aria-label="Tarih filtresi">
+        <select id="historyWeekFilter" class="select" aria-label="Hafta filtresi"></select>
+        <select id="historyCategoryFilter" class="select" aria-label="Kategori filtresi"></select>
+      </div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+  </main>
+
+  <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
+    <section class="modal">
+      <header class="modal-head">
+        <div class="modal-title">
+          <h2 id="weekModalTitle">Yeni hafta</h2>
+          <span class="modal-note">Program fotoğrafını quest havuzuna çevir, sonra kaydetmeden önce düzenle.</span>
+        </div>
+        <button id="closeWeekModal" class="button" type="button">Kapat</button>
+      </header>
+      <div class="modal-body">
+        <div class="modal-grid">
+          <label class="field">
+            Hafta adı
+            <input id="modalWeekName" class="input" type="text" placeholder="Örn. 14-21 Ekim Haftası">
+          </label>
+          <label class="field">
+            Tarih aralığı
+            <input id="modalWeekRange" class="input" type="text" placeholder="Örn. 14-21 Ekim">
+          </label>
+        </div>
+
+        <div class="upload-box">
+          <label class="field">
+            Program fotoğrafı
+            <input id="programPhoto" class="input" type="file" accept="image/*">
+          </label>
+          <div class="draft-tools">
+            <button id="analyzePhotoButton" class="button primary" type="button">Programı analiz et</button>
+            <button id="toggleOcrTextButton" class="button" type="button">OCR metnini göster</button>
+            <span id="analysisStatus" class="modal-note">Fotoğraf seçersen önce görevleri kontrol ekranına alırım.</span>
+          </div>
+          <div id="analysisTextWrap" class="analysis-text">
+            <label class="field">
+              Okunan metin
+              <textarea id="ocrText" class="textarea" placeholder="Fotoğraf okunamazsa metni buraya yapıştırıp tekrar görev çıkarabilirsin."></textarea>
+            </label>
+            <button id="parseTextButton" class="button" type="button">Metinden görev çıkar</button>
+          </div>
+        </div>
+
+        <section>
+          <div class="draft-tools">
+            <strong>Görevleri kontrol et</strong>
+            <button id="addDraftQuestButton" class="button" type="button">Satır ekle</button>
+          </div>
+          <div id="draftList" class="draft-list"></div>
+        </section>
+      </div>
+      <footer class="modal-foot">
+        <button id="emptyWeekModalButton" class="button" type="button">Boş hafta oluştur</button>
+        <button id="createFromDraftButton" class="button primary" type="button">Haftayı oluştur</button>
+      </footer>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const STORAGE_KEY = "yksQuestBoard.v1";
+    const META_KEY = "yksQuestBoard.meta.v1";
+    const CLIENT_ID_KEY = "yksQuestBoard.clientId.v1";
+    const SUPABASE_TABLE = "quest_board_states";
+    const APP_VERSION = 2;
+    const COMPLETED_TAB_ID = "completed";
+    const LEGACY_CATEGORIES = [
+      { id: "turkce", key: "turkce", name: "Türkçe", color: "#63d6d6", sortOrder: 10 },
+      { id: "matematik", key: "matematik", name: "Matematik", color: "#5fb4ff", sortOrder: 20 },
+      { id: "fizik", key: "fizik", name: "Fizik", color: "#b79cff", sortOrder: 30 },
+      { id: "kimya", key: "kimya", name: "Kimya", color: "#72d18b", sortOrder: 40 },
+      { id: "biyoloji", key: "biyoloji", name: "Biyoloji", color: "#f7a85b", sortOrder: 50 },
+      { id: "tarih", key: "tarih", name: "Tarih", color: "#ff7c7c", sortOrder: 60 }
+    ];
+
+    const topicHints = [
+      { subject: "turkce", categoryName: "Türkçe", title: "Dil bilgisi", keys: ["DIL BILGISI"] },
+      { subject: "turkce", categoryName: "Türkçe", title: "Sözcükte ve cümlede anlam", keys: ["SOZCUKTE", "CUMLEDE ANLAM"] },
+      { subject: "matematik", categoryName: "Matematik", title: "Temel kavramlar", keys: ["TEMEL KAVRAM"] },
+      { subject: "matematik", categoryName: "Matematik", title: "Sayı basamakları", keys: ["SAYI BASAMAK"] },
+      { subject: "fizik", categoryName: "Fizik", title: "Basınç", keys: ["BASINC"] },
+      { subject: "fizik", categoryName: "Fizik", title: "Sıvıların kaldırma kuvveti", keys: ["SIVILARIN KALDIRMA", "KALDIRMA KUVVETI"] },
+      { subject: "kimya", categoryName: "Kimya", title: "Kimya bilimi", keys: ["KIMYA BILIMI"] },
+      { subject: "kimya", categoryName: "Kimya", title: "Atomun yapısı", keys: ["ATOMUN YAPISI"] },
+      { subject: "biyoloji", categoryName: "Biyoloji", title: "Canlıların ortak özellikleri", keys: ["CANLILARIN ORTAK"] },
+      { subject: "biyoloji", categoryName: "Biyoloji", title: "Canlıların temel bileşenleri", keys: ["CANLILARIN TEMEL", "TEMEL BILESEN"] },
+      { subject: "tarih", categoryName: "Tarih", title: "Osmanlı dağılma dönemi", keys: ["OSMANLI DAGILMA", "OSMANLI"] },
+      { subject: "tarih", categoryName: "Tarih", title: "1. Dünya Savaşı", keys: ["1 DUNYA SAVASI", "1. DUNYA", "DUNYA SAVASI"] },
+      { subject: "tarih", categoryName: "Tarih", title: "Milli mücadele dönemi", keys: ["MILLI MUCADELE"] }
+    ];
+
+    const seedWeek = {
+      id: "2026-10-07",
+      name: "7-14 Ekim Haftası",
+      range: "7-14 Ekim",
+      quests: [
+        q("turkce", "Dil bilgisi", "Konu anlatımı / soru çözümü", 85, "7 Ekim"),
+        q("turkce", "Dil bilgisi", "Konu anlatımı / soru çözümü", 85, "8 Ekim"),
+        q("turkce", "Dil bilgisi", "Konu anlatımı / soru çözümü", 85, "9 Ekim"),
+        q("turkce", "Sözcükte ve cümlede anlam", "Konu anlatımı / soru çözümü", 95, "10 Ekim"),
+        q("turkce", "Sözcükte ve cümlede anlam", "30 soru ve analiz", 125, "11 Ekim"),
+        q("turkce", "Sözcükte ve cümlede anlam", "30 soru ve analiz", 125, "12 Ekim"),
+
+        q("matematik", "Temel kavramlar", "30 soru çözümü", 115, "7 Ekim"),
+        q("matematik", "Temel kavramlar", "30 soru çözümü", 115, "8 Ekim"),
+        q("matematik", "Temel kavramlar", "30 soru çözümü", 115, "9 Ekim"),
+        q("matematik", "Sayı basamakları", "Konu anlatımı / soru çözümü", 120, "10 Ekim"),
+        q("matematik", "Sayı basamakları", "Konu anlatımı / soru çözümü", 120, "11 Ekim"),
+        q("matematik", "Sayı basamakları", "50 soru ve analiz", 170, "12 Ekim"),
+        q("matematik", "Sayı basamakları", "50 soru ve analiz", 170, "13 Ekim"),
+        q("matematik", "Sayı basamakları", "50 soru ve analiz", 170, "14 Ekim"),
+
+        q("fizik", "Basınç", "Soru çözümü", 100, "10 Ekim"),
+        q("fizik", "Basınç", "Soru çözümü", 100, "11 Ekim"),
+        q("fizik", "Sıvıların kaldırma kuvveti", "Konu anlatımı", 95, "13 Ekim"),
+        q("fizik", "Sıvıların kaldırma kuvveti", "Soru çözümü", 105, "14 Ekim"),
+
+        q("kimya", "Kimya bilimi", "30 soru ve analiz", 120, "8 Ekim"),
+        q("kimya", "Kimya bilimi", "30 soru ve analiz", 120, "9 Ekim"),
+        q("kimya", "Atomun yapısı", "Konu anlatımı / soru çözümü", 105, "10 Ekim"),
+        q("kimya", "Atomun yapısı", "Konu anlatımı / soru çözümü", 105, "11 Ekim"),
+        q("kimya", "Atomun yapısı", "Soru çözümü", 95, "12 Ekim"),
+
+        q("biyoloji", "Canlıların ortak özellikleri", "30 soru ve analiz", 120, "8 Ekim"),
+        q("biyoloji", "Canlıların ortak özellikleri", "30 soru ve analiz", 120, "9 Ekim"),
+        q("biyoloji", "Canlıların temel bileşenleri", "Konu anlatımı / soru çözümü", 105, "12 Ekim"),
+        q("biyoloji", "Canlıların temel bileşenleri", "Konu anlatımı / soru çözümü", 105, "13 Ekim"),
+        q("biyoloji", "Canlıların temel bileşenleri", "Konu anlatımı / soru çözümü", 105, "14 Ekim"),
+
+        q("tarih", "Osmanlı dağılma dönemi", "Video / not çalışması", 55, "7 Ekim"),
+        q("tarih", "Osmanlı dağılma dönemi", "Video / not çalışması", 55, "8 Ekim"),
+        q("tarih", "1. Dünya Savaşı", "Video / not çalışması", 55, "9 Ekim"),
+        q("tarih", "1. Dünya Savaşı", "Video / not çalışması", 55, "10 Ekim"),
+        q("tarih", "Milli mücadele dönemi", "Video / not çalışması", 60, "11 Ekim"),
+        q("tarih", "Milli mücadele dönemi", "Video / not çalışması", 60, "12 Ekim"),
+        q("tarih", "Milli mücadele dönemi", "Video / not çalışması", 60, "13 Ekim")
+      ]
+    };
+
+    function q(subject, title, detail, xp, sourceDay) {
+      const id = `${subject}-${sourceDay}-${title}-${detail}`.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      return { id, subject, title, detail, xp, sourceDay, done: false };
+    }
+
+    const els = {
+      weekSubtitle: document.getElementById("weekSubtitle"),
+      weekSelect: document.getElementById("weekSelect"),
+      subjectNav: document.getElementById("subjectNav"),
+      board: document.getElementById("board"),
+      totalXp: document.getElementById("totalXp"),
+      level: document.getElementById("level"),
+      questCount: document.getElementById("questCount"),
+      progressText: document.getElementById("progressText"),
+      progressFill: document.getElementById("progressFill"),
+      progressTrack: document.querySelector(".progress-track"),
+      remainingText: document.getElementById("remainingText"),
+      resetButton: document.getElementById("resetButton"),
+      newWeekButton: document.getElementById("newWeekButton"),
+      createWeekButton: document.getElementById("createWeekButton"),
+      weekNameInput: document.getElementById("weekNameInput"),
+      weekRangeInput: document.getElementById("weekRangeInput"),
+      manualSubject: document.getElementById("manualSubject"),
+      manualTitle: document.getElementById("manualTitle"),
+      manualDetail: document.getElementById("manualDetail"),
+      manualXp: document.getElementById("manualXp"),
+      addQuestButton: document.getElementById("addQuestButton"),
+      editModeButton: document.getElementById("editModeButton"),
+      categoryNameInput: document.getElementById("categoryNameInput"),
+      categoryColorInput: document.getElementById("categoryColorInput"),
+      addCategoryButton: document.getElementById("addCategoryButton"),
+      roleSelect: document.getElementById("roleSelect"),
+      teacherPanel: document.getElementById("teacherPanel"),
+      historyDateFilter: document.getElementById("historyDateFilter"),
+      historyWeekFilter: document.getElementById("historyWeekFilter"),
+      historyCategoryFilter: document.getElementById("historyCategoryFilter"),
+      historyList: document.getElementById("historyList"),
+      syncStatus: document.getElementById("syncStatus"),
+      authDisabled: document.getElementById("authDisabled"),
+      signedOutPanel: document.getElementById("signedOutPanel"),
+      signedInPanel: document.getElementById("signedInPanel"),
+      signedInUser: document.getElementById("signedInUser"),
+      authEmail: document.getElementById("authEmail"),
+      authPassword: document.getElementById("authPassword"),
+      signInButton: document.getElementById("signInButton"),
+      signUpButton: document.getElementById("signUpButton"),
+      signOutButton: document.getElementById("signOutButton"),
+      syncNowButton: document.getElementById("syncNowButton"),
+      weekModalBackdrop: document.getElementById("weekModalBackdrop"),
+      closeWeekModal: document.getElementById("closeWeekModal"),
+      modalWeekName: document.getElementById("modalWeekName"),
+      modalWeekRange: document.getElementById("modalWeekRange"),
+      programPhoto: document.getElementById("programPhoto"),
+      analyzePhotoButton: document.getElementById("analyzePhotoButton"),
+      toggleOcrTextButton: document.getElementById("toggleOcrTextButton"),
+      analysisTextWrap: document.getElementById("analysisTextWrap"),
+      ocrText: document.getElementById("ocrText"),
+      parseTextButton: document.getElementById("parseTextButton"),
+      analysisStatus: document.getElementById("analysisStatus"),
+      draftList: document.getElementById("draftList"),
+      addDraftQuestButton: document.getElementById("addDraftQuestButton"),
+      emptyWeekModalButton: document.getElementById("emptyWeekModalButton"),
+      createFromDraftButton: document.getElementById("createFromDraftButton"),
+      toast: document.getElementById("toast")
+    };
+
+    let currentUser = null;
+    let state = loadState();
+    let activeSubject = "all";
+    let toastTimer = null;
+    let draftQuests = [];
+    let supabaseClient = null;
+    let syncInFlight = null;
+    let revision = 0;
+    let authGeneration = 0;
+    let syncTimer = null;
+    let applyingRemote = false;
+    let editMode = false;
+    const clientId = getClientId();
+
+    function boardStorageKey() { return `${STORAGE_KEY}:${currentUser?.id || 'guest'}`; }
+    function metaStorageKey() { return `${META_KEY}:${currentUser?.id || 'guest'}`; }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(boardStorageKey()));
+        if (saved && Array.isArray(saved.weeks)) {
+          return normalizeState(saved);
+        }
+      } catch (error) {
+        console.warn("Saved board could not be loaded", error);
+      }
+      return emptyState();
+    }
+
+    function emptyState() {
+      const weekId = `week-${Date.now()}`;
+      return {
+        version: APP_VERSION,
+        profile: { role: "student", displayName: "" },
+        categories: [],
+        completedTabOrder: 999,
+        studyHistory: [],
+        teacherConnections: [],
+        teacherAssignments: [],
+        changeRequests: [],
+        activeWeekId: weekId,
+        weeks: [{ id: weekId, name: "İlk Hafta", range: "", sortOrder: 0, quests: [] }]
+      };
+    }
+
+    function normalizeState(rawState) {
+      const next = {
+        ...emptyState(),
+        ...rawState,
+        profile: { role: "student", displayName: "", ...(rawState.profile || {}) },
+        weeks: Array.isArray(rawState.weeks) ? rawState.weeks : [],
+        studyHistory: Array.isArray(rawState.studyHistory) ? rawState.studyHistory : [],
+        teacherConnections: Array.isArray(rawState.teacherConnections) ? rawState.teacherConnections : [],
+        teacherAssignments: Array.isArray(rawState.teacherAssignments) ? rawState.teacherAssignments : [],
+        changeRequests: Array.isArray(rawState.changeRequests) ? rawState.changeRequests : []
+      };
+      if (!next.weeks.length) next.weeks = emptyState().weeks;
+      if (!next.activeWeekId || !next.weeks.some((week) => week.id === next.activeWeekId)) {
+        next.activeWeekId = next.weeks[0].id;
+      }
+      next.categories = normalizeCategories(rawState.categories, next.weeks);
+      next.weeks = next.weeks.map((week, weekIndex) => ({
+        sortOrder: weekIndex,
+        ...week,
+        quests: (week.quests || []).map((quest, questIndex) => ({
+          source: quest.source || quest.sourceDay || "Manuel",
+          sortOrder: quest.sortOrder ?? questIndex,
+          categoryId: quest.categoryId || quest.subject || next.categories[0]?.id || "genel",
+          subject: quest.categoryId || quest.subject || next.categories[0]?.id || "genel",
+          lockedForStudent: Boolean(quest.lockedForStudent),
+          completionId: quest.completionId || null,
+          ...quest
+        }))
+      }));
+      return next;
+    }
+
+    function normalizeCategories(categories, weeks) {
+      const existing = Array.isArray(categories) ? categories : [];
+      const byId = new Map(existing.map((category, index) => [category.id || category.key, {
+        id: category.id || category.key,
+        key: category.id || category.key,
+        name: category.name,
+        color: category.color || LEGACY_CATEGORIES[index % LEGACY_CATEGORIES.length]?.color || "#5fb4ff",
+        sortOrder: category.sortOrder ?? index * 10
+      }]));
+      weeks.forEach((week) => {
+        (week.quests || []).forEach((quest) => {
+          const id = quest.categoryId || quest.subject || "genel";
+          if (!byId.has(id)) {
+            const legacy = LEGACY_CATEGORIES.find((category) => category.id === id);
+            byId.set(id, {
+              id,
+              key: id,
+              name: legacy?.name || titleCase(id),
+              color: legacy?.color || "#5fb4ff",
+              sortOrder: legacy?.sortOrder ?? byId.size * 10
+            });
+          }
+        });
+      });
+      return [...byId.values()].sort((a, b) => a.sortOrder - b.sortOrder);
+    }
+
+    function titleCase(value) {
+      return String(value || "Genel").replace(/[-_]/g, " ").replace(/\b\w/g, (char) => char.toLocaleUpperCase("tr-TR"));
+    }
+
+    function getClientId() {
+      const existing = localStorage.getItem(CLIENT_ID_KEY);
+      if (existing) return existing;
+      const id = crypto?.randomUUID ? crypto.randomUUID() : `client-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      localStorage.setItem(CLIENT_ID_KEY, id);
+      return id;
+    }
+
+    function getLocalMeta() {
+      try {
+        const meta = JSON.parse(localStorage.getItem(metaStorageKey()));
+        if (meta && Number.isFinite(Number(meta.updatedAt))) return meta;
+      } catch (error) {
+        console.warn("Saved metadata could not be loaded", error);
+      }
+      return { updatedAt: 0, pending: false };
+    }
+
+    function setLocalMeta(nextMeta) {
+      localStorage.setItem(metaStorageKey(), JSON.stringify({
+        ...getLocalMeta(),
+        ...nextMeta
+      }));
+    }
+
+    function saveState() {
+      state = normalizeState(state);
+      localStorage.setItem(boardStorageKey(), JSON.stringify(state));
+      revision += 1;
+      if (!applyingRemote) {
+        setLocalMeta({ updatedAt: Date.now(), pending: true });
+        scheduleSync();
+      }
+    }
+
+    function activeWeek() {
+      return state.weeks.find((week) => week.id === state.activeWeekId) || state.weeks[0];
+    }
+
+    function getCategories() {
+      state.categories = normalizeCategories(state.categories, state.weeks);
+      return state.categories;
+    }
+
+    function subjectFor(key) {
+      return getCategories().find((subject) => subject.id === key || subject.key === key) || getCategories()[0] || {
+        id: "genel",
+        key: "genel",
+        name: "Genel",
+        color: "#5fb4ff",
+        sortOrder: 0
+      };
+    }
+
+    function makeQuest(subject, title, detail, xp, sourceDay = "Haftalık havuz") {
+      const seed = `${subject}-${sourceDay}-${title}-${detail}-${Date.now()}-${Math.random()}`;
+      const id = seed.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      return {
+        id,
+        subject,
+        categoryId: subject,
+        title: title.trim(),
+        detail: detail.trim() || "Çalışma görevi",
+        xp: Math.max(5, Number(xp) || 100),
+        sourceDay,
+        source: sourceDay,
+        sortOrder: 0,
+        lockedForStudent: false,
+        done: false
+      };
+    }
+
+    function createWeek(name, range, quests = []) {
+      const id = `week-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      state.weeks.push({
+        id,
+        name,
+        range,
+        sortOrder: state.weeks.length,
+        quests: quests.map((quest, index) => ({ ...quest, sortOrder: quest.sortOrder ?? index }))
+      });
+      state.activeWeekId = id;
+      activeSubject = "all";
+      saveState();
+      render();
+      return id;
+    }
+
+    function cloudConfig() {
+      const config = window.YKS_CONFIG || {};
+      const supabaseUrl = config.supabaseUrl || "";
+      const supabaseAnonKey = config.supabaseAnonKey || "";
+      if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes("YOUR_")) return null;
+      return { supabaseUrl, supabaseAnonKey };
+    }
+
+    function updateAuthUi() {
+      const configured = Boolean(supabaseClient);
+      els.authDisabled.style.display = configured ? "none" : "block";
+      els.signedOutPanel.style.display = configured && !currentUser ? "grid" : "none";
+      els.signedInPanel.style.display = configured && currentUser ? "flex" : "none";
+      if (!configured) {
+        els.syncStatus.textContent = "Bulut senkronizasyonu henüz yapılandırılmadı. Uygulama bu cihazda çalışmaya devam eder.";
+        return;
+      }
+      if (currentUser) {
+        els.signedInUser.textContent = currentUser.email || "Giriş yapıldı";
+        const meta = getLocalMeta();
+        els.syncStatus.textContent = meta.pending
+          ? "Değişiklikler bu cihazda tutuldu, bağlantı uygun olunca eşitlenecek."
+          : "Bulutla eşitlendi.";
+      } else {
+        els.syncStatus.textContent = "PC ve telefon arasında eşitlemek için giriş yap.";
+      }
+    }
+
+    async function switchAccount(user) {
+      if ((currentUser?.id || null) === (user?.id || null)) return;
+      authGeneration += 1;
+      clearTimeout(syncTimer);
+      currentUser = user;
+      state = loadState();
+      activeSubject = "all";
+      revision += 1;
+      render();
+      updateAuthUi();
+      if (user) await pushStateToCloud();
+      await window.DersTeacher?.refresh();
+    }
+
+    async function initCloud() {
+      const config = cloudConfig();
+      if (!config || !window.supabase?.createClient) { updateAuthUi(); return; }
+      supabaseClient = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
+      supabaseClient.auth.onAuthStateChange((_event, session) => {
+        setTimeout(() => switchAccount(session?.user || null).catch(syncError), 0);
+      });
+      const { data, error } = await supabaseClient.auth.getSession();
+      if (error) syncError(error);
+      await switchAccount(data.session?.user || null);
+      updateAuthUi();
+      setInterval(() => {
+        if (currentUser && navigator.onLine && !document.hidden) {
+          pushStateToCloud().catch(syncError);
+          window.DersTeacher?.refresh();
+        }
+      }, 15000);
+    }
+
+    function syncError(error) {
+      console.error(error);
+      els.syncStatus.textContent = "Eşitlenemedi. Değişiklikler bu cihazda saklanıyor.";
+    }
+
+    function scheduleSync() {
+      updateAuthUi();
+      if (!supabaseClient || !currentUser || !navigator.onLine) return;
+      clearTimeout(syncTimer);
+      syncTimer = setTimeout(() => pushStateToCloud().catch(syncError), 700);
+    }
+
+    async function fetchCloudState() {
+      const { data, error } = await supabaseClient.from(SUPABASE_TABLE)
+        .select("state, updated_at, version").eq("user_id", currentUser.id).maybeSingle();
+      if (error) throw error;
+      return data;
+    }
+
+    async function pushStateToCloud() {
+      if (!supabaseClient || !currentUser || !navigator.onLine) return;
+      if (syncInFlight) { await syncInFlight; return pushStateToCloud(); }
+      const generation = authGeneration;
+      const userId = currentUser.id;
+      const job = (async () => {
+        let remote = await fetchCloudState();
+        if (generation !== authGeneration) return;
+        let meta = getLocalMeta();
+        if (!meta.pending && remote) {
+          state = normalizeState(remote.state);
+          localStorage.setItem(boardStorageKey(), JSON.stringify(state));
+          setLocalMeta({ version: remote.version, baseState: state, pending: false, updatedAt: new Date(remote.updated_at).getTime() });
+          render(); updateAuthUi(); return;
+        }
+        for (let attempt = 0; attempt < 4; attempt += 1) {
+          const startRevision = revision;
+          const localSnapshot = JSON.parse(JSON.stringify(state));
+          const base = meta.baseState || remote?.state || emptyState();
+          const candidate = normalizeState(remote ? window.DersSync.mergeState(base, localSnapshot, normalizeState(remote.state)) : localSnapshot);
+          const { data, error } = await supabaseClient.rpc("ders_action", { p_action: "sync_board", p_payload: {
+            state: candidate, expected_version: remote?.version || 0, client_id: clientId
+          } });
+          if (generation !== authGeneration || userId !== currentUser?.id) return;
+          if (error) throw error;
+          if (data.error) throw new Error(data.error);
+          if (data.conflict) { remote = data; continue; }
+          const changed = revision !== startRevision;
+          state = changed ? normalizeState(window.DersSync.mergeState(localSnapshot, state, candidate)) : candidate;
+          localStorage.setItem(boardStorageKey(), JSON.stringify(state));
+          setLocalMeta({ version: data.version, baseState: candidate, pending: changed, updatedAt: Date.now() });
+          render(); updateAuthUi();
+          if (changed) scheduleSync();
+          return;
+        }
+        throw new Error("Board eşitlemesi yoğun. Tekrar denenecek.");
+      })();
+      syncInFlight = job;
+      try { await job; } finally { if (syncInFlight === job) syncInFlight = null; }
+    }
+
+    async function pullStateFromCloud() { return pushStateToCloud(); }
+    async function syncAfterLogin() { return pushStateToCloud(); }
+
+    function getStats(quests) {
+      const total = quests.length;
+      const done = quests.filter((quest) => quest.done).length;
+      const earnedXp = quests.reduce((sum, quest) => sum + (quest.done ? quest.xp : 0), 0);
+      const possibleXp = quests.reduce((sum, quest) => sum + quest.xp, 0);
+      const percent = total ? Math.round((done / total) * 100) : 0;
+      const level = Math.max(1, Math.floor(earnedXp / 500) + 1);
+      return { total, done, earnedXp, possibleXp, percent, level };
+    }
+
+    function render() {
+      const week = activeWeek();
+      if (!week) return;
+      els.weekSubtitle.textContent = week.range || week.name || "Dijital Eğitim ve Rutin Sistemi";
+      document.title = `D.E.R.S. - ${week.range || week.name}`;
+      document.body.classList.toggle("edit-mode", editMode);
+      els.editModeButton.classList.toggle("is-active", editMode);
+      els.editModeButton.textContent = editMode ? "Düzenleme açık" : "Düzenleme modu";
+      renderWeekSelect();
+      renderSubjectOptions();
+      renderSubjectNav(week);
+      renderStats(week);
+      renderBoard(week);
+      renderHistory();
+      renderTeacherPanel();
+    }
+
+    function renderSubjectOptions() {
+      const categories = getCategories();
+      const current = els.manualSubject.value || categories[0]?.id || "";
+      els.manualSubject.innerHTML = "";
+      categories.forEach((subject) => {
+        const option = document.createElement("option");
+        option.value = subject.id;
+        option.textContent = subject.name;
+        option.selected = subject.id === current;
+        els.manualSubject.append(option);
+      });
+      els.addQuestButton.disabled = !categories.length;
+    }
+
+    function renderWeekSelect() {
+      els.weekSelect.innerHTML = "";
+      state.weeks.forEach((week) => {
+        const option = document.createElement("option");
+        option.value = week.id;
+        option.textContent = week.name;
+        option.selected = week.id === state.activeWeekId;
+        els.weekSelect.append(option);
+      });
+    }
+
+    function renderSubjectNav(week) {
+      els.subjectNav.innerHTML = "";
+      const categories = getCategories();
+      const navItems = [
+        { id: "all", name: "Tümü", color: "#f1c75b", order: -10, quests: week.quests },
+        ...categories.map((category) => ({
+          ...category,
+          order: category.sortOrder,
+          quests: week.quests.filter((quest) => (quest.categoryId || quest.subject) === category.id)
+        })),
+        { id: COMPLETED_TAB_ID, name: "Tamamlananlar", color: "#72d18b", order: state.completedTabOrder ?? 999, quests: week.quests.filter((quest) => quest.done) }
+      ].sort((a, b) => a.order - b.order);
+
+      navItems.forEach((subject) => {
+        const quests = subject.quests;
+        if (subject.id !== "all" && subject.id !== COMPLETED_TAB_ID && quests.length === 0 && !editMode) return;
+
+        const completed = quests.filter((quest) => quest.done).length;
+        const button = document.createElement("button");
+        button.className = "tab";
+        button.type = "button";
+        button.setAttribute("aria-pressed", String(activeSubject === subject.id));
+        button.innerHTML = `${escapeHtml(subject.name)} <span class="tab-count">${completed}/${quests.length}</span>`;
+        button.addEventListener("click", () => {
+          activeSubject = subject.id;
+          render();
+        });
+        if (editMode && subject.id !== "all") {
+          const wrapper = document.createElement("span");
+          wrapper.className = "tab-wrap";
+          wrapper.draggable = true;
+          wrapper.addEventListener("dragstart", event => event.dataTransfer.setData("application/ders-tab", subject.id));
+          wrapper.addEventListener("dragover", event => event.preventDefault());
+          wrapper.addEventListener("drop", event => {
+            event.preventDefault(); const id = event.dataTransfer.getData("application/ders-tab");
+            if (!id || id === subject.id) return;
+            const tabs = [...getCategories().map(c => ({id:c.id,order:c.sortOrder})),{id:COMPLETED_TAB_ID,order:state.completedTabOrder ?? 999}].sort((a,b)=>a.order-b.order);
+            const from=tabs.findIndex(t=>t.id===id), to=tabs.findIndex(t=>t.id===subject.id);
+            if(from<0 || to<0)return; tabs.splice(to,0,tabs.splice(from,1)[0]);
+            tabs.forEach((t,i)=>{if(t.id===COMPLETED_TAB_ID)state.completedTabOrder=i*10;else state.categories.find(c=>c.id===t.id).sortOrder=i*10;});
+            saveState();render();
+          });
+          wrapper.append(button);
+          const up = document.createElement("button");
+          up.className = "quest-action";
+          up.type = "button";
+          up.textContent = "↑";
+          up.addEventListener("click", (event) => {
+            event.stopPropagation();
+            moveTab(subject.id, -1);
+          });
+          const down = document.createElement("button");
+          down.className = "quest-action";
+          down.type = "button";
+          down.textContent = "↓";
+          down.addEventListener("click", (event) => {
+            event.stopPropagation();
+            moveTab(subject.id, 1);
+          });
+          wrapper.append(up, down);
+          els.subjectNav.append(wrapper);
+          return;
+        }
+        els.subjectNav.append(button);
+      });
+    }
+
+    function renderStats(week) {
+      const stats = getStats(week.quests);
+      const accountStats = getStats(state.weeks.flatMap(item => item.quests));
+      const left = stats.total - stats.done;
+      els.totalXp.textContent = `${accountStats.earnedXp} XP`;
+      els.level.textContent = `Level ${accountStats.level}`;
+      els.questCount.textContent = `${stats.done} / ${stats.total}`;
+      els.progressText.textContent = `${stats.percent}%`;
+      els.progressFill.style.width = `${stats.percent}%`;
+      els.progressTrack.setAttribute("aria-valuenow", String(stats.percent));
+      els.remainingText.textContent = left === 0
+        ? "Hafta tamamlandı"
+        : `${left} quest kaldı`;
+    }
+
+    function renderBoard(week) {
+      els.board.innerHTML = "";
+      const categories = getCategories();
+      if (activeSubject === COMPLETED_TAB_ID) {
+        const completed = week.quests.filter((quest) => quest.done);
+        const completedByCategory = categories
+          .map((category) => ({ category, quests: completed.filter((quest) => (quest.categoryId || quest.subject) === category.id) }))
+          .filter((group) => group.quests.length);
+        completedByCategory.forEach((group) => els.board.append(createSubjectCard(group.category, group.quests, true)));
+        if (!completedByCategory.length) {
+          const empty = document.createElement("div");
+          empty.className = "card empty";
+          empty.textContent = "Henüz tamamlanan quest yok.";
+          els.board.append(empty);
+        }
+        return;
+      }
+
+      const visibleSubjects = categories.filter((subject) => activeSubject === "all" || activeSubject === subject.id);
+
+      visibleSubjects.forEach((subject) => {
+        const quests = week.quests
+          .filter((quest) => (quest.categoryId || quest.subject) === subject.id)
+          .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+        if (!quests.length && !editMode) return;
+        els.board.append(createSubjectCard(subject, quests));
+      });
+
+      if (!els.board.children.length) {
+        const empty = document.createElement("div");
+        empty.className = "card empty";
+        empty.textContent = "Programına bir şeyler ekle";
+        els.board.append(empty);
+      }
+    }
+
+    function createSubjectCard(subject, quests, completedView = false) {
+      const stats = getStats(quests);
+      const card = document.createElement("article");
+      card.className = "card";
+      card.style.setProperty("--subject-color", subject.color);
+
+      const head = document.createElement("div");
+      head.className = "card-head";
+      head.innerHTML = `
+        <div class="subject-title">
+          <span class="subject-dot" aria-hidden="true"></span>
+          <h2>${escapeHtml(subject.name)}</h2>
+        </div>
+        <span class="subject-xp">${stats.earnedXp}/${stats.possibleXp} XP</span>
+      `;
+      if (editMode && !completedView) {
+        const tools = document.createElement("div");
+        tools.className = "edit-tools";
+        tools.innerHTML = `<button class="quest-action" type="button">Kategori sil</button>`;
+        tools.querySelector("button").addEventListener("click", () => deleteCategory(subject.id));
+        head.append(tools);
+      }
+
+      const list = document.createElement("div");
+      list.className = "quests";
+      quests.forEach((quest, index) => list.append(createQuestButton(quest, subject, index, completedView)));
+
+      card.append(head, list);
+      return card;
+    }
+
+    function createQuestButton(quest, subject, index, completedView = false) {
+      const button = document.createElement("div");
+      const sourceLabel = /\d+\s*Ekim/i.test(quest.sourceDay || "") ? "Haftalık havuz" : (quest.sourceDay || "Haftalık havuz");
+      button.className = `quest${quest.done ? " done" : ""}`;
+      button.style.setProperty("--subject-color", subject.color);
+      button.setAttribute("role", "button");
+      button.setAttribute("tabindex", "0");
+      button.setAttribute("aria-pressed", String(quest.done));
+      button.setAttribute("aria-label", `${subject.name}: ${quest.title}, ${quest.detail}, ${quest.xp} XP`);
+      button.innerHTML = `
+        <span class="check" aria-hidden="true">${quest.done ? "✓" : ""}</span>
+        <span class="quest-main">
+          <span class="quest-title">${escapeHtml(quest.title)}</span>
+          <span class="quest-meta">
+            <span>${escapeHtml(quest.detail)}</span>
+            <span class="chip">${escapeHtml(sourceLabel)}</span>
+          </span>
+        </span>
+        <span class="xp">+${quest.xp} XP</span>
+      `;
+      if (completedView) {
+        button.querySelector(".quest-meta").insertAdjacentHTML("beforeend", `<span class="chip completed-badge">Tamamlandı</span>`);
+      }
+      if (editMode && !completedView && !quest.lockedForStudent) {
+        button.draggable = true;
+        button.addEventListener("dragstart", event => event.dataTransfer.setData("application/ders-quest", quest.id));
+        button.addEventListener("dragover", event => event.preventDefault());
+        button.addEventListener("drop", event => {
+          event.preventDefault(); const id = event.dataTransfer.getData("application/ders-quest");
+          const source = activeWeek().quests.find(q => q.id === id);
+          if (!source || source.lockedForStudent || source.id === quest.id) return;
+          const siblings = activeWeek().quests.filter(q=>(q.categoryId||q.subject)===subject.id && q.id!==id).sort((a,b)=>(a.sortOrder??0)-(b.sortOrder??0));
+          source.categoryId=subject.id; source.subject=subject.id;
+          siblings.splice(siblings.findIndex(q=>q.id===quest.id),0,source);
+          siblings.forEach((q,i)=>{q.sortOrder=i*10;}); saveState();render();
+        });
+        const tools = document.createElement("span");
+        tools.className = "edit-tools";
+        tools.innerHTML = `
+          <button class="quest-action" type="button" data-action="up">↑</button>
+          <button class="quest-action" type="button" data-action="down">↓</button>
+          <button class="quest-action" type="button" data-action="edit">Düzenle</button>
+          <button class="quest-action" type="button" data-action="delete">Sil</button>
+          <select class="select" aria-label="Derse taşı">${getCategories().map((category) => `<option value="${escapeHtml(category.id)}" ${category.id === (quest.categoryId || quest.subject) ? "selected" : ""}>${escapeHtml(category.name)}</option>`).join("")}</select>
+        `;
+        tools.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const action = event.target.dataset.action;
+          if (action === "up") moveQuest(quest.id, -1);
+          if (action === "down") moveQuest(quest.id, 1);
+          if (action === "edit") window.DersTeacher.editQuest(quest, activeWeek());
+          if (action === "delete" && confirm("Quest silinsin mi?")) {
+            if (quest.done) removeHistoryRecord(quest);
+            activeWeek().quests = activeWeek().quests.filter(q => q.id !== quest.id);
+            saveState(); render();
+          }
+        });
+        tools.querySelector("select").addEventListener("click", (event) => event.stopPropagation());
+        tools.querySelector("select").addEventListener("change", (event) => moveQuestToCategory(quest.id, event.target.value));
+        button.append(tools);
+      }
+      if (quest.lockedForStudent) {
+        const change = document.createElement('button');
+        change.className = 'quest-action'; change.type = 'button'; change.textContent = 'Değişiklik iste';
+        change.addEventListener('click', event => { event.stopPropagation(); window.DersTeacher.requestChange(quest, activeWeek()); });
+        button.querySelector('.quest-main').append(change);
+      }
+      button.addEventListener("click", () => toggleQuest(quest.id));
+      button.addEventListener("keydown", (event) => {
+        if (event.target === button && (event.key === "Enter" || event.key === " ")) {
+          event.preventDefault();
+          toggleQuest(quest.id);
+        }
+      });
+      return button;
+    }
+
+    function toggleQuest(id) {
+      const week = activeWeek();
+      const quest = week.quests.find((item) => item.id === id);
+      if (!quest) return;
+      const beforeLevel = getStats(state.weeks.flatMap(item => item.quests)).level;
+      quest.done = !quest.done;
+      if (quest.done) {
+        const history = addHistoryRecord(quest, week);
+        quest.completionId = history.id;
+      } else {
+        removeHistoryRecord(quest);
+        quest.completionId = null;
+      }
+      saveState();
+      render();
+      const afterLevel = getStats(state.weeks.flatMap(item => item.quests)).level;
+      if (quest.done) {
+        showXpEffect(quest.xp, afterLevel > beforeLevel);
+      }
+      showToast(quest.done ? `+${quest.xp} XP kazandın` : "Quest geri alındı");
+    }
+
+    function addHistoryRecord(quest, week) {
+      const category = subjectFor(quest.categoryId || quest.subject);
+      const record = {
+        id: crypto?.randomUUID ? crypto.randomUUID() : `history-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        userId: currentUser?.id || "local",
+        questId: quest.id,
+        categoryId: category.id,
+        categoryName: category.name,
+        title: quest.title,
+        detail: quest.detail,
+        xp: quest.xp,
+        completedAt: new Date().toISOString(),
+        weekId: week.id,
+        weekName: week.name,
+        source: quest.source || quest.sourceDay || "Manuel"
+      };
+      state.studyHistory = [...(state.studyHistory || []), record];
+      return record;
+    }
+
+    function removeHistoryRecord(quest) {
+      const history = [...(state.studyHistory || [])];
+      const index = quest.completionId
+        ? history.findIndex((record) => record.id === quest.completionId)
+        : history.map((record) => record.questId).lastIndexOf(quest.id);
+      if (index >= 0) history.splice(index, 1);
+      state.studyHistory = history;
+    }
+
+    function showXpEffect(xp, leveledUp) {
+      const pop = document.createElement("div");
+      pop.className = "fx-pop";
+      pop.textContent = leveledUp ? `LEVEL UP! +${xp} XP` : `+${xp} XP`;
+      document.body.append(pop);
+      setTimeout(() => pop.remove(), 950);
+      const colors = ["#f1c75b", "#72d18b", "#5fb4ff", "#b79cff"];
+      for (let i = 0; i < 18; i += 1) {
+        const piece = document.createElement("span");
+        piece.className = "confetti-piece";
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.background = colors[i % colors.length];
+        piece.style.setProperty("--x", `${(Math.random() - .5) * 150}px`);
+        document.body.append(piece);
+        setTimeout(() => piece.remove(), 950);
+      }
+    }
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => els.toast.classList.remove("show"), 1200);
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+
+    function moveTab(id, direction) {
+      const categories = getCategories();
+      const tabs = [...categories.map(c => ({id:c.id,order:c.sortOrder})), {id:COMPLETED_TAB_ID,order:state.completedTabOrder ?? 999}].sort((a,b) => a.order-b.order);
+      const index = tabs.findIndex(t => t.id === id);
+      if (index+direction < 0 || index+direction >= tabs.length) return;
+      [tabs[index],tabs[index+direction]] = [tabs[index+direction],tabs[index]];
+      tabs.forEach((t,i) => { if(t.id === COMPLETED_TAB_ID) state.completedTabOrder=i*10; else categories.find(c => c.id===t.id).sortOrder=i*10; });
+      saveState(); render();
+    }
+
+    function moveQuest(id, direction) {
+      const week = activeWeek();
+      const quest = week.quests.find((item) => item.id === id);
+      if (!quest) return;
+      const categoryId = quest.categoryId || quest.subject;
+      const siblings = week.quests
+        .filter((item) => (item.categoryId || item.subject) === categoryId)
+        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+      const index = siblings.findIndex((item) => item.id === id);
+      const target = siblings[index + direction];
+      if (!target) return;
+      [siblings[index], siblings[index + direction]] = [siblings[index + direction], siblings[index]];
+      siblings.forEach((item, i) => { item.sortOrder = i * 10; });
+      saveState();
+      render();
+    }
+
+    function moveQuestToCategory(id, categoryId) {
+      const week = activeWeek();
+      const quest = week.quests.find((item) => item.id === id);
+      if (!quest || quest.lockedForStudent) return;
+      quest.categoryId = categoryId;
+      quest.subject = categoryId;
+      quest.sortOrder = week.quests.filter((item) => (item.categoryId || item.subject) === categoryId).length;
+      saveState();
+      render();
+    }
+
+    function deleteCategory(categoryId) {
+      const hasQuests = state.weeks.some((week) => week.quests.some((quest) => (quest.categoryId || quest.subject) === categoryId));
+      if (hasQuests) {
+        showToast("Önce bu kategorideki questleri taşı.");
+        return;
+      }
+      state.categories = getCategories().filter((category) => category.id !== categoryId);
+      saveState();
+      render();
+    }
+
+    function renderHistory() {
+      const categories = getCategories();
+      const date = els.historyDateFilter.value;
+      const weekId = els.historyWeekFilter.value;
+      const categoryId = els.historyCategoryFilter.value;
+      els.historyWeekFilter.innerHTML = `<option value="">Tüm haftalar</option>${state.weeks.map((week) => `<option value="${week.id}">${escapeHtml(week.name)}</option>`).join("")}`;
+      els.historyCategoryFilter.innerHTML = `<option value="">Tüm kategoriler</option>${categories.map((category) => `<option value="${category.id}">${escapeHtml(category.name)}</option>`).join("")}`;
+      els.historyWeekFilter.value = weekId;
+      els.historyCategoryFilter.value = categoryId;
+      const records = (state.studyHistory || [])
+        .filter((record) => !date || localDateKey(record.completedAt) === date)
+        .filter((record) => !weekId || record.weekId === weekId)
+        .filter((record) => !categoryId || record.categoryId === categoryId)
+        .sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
+      els.historyList.innerHTML = records.length ? "" : `<div class="empty">Henüz çalışma geçmişi yok.</div>`;
+      records.slice(0, 80).forEach((record) => {
+        const item = document.createElement("div");
+        item.className = "history-item";
+        item.innerHTML = `
+          <strong>${escapeHtml(record.categoryName)} · ${escapeHtml(record.title)}</strong>
+          <span class="text-muted">${escapeHtml(record.detail)} · +${record.xp} XP · ${new Date(record.completedAt).toLocaleString("tr-TR")}</span>
+          <span class="chip">${escapeHtml(record.weekName || record.weekId)} · ${escapeHtml(record.source || "Manuel")}</span>
+        `;
+        els.historyList.append(item);
+      });
+    }
+
+    function renderTeacherPanel() {
+      window.DersTeacher?.render();
+    }
+
+    function localDateKey(value) {
+      const date = new Date(value);
+      return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+    }
+
+    function openWeekModal() {
+      draftQuests = [];
+      els.modalWeekName.value = els.weekNameInput.value.trim() || "";
+      els.modalWeekRange.value = els.weekRangeInput.value.trim() || "";
+      els.programPhoto.value = "";
+      els.ocrText.value = "";
+      els.analysisTextWrap.classList.remove("open");
+      els.analysisStatus.textContent = "Fotoğraf seçersen önce görevleri kontrol ekranına alırım.";
+      renderDraftList();
+      els.weekModalBackdrop.classList.add("open");
+      els.modalWeekName.focus();
+    }
+
+    function closeWeekModal() {
+      els.weekModalBackdrop.classList.remove("open");
+    }
+
+    function renderDraftList() {
+      els.draftList.innerHTML = "";
+      const categories = getCategories();
+      if (!draftQuests.length) {
+        const empty = document.createElement("div");
+        empty.className = "draft-empty";
+        empty.textContent = "Henüz algılanan quest yok. Fotoğrafı analiz et, OCR metninden çıkar veya satır ekle.";
+        els.draftList.append(empty);
+        return;
+      }
+
+      draftQuests.forEach((quest, index) => {
+        const row = document.createElement("div");
+        row.className = "draft-row";
+        row.innerHTML = `
+          <select class="select" aria-label="Ders">${categories.map((subject) => `<option value="${escapeHtml(subject.id)}" ${subject.id === quest.subject ? "selected" : ""}>${escapeHtml(subject.name)}</option>`).join("")}</select>
+          <input class="input" type="text" aria-label="Görev adı" value="${escapeHtml(quest.title)}">
+          <input class="input" type="text" aria-label="Soru sayısı ve açıklama" value="${escapeHtml(quest.detail)}">
+          <input class="input" type="number" min="5" step="5" aria-label="XP" value="${quest.xp}">
+          <button class="button danger" type="button">Sil</button>
+        `;
+        const [subjectInput, titleInput, detailInput, xpInput, deleteButton] = row.children;
+        subjectInput.addEventListener("change", () => {
+          draftQuests[index].subject = subjectInput.value;
+        });
+        titleInput.addEventListener("input", () => {
+          draftQuests[index].title = titleInput.value;
+        });
+        detailInput.addEventListener("input", () => {
+          draftQuests[index].detail = detailInput.value;
+        });
+        xpInput.addEventListener("input", () => {
+          draftQuests[index].xp = Math.max(5, Number(xpInput.value) || 5);
+        });
+        deleteButton.addEventListener("click", () => {
+          draftQuests.splice(index, 1);
+          renderDraftList();
+        });
+        els.draftList.append(row);
+      });
+    }
+
+    function addDraftQuest(quest = {}) {
+      const firstCategory = getCategories()[0]?.id || "genel";
+      draftQuests.push({
+        subject: quest.subject || firstCategory,
+        title: quest.title || "",
+        detail: quest.detail || "",
+        xp: Math.max(5, Number(quest.xp) || 100),
+        sourceDay: quest.sourceDay || "Haftalık havuz"
+      });
+      renderDraftList();
+    }
+
+    function normalizeText(value) {
+      return String(value || "")
+        .toLocaleUpperCase("tr-TR")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/İ/g, "I")
+        .replace(/Ş/g, "S")
+        .replace(/Ğ/g, "G")
+        .replace(/Ü/g, "U")
+        .replace(/Ö/g, "O")
+        .replace(/Ç/g, "C")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function inferTopic(line) {
+      const normalized = normalizeText(line);
+      return topicHints.find((hint) => hint.keys.some((key) => normalized.includes(key)));
+    }
+
+    function ensureCategoryForHint(hint) {
+      const categories = getCategories();
+      const existing = categories.find((category) => category.id === hint.subject || normalizeText(category.name) === normalizeText(hint.categoryName));
+      if (existing) return existing.id;
+      const legacy = LEGACY_CATEGORIES.find((category) => category.id === hint.subject);
+      state.categories.push({
+        id: hint.subject,
+        key: hint.subject,
+        name: hint.categoryName || titleCase(hint.subject),
+        color: legacy?.color || "#5fb4ff",
+        sortOrder: legacy?.sortOrder ?? state.categories.length * 10
+      });
+      return hint.subject;
+    }
+
+    function extractDetail(line) {
+      const normalized = normalizeText(line);
+      const numberMatch = normalized.match(/(\d+)\s*SORU/);
+      const hasAnalysis = normalized.includes("ANALIZ");
+      if (numberMatch && hasAnalysis) return `${numberMatch[1]} soru ve analiz`;
+      if (numberMatch && normalized.includes("COZUM")) return `${numberMatch[1]} soru çözümü`;
+      if (numberMatch) return `${numberMatch[1]} soru`;
+      if (normalized.includes("KONU ANLATIM") && normalized.includes("SORU COZUM")) return "Konu anlatımı / soru çözümü";
+      if (normalized.includes("KONU ANLATIM")) return "Konu anlatımı";
+      if (normalized.includes("SORU COZUM")) return "Soru çözümü";
+      if (normalized.includes("VIDEO")) return "Video / not çalışması";
+      return "";
+    }
+
+    function estimateXp(subject, detail) {
+      const normalized = normalizeText(detail);
+      const questionMatch = normalized.match(/(\d+)\s*SORU/);
+      let xp = subject === "tarih" ? 55 : 85;
+      if (normalized.includes("KONU ANLATIM")) xp += 15;
+      if (normalized.includes("SORU COZUM")) xp += 20;
+      if (normalized.includes("ANALIZ")) xp += 35;
+      if (questionMatch) xp += Math.min(80, Math.round(Number(questionMatch[1]) * 1.2));
+      if (subject === "matematik") xp += 15;
+      if (subject === "tarih") xp = Math.max(45, Math.round(xp * .62));
+      return Math.ceil(xp / 5) * 5;
+    }
+
+    function parseProgramText(text) {
+      const lines = String(text || "")
+        .split(/\n+/)
+        .map((line) => line.replace(/[|_]+/g, " ").replace(/\s+/g, " ").trim())
+        .filter(Boolean);
+      const ignored = /^(YAGIZ|AHMET|ER|TURKCE|FIZIK|KIMYA|BIYOLOJI|MATEMATIK|TARIH|CARSAMBA|PERSEMBE|CUMA|CUMARTESI|PAZAR|PAZARTESI|SALI|\d+\s*EKIM)$/i;
+      const found = [];
+      let pendingTopic = null;
+
+      lines.forEach((line) => {
+        const normalized = normalizeText(line);
+        if (!normalized || ignored.test(normalized)) return;
+        const topic = inferTopic(line);
+        const detail = extractDetail(line);
+
+        if (topic && detail) {
+          found.push({
+            subject: ensureCategoryForHint(topic),
+            title: topic.title,
+            detail,
+            xp: estimateXp(topic.subject, detail),
+            sourceDay: "Fotoğraftan"
+          });
+          pendingTopic = null;
+          return;
+        }
+
+        if (topic) {
+          pendingTopic = topic;
+          return;
+        }
+
+        if (pendingTopic && detail) {
+          found.push({
+            subject: ensureCategoryForHint(pendingTopic),
+            title: pendingTopic.title,
+            detail,
+            xp: estimateXp(pendingTopic.subject, detail),
+            sourceDay: "Fotoğraftan"
+          });
+          pendingTopic = null;
+        }
+      });
+
+      return found;
+    }
+
+    function loadTesseract() {
+      if (window.Tesseract) return Promise.resolve(window.Tesseract);
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+        script.onload = () => resolve(window.Tesseract);
+        script.onerror = () => reject(new Error("OCR kütüphanesi yüklenemedi"));
+        document.head.append(script);
+      });
+    }
+
+    async function analyzeProgramPhoto() {
+      const file = els.programPhoto.files[0];
+      if (!file) {
+        els.analysisStatus.textContent = "Önce program fotoğrafını seçmelisin.";
+        return;
+      }
+      els.analysisStatus.textContent = "Fotoğraf okunuyor. Bu işlem biraz sürebilir.";
+      els.analyzePhotoButton.disabled = true;
+      try {
+        const tesseract = await loadTesseract();
+        const result = await tesseract.recognize(file, "tur+eng", {
+          logger: (info) => {
+            if (info.status === "recognizing text") {
+              els.analysisStatus.textContent = `Fotoğraf okunuyor: %${Math.round(info.progress * 100)}`;
+            }
+          }
+        });
+        const text = result?.data?.text || "";
+        els.ocrText.value = text;
+        const parsed = parseProgramText(text);
+        draftQuests = parsed;
+        renderDraftList();
+        els.analysisStatus.textContent = parsed.length
+          ? `${parsed.length} quest bulundu. Kaydetmeden önce kontrol edebilirsin.`
+          : "Program fotoğrafı okunamadı. Daha net bir fotoğraf yükleyebilir veya görevleri manuel ekleyebilirsin.";
+      } catch (error) {
+        console.error(error);
+        els.analysisStatus.textContent = "Program fotoğrafı okunamadı. Daha net bir fotoğraf yükleyebilir veya görevleri manuel ekleyebilirsin.";
+      } finally {
+        els.analyzePhotoButton.disabled = false;
+      }
+    }
+
+    function createWeekFromDraft(empty = false) {
+      const name = els.modalWeekName.value.trim() || `Yeni Hafta ${state.weeks.length + 1}`;
+      const range = els.modalWeekRange.value.trim() || name;
+      const cleanDrafts = empty ? [] : draftQuests
+        .filter((quest) => quest.title.trim())
+        .map((quest) => makeQuest(quest.subject, quest.title, quest.detail, quest.xp, quest.sourceDay || "Haftalık havuz"));
+      createWeek(name, range, cleanDrafts);
+      closeWeekModal();
+      showToast(empty ? "Boş hafta oluşturuldu" : `${cleanDrafts.length} quest ile hafta oluşturuldu`);
+    }
+
+    els.weekSelect.addEventListener("change", () => {
+      state.activeWeekId = els.weekSelect.value;
+      activeSubject = "all";
+      saveState();
+      render();
+    });
+
+    els.editModeButton.addEventListener("click", () => {
+      editMode = !editMode;
+      render();
+    });
+
+    els.addCategoryButton.addEventListener("click", () => {
+      const name = els.categoryNameInput.value.trim();
+      if (!name) {
+        els.categoryNameInput.focus();
+        return;
+      }
+      const id = `cat-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      state.categories.push({
+        id,
+        key: id,
+        name,
+        color: els.categoryColorInput.value || "#5fb4ff",
+        sortOrder: getCategories().length * 10
+      });
+      els.categoryNameInput.value = "";
+      saveState();
+      render();
+      showToast("Kategori eklendi");
+    });
+
+    [els.historyDateFilter, els.historyWeekFilter, els.historyCategoryFilter].forEach((filter) => {
+      filter.addEventListener("change", renderHistory);
+    });
+
+    els.resetButton.addEventListener("click", () => {
+      const week = activeWeek();
+      if (!week) return;
+      if (!confirm(`${week.name} ilerlemesi sıfırlansın mı?`)) return;
+      week.quests.forEach((quest) => {
+        if (quest.done) removeHistoryRecord(quest);
+        quest.done = false;
+        quest.completionId = null;
+      });
+      saveState();
+      render();
+      showToast("Hafta sıfırlandı");
+    });
+
+    els.newWeekButton.addEventListener("click", openWeekModal);
+
+    els.closeWeekModal.addEventListener("click", closeWeekModal);
+
+    els.weekModalBackdrop.addEventListener("click", (event) => {
+      if (event.target === els.weekModalBackdrop) closeWeekModal();
+    });
+
+    els.toggleOcrTextButton.addEventListener("click", () => {
+      els.analysisTextWrap.classList.toggle("open");
+    });
+
+    els.analyzePhotoButton.addEventListener("click", analyzeProgramPhoto);
+
+    els.parseTextButton.addEventListener("click", () => {
+      const parsed = parseProgramText(els.ocrText.value);
+      draftQuests = parsed;
+      renderDraftList();
+      els.analysisStatus.textContent = parsed.length
+        ? `${parsed.length} quest bulundu. Kaydetmeden önce kontrol edebilirsin.`
+        : "Metinden görev çıkarılamadı. Satır ekleyerek manuel girebilirsin.";
+    });
+
+    els.addDraftQuestButton.addEventListener("click", () => addDraftQuest());
+
+    els.emptyWeekModalButton.addEventListener("click", () => createWeekFromDraft(true));
+
+    els.createFromDraftButton.addEventListener("click", () => createWeekFromDraft(false));
+
+    els.addQuestButton.addEventListener("click", () => {
+      const week = activeWeek();
+      const title = els.manualTitle.value.trim();
+      if (!week || !title) {
+        els.manualTitle.focus();
+        return;
+      }
+      const quest = makeQuest(
+        els.manualSubject.value,
+        title,
+        els.manualDetail.value.trim(),
+        els.manualXp.value,
+        "Manuel"
+      );
+      quest.sortOrder = Math.max(-1, ...week.quests.filter(item => (item.categoryId || item.subject) === quest.categoryId).map(item => item.sortOrder || 0)) + 1;
+      week.quests.push(quest);
+      els.manualTitle.value = "";
+      els.manualDetail.value = "";
+      els.manualXp.value = "100";
+      saveState();
+      render();
+      showToast("Quest eklendi");
+    });
+
+    els.signUpButton.addEventListener("click", async () => {
+      if (!supabaseClient) return;
+      const email = els.authEmail.value.trim();
+      const password = els.authPassword.value;
+      if (!email || password.length < 6) {
+        els.syncStatus.textContent = "E-posta ve en az 6 karakter şifre gir.";
+        return;
+      }
+      const { error } = await supabaseClient.auth.signUp({ email, password });
+      if (error) {
+        els.syncStatus.textContent = error.message;
+        return;
+      }
+      els.syncStatus.textContent = "Hesap oluşturuldu. E-posta doğrulaması istenirse gelen kutunu kontrol et.";
+      showToast("Hesap oluşturuldu");
+    });
+
+    els.signInButton.addEventListener("click", async () => {
+      if (!supabaseClient) return;
+      const email = els.authEmail.value.trim();
+      const password = els.authPassword.value;
+      if (!email || !password) {
+        els.syncStatus.textContent = "E-posta ve şifre gir.";
+        return;
+      }
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        els.syncStatus.textContent = error.message;
+        return;
+      }
+      showToast("Giriş yapıldı");
+    });
+
+    els.signOutButton.addEventListener("click", async () => {
+      if (!supabaseClient) return;
+      await supabaseClient.auth.signOut();
+      await switchAccount(null);
+      updateAuthUi();
+      showToast("Çıkış yapıldı");
+    });
+
+    els.syncNowButton.addEventListener("click", async () => {
+      try {
+        await pullStateFromCloud();
+        await pushStateToCloud();
+        showToast("Eşitlendi");
+      } catch (error) {
+        console.error(error);
+        els.syncStatus.textContent = "Şu an eşitlenemedi. Bağlantıyı kontrol et.";
+      }
+    });
+
+    els.createWeekButton.addEventListener("click", () => {
+      const name = els.weekNameInput.value.trim() || `Yeni Hafta ${state.weeks.length + 1}`;
+      const range = els.weekRangeInput.value.trim() || name;
+      createWeek(name, range, []);
+      els.weekNameInput.value = "";
+      els.weekRangeInput.value = "";
+      showToast("Boş hafta oluşturuldu");
+    });
+
+    window.addEventListener("online", () => scheduleSync());
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        pullStateFromCloud().catch((error) => console.error(error));
+      }
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch((error) => console.warn("Service worker failed", error));
+      });
+    }
+
+    window.DersBoard = {
+      get client() { return supabaseClient; }, get user() { return currentUser; }, get state() { return state; },
+      week: activeWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud,
+      setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; },
+      editQuest(id, weekId, changes) {
+        const q = state.weeks.find(w => w.id === weekId)?.quests.find(q => q.id === id);
+        if (!q || q.lockedForStudent) return;
+        Object.assign(q, changes); saveState(); render();
+      }
+    };
+    render();
+    initCloud();
+  </script>
+  <script src="./teacher.js"></script>
+</body>
+</html>

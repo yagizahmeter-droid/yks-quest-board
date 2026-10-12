@@ -1,0 +1,17 @@
+{
+  "installCommand": "echo Static assets use the bundled SDK",
+  "buildCommand": "node scripts/build.cjs",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/service-worker.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    }
+  ]
+}

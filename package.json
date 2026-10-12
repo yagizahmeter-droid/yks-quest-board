@@ -1,0 +1,15 @@
+{
+  "name": "ders",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node scripts/server.cjs",
+    "build": "node scripts/build.cjs",
+    "test": "node tests/integration.cjs",
+    "test:staging": "node tests/staging.cjs",
+    "deploy:vercel": "vercel",
+    "deploy:netlify": "netlify deploy --prod --dir ."
+  },
+  "dependencies": { "@supabase/supabase-js": "2.117.3" },
+  "devDependencies": { "@playwright/test": "1.64.0", "embedded-postgres": "18.4.0-beta.17", "pg": "8.23.1" }
+}

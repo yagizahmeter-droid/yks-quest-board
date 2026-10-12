@@ -1,0 +1,111 @@
+const http=require('node:http'), assert=require('node:assert/strict'), fs=require('node:fs'), path=require('node:path');
+module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
+  // Local Auth/REST transport fixture; every data operation runs against real RLS in PostgreSQL.
+  const users=ids.map((id,i)=>({id,email:`test${i}@example.test`,aud:'authenticated',role:'authenticated',app_metadata:{provider:'email'},user_metadata:{},created_at:new Date().toISOString()}));
+  const token=user=>[Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url'),Buffer.from(JSON.stringify({sub:user.id,aud:'authenticated',role:'authenticated',exp:Math.floor(Date.now()/1000)+3600})).toString('base64url'),'local-fixture'].join('.');
+  const api=http.createServer(async(req,res)=>{
+    res.setHeader('Access-Control-Allow-Origin','*'); res.setHeader('Access-Control-Allow-Headers','*'); res.setHeader('Access-Control-Allow-Methods','GET,POST,OPTIONS');
+    if(req.method==='OPTIONS') {res.writeHead(204).end();return;}
+    res.setHeader('Content-Type','application/json');
+    try {
+      const url=new URL(req.url,'http://localhost'); let text=''; for await(const chunk of req) text+=chunk; const body=text?JSON.parse(text):{};
+      let uid; try{uid=JSON.parse(Buffer.from((req.headers.authorization||'').split('.')[1]||'','base64url').toString()).sub;}catch{}
+      if(url.pathname==='/auth/v1/token' || url.pathname==='/auth/v1/signup') {
+        const user=users.find(u=>u.email===body.email || u.id===body.refresh_token);
+        if(!user || (body.password && body.password!=='test-password')) throw new Error('Invalid credentials');
+        res.end(JSON.stringify({access_token:token(user),refresh_token:user.id,expires_in:3600,token_type:'bearer',user}));return;
+      }
+      if(url.pathname==='/auth/v1/user') {res.end(JSON.stringify(users.find(u=>u.id===uid)));return;}
+      if(url.pathname==='/auth/v1/logout') {res.end('{}');return;}
+      if(!ids.includes(uid)) {res.writeHead(401).end(JSON.stringify({message:'Authentication required'}));return;}
+      if(url.pathname==='/rest/v1/rpc/ders_action') {res.end(JSON.stringify(await action(uid,body.p_action,body.p_payload)));return;}
+      if(url.pathname==='/rest/v1/quest_board_states') {
+        const rows=(await asUser(uid,'select * from public.quest_board_states where user_id=$1',[uid])).rows;
+        res.end(JSON.stringify(rows[0]||null));return;
+      }
+      res.writeHead(404).end('{}');
+    }catch(error){res.writeHead(400).end(JSON.stringify({message:error.message,code:error.code||'fixture_error'}));}
+  });
+  await new Promise(resolve=>api.listen(0,'127.0.0.1',resolve));
+  process.env.PORT='0';const site=require('../scripts/server.cjs');await new Promise(resolve=>site.listening?resolve():site.once('listening',resolve));
+  const {chromium}=deps('playwright'); let browser;
+  try {
+    browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+    const errors=[];
+    async function pageFor(index,width=1280){
+      const context=await browser.newContext({viewport:{width,height:900},serviceWorkers:'block'});
+      await context.route('**/config.js',route=>route.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'http://127.0.0.1:${api.address().port}',supabaseAnonKey:'local-public-fixture'};`}));
+      const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(`http://127.0.0.1:${site.address().port}`);
+      await page.fill('#authEmail',users[index].email);await page.fill('#authPassword','test-password');await page.click(index===4?'#signUpButton':'#signInButton');
+      if(index===4){await page.locator('#profileName').waitFor();return page;}
+      await page.locator('#teacherPanel').getByText(index===0?'Test Teacher · Öğretmen':'Test Student · Öğrenci',{exact:true}).waitFor();return page;
+    }
+    // Restore an approved link and a clean board for isolated browser cases.
+    const code=(await action(ids[0],'create_invite')).code;await action(ids[1],'request_connection',{code});
+    const connection=(await action(ids[0],'overview')).connections[0];await action(ids[0],'respond_connection',{id:connection.id,status:'approved'});
+    const t=await pageFor(0),s=await pageFor(1),phone=await pageFor(1,390);
+    const fresh=await pageFor(4,360);assert.equal(await fresh.locator('#questCount').innerText(),'0 / 0');assert.equal(await fresh.locator('#totalXp').innerText(),'0 XP');
+    await fresh.selectOption('#roleSelect','student');await fresh.fill('#profileName','New Student');await fresh.getByRole('button',{name:'Hesabımı hazırla'}).click();
+    await fresh.locator('#teacherPanel').getByText('New Student · Öğrenci',{exact:true}).waitFor();
+    assert.equal(await fresh.locator('#roleSelect').isDisabled(),true);console.log('PASS New account starts empty and role is set once');
+    await t.fill('#assignmentName','Browser Program');await t.fill('#assignmentRange','21-28 Ekim');
+    await t.locator('#assignmentDraft [data-key="category"]').fill('Fizik');await t.locator('#assignmentDraft [data-key="title"]').fill('Basınç');
+    await t.locator('#assignmentDraft [data-key="detail"]').fill('50 soru ve analiz');await t.locator('#assignmentDraft [data-key="xp"]').fill('200');
+    await t.getByRole('button',{name:'Programı gönder',exact:true}).click();
+    await t.locator('#teacherPanel').getByText('Browser Program',{exact:true}).waitFor();
+    await s.locator('#teacherPanel [data-action="refresh"]').click();await s.locator('#teacherPanel').getByText('Browser Program',{exact:true}).waitFor();
+    await s.locator('#teacherPanel .teacher-item').filter({has:s.getByText('Browser Program',{exact:true})}).locator('[data-action="review"]').click();
+    await s.getByRole('button',{name:'Programı kabul et',exact:true}).click();
+    await s.locator('#weekSelect option').filter({hasText:'Browser Program'}).waitFor({state:'attached'});
+    await s.locator('.quest').filter({hasText:'Basınç'}).click();await s.evaluate(()=>window.DersBoard.flush());
+    await phone.click('#syncNowButton');
+    await phone.waitForFunction(()=>window.DersBoard.state.weeks.some(w=>w.name==='Browser Program'&&w.quests[0].done));
+    assert.match(await phone.locator('#totalXp').innerText(),/380/);
+    console.log('PASS Browser teacher sends, student accepts and second device sees completion');
+    await s.locator('.quest').filter({hasText:'Basınç'}).getByRole('button',{name:'Değişiklik iste'}).click();
+    await s.fill('#editTitle','Basınç güncellendi');await s.getByRole('button',{name:'İsteği gönder'}).click();
+    await s.locator('dialog').waitFor({state:'hidden'});await t.locator('#teacherPanel [data-action="refresh"]').click();
+    await t.getByRole('button',{name:'Değişikliği onayla'}).click();await s.click('#syncNowButton');
+    await s.locator('.quest-title').filter({hasText:'Basınç güncellendi'}).waitFor();console.log('PASS Browser change request and teacher approval');
+    await s.selectOption('#weekSelect','original');await s.locator('.quest').filter({hasText:'Temel Kavramlar'}).click();await s.click('#syncNowButton');
+    await s.getByRole('button',{name:/Tamamlananlar/}).click();assert.equal(await s.locator('.quest.done').count(),1);
+    assert.equal(await s.locator('#historyList .history-item').count(),2);console.log('PASS Completed tab, independent weeks, global XP and history');
+    await s.click('#newWeekButton');await s.fill('#modalWeekName','Empty browser week');await s.fill('#modalWeekRange','28 Ekim-4 Kasım');await s.click('#emptyWeekModalButton');
+    await s.getByRole('button',{name:'Tümü',exact:false}).click();await s.fill('#manualTitle','Manual browser task');await s.fill('#manualDetail','Konu anlatımı / soru çözümü');await s.click('#addQuestButton');
+    await s.locator('.quest-title').filter({hasText:'Manual browser task'}).waitFor();console.log('PASS New empty week and manual quest');
+    await s.context().setOffline(true);await s.locator('.quest').filter({hasText:'Manual browser task'}).click();
+    await s.context().setOffline(false);await s.evaluate(()=>window.DersBoard.flush());await phone.click('#syncNowButton');
+    await phone.waitForFunction(()=>window.DersBoard.state.weeks.some(w=>w.name==='Empty browser week'&&w.quests[0]?.done));console.log('PASS Offline completion synchronizes after reconnect');
+    await s.click('#editModeButton');await s.locator('.quest [data-action="edit"]').click();await s.fill('#editTitle','Edited manual task');await s.getByRole('button',{name:'Kaydet',exact:true}).click();
+    await s.locator('.quest-title').filter({hasText:'Edited manual task'}).waitFor();console.log('PASS Personal quest edit mode');
+    fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
+    for(const width of [360,390,430,1280]){
+      await s.setViewportSize({width,height:900});
+      const overflow=await s.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);
+      assert.equal(overflow,false,`overflow at ${width}`);
+      const titleWidth=await s.locator('.quest-main').first().evaluate(el=>el.getBoundingClientRect().width);
+      assert.ok(titleWidth>=150,`Quest text squeezed at ${width}px: ${titleWidth}`);
+      await s.screenshot({path:path.join(root,'test-results',`board-${width}.png`),fullPage:true});
+      console.log(`PASS Responsive layout ${width}px`);
+    }
+    await t.setViewportSize({width:360,height:900});await t.getByRole('button',{name:'Davet kodu oluştur'}).click();
+    await t.waitForFunction(()=>document.querySelector('#inviteResult')?.dataset.code?.length===24);
+    assert.equal(await t.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+    await t.locator('#teacherPanel [data-action="student"]').click();await t.locator('#studentSummary').waitFor();
+    assert.equal(await t.locator('#studentSummary').getByText('580 XP · 4/4 görev',{exact:true}).count(),1);
+    await t.screenshot({path:path.join(root,'test-results','teacher-progress-360.png'),fullPage:true});
+    s.once('dialog',dialog=>dialog.accept());await s.locator('#teacherPanel [data-action="disconnect"]').click();
+    await s.waitForFunction(()=>!document.querySelector('#teacherPanel [data-action="disconnect"]'));
+    await t.evaluate(()=>window.DersTeacher.refresh());assert.equal(await t.locator('dialog').isVisible(),false);
+    assert.equal(await t.locator('#teacherPanel [data-action="student"]').count(),0);console.log('PASS Teacher progress on mobile and revocation clears open student data');
+    await s.click('#signOutButton');await s.waitForFunction(()=>!window.DersBoard.user);
+    assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
+    const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
+    await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.evaluate(()=>navigator.serviceWorker.ready);
+    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v3');return (await cache.keys()).map(r=>r.url);});
+    assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
+    await pwaContext.setOffline(true);await pwa.reload();await pwa.locator('#newWeekButton').waitFor();
+    assert.equal(await pwa.evaluate(()=>typeof window.supabase.createClient),'function');console.log('PASS PWA shell and SDK reopen offline without caching private API data');
+    assert.deepEqual(errors,[]);console.log('PASS No browser JavaScript errors');
+  }finally{if(browser)await browser.close();await new Promise(resolve=>api.close(resolve));await new Promise(resolve=>site.close(resolve));}
+};
