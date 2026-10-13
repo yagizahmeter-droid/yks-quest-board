@@ -27,3 +27,4 @@ Before full backend rollback, export ALL current boards, programs, requests and 
 ## Security
 
 Roles are chosen once through authenticated RPC and cannot be directly edited. Every cross-user operation checks the current approved connection. Public workflow tables have RLS and SELECT-only client grants. Writes use authenticated operations in a non-exposed schema with empty search_path. Random 96-bit invite codes are hashed, expire, rotate and are rate-limited. A trigger prevents crafted JSON from changing or deleting accepted teacher quests. Completion is unrestricted by day. Revocation immediately denies future teacher reads and rejects pending programs; accepted tasks remain in the student's board.
+

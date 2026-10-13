@@ -38,3 +38,4 @@
   root.DersSync = { mergeState, equal };
   if (typeof module !== 'undefined') module.exports = root.DersSync;
 })(typeof window === 'undefined' ? globalThis : window);
+

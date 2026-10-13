@@ -6,3 +6,4 @@
   for = "/service-worker.js"
   [headers.values]
     Cache-Control = "no-cache"
+
