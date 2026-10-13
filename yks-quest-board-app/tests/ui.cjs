@@ -98,11 +98,16 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
         assert.equal(await student.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,`${width}/${theme} overflow`);
         const overlaps = await student.locator('.quest').evaluateAll(rows=>rows.some(row=>{const a=row.querySelector('.check').getBoundingClientRect(),b=row.querySelector('.quest-main').getBoundingClientRect();return b.left<a.right-1;}));
         assert.equal(overlaps,false);assert.ok(await student.locator('.quest-main').first().evaluate(e=>e.getBoundingClientRect().width)>150);
-        const contrast = await student.locator('#pageTitle').evaluate(el=>{
+        const version = await student.locator('.app-version').evaluate(el=>{const box=el.getBoundingClientRect();return {text:el.textContent,left:box.left,right:box.right,top:box.top,bottom:box.bottom,pointerEvents:getComputedStyle(el).pointerEvents};});
+        assert.equal(version.text,'v1.0');assert.equal(version.pointerEvents,'none');
+        assert.ok(version.left>=0 && version.right<=width && version.top>=0 && version.bottom<=900,`${width}/${theme} version bounds`);
+        for (const selector of ['#pageTitle','.app-version']) {
+        const contrast = await student.locator(selector).evaluate(el=>{
           const rgb=c=>c.match(/[\d.]+/g).slice(0,3).map(Number).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});
           const lum=c=>{const a=rgb(c);return .2126*a[0]+.7152*a[1]+.0722*a[2];};
           const a=lum(getComputedStyle(el).color),b=lum(getComputedStyle(document.body).backgroundColor);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
-        });assert.ok(contrast>=4.5,`${theme} heading contrast ${contrast}`);
+        });assert.ok(contrast>=4.5,`${theme} ${selector} contrast ${contrast}`);
+        }
         await student.screenshot({path:path.join(root,'test-results',`ui-program-${theme}-${width}.png`),fullPage:true});
       }
       pass(`Responsive light/dark layout and long names ${width}px`);

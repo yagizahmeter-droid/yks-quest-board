@@ -44,6 +44,7 @@
 [hidden] { display: none !important; }
 body { background: var(--bg); font-size: 14px; line-height: 1.5; }
 body.drawer-open { overflow: hidden; }
+.app-version { position: fixed; right: max(12px, env(safe-area-inset-right)); bottom: max(8px, env(safe-area-inset-bottom)); z-index: 18; padding: 2px 5px; background: var(--bg); color: var(--muted); font-size: 11px; line-height: 16px; font-weight: 500; pointer-events: none; user-select: none; }
 a { color: var(--accent); text-decoration: none; }
 button, summary, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 button, summary { touch-action: manipulation; }
