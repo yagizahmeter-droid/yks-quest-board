@@ -1,5 +1,17 @@
-const fs=require('node:fs'), path=require('node:path');
+const fs=require('node:fs'), path=require('node:path'), vm=require('node:vm');
 const root=path.resolve(__dirname,'..'), out=path.join(root,'dist');
+if(process.env.VERCEL_ENV==='production' || process.argv.includes('--production')) {
+  const context={window:{}};
+  vm.runInNewContext(fs.readFileSync(path.join(root,'config.js'),'utf8'),context,{timeout:1000});
+  const config=context.window.YKS_CONFIG;
+  if(config?.supabaseUrl!=='https://jswgagzbetwviamiwcck.supabase.co')
+    throw new Error('Production build blocked: config must use the existing live Supabase project.');
+  if(!/^sb_publishable_[A-Za-z0-9_-]+$/.test(config.supabaseAnonKey || ''))
+    throw new Error('Production build blocked: only a public Supabase publishable key is allowed.');
+  if(process.env.VERCEL_PROJECT_ID && process.env.VERCEL_PROJECT_ID!=='prj_x2vIkhipW3ZaACfDAiOld1mXKZ4T')
+    throw new Error('Production build blocked: unexpected Vercel project.');
+  console.log('Production target verified: existing Vercel project and live Supabase.');
+}
 fs.mkdirSync(out,{recursive:true});
 const assets=['index.html','config.js','sync.js','teacher.js','ui.js','theme.js','ui.css','service-worker.js','manifest.webmanifest','icons','vendor'];
 for(const asset of assets) fs.cpSync(path.join(root,asset),path.join(out,asset),{recursive:true});

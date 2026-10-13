@@ -41,13 +41,15 @@ tests/browser.cjs imitates GoTrue/REST transport with all data operations backed
 
 Fresh staging projects need supabase-schema.sql followed by migrations/20261012_teacher_workflows.sql. Existing production already has the JSON table. Follow MIGRATION_PLAN.md first; do not apply the superseded 001 schema.
 
-The separate free ders-staging project has been migrated and tested. This feature branch's config.js points only to staging. Following explicit approval, the production teacher migration was also applied with external and private database backups; both complete existing board rows and Auth accounts were preserved. Before promotion, change the target config only in a separately approved frontend release.
+The separate free ders-staging project has been migrated and tested. The approved UI preview branch points only to staging. The separately prepared ders-v1-production-ready release uses the existing live Supabase project jswgagzbetwviamiwcck and its existing publishable key. The production teacher migration was previously applied with explicit approval and backups; this frontend release does not run migrations or rewrite account data.
 
 ## Deployment
 
 Publish a feature branch to Vercel Preview. Never merge main or promote without approval. The existing GitHub-to-Vercel connection works, and the connector is now authorized for the correct project. Do not disable deployment protection; use a temporary preview share link when authorized.
 
 Publish only the static assets listed in scripts/build.cjs, including ui.js, theme.js and ui.css. Tests, backups, SQL and dependencies are excluded. The development server also uses an explicit asset allowlist. pnpm-lock.yaml pins all declared dependencies.
+
+The current Vercel project has no configured environment variables; config.js supplies the public database connection. Production builds validate the live Supabase URL, public key type, and Vercel project ID when available. Run node scripts/build.cjs --production and node tests/release.cjs before release. See PRODUCTION_RELEASE.md for the exact target, final approval gate, and rollback point. Do not update main or start any production deployment before that approval.
 
 tests/ui.cjs covers page routing, back/forward, modal and form guards, protected routes, themes, keyboard controls, long names and mobile screenshots. The staging suite can also run against an approved hosted preview with --preview, using an ignored .env.preview-test.json fixture; it verifies the served config targets staging BEFORE sign-in.
 
