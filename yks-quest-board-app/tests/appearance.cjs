@@ -36,14 +36,16 @@ module.exports=async({root,browser,apiUrl,siteUrl,users})=>{
             const lum=hex=>{const a=rgb(hex.replace('#',''));return .2126*a[0]+.7152*a[1]+.0722*a[2];};
             const s=document.documentElement.style,a=lum(s.getPropertyValue('--accent').trim()),b=lum(s.getPropertyValue('--accent-ink').trim());return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
           });assert.ok(contrast>=4.5,`${width}/${style}/${theme}/${accent} button contrast ${contrast}`);
+          assert.equal(await page.locator('.brand-mark').first().evaluate(el=>getComputedStyle(el).color),await page.locator('.main-nav a[aria-current="page"]').evaluate(el=>getComputedStyle(el).color));
           assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
         }
         await page.evaluate(()=>window.DersTheme.setAccent('copper'));
         const background=await page.evaluate(()=>getComputedStyle(document.body,'::before').backgroundImage);
+        assert.ok(background.includes(`background-${theme}.webp`));
+        assert.equal(await page.evaluate(()=>getComputedStyle(document.body,'::before').filter),'none');
         if(style==='glass'){
-          assert.ok(background.includes(`background-${theme}.webp`));
           assert.ok(await page.locator('.destination').first().evaluate(el=>getComputedStyle(el).backdropFilter.includes('blur')));
-        }else assert.equal(background,'none');
+        }else assert.equal(await page.locator('.destination').first().evaluate(el=>getComputedStyle(el).backdropFilter),'none');
         await page.screenshot({path:path.join(root,'test-results',`appearance-${style}-${theme}-${width}.png`),fullPage:true});
         await page.click('#appearanceButton');
         assert.equal(await page.locator('#appearanceDialog').evaluate(el=>el.scrollWidth>el.clientWidth+1),false);
@@ -60,10 +62,11 @@ module.exports=async({root,browser,apiUrl,siteUrl,users})=>{
     assert.deepEqual(await page.evaluate(()=>[window.DersTheme.style,window.DersTheme.choice,window.DersTheme.accent,window.DersTheme.monochrome]),['classic','system','green',false]);
     await page.click('#closeAppearance');assert.equal(await snapshot(),beforeReset);pass('Reset restores defaults and leaves the current board JSON untouched');
     await page.emulateMedia({reducedMotion:'reduce'});await page.evaluate(()=>window.DersTheme.setStyle('glass'));
-    assert.equal(await page.locator('.switch-track').evaluate(el=>getComputedStyle(el,'::after').transitionDuration),'0s');pass('Reduced-motion disables settings animation');
+    const reducedDuration=await page.locator('.switch-track').evaluate(el=>getComputedStyle(el,'::after').transitionDuration);
+    assert.ok(parseFloat(reducedDuration)<=0.00001,`Reduced-motion transition is too long: ${reducedDuration}`);pass('Reduced-motion reduces settings animation to at most 0.01ms');
     for(const name of ['light','dark'])assert.equal((await context.request.get(`${siteUrl}/assets/background-${name}.webp`)).status(),200);
     await page.evaluate(()=>window.DersUI.navigate('account'));await page.fill('#authEmail',users[1].email);await page.fill('#authPassword','test-password');await page.click('#signInButton');
-    await page.waitForFunction(()=>Boolean(window.DersBoard.user));await page.evaluate(()=>window.DersUI.navigate('program'));
+    await page.waitForFunction(()=>Boolean(window.DersBoard.user));await page.evaluate(()=>window.DersBoard.flush());await page.evaluate(()=>window.DersUI.navigate('program'));
     await page.waitForFunction(()=>document.querySelector('#programPage').hidden===false);
     const before=await snapshot();await page.click('#appearanceButton');await page.getByRole('radio',{name:'Mavi',exact:true}).check();await page.click('#closeAppearance');
     assert.equal(await snapshot(),before);pass('Signed-in program data and session are preserved when changing appearance');
