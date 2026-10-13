@@ -4,29 +4,38 @@
   let overview = null, owner = null, snapshot = '', busy = false;
   let draft = [{ category: '', title: '', detail: '', xp: 100 }];
   let shownStudent = null, studentData = null;
+  let composer = null;
   const esc = value => window.DersBoard.escape(String(value ?? ''));
   const labels = { pending: 'Onay bekliyor', approved: 'Onaylandı', rejected: 'Reddedildi', revoked: 'Bağlantı kaldırıldı', accepted: 'Kabul edildi' };
   const button = (text, action, id = '', extra = '') => `<button class="button" type="button" data-action="${action}" data-id="${esc(id)}" ${extra}>${text}</button>`;
   const input = (label, id, type = 'text', value = '') => `<label class="field">${label}<input class="input" id="${id}" type="${type}" value="${esc(value)}" ${type === 'number' ? 'min="5" max="10000" step="5"' : ''}></label>`;
   const row = (title, detail, controls = '') => `<div class="teacher-item"><strong>${esc(title)}</strong><span class="sync-status">${esc(detail)}</span><div class="signed-in-actions">${controls}</div></div>`;
+  function resetOwner(uid) {
+    if (owner === uid) return;
+    overview = null; snapshot = ''; closeDialog(true); owner = uid;
+    composer = null; draft = [{ category: '', title: '', detail: '', xp: 100 }];
+  }
   async function rpc(action, payload = {}) {
     if (!window.DersBoard.user || !navigator.onLine) throw new Error('Bu işlem için internet bağlantısı ve giriş gerekli.');
+    const uid = window.DersBoard.user.id;
     const { data, error } = await window.DersBoard.client.rpc('ders_action', { p_action: action, p_payload: payload });
+    if (window.DersBoard.user?.id !== uid) throw new Error('Oturum değişti. İşlemi yeniden başlat.');
     if (error) throw error;
     if (data.error) throw new Error(data.error);
     return data;
   }
   async function refresh() {
     const uid = window.DersBoard.user?.id || null;
-    if (owner !== uid) { overview = null; snapshot = ''; closeDialog(); owner = uid; }
+    resetOwner(uid);
     if (!uid) { render(); return; }
     try {
       const data = await rpc('overview');
       if (owner !== uid) return;
       overview = data;
-      if (shownStudent && !overview.connections.some(c => c.student_id === shownStudent && c.status === 'approved')) closeDialog();
+      if (shownStudent && !overview.connections.some(c => c.student_id === shownStudent && c.status === 'approved')) closeDialog(true);
       render();
     } catch (error) {
+      if (owner !== uid) return;
       if (!overview) {
         panel.textContent = 'Öğretmen sistemi yüklenemedi. İnternet bağlantını kontrol edip yeniden dene.';
         panel.append(makeButton('Yeniden dene', refresh));
@@ -39,7 +48,9 @@
   }
   function render(force = false) {
     const uid = window.DersBoard.user?.id;
+    resetOwner(uid || null);
     const next = JSON.stringify([uid, overview]);
+    window.DersUI?.setTeacherInfo(uid ? overview : null);
     if (snapshot === next && !force) return;
     snapshot = next;
     roleSelect.disabled = Boolean(overview?.profile);
@@ -47,14 +58,18 @@
     if (!overview) { panel.textContent = 'Hesap bilgileri yükleniyor.'; return; }
     if (!overview.profile) {
       roleSelect.disabled = false;
-      panel.innerHTML = input('Adın', 'profileName') + button('Hesabımı hazırla', 'init');
+      roleSelect.dataset.draft = '';
+      panel.innerHTML = '<div data-draft>' + input('Adın', 'profileName') + button('Hesabımı hazırla', 'init') + '</div>';
       return;
     }
+    window.DersUI?.clearDirty(roleSelect);
     const teacher = overview.profile.role === 'teacher';
     roleSelect.value = overview.profile.role;
     window.DersBoard.setProfile(overview.profile);
     const connections = overview.connections;
     const approved = connections.filter(c => c.status === 'approved');
+    const existingForm = document.getElementById('assignmentForm');
+    if (existingForm) composer = { student: document.getElementById('assignmentStudent').value, name: document.getElementById('assignmentName').value, range: document.getElementById('assignmentRange').value, dirty: existingForm.dataset.dirty };
     panel.innerHTML = `<div class="sync-head"><strong>${esc(overview.profile.display_name)} · ${teacher ? 'Öğretmen' : 'Öğrenci'}</strong>${button('Yenile', 'refresh')}</div>`;
     if (teacher) {
       panel.insertAdjacentHTML('beforeend', `<div class="teacher-tools">${button('Davet kodu oluştur', 'invite')}<output id="inviteResult" class="invite-result"></output></div>`);
@@ -75,6 +90,11 @@
         <div id="assignmentDraft"></div><div class="signed-in-actions">${button('Quest ekle', 'draft-add')}${button('Bu haftayı kopyala', 'draft-copy')}<button class="button primary" type="submit">Programı gönder</button></div>
       </form>`);
       renderDraft();
+      if (composer) {
+        if (approved.some(c => c.student_id === composer.student)) document.getElementById('assignmentStudent').value = composer.student;
+        document.getElementById('assignmentName').value = composer.name; document.getElementById('assignmentRange').value = composer.range;
+        if (composer.dirty) document.getElementById('assignmentForm').dataset.dirty = composer.dirty;
+      }
       document.getElementById('assignmentForm').onsubmit = event => { event.preventDefault(); run('send'); };
     }
     for (const a of overview.assignments) {
@@ -99,13 +119,20 @@
     wrap.oninput = event => { const field = event.target.dataset.key, i = event.target.closest('[data-index]')?.dataset.index;
       if (field && i !== undefined) draft[i][field] = field === 'xp' ? Number(event.target.value) : event.target.value; };
   }
-  const dialog = document.createElement('dialog'); dialog.className = 'ders-dialog'; document.body.append(dialog);
-  function closeDialog() { dialog.close(); shownStudent = null; studentData = null; }
-  function showDialog(title, body) {
-    closeDialog(); dialog.innerHTML = `<div class="modal-head"><h2>${esc(title)}</h2><button class="button" type="button" id="dismissDialog" aria-label="Kapat">Kapat</button></div><div class="modal-body">${body}</div>`;
-    dialog.querySelector('#dismissDialog').onclick = closeDialog; dialog.showModal();
+  const dialog = document.createElement('dialog'); dialog.id = 'questDialog'; dialog.className = 'ders-dialog'; document.body.append(dialog);
+  function closeDialog(force = false, nextRoute) {
+    if (!force && window.DersUI && !window.DersUI.canLeave(dialog)) return false;
+    dialog.close(); dialog.replaceChildren(); shownStudent = null; studentData = null;
+    window.DersUI?.clearDirty(dialog); window.DersUI?.modalClosed('teacher-dialog', nextRoute); return true;
   }
-  dialog.addEventListener('cancel', closeDialog);
+  function showDialog(title, body) {
+    if (dialog.open && window.DersUI && !window.DersUI.canLeave(dialog)) return;
+    dialog.close(); shownStudent = null; studentData = null; window.DersUI?.clearDirty(dialog);
+    dialog.innerHTML = `<div class="modal-head"><h2>${esc(title)}</h2><button class="icon-button" type="button" id="dismissDialog" aria-label="Kapat" title="Kapat"><i data-lucide="x"></i></button></div><div class="modal-body">${body}</div>`;
+    dialog.querySelector('#dismissDialog').onclick = () => closeDialog(); dialog.showModal();
+    window.DersUI?.openModal('teacher-dialog', dialog, closeDialog);
+  }
+  dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
   function review(a) {
     const quests = a.quests || [];
     showDialog(a.week_name, `<p>${esc(a.week_range)} · ${labels[a.status]}</p>${quests.map(q => row(`${q.category_name} · ${q.title}`, `${q.detail} · ${q.xp} XP`)).join('')}
@@ -129,8 +156,8 @@
       try {
         if (change) await rpc('request_change', { quest_id: q.assignedQuestId, changes });
         else window.DersBoard.editQuest(q.id, w.id, changes);
-        closeDialog(); await refresh(); window.DersBoard.toast(change ? 'Değişiklik isteği gönderildi' : 'Quest güncellendi');
-      } catch (error) { dialog.querySelector('#editError').textContent = error.message; }
+        closeDialog(true); await refresh(); window.DersBoard.toast(change ? 'Değişiklik isteği gönderildi' : 'Quest güncellendi');
+      } catch (error) { const output = dialog.querySelector('#editError'); if (output) output.textContent = error.message; else window.DersBoard.toast(error.message); }
     };
   }
   async function run(action, id) {
@@ -142,18 +169,20 @@
         const output = document.getElementById('inviteResult'); output.textContent = `${data.code} · 7 gün geçerli`; output.dataset.code = data.code; return;
       } else if (action === 'join') await rpc('request_connection', { code: document.getElementById('inviteInput').value });
       else if (action === 'connection-approve' || action === 'connection-reject') await rpc('respond_connection', { id, status: action.endsWith('approve') ? 'approved' : 'rejected' });
-      else if (action === 'disconnect') { if (!confirm('Bağlantı kaldırılsın mı? Öğretmenin bu öğrenciye erişimi sona erecek.')) return; await rpc('remove_connection', { id }); closeDialog(); }
+      else if (action === 'disconnect') { if (!confirm('Bağlantı kaldırılsın mı? Öğretmenin bu öğrenciye erişimi sona erecek.')) return; await rpc('remove_connection', { id }); closeDialog(true); }
       else if (action === 'student') { studentView(await rpc('student_board', { student_id: id }), id); return; }
-      else if (action === 'draft-add') { draft.push({ category:'',title:'',detail:'',xp:100 }); renderDraft(); return; }
-      else if (action === 'draft-delete') { draft.splice(Number(id),1); renderDraft(); return; }
-      else if (action === 'draft-copy') { draft = window.DersBoard.week().quests.map(q => ({ category: window.DersBoard.category(q.categoryId || q.subject).name, title:q.title,detail:q.detail,xp:q.xp })); renderDraft(); return; }
+      else if (action === 'draft-add') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft.push({ category:'',title:'',detail:'',xp:100 }); renderDraft(); return; }
+      else if (action === 'draft-delete') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft.splice(Number(id),1); renderDraft(); return; }
+      else if (action === 'draft-copy') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft = window.DersBoard.week().quests.map(q => ({ category: window.DersBoard.category(q.categoryId || q.subject).name, title:q.title,detail:q.detail,xp:q.xp })); renderDraft(); return; }
       else if (action === 'send') {
         await rpc('assign_program', { student_id: document.getElementById('assignmentStudent').value, week_name: document.getElementById('assignmentName').value.trim(), week_range: document.getElementById('assignmentRange').value.trim(), quests:draft });
-        draft = [{ category:'',title:'',detail:'',xp:100 }]; snapshot = '';
+        window.DersUI?.clearDirty(document.getElementById('assignmentForm'));
+        document.getElementById('assignmentName').value = ''; document.getElementById('assignmentRange').value = '';
+        composer = null; draft = [{ category:'',title:'',detail:'',xp:100 }]; snapshot = '';
       } else if (action === 'review') { review(overview.assignments.find(a => a.id === id)); return; }
       else if (action === 'program-accept' || action === 'program-reject') {
         await window.DersBoard.flush(); await rpc('respond_assignment', { id,status:action.endsWith('accept') ? 'accepted' : 'rejected' });
-        closeDialog(); await window.DersBoard.flush();
+        closeDialog(true, action === 'program-accept' ? 'program' : undefined); await window.DersBoard.flush();
       } else if (action === 'change-approve' || action === 'change-reject') await rpc('resolve_change', { id,status:action.endsWith('approve') ? 'approved' : 'rejected' });
       await refresh(); window.DersBoard.toast(action === 'refresh' ? 'Güncellendi' : 'İşlem tamamlandı');
     } catch (error) { window.DersBoard.toast(error.message || 'İşlem tamamlanamadı.'); }

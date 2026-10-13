@@ -1,5 +1,17 @@
 # D.E.R.S. Verification
 
+## UI Renewal, 2026-10-13
+
+- 35 real local PostgreSQL security/data/sync checks passed again.
+- 15 existing browser scenarios passed with navigation adapted to the new pages, including new account, empty program, assignment acceptance, global XP, history, offline completion, revocation and offline PWA v4.
+- 31 additional UI scenarios passed: protected deep links, Auth callback consumption before routing, Turkish errors, light/dark/system theme and persistence, home composition, mobile back/forward, modal back and dirty warnings, history filters, unchanged JSON across navigation, account sync/sign-out, empty account lesson and quest creation, long names, 360/390/430/1280 light/dark layouts, heading contrast, collapse persistence, keyboard controls, teacher draft persistence/badges and late-response account isolation.
+- 12 REAL Supabase Auth/API/browser scenarios passed on the separate staging project with the new navigation. Hosted Preview mode is available in tests/staging.cjs and checks the served database target before sign-in.
+- Build, JS syntax/unique HTML ID/Lucide icon/public-key checks and Git whitespace checks passed. No database migration was performed for this renewal. config.js, sync.js, supabase-schema.sql and migrations have no diff against the preserved baseline.
+
+Screenshots in test-results were inspected visually. Physical Android hardware and real email delivery/confirmation were not tested; Chrome viewport and History API flows were tested. Signup UI uses a clearly identified local Auth fixture; actual Supabase sign-in uses ordinary confirmed synthetic accounts. No production account or board was changed.
+
+The UI branch is ders-ui-renewal, based on the preserved tested 94916b6 commit. Local baseline snapshot is d2c8c3a. See UI_RENEWAL_REPORT.md for the Turkish report and rollback notes.
+
 ## Completed, 2026-10-12
 
 - 35 checks against an isolated real PostgreSQL database: original 35 quests and 3595 possible XP, migration backup and exact JSON preservation, role escalation, RLS, invite rotation/rate limit, connection reject/approve/revoke, program reject/accept, canonical teacher task protection, change reject/approve, CAS conflicts and offline three-way merge.
@@ -12,7 +24,7 @@ No service-role or secret API key is used by the frontend or tests. Live tests u
 
 GitHub feature branch `ders-teacher-system`, draft PR #1. Vercel reports successful Preview deployment. Production branch and frontend are unchanged. Preview remains authentication-protected unless the user explicitly approves a temporary share URL. The branch's config points ONLY to staging; switch to the confirmed production project as a separate reviewed release step.
 
-The staging-configured preview built successfully at commit 52ed780. After explicit approval for a temporary share link, Vercel rejected the lookup with HTTP 403 for the connector's project/team access. No share link was created and deployment protection was not changed. The preview still requires authorized Vercel sign-in. The development server serves an explicit static-asset allowlist, excluding credentials and account exports.
+Initially Vercel rejected share-link creation with HTTP 403 because the connector lacked team/project access. The user subsequently authorized the correct project and a 23-hour share link was created for the existing staging preview. Protection settings and production remained unchanged. The UI renewal is released to a separate Preview from ders-ui-renewal only. The development server and hosted build use explicit asset allowlists, excluding credentials and account exports.
 
 ## Migration / Remaining Gates
 

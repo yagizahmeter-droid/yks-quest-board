@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101114">
+  <script src="./theme.js"></script>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
@@ -773,92 +774,82 @@
       .quest > .edit-tools { grid-row: 3; }
     }
   </style>
+  <link rel="stylesheet" href="./ui.css">
+  <script src="./vendor/lucide.js"></script>
 </head>
 <body>
-  <main class="app">
-    <header class="topbar">
-      <div class="brand">
-        <h1>D.E.R.S.</h1>
-        <span id="weekSubtitle">Dijital Eğitim ve Rutin Sistemi</span>
+  <a class="skip-link" href="#pageContent">İçeriğe geç</a>
+  <div id="navigationBackdrop" class="navigation-backdrop" hidden></div>
+  <aside id="sidebar" class="sidebar" aria-label="Ana gezinme">
+    <a class="brand-link" href="#/home" data-route="home" aria-label="D.E.R.S. ana sayfa"><img src="./icons/icon.svg" alt="" width="36" height="36"><strong>D.E.R.S.</strong></a>
+    <button id="closeNavigation" class="icon-button mobile-only" type="button" aria-label="Menüyü kapat" title="Menüyü kapat"><i data-lucide="x"></i></button>
+    <span class="navigation-label">ÇALIŞMA ALANI</span>
+    <nav class="main-nav">
+      <a href="#/home" data-route="home" title="Ana sayfa"><i data-lucide="layout-dashboard"></i><span>Ana sayfa</span></a>
+      <a href="#/program" data-route="program" title="Programım"><i data-lucide="notebook-tabs"></i><span>Programım</span></a>
+      <a href="#/teacher" data-route="teacher" title="Öğretmen"><i data-lucide="graduation-cap"></i><span>Öğretmen</span><b class="notification-count" data-teacher-count hidden></b></a>
+      <a href="#/history" data-route="history" title="Çalışma geçmişi"><i data-lucide="history"></i><span>Çalışma geçmişi</span></a>
+    </nav>
+    <div class="sidebar-bottom">
+      <fieldset class="theme-control"><legend>Tema</legend>
+        <label title="Açık tema"><input type="radio" name="theme" value="light" aria-label="Açık tema"><i data-lucide="sun"></i></label>
+        <label title="Koyu tema"><input type="radio" name="theme" value="dark" aria-label="Koyu tema"><i data-lucide="moon"></i></label>
+        <label title="Sistem teması"><input type="radio" name="theme" value="system" aria-label="Sistem teması"><i data-lucide="monitor"></i></label>
+      </fieldset>
+      <nav id="guestNavigation" class="account-nav"><a href="#/account" data-route="account" aria-label="Giriş yap" title="Giriş yap"><i data-lucide="log-in"></i><span>Giriş yap</span></a><a href="#/account/signup" data-route="account/signup" aria-label="Kayıt ol" title="Kayıt ol"><i data-lucide="user-plus"></i><span>Kayıt ol</span></a></nav>
+      <nav id="memberNavigation" class="account-nav" hidden><a href="#/account" data-route="account" aria-label="Profil / Hesap" title="Profil / Hesap"><span id="userInitials" class="avatar">D</span><span id="navigationUser">Profil / Hesap</span></a><button class="nav-command" type="button" data-account-logout aria-label="Çıkış yap" title="Çıkış yap"><i data-lucide="log-out"></i><span>Çıkış yap</span></button></nav>
+      <div id="navigationSync" class="navigation-sync"><span></span><small>Oturum kapalı</small></div>
+    </div>
+  </aside>
+  <div class="workspace">
+    <header class="workspace-header">
+      <button id="toggleNavigation" class="icon-button" type="button" aria-label="Menüyü aç / daralt" aria-controls="sidebar" aria-expanded="true" title="Menüyü aç / daralt"><i data-lucide="panel-left"></i></button>
+      <a class="mobile-brand" href="#/home" data-route="home">D.E.R.S.</a>
+      <span class="workspace-label">Çalışma alanım</span>
+      <a href="#/account" data-route="account" class="header-account icon-button" aria-label="Hesabım" title="Hesabım"><i data-lucide="circle-user-round"></i></a>
+    </header>
+  <main id="pageContent" class="app" tabindex="-1">
+    <header class="page-header">
+      <div><div class="page-eyebrow" id="pageEyebrow">DİJİTAL EĞİTİM VE RUTİN SİSTEMİ</div><h1 id="pageTitle">Genel bakış</h1><span id="weekSubtitle">İlk Hafta</span></div>
+      <button id="pageBack" class="icon-button" type="button" aria-label="Önceki sayfa" title="Önceki sayfa" hidden><i data-lucide="arrow-left"></i></button>
+    </header>
+    <section id="routeLoading" class="loading-state" role="status" hidden><span class="loading-spinner"></span>Hesabın yükleniyor</section>
+    <section id="homePage" class="page-view" data-page="home">
+      <section class="overview" aria-label="Haftalık durum">
+        <div class="stats">
+          <div class="stat"><span><i data-lucide="zap"></i> Toplam XP</span><strong id="totalXp">0 XP</strong><small>Tüm haftalar</small></div>
+          <div class="stat"><span><i data-lucide="sparkles"></i> Seviye</span><strong id="level">Level 1</strong></div>
+          <div class="stat"><span><i data-lucide="circle-check"></i> Görev sayacı</span><strong id="questCount">0 / 0</strong><small>Tamamlanan / toplam</small></div>
+          <div class="stat"><span><i data-lucide="chart-no-axes-column-increasing"></i> Haftalık ilerleme</span><strong id="progressText">0%</strong><div class="progress-track" role="progressbar" aria-label="Haftalık ilerleme" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div id="progressFill" class="progress-fill"></div></div><small id="remainingText">İlk quest seni bekliyor</small></div>
+        </div>
+      </section>
+      <div class="section-heading"><h2>Çalışma alanın</h2><span id="homeWeekLabel"></span></div>
+      <div class="destination-grid">
+        <a class="destination" href="#/program" data-route="program"><i data-lucide="notebook-tabs"></i><span><strong>Programım</strong><small id="homeProgramSummary">Henüz program yok</small></span><i data-lucide="arrow-up-right"></i></a>
+        <a class="destination" href="#/teacher" data-route="teacher"><i data-lucide="graduation-cap"></i><span><strong>Öğretmen</strong><small id="homeTeacherSummary">Bağlantılar ve talepler</small></span><i data-lucide="arrow-up-right"></i></a>
+        <a class="destination" href="#/history" data-route="history"><i data-lucide="history"></i><span><strong>Çalışma geçmişi</strong><small id="homeHistorySummary">Henüz kayıt yok</small></span><i data-lucide="arrow-up-right"></i></a>
       </div>
+    </section>
+    <section id="programPage" class="page-view" data-page="program" hidden>
+      <div class="program-toolbar">
       <div class="week-tools">
         <select id="weekSelect" class="select" aria-label="Hafta seç"></select>
-        <button id="editModeButton" class="button" type="button">Düzenleme modu</button>
-        <button id="newWeekButton" class="button" type="button">Yeni hafta</button>
+        <button id="editModeButton" class="button" type="button">Düzenle</button>
+        <button id="newWeekButton" class="button primary" type="button"><i data-lucide="plus"></i>Yeni hafta</button>
       </div>
-    </header>
-
-    <section class="card sync-card" aria-label="Hesap ve senkronizasyon">
-      <div class="sync-head">
-        <div class="sync-title">
-          <strong>Hesap senkronizasyonu</strong>
-          <span id="syncStatus" class="sync-status">Bulut bağlantısı kontrol ediliyor.</span>
-        </div>
+      <div class="program-actions"><button id="openCategoryEditor" class="button" type="button"><i data-lucide="folder-plus"></i>Yeni ders ekle</button><button id="openQuestEditor" class="button" type="button"><i data-lucide="list-plus"></i>Quest ekle</button></div>
       </div>
-      <div id="authDisabled" class="auth-disabled">
-        Bulut senkronizasyonu için Supabase bilgileri gerekiyor. Bu bilgiler eklendiğinde e-posta ve şifre ile giriş açılacak.
-      </div>
-      <div id="signedOutPanel" class="auth-grid">
-        <label class="field">
-          E-posta
-          <input id="authEmail" class="input" type="email" autocomplete="email" placeholder="mail@ornek.com">
-        </label>
-        <label class="field">
-          Şifre
-          <input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="En az 6 karakter">
-        </label>
-        <button id="signInButton" class="button primary" type="button">Giriş yap</button>
-        <button id="signUpButton" class="button" type="button">Hesap oluştur</button>
-      </div>
-      <div id="signedInPanel" class="signed-in-row">
-        <span id="signedInUser" class="sync-status"></span>
-        <div class="signed-in-actions">
-          <button id="syncNowButton" class="button" type="button">Şimdi eşitle</button>
-          <button id="signOutButton" class="button" type="button">Çıkış</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="hero" aria-label="Haftalık durum">
-      <div class="stats">
-        <div class="stat">
-          <span>Toplam XP</span>
-          <strong id="totalXp">0 XP</strong>
-        </div>
-        <div class="stat">
-          <span>Seviye</span>
-          <strong id="level">Level 1</strong>
-        </div>
-        <div class="stat">
-          <span>Görev</span>
-          <strong id="questCount">0 / 0</strong>
-        </div>
-        <div class="stat">
-          <span>Haftalık ilerleme</span>
-          <strong id="progressText">0%</strong>
-        </div>
-      </div>
-      <div class="progress-wrap">
-        <div class="progress-info">
-          <span>Bu hafta bitmesi gereken görev havuzu</span>
-          <span id="remainingText">Başlamak için bir quest seç</span>
-        </div>
-        <div class="progress-track" role="progressbar" aria-label="Haftalık ilerleme" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-          <div id="progressFill" class="progress-fill"></div>
-        </div>
-      </div>
-    </section>
-
+      <div id="programEmpty" class="empty-state" hidden><i data-lucide="notebook-pen"></i><h2>Yeni bir başlangıç</h2><p>Bu haftanın programı henüz yok.</p><button id="addProgramButton" class="button primary" type="button"><i data-lucide="plus"></i>Program Ekle</button></div>
     <nav id="subjectNav" class="subject-nav" aria-label="Ders filtreleri"></nav>
     <section id="board" class="board" aria-live="polite"></section>
-
-    <section class="card controls-card" aria-label="Quest ve hafta yönetimi">
-      <div class="controls-row">
-        <input id="categoryNameInput" class="input" type="text" placeholder="Yeni ders / kategori adı">
+    <section class="controls-card" aria-label="Quest ve hafta yönetimi">
+      <details id="categoryEditor" class="inline-editor"><summary><i data-lucide="folder-plus"></i>Yeni ders</summary><div id="categoryForm" class="controls-row" data-draft>
+        <label class="field">Ders adı<input id="categoryNameInput" class="input" type="text" placeholder="Örn. Matematik"></label>
+        <label class="field">Renk
         <input id="categoryColorInput" class="input" type="color" value="#5fb4ff" aria-label="Kategori rengi">
-        <button id="addCategoryButton" class="button" type="button">Kategori ekle</button>
-      </div>
-      <div class="quest-add-row">
+        </label><button id="addCategoryButton" class="button primary" type="button">Dersi ekle</button>
+      </div></details>
+      <details id="questEditor" class="inline-editor"><summary><i data-lucide="list-plus"></i>Yeni quest</summary><div id="questForm" class="quest-add-row" data-draft>
         <label class="field">
           Ders
           <select id="manualSubject" class="select"></select>
@@ -876,20 +867,17 @@
           <input id="manualXp" class="input" type="number" min="5" step="5" value="100">
         </label>
         <button id="addQuestButton" class="button primary" type="button">Quest ekle</button>
-      </div>
-      <div class="controls-row">
-        <input id="weekNameInput" class="input" type="text" placeholder="Yeni hafta adı">
-        <input id="weekRangeInput" class="input" type="text" placeholder="Örn. 14-21 Ekim">
+      </div></details>
+      <details id="weekToolsEditor" class="inline-editor"><summary><i data-lucide="calendar-range"></i>Hafta işlemleri</summary><div class="controls-row" data-draft>
+        <label class="field">Yeni hafta adı<input id="weekNameInput" class="input" type="text" placeholder="Örn. 14-21 Ekim Haftası"></label>
+        <label class="field">Tarih aralığı<input id="weekRangeInput" class="input" type="text" placeholder="Örn. 14-21 Ekim"></label>
         <button id="createWeekButton" class="button" type="button">Boş hafta oluştur</button>
-      </div>
-      <button id="resetButton" class="button danger" type="button">Bu haftayı sıfırla</button>
-    </section>
-
-    <section class="card teacher-card" aria-label="Öğretmen paneli">
+      </div><button id="resetButton" class="button danger" type="button"><i data-lucide="rotate-ccw"></i>Bu haftayı sıfırla</button></details>
+    </section></section>
+    <section id="teacherPage" class="page-view teacher-card" data-page="teacher" aria-label="Öğretmen paneli" hidden>
       <div class="card-head">
         <div class="subject-title">
-          <span class="subject-dot" aria-hidden="true" style="--subject-color: var(--purple)"></span>
-          <h2>Öğretmen paneli</h2>
+          <h2>Bağlantılar ve programlar</h2>
         </div>
         <select id="roleSelect" class="select" aria-label="Rol seç">
           <option value="student">Öğrenci</option>
@@ -899,21 +887,34 @@
       <div id="teacherPanel" class="teacher-panel"></div>
     </section>
 
-    <section class="card history-card" aria-label="Çalışma geçmişi">
-      <div class="card-head">
-        <div class="subject-title">
-          <span class="subject-dot" aria-hidden="true" style="--subject-color: var(--green)"></span>
-          <h2>Çalışma geçmişi</h2>
-        </div>
-      </div>
+    <section id="historyPage" class="page-view history-card" data-page="history" aria-label="Çalışma geçmişi" hidden>
+      <div class="segmented" aria-label="Geçmiş görünümü"><button class="button is-active" type="button" data-history-view="records" aria-pressed="true">Çalışma kayıtları</button><button class="button" type="button" data-history-view="completed" aria-pressed="false">Tamamlanan görevler</button></div>
       <div class="history-filters">
         <input id="historyDateFilter" class="input" type="date" aria-label="Tarih filtresi">
         <select id="historyWeekFilter" class="select" aria-label="Hafta filtresi"></select>
         <select id="historyCategoryFilter" class="select" aria-label="Kategori filtresi"></select>
       </div>
       <div id="historyList" class="history-list"></div>
+      <div id="completedHistory" class="history-list" hidden></div>
+    </section>
+    <section id="accountPage" class="page-view" data-page="account" hidden>
+    <section class="account-surface sync-card" aria-label="Hesap ve senkronizasyon">
+      <div id="accountProfile" class="account-profile" hidden><span id="profileAvatar" class="avatar">D</span><div><h2 id="profileDisplayName">Hesabım</h2><span id="profileRole" class="sync-status"></span></div></div>
+      <div class="sync-head"><div class="sync-title"><strong id="authHeading">Giriş yap</strong><span id="syncStatus" class="sync-status" role="status">Bulut bağlantısı kontrol ediliyor.</span></div></div>
+      <div id="authDisabled" class="auth-disabled">Bulut bağlantısı yapılandırılmamış.</div>
+      <div id="signedOutPanel" class="auth-grid" data-draft>
+        <label class="field">E-posta<input id="authEmail" class="input" type="email" autocomplete="email" placeholder="mail@ornek.com"></label>
+        <label class="field">Şifre<input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="En az 6 karakter"></label>
+        <button id="signInButton" class="button primary" type="button"><i data-lucide="log-in"></i>Giriş yap</button>
+        <button id="signUpButton" class="button primary" type="button" hidden><i data-lucide="user-plus"></i>Hesap oluştur</button>
+        <a id="authSwitch" href="#/account/signup" data-route="account/signup">Kayıt ol</a>
+      </div>
+      <div id="signedInPanel" class="signed-in-row"><span id="signedInUser" class="sync-status"></span><div class="signed-in-actions"><button id="syncNowButton" class="button" type="button"><i data-lucide="refresh-cw"></i>Şimdi eşitle</button><button id="signOutButton" class="button danger" type="button"><i data-lucide="log-out"></i>Çıkış</button></div></div>
+    </section>
+    <div id="accountOnboarding" class="account-onboarding" hidden><h2>Hesabını tamamla</h2><button class="button primary" type="button" data-go-teacher><i data-lucide="user-round-pen"></i>Hesap türünü seç</button></div>
     </section>
   </main>
+  </div>
 
   <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
     <section class="modal">
@@ -1132,6 +1133,7 @@
     let syncTimer = null;
     let applyingRemote = false;
     let editMode = false;
+    let authReady = false;
     const clientId = getClientId();
 
     function boardStorageKey() { return `${STORAGE_KEY}:${currentUser?.id || 'guest'}`; }
@@ -1333,6 +1335,7 @@
       els.signedInPanel.style.display = configured && currentUser ? "flex" : "none";
       if (!configured) {
         els.syncStatus.textContent = "Bulut senkronizasyonu henüz yapılandırılmadı. Uygulama bu cihazda çalışmaya devam eder.";
+        window.DersUI?.refresh();
         return;
       }
       if (currentUser) {
@@ -1344,6 +1347,7 @@
       } else {
         els.syncStatus.textContent = "PC ve telefon arasında eşitlemek için giriş yap.";
       }
+      window.DersUI?.refresh();
     }
 
     async function switchAccount(user) {
@@ -1362,12 +1366,13 @@
 
     async function initCloud() {
       const config = cloudConfig();
-      if (!config || !window.supabase?.createClient) { updateAuthUi(); return; }
+      if (!config || !window.supabase?.createClient) { authReady = true; updateAuthUi(); return; }
       supabaseClient = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
       supabaseClient.auth.onAuthStateChange((_event, session) => {
         setTimeout(() => switchAccount(session?.user || null).catch(syncError), 0);
       });
       const { data, error } = await supabaseClient.auth.getSession();
+      authReady = true;
       if (error) syncError(error);
       await switchAccount(data.session?.user || null);
       updateAuthUi();
@@ -1382,6 +1387,7 @@
     function syncError(error) {
       console.error(error);
       els.syncStatus.textContent = "Eşitlenemedi. Değişiklikler bu cihazda saklanıyor.";
+      window.DersUI?.refresh();
     }
 
     function scheduleSync() {
@@ -1467,6 +1473,7 @@
       renderBoard(week);
       renderHistory();
       renderTeacherPanel();
+      window.DersUI?.refresh();
     }
 
     function renderSubjectOptions() {
@@ -1538,17 +1545,19 @@
           });
           wrapper.append(button);
           const up = document.createElement("button");
-          up.className = "quest-action";
+          up.className = "quest-action icon-button";
           up.type = "button";
-          up.textContent = "↑";
+          up.innerHTML = '<i data-lucide="arrow-left"></i>';
+          up.setAttribute('aria-label', `${subject.name} sola taşı`); up.title = 'Sola taşı';
           up.addEventListener("click", (event) => {
             event.stopPropagation();
             moveTab(subject.id, -1);
           });
           const down = document.createElement("button");
-          down.className = "quest-action";
+          down.className = "quest-action icon-button";
           down.type = "button";
-          down.textContent = "↓";
+          down.innerHTML = '<i data-lucide="arrow-right"></i>';
+          down.setAttribute('aria-label', `${subject.name} sağa taşı`); down.title = 'Sağa taşı';
           down.addEventListener("click", (event) => {
             event.stopPropagation();
             moveTab(subject.id, 1);
@@ -1571,7 +1580,7 @@
       els.progressText.textContent = `${stats.percent}%`;
       els.progressFill.style.width = `${stats.percent}%`;
       els.progressTrack.setAttribute("aria-valuenow", String(stats.percent));
-      els.remainingText.textContent = left === 0
+      els.remainingText.textContent = stats.total === 0 ? "Henüz quest yok" : left === 0
         ? "Hafta tamamlandı"
         : `${left} quest kaldı`;
     }
@@ -1645,7 +1654,7 @@
 
     function createQuestButton(quest, subject, index, completedView = false) {
       const button = document.createElement("div");
-      const sourceLabel = /\d+\s*Ekim/i.test(quest.sourceDay || "") ? "Haftalık havuz" : (quest.sourceDay || "Haftalık havuz");
+      const sourceLabel = quest.lockedForStudent ? 'Öğretmen atadı' : /\d+\s*Ekim/i.test(quest.sourceDay || "") ? "Haftalık havuz" : (quest.sourceDay || "Haftalık havuz");
       button.className = `quest${quest.done ? " done" : ""}`;
       button.style.setProperty("--subject-color", subject.color);
       button.setAttribute("role", "button");
@@ -1690,7 +1699,7 @@
         `;
         tools.addEventListener("click", (event) => {
           event.stopPropagation();
-          const action = event.target.dataset.action;
+          const action = event.target.closest('button[data-action]')?.dataset.action;
           if (action === "up") moveQuest(quest.id, -1);
           if (action === "down") moveQuest(quest.id, 1);
           if (action === "edit") window.DersTeacher.editQuest(quest, activeWeek());
@@ -1777,6 +1786,9 @@
       pop.textContent = leveledUp ? `LEVEL UP! +${xp} XP` : `+${xp} XP`;
       document.body.append(pop);
       setTimeout(() => pop.remove(), 950);
+      const effects = document.createElement('div');
+      effects.className = 'xp-effects'; document.body.append(effects);
+      setTimeout(() => effects.remove(), 950);
       const colors = ["#f1c75b", "#72d18b", "#5fb4ff", "#b79cff"];
       for (let i = 0; i < 18; i += 1) {
         const piece = document.createElement("span");
@@ -1784,7 +1796,7 @@
         piece.style.left = `${Math.random() * 100}%`;
         piece.style.background = colors[i % colors.length];
         piece.style.setProperty("--x", `${(Math.random() - .5) * 150}px`);
-        document.body.append(piece);
+        effects.append(piece);
         setTimeout(() => piece.remove(), 950);
       }
     }
@@ -1860,8 +1872,8 @@
       const date = els.historyDateFilter.value;
       const weekId = els.historyWeekFilter.value;
       const categoryId = els.historyCategoryFilter.value;
-      els.historyWeekFilter.innerHTML = `<option value="">Tüm haftalar</option>${state.weeks.map((week) => `<option value="${week.id}">${escapeHtml(week.name)}</option>`).join("")}`;
-      els.historyCategoryFilter.innerHTML = `<option value="">Tüm kategoriler</option>${categories.map((category) => `<option value="${category.id}">${escapeHtml(category.name)}</option>`).join("")}`;
+      els.historyWeekFilter.innerHTML = `<option value="">Tüm haftalar</option>${state.weeks.map((week) => `<option value="${escapeHtml(week.id)}">${escapeHtml(week.name)}</option>`).join("")}`;
+      els.historyCategoryFilter.innerHTML = `<option value="">Tüm kategoriler</option>${categories.map((category) => `<option value="${escapeHtml(category.id)}">${escapeHtml(category.name)}</option>`).join("")}`;
       els.historyWeekFilter.value = weekId;
       els.historyCategoryFilter.value = categoryId;
       const records = (state.studyHistory || [])
@@ -1869,14 +1881,14 @@
         .filter((record) => !weekId || record.weekId === weekId)
         .filter((record) => !categoryId || record.categoryId === categoryId)
         .sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
-      els.historyList.innerHTML = records.length ? "" : `<div class="empty">Henüz çalışma geçmişi yok.</div>`;
+      els.historyList.innerHTML = records.length ? "" : `<div class="empty-state"><i data-lucide="history"></i><h2>Henüz çalışma kaydı yok</h2><p>Seçili filtrelerde tamamlanan çalışma bulunmuyor.</p></div>`;
       records.slice(0, 80).forEach((record) => {
         const item = document.createElement("div");
         item.className = "history-item";
         item.innerHTML = `
           <strong>${escapeHtml(record.categoryName)} · ${escapeHtml(record.title)}</strong>
           <span class="text-muted">${escapeHtml(record.detail)} · +${record.xp} XP · ${new Date(record.completedAt).toLocaleString("tr-TR")}</span>
-          <span class="chip">${escapeHtml(record.weekName || record.weekId)} · ${escapeHtml(record.source || "Manuel")}</span>
+          <span class="chip">${escapeHtml(record.weekName || record.weekId)} · ${escapeHtml(record.source === 'teacher_assigned' ? 'Öğretmen atadı' : record.source || "Manuel")}</span>
         `;
         els.historyList.append(item);
       });
@@ -1901,11 +1913,17 @@
       els.analysisStatus.textContent = "Fotoğraf seçersen önce görevleri kontrol ekranına alırım.";
       renderDraftList();
       els.weekModalBackdrop.classList.add("open");
+      window.DersUI?.clearDirty(els.weekModalBackdrop);
+      window.DersUI?.openModal('week', els.weekModalBackdrop, closeWeekModal);
       els.modalWeekName.focus();
     }
 
-    function closeWeekModal() {
+    function closeWeekModal(force = false) {
+      if (!force && window.DersUI && !window.DersUI.canLeave(els.weekModalBackdrop)) return;
       els.weekModalBackdrop.classList.remove("open");
+      window.DersUI?.clearDirty(els.weekModalBackdrop);
+      window.DersUI?.modalClosed('week');
+      els.newWeekButton.focus({ preventScroll: true });
     }
 
     function renderDraftList() {
@@ -1951,6 +1969,7 @@
     }
 
     function addDraftQuest(quest = {}) {
+      els.weekModalBackdrop.dataset.dirty = 'true';
       const firstCategory = getCategories()[0]?.id || "genel";
       draftQuests.push({
         subject: quest.subject || firstCategory,
@@ -2122,7 +2141,7 @@
         .filter((quest) => quest.title.trim())
         .map((quest) => makeQuest(quest.subject, quest.title, quest.detail, quest.xp, quest.sourceDay || "Haftalık havuz"));
       createWeek(name, range, cleanDrafts);
-      closeWeekModal();
+      closeWeekModal(true);
       showToast(empty ? "Boş hafta oluşturuldu" : `${cleanDrafts.length} quest ile hafta oluşturuldu`);
     }
 
@@ -2145,14 +2164,16 @@
         return;
       }
       const id = `cat-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      const categoryOrder = getCategories().length * 10;
       state.categories.push({
         id,
         key: id,
         name,
         color: els.categoryColorInput.value || "#5fb4ff",
-        sortOrder: getCategories().length * 10
+        sortOrder: categoryOrder
       });
       els.categoryNameInput.value = "";
+      window.DersUI?.clearDirty(document.getElementById('categoryForm'));
       saveState();
       render();
       showToast("Kategori eklendi");
@@ -2178,7 +2199,7 @@
 
     els.newWeekButton.addEventListener("click", openWeekModal);
 
-    els.closeWeekModal.addEventListener("click", closeWeekModal);
+    els.closeWeekModal.addEventListener("click", () => closeWeekModal());
 
     els.weekModalBackdrop.addEventListener("click", (event) => {
       if (event.target === els.weekModalBackdrop) closeWeekModal();
@@ -2224,6 +2245,7 @@
       els.manualTitle.value = "";
       els.manualDetail.value = "";
       els.manualXp.value = "100";
+      window.DersUI?.clearDirty(document.getElementById('questForm'));
       saveState();
       render();
       showToast("Quest eklendi");
@@ -2239,10 +2261,11 @@
       }
       const { error } = await supabaseClient.auth.signUp({ email, password });
       if (error) {
-        els.syncStatus.textContent = error.message;
+        els.syncStatus.textContent = window.DersUI?.authError(error) || error.message;
         return;
       }
       els.syncStatus.textContent = "Hesap oluşturuldu. E-posta doğrulaması istenirse gelen kutunu kontrol et.";
+      window.DersUI?.clearDirty(els.signedOutPanel);
       showToast("Hesap oluşturuldu");
     });
 
@@ -2256,7 +2279,7 @@
       }
       const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
       if (error) {
-        els.syncStatus.textContent = error.message;
+        els.syncStatus.textContent = window.DersUI?.authError(error) || error.message;
         return;
       }
       showToast("Giriş yapıldı");
@@ -2287,6 +2310,7 @@
       createWeek(name, range, []);
       els.weekNameInput.value = "";
       els.weekRangeInput.value = "";
+      window.DersUI?.clearDirty(els.createWeekButton.closest('[data-draft]'));
       showToast("Boş hafta oluşturuldu");
     });
 
@@ -2305,8 +2329,9 @@
 
     window.DersBoard = {
       get client() { return supabaseClient; }, get user() { return currentUser; }, get state() { return state; },
+      get authReady() { return authReady; },
       week: activeWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud,
-      setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; },
+      setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; window.DersUI?.refresh(); },
       editQuest(id, weekId, changes) {
         const q = state.weeks.find(w => w.id === weekId)?.quests.find(q => q.id === id);
         if (!q || q.lockedForStudent) return;
@@ -2314,8 +2339,9 @@
       }
     };
     render();
-    initCloud();
+    initCloud().catch(error => { authReady = true; syncError(error); });
   </script>
   <script src="./teacher.js"></script>
+  <script src="./ui.js"></script>
 </body>
 </html>
