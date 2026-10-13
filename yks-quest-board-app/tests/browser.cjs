@@ -35,8 +35,9 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     async function pageFor(index,width=1280){
       const context=await browser.newContext({viewport:{width,height:900},serviceWorkers:'block'});
       await context.route('**/config.js',route=>route.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'http://127.0.0.1:${api.address().port}',supabaseAnonKey:'local-public-fixture'};`}));
-      const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(`http://127.0.0.1:${site.address().port}`);
+      const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(`http://127.0.0.1:${site.address().port}/#/account${index===4?'/signup':''}`);
       await page.fill('#authEmail',users[index].email);await page.fill('#authPassword','test-password');await page.click(index===4?'#signUpButton':'#signInButton');
+      await page.waitForFunction(()=>Boolean(window.DersBoard.user));await page.evaluate(()=>window.DersUI.navigate('teacher'));
       if(index===4){await page.locator('#profileName').waitFor();return page;}
       await page.locator('#teacherPanel').getByText(index===0?'Test Teacher · Öğretmen':'Test Student · Öğrenci',{exact:true}).waitFor();return page;
     }
@@ -47,7 +48,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     const fresh=await pageFor(4,360);assert.equal(await fresh.locator('#questCount').innerText(),'0 / 0');assert.equal(await fresh.locator('#totalXp').innerText(),'0 XP');
     await fresh.selectOption('#roleSelect','student');await fresh.fill('#profileName','New Student');await fresh.getByRole('button',{name:'Hesabımı hazırla'}).click();
     await fresh.locator('#teacherPanel').getByText('New Student · Öğrenci',{exact:true}).waitFor();
-    assert.equal(await fresh.locator('#roleSelect').isDisabled(),true);console.log('PASS New account starts empty and role is set once');
+    assert.equal(await fresh.locator('#roleSelect').isDisabled(),true);await fresh.evaluate(()=>window.DersUI.navigate('program'));assert.equal(await fresh.locator('#addProgramButton').isVisible(),true);assert.equal(await fresh.locator('#editModeButton').isVisible(),false);console.log('PASS New account starts empty and role is set once');
     await t.fill('#assignmentName','Browser Program');await t.fill('#assignmentRange','21-28 Ekim');
     await t.locator('#assignmentDraft [data-key="category"]').fill('Fizik');await t.locator('#assignmentDraft [data-key="title"]').fill('Basınç');
     await t.locator('#assignmentDraft [data-key="detail"]').fill('50 soru ve analiz');await t.locator('#assignmentDraft [data-key="xp"]').fill('200');
@@ -58,23 +59,23 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await s.getByRole('button',{name:'Programı kabul et',exact:true}).click();
     await s.locator('#weekSelect option').filter({hasText:'Browser Program'}).waitFor({state:'attached'});
     await s.locator('.quest').filter({hasText:'Basınç'}).click();await s.evaluate(()=>window.DersBoard.flush());
-    await phone.click('#syncNowButton');
+    await phone.evaluate(()=>window.DersBoard.flush());
     await phone.waitForFunction(()=>window.DersBoard.state.weeks.some(w=>w.name==='Browser Program'&&w.quests[0].done));
     assert.match(await phone.locator('#totalXp').innerText(),/380/);
     console.log('PASS Browser teacher sends, student accepts and second device sees completion');
     await s.locator('.quest').filter({hasText:'Basınç'}).getByRole('button',{name:'Değişiklik iste'}).click();
     await s.fill('#editTitle','Basınç güncellendi');await s.getByRole('button',{name:'İsteği gönder'}).click();
     await s.locator('dialog').waitFor({state:'hidden'});await t.locator('#teacherPanel [data-action="refresh"]').click();
-    await t.getByRole('button',{name:'Değişikliği onayla'}).click();await s.click('#syncNowButton');
+    await t.getByRole('button',{name:'Değişikliği onayla'}).click();await s.evaluate(()=>window.DersBoard.flush());
     await s.locator('.quest-title').filter({hasText:'Basınç güncellendi'}).waitFor();console.log('PASS Browser change request and teacher approval');
-    await s.selectOption('#weekSelect','original');await s.locator('.quest').filter({hasText:'Temel Kavramlar'}).click();await s.click('#syncNowButton');
+    await s.selectOption('#weekSelect','original');await s.locator('.quest').filter({hasText:'Temel Kavramlar'}).click();await s.evaluate(()=>window.DersBoard.flush());
     await s.getByRole('button',{name:/Tamamlananlar/}).click();assert.equal(await s.locator('.quest.done').count(),1);
-    assert.equal(await s.locator('#historyList .history-item').count(),2);console.log('PASS Completed tab, independent weeks, global XP and history');
+    await s.evaluate(()=>window.DersUI.navigate('history'));assert.equal(await s.locator('#historyList .history-item').count(),2);await s.evaluate(()=>window.DersUI.navigate('program'));console.log('PASS Completed tab, independent weeks, global XP and history');
     await s.click('#newWeekButton');await s.fill('#modalWeekName','Empty browser week');await s.fill('#modalWeekRange','28 Ekim-4 Kasım');await s.click('#emptyWeekModalButton');
-    await s.getByRole('button',{name:'Tümü',exact:false}).click();await s.fill('#manualTitle','Manual browser task');await s.fill('#manualDetail','Konu anlatımı / soru çözümü');await s.click('#addQuestButton');
+    await s.click('#openQuestEditor');await s.fill('#manualTitle','Manual browser task');await s.fill('#manualDetail','Konu anlatımı / soru çözümü');await s.click('#addQuestButton');
     await s.locator('.quest-title').filter({hasText:'Manual browser task'}).waitFor();console.log('PASS New empty week and manual quest');
     await s.context().setOffline(true);await s.locator('.quest').filter({hasText:'Manual browser task'}).click();
-    await s.context().setOffline(false);await s.evaluate(()=>window.DersBoard.flush());await phone.click('#syncNowButton');
+    await s.context().setOffline(false);await s.evaluate(()=>window.DersBoard.flush());await phone.evaluate(()=>window.DersBoard.flush());
     await phone.waitForFunction(()=>window.DersBoard.state.weeks.some(w=>w.name==='Empty browser week'&&w.quests[0]?.done));console.log('PASS Offline completion synchronizes after reconnect');
     await s.click('#editModeButton');await s.locator('.quest [data-action="edit"]').click();await s.fill('#editTitle','Edited manual task');await s.getByRole('button',{name:'Kaydet',exact:true}).click();
     await s.locator('.quest-title').filter({hasText:'Edited manual task'}).waitFor();console.log('PASS Personal quest edit mode');
@@ -82,6 +83,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     for(const width of [360,390,430,1280]){
       await s.setViewportSize({width,height:900});
       const overflow=await s.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);
+      if(overflow) { await s.screenshot({path:path.join(root,'test-results',`overflow-${width}.png`),fullPage:true}); console.log('OVERFLOW ELEMENTS',JSON.stringify(await s.evaluate(()=>[...document.querySelectorAll('body *')].filter(e=>e.getClientRects().length && e.getBoundingClientRect().right>innerWidth+1).map(e=>({tag:e.tagName,id:e.id,class:e.className?.baseVal??e.className,right:e.getBoundingClientRect().right,width:e.getBoundingClientRect().width})).slice(0,25)))); }
       assert.equal(overflow,false,`overflow at ${width}`);
       const titleWidth=await s.locator('.quest-main').first().evaluate(el=>el.getBoundingClientRect().width);
       assert.ok(titleWidth>=150,`Quest text squeezed at ${width}px: ${titleWidth}`);
@@ -94,19 +96,19 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await t.locator('#teacherPanel [data-action="student"]').click();await t.locator('#studentSummary').waitFor();
     assert.equal(await t.locator('#studentSummary').getByText('580 XP · 4/4 görev',{exact:true}).count(),1);
     await t.screenshot({path:path.join(root,'test-results','teacher-progress-360.png'),fullPage:true});
-    s.once('dialog',dialog=>dialog.accept());await s.locator('#teacherPanel [data-action="disconnect"]').click();
+    await s.evaluate(()=>window.DersUI.navigate('teacher'));s.once('dialog',dialog=>dialog.accept());await s.locator('#teacherPanel [data-action="disconnect"]').click();
     await s.waitForFunction(()=>!document.querySelector('#teacherPanel [data-action="disconnect"]'));
     await t.evaluate(()=>window.DersTeacher.refresh());assert.equal(await t.locator('dialog').isVisible(),false);
     assert.equal(await t.locator('#teacherPanel [data-action="student"]').count(),0);console.log('PASS Teacher progress on mobile and revocation clears open student data');
-    await s.click('#signOutButton');await s.waitForFunction(()=>!window.DersBoard.user);
+    await s.evaluate(()=>window.DersUI.navigate('account'));await s.click('#signOutButton');await s.waitForFunction(()=>!window.DersBoard.user);
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
     const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
-    await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.evaluate(()=>navigator.serviceWorker.ready);
-    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v3');return (await cache.keys()).map(r=>r.url);});
+    await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),{timeout:20000});
+    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v4');return (await cache.keys()).map(r=>r.url);});
     assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
-    await pwaContext.setOffline(true);await pwa.reload();await pwa.locator('#newWeekButton').waitFor();
+    await pwaContext.setOffline(true);await pwa.reload();await pwa.locator('#homePage').waitFor();
     assert.equal(await pwa.evaluate(()=>typeof window.supabase.createClient),'function');console.log('PASS PWA shell and SDK reopen offline without caching private API data');
     assert.deepEqual(errors,[]);console.log('PASS No browser JavaScript errors');
+    await require('./ui.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
   }finally{if(browser)await browser.close();await new Promise(resolve=>api.close(resolve));await new Promise(resolve=>site.close(resolve));}
 };
-
