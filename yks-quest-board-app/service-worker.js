@@ -1,4 +1,4 @@
-const CACHE_NAME = "ders-pwa-v4";
+const CACHE_NAME = "ders-pwa-v1-0-1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,6 +9,10 @@ const APP_SHELL = [
   "./ui.js",
   "./theme.js",
   "./ui.css",
+  "./appearance.js",
+  "./appearance.css",
+  "./assets/background-light.webp",
+  "./assets/background-dark.webp",
   "./vendor/supabase.js",
   "./vendor/lucide.js",
   "./icons/icon.svg",

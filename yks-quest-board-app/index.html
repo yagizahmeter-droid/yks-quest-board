@@ -775,6 +775,7 @@
     }
   </style>
   <link rel="stylesheet" href="./ui.css">
+  <link rel="stylesheet" href="./appearance.css">
   <script src="./vendor/lucide.js"></script>
 </head>
 <body>
@@ -806,6 +807,7 @@
       <button id="toggleNavigation" class="icon-button" type="button" aria-label="Menüyü aç / daralt" aria-controls="sidebar" aria-expanded="true" title="Menüyü aç / daralt"><i data-lucide="panel-left"></i></button>
       <a class="mobile-brand" href="#/home" data-route="home">D.E.R.S.</a>
       <span class="workspace-label">Çalışma alanım</span>
+      <button id="appearanceButton" class="icon-button appearance-trigger" type="button" aria-label="Görünüm ayarları" title="Görünüm ayarları"><i data-lucide="sparkles"></i></button>
       <a href="#/account" data-route="account" class="header-account icon-button" aria-label="Hesabım" title="Hesabım"><i data-lucide="circle-user-round"></i></a>
     </header>
   <main id="pageContent" class="app" tabindex="-1">
@@ -971,7 +973,22 @@
     </section>
   </div>
 
-  <span class="app-version" aria-label="Uygulama sürümü v1.0">v1.0</span>
+  <dialog id="appearanceDialog" class="ders-dialog appearance-dialog" aria-labelledby="appearanceTitle" data-auto-save>
+    <header class="appearance-heading"><h2 id="appearanceTitle">Görünüm</h2><button id="closeAppearance" class="icon-button" type="button" aria-label="Görünüm ayarlarını kapat" title="Kapat"><i data-lucide="x"></i></button></header>
+    <fieldset class="appearance-field"><legend>Arayüz stili</legend><div class="style-options">
+      <label class="style-option"><input type="radio" name="appearanceStyle" value="classic"><span class="style-preview preview-classic" aria-hidden="true"><span></span><span></span><span></span></span><strong>Klasik</strong></label>
+      <label class="style-option"><input type="radio" name="appearanceStyle" value="glass"><span class="style-preview preview-glass" aria-hidden="true"><span></span><span></span><span></span></span><strong>Liquid Glass</strong></label>
+    </div></fieldset>
+    <fieldset class="appearance-field"><legend>Tema</legend><div class="appearance-theme-options">
+      <label><input type="radio" name="appearanceTheme" value="light"><i data-lucide="sun"></i>Açık</label>
+      <label><input type="radio" name="appearanceTheme" value="dark"><i data-lucide="moon"></i>Koyu</label>
+      <label><input type="radio" name="appearanceTheme" value="system"><i data-lucide="monitor"></i>Sistem</label>
+    </div></fieldset>
+    <fieldset class="appearance-field"><legend>Vurgu rengi</legend><div id="accentPalette" class="accent-palette" role="radiogroup" aria-label="Vurgu rengi"></div></fieldset>
+    <label class="monochrome-control"><span>Renksiz mod</span><input id="monochromeToggle" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
+    <footer class="appearance-footer"><button id="resetAppearance" class="button" type="button"><i data-lucide="rotate-ccw"></i>Varsayılana dön</button></footer>
+  </dialog>
+  <span class="app-version" aria-label="Uygulama sürümü v1.0.1">v1.0.1</span>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
@@ -2344,5 +2361,6 @@
   </script>
   <script src="./teacher.js"></script>
   <script src="./ui.js"></script>
+  <script src="./appearance.js"></script>
 </body>
 </html>

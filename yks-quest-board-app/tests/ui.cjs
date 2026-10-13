@@ -99,7 +99,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
         const overlaps = await student.locator('.quest').evaluateAll(rows=>rows.some(row=>{const a=row.querySelector('.check').getBoundingClientRect(),b=row.querySelector('.quest-main').getBoundingClientRect();return b.left<a.right-1;}));
         assert.equal(overlaps,false);assert.ok(await student.locator('.quest-main').first().evaluate(e=>e.getBoundingClientRect().width)>150);
         const version = await student.locator('.app-version').evaluate(el=>{const box=el.getBoundingClientRect();return {text:el.textContent,left:box.left,right:box.right,top:box.top,bottom:box.bottom,pointerEvents:getComputedStyle(el).pointerEvents};});
-        assert.equal(version.text,'v1.0');assert.equal(version.pointerEvents,'none');
+        assert.equal(version.text,'v1.0.1');assert.equal(version.pointerEvents,'none');
         assert.ok(version.left>=0 && version.right<=width && version.top>=0 && version.bottom<=900,`${width}/${theme} version bounds`);
         for (const selector of ['#pageTitle','.app-version']) {
         const contrast = await student.locator(selector).evaluate(el=>{
@@ -135,7 +135,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     teacher.once('dialog',d=>d.dismiss());await go(teacher,'home');assert.equal(await teacher.locator('#teacherPage').isVisible(),true);pass('Teacher program draft is guarded on navigation');
     await teacher.evaluate(()=>window.DersUI.clearDirty(document.getElementById('assignmentForm')));
     await teacher.locator('#teacherPanel [data-action="student"]').click();await teacher.locator('#studentSummary').waitFor();
-    await teacher.goBack();await teacher.locator('dialog').waitFor({state:'hidden'});assert.equal(await teacher.locator('#teacherPage').isVisible(),true);pass('Teacher progress modal participates in browser back');
+    await teacher.goBack();await teacher.locator('#questDialog').waitFor({state:'hidden'});assert.equal(await teacher.locator('#teacherPage').isVisible(),true);pass('Teacher progress modal participates in browser back');
     await teacher.screenshot({path:path.join(root,'test-results','ui-teacher-desktop.png'),fullPage:true});
     let releaseResponse, received;
     const responseReady = new Promise(resolve=>received=resolve), responseGate = new Promise(resolve=>releaseResponse=resolve);
@@ -147,7 +147,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     await teacher.evaluate(()=>window.DersBoard.client.auth.signOut());await teacher.waitForFunction(()=>!window.DersBoard.user);
     assert.equal(await teacher.locator('#teacherPanel [data-action="student"]').count(),0);pass('Account switch immediately clears teacher cache and controls');
     releaseResponse();await teacher.waitForFunction(()=>document.querySelector('#toast').textContent.includes('Oturum değişti'));
-    assert.equal(await teacher.locator('dialog').isVisible(),false);assert.equal(await teacher.locator('#studentSummary').count(),0);pass('Late student response cannot reveal progress after sign-out');
+    assert.equal(await teacher.locator('#questDialog').isVisible(),false);assert.equal(await teacher.locator('#studentSummary').count(),0);pass('Late student response cannot reveal progress after sign-out');
     assert.deepEqual(errors,[]);pass('No browser JavaScript errors');
     fs.writeFileSync(path.join(root,'test-results','ui-result.json'),JSON.stringify({checks,productionTouched:false},null,2));
     console.log(`RESULT: ${checks} interface/navigation/theme scenarios passed`);

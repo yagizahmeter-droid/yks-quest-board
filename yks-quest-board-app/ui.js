@@ -227,7 +227,7 @@
   });
   document.addEventListener('input', event => {
     const scope = event.target.closest('[data-draft], form, .modal-backdrop, dialog');
-    if (scope) scope.dataset.dirty = 'true';
+    if (scope && !scope.hasAttribute('data-auto-save')) scope.dataset.dirty = 'true';
   });
   document.addEventListener('keydown', event => {
     const overlay = overlays.get(current.modal);
@@ -244,7 +244,7 @@
     input.checked = input.value === window.DersTheme.choice;
     input.onchange = () => window.DersTheme.set(input.value);
   });
-  window.addEventListener('storage', event => { if (event.key === 'ders-theme' && event.newValue) { window.DersTheme.set(event.newValue); document.querySelectorAll('input[name="theme"]').forEach(i => i.checked = i.value === event.newValue); } });
+  window.addEventListener('dersappearancechange', () => document.querySelectorAll('input[name="theme"]').forEach(i => i.checked = i.value === window.DersTheme.choice));
   ['historyDateFilter','historyWeekFilter','historyCategoryFilter'].forEach(id => $(id).addEventListener('change', () => { drawCompleted(); icons(); }));
   const observer = new MutationObserver(records => { if (records.some(r => [...r.addedNodes].some(n => n.nodeType === 1 && (n.matches('i[data-lucide]') || n.querySelector('i[data-lucide]'))))) queueMicrotask(icons); });
   observer.observe(document.body, { childList:true, subtree:true });

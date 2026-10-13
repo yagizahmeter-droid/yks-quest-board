@@ -1,6 +1,6 @@
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
-for (const file of ['ui.js','theme.js','teacher.js','sync.js','service-worker.js']) new vm.Script(fs.readFileSync(path.join(root,file),'utf8'), { filename:file });
+for (const file of ['ui.js','theme.js','appearance.js','teacher.js','sync.js','service-worker.js']) new vm.Script(fs.readFileSync(path.join(root,file),'utf8'), { filename:file });
 const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
 for (const match of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)) if (match[1].trim()) new vm.Script(match[1], { filename:'index.html inline script' });
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);

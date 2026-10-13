@@ -65,7 +65,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     console.log('PASS Browser teacher sends, student accepts and second device sees completion');
     await s.locator('.quest').filter({hasText:'Basınç'}).getByRole('button',{name:'Değişiklik iste'}).click();
     await s.fill('#editTitle','Basınç güncellendi');await s.getByRole('button',{name:'İsteği gönder'}).click();
-    await s.locator('dialog').waitFor({state:'hidden'});await t.locator('#teacherPanel [data-action="refresh"]').click();
+    await s.locator('#questDialog').waitFor({state:'hidden'});await t.locator('#teacherPanel [data-action="refresh"]').click();
     await t.getByRole('button',{name:'Değişikliği onayla'}).click();await s.evaluate(()=>window.DersBoard.flush());
     await s.locator('.quest-title').filter({hasText:'Basınç güncellendi'}).waitFor();console.log('PASS Browser change request and teacher approval');
     await s.selectOption('#weekSelect','original');await s.locator('.quest').filter({hasText:'Temel Kavramlar'}).click();await s.evaluate(()=>window.DersBoard.flush());
@@ -98,17 +98,21 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await t.screenshot({path:path.join(root,'test-results','teacher-progress-360.png'),fullPage:true});
     await s.evaluate(()=>window.DersUI.navigate('teacher'));s.once('dialog',dialog=>dialog.accept());await s.locator('#teacherPanel [data-action="disconnect"]').click();
     await s.waitForFunction(()=>!document.querySelector('#teacherPanel [data-action="disconnect"]'));
-    await t.evaluate(()=>window.DersTeacher.refresh());assert.equal(await t.locator('dialog').isVisible(),false);
+    await t.evaluate(()=>window.DersTeacher.refresh());assert.equal(await t.locator('#questDialog').isVisible(),false);
     assert.equal(await t.locator('#teacherPanel [data-action="student"]').count(),0);console.log('PASS Teacher progress on mobile and revocation clears open student data');
     await s.evaluate(()=>window.DersUI.navigate('account'));await s.click('#signOutButton');await s.waitForFunction(()=>!window.DersBoard.user);
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
     const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
     await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),{timeout:20000});
-    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v4');return (await cache.keys()).map(r=>r.url);});
+    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-0-1');return (await cache.keys()).map(r=>r.url);});
     assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
+    for(const asset of ['appearance.js','appearance.css','assets/background-light.webp','assets/background-dark.webp'])assert.ok(cached.some(url=>url.endsWith('/'+asset)));
+    await pwa.evaluate(()=>{window.DersTheme.setStyle('glass');window.DersTheme.setAccent('red');});
     await pwaContext.setOffline(true);await pwa.reload();await pwa.locator('#homePage').waitFor();
+    assert.equal(await pwa.evaluate(()=>window.DersTheme.style),'glass');assert.equal(await pwa.evaluate(()=>window.DersTheme.accent),'red');
     assert.equal(await pwa.evaluate(()=>typeof window.supabase.createClient),'function');console.log('PASS PWA shell and SDK reopen offline without caching private API data');
     assert.deepEqual(errors,[]);console.log('PASS No browser JavaScript errors');
     await require('./ui.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
+    await require('./appearance.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users});
   }finally{if(browser)await browser.close();await new Promise(resolve=>api.close(resolve));await new Promise(resolve=>site.close(resolve));}
 };

@@ -13,6 +13,6 @@ if(process.env.VERCEL_ENV==='production' || process.argv.includes('--production'
   console.log('Production target verified: existing Vercel project and live Supabase.');
 }
 fs.mkdirSync(out,{recursive:true});
-const assets=['index.html','config.js','sync.js','teacher.js','ui.js','theme.js','ui.css','service-worker.js','manifest.webmanifest','icons','vendor'];
+const assets=['index.html','config.js','sync.js','teacher.js','ui.js','theme.js','ui.css','appearance.js','appearance.css','assets','service-worker.js','manifest.webmanifest','icons','vendor'];
 for(const asset of assets) fs.cpSync(path.join(root,asset),path.join(out,asset),{recursive:true});
 console.log('Static D.E.R.S. assets prepared in dist; no account exports or tests included.');
