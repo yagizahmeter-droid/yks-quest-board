@@ -11,7 +11,7 @@ module.exports=async({root,browser,apiUrl,siteUrl,users})=>{
     assert.equal(await page.evaluate(()=>window.DersTheme.style),'classic');
     assert.equal(await page.evaluate(()=>window.DersTheme.accent),'green');
     assert.equal(await page.evaluate(()=>window.DersTheme.monochrome),false);pass('Existing defaults remain classic with the original green palette');
-    await page.click('#appearanceButton');await page.getByRole('radio',{name:'Liquid Glass',exact:true}).check();
+    await page.click('#appearanceButton');await page.getByRole('radio',{name:'Bulanık',exact:true}).check();
     await page.getByRole('radio',{name:'Koyu',exact:true}).check();await page.getByRole('radio',{name:'Kırmızı',exact:true}).check();
     await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.DersBoard.authReady&&window.DersUI);
     assert.deepEqual(await page.evaluate(()=>[window.DersTheme.style,window.DersTheme.choice,window.DersTheme.accent]),['glass','dark','red']);

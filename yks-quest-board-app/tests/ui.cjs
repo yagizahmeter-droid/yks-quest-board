@@ -92,12 +92,16 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
     for (const width of [360,390,430,1280]) {
       await student.setViewportSize({width,height:900});
+      await student.evaluate(async()=>{await new Promise(requestAnimationFrame);for(const e of document.querySelectorAll('.sidebar,.workspace'))for(const animation of e.getAnimations())await animation.finished;});
       if(width<=720) assert.ok(await student.locator('#sidebar').evaluate(e=>e.getBoundingClientRect().right<=1),'Closed mobile drawer must not cover content during resize');
       for (const theme of ['light','dark']) {
         await student.evaluate(t=>window.DersTheme.set(t),theme);
         assert.equal(await student.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,`${width}/${theme} overflow`);
         const overlaps = await student.locator('.quest').evaluateAll(rows=>rows.some(row=>{const a=row.querySelector('.check').getBoundingClientRect(),b=row.querySelector('.quest-main').getBoundingClientRect();return b.left<a.right-1;}));
-        assert.equal(overlaps,false);assert.ok(await student.locator('.quest-main').first().evaluate(e=>e.getBoundingClientRect().width)>150);
+        assert.equal(overlaps,false);
+        const questWidth=await student.locator('.quest-main').first().evaluate(e=>e.getBoundingClientRect().width);
+        if(questWidth<=150){await student.screenshot({path:path.join(root,'test-results',`floating-quest-width-${width}.png`),fullPage:true});console.log('QUEST WIDTH',JSON.stringify(await student.evaluate(()=>({route:location.hash,state:history.state,programHidden:document.querySelector('#programPage').hidden,quest:document.querySelector('.quest-main')?.outerHTML,boardWidth:document.querySelector('#board').getBoundingClientRect().width}))));}
+        assert.ok(questWidth>150,`${width}/${theme} quest text width ${questWidth}`);
         const version = await student.locator('.app-version').evaluate(el=>{const box=el.getBoundingClientRect();return {text:el.textContent,left:box.left,right:box.right,top:box.top,bottom:box.bottom,pointerEvents:getComputedStyle(el).pointerEvents};});
         assert.equal(version.text,'v1.0.1');assert.equal(version.pointerEvents,'none');
         assert.ok(version.left>=0 && version.right<=width && version.top>=0 && version.bottom<=900,`${width}/${theme} version bounds`);
