@@ -3,7 +3,7 @@
 ## Scope and isolation
 
 Development branch: `ders-teacher-quests-update`, based on released
-`4f298414a1e2a95c53996644e4e3fe037e596213`. No production release is authorized.
+`4f298414a1e2a95c53996644e4e3fe037e596213`. The user authorized production release on 2026-10-15 after reviewing the tested preview.
 Production remains the existing Vercel project `prj_x2vIkhipW3ZaACfDAiOld1mXKZ4T`
 and Supabase `jswgagzbetwviamiwcck`. Only the existing isolated staging project
 `hswipswqulolcwqvcjvi` is used for hosted write tests. Never point test scripts at production.
@@ -92,7 +92,7 @@ installed app after the update; reinstall only if the OS refuses to refresh its 
 `20261015_competitive_xp.sql` follows the repeat migration. It snapshots existing boards
 and the RPC definition, refuses ambiguous legacy teacher markers, adds an insert/update
 provenance trigger, and compares exact original JSON and versions before commit.
-Neither migration has been applied to production.
+Both migrations were applied to the existing production database on 2026-10-15 after explicit user approval. Exact legacy board JSON/version and all existing application rows were verified unchanged.
 
 Competitive XP comes only from accepted assignment rows owned by the student:
 old one-time teacher tasks retain their existing done/current-reward calculation;
@@ -118,3 +118,20 @@ counts at application time. Tests use synthetic accounts only. The staging secur
 reports intentional no-policy private backup tables (deny-by-default) and an existing Auth
 leaked-password-protection warning. No Auth setting has been changed:
 https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection
+
+## Approved production release
+
+- Source: tested preview `e97c97d4319d9c4aa5a846178451ce5ff7385234`.
+- Production-ready branch: `ders-v1-1-production-ready`. The only runtime difference
+  is restoring the exact existing live Supabase URL and public publishable key.
+- Existing team/project and custom domains remain unchanged. No test accounts or
+  synthetic tasks are created in production. No Auth settings are changed.
+- An independent Windows CurrentUser DPAPI-encrypted application-data export was
+  generated in ignored `backups/`, decrypted in memory and SHA-256 verified.
+  Hash: `dd44a73ebf22a3b51355add2c3c018dbace2b483b35f8f3d21343e6c38a62516`.
+  A temporary plaintext export was removed after verification. Credentials/password
+  hashes are not exported. Both migrations also retain private server-side snapshots.
+- Preserved: 5 Auth accounts, 5 boards, 1 program, 1 teacher quest, 2 connections.
+  All pre-existing profiles, invitations and change requests compare equal to backup.
+- Previous production deployment: `dpl_3qn1EkZwmWGbTfYs8jiHc2PzJdNK`, commit `4f298414a1e2a95c53996644e4e3fe037e596213`.
+  The ledger/history-preserving rollback restrictions above still apply once new events exist.
