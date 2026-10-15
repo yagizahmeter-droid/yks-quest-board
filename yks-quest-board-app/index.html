@@ -853,10 +853,15 @@
         </label><button id="addCategoryButton" class="button primary" type="button">Dersi ekle</button>
       </div></details>
       <details id="questEditor" class="inline-editor"><summary><i data-lucide="list-plus"></i>Yeni quest</summary><div id="questForm" class="quest-add-row" data-draft>
+        <div class="personal-catalog-row">
+        <label class="field">Sınav<select id="manualExam" class="select" aria-label="Kişisel quest sınavı"></select></label>
         <label class="field">
           Ders
-          <select id="manualSubject" class="select"></select>
+          <select id="manualSubject" class="select" data-searchable></select>
         </label>
+        <label class="field">Kategori<select id="manualTopicCategory" class="select" data-searchable aria-label="Kişisel konu kategorisi"></select></label>
+        <label class="field">Alt konu<select id="manualTopic" class="select" data-searchable aria-label="Kişisel alt konu"></select></label>
+        </div>
         <label class="field">
           Görev adı
           <input id="manualTitle" class="input" type="text" placeholder="Örn. Problemler">
@@ -994,6 +999,7 @@
 
   <script src="./quest-system.js"></script>
   <script src="./curriculum.js"></script>
+  <script src="./personal-catalog.js"></script>
   <script>
     const STORAGE_KEY = "yksQuestBoard.v1";
     const META_KEY = "yksQuestBoard.meta.v1";
@@ -1380,6 +1386,7 @@
       currentUser = user;
       verifiedXp = null;
       state = loadState();
+      window.DersPersonalCatalog.reset();
       activeSubject = "all";
       revision += 1;
       render();
@@ -1511,17 +1518,7 @@
     }
 
     function renderSubjectOptions() {
-      const categories = getCategories();
-      const current = els.manualSubject.value || categories[0]?.id || "";
-      els.manualSubject.innerHTML = "";
-      categories.forEach((subject) => {
-        const option = document.createElement("option");
-        option.value = subject.id;
-        option.textContent = subject.name;
-        option.selected = subject.id === current;
-        els.manualSubject.append(option);
-      });
-      els.addQuestButton.disabled = !categories.length;
+      window.DersPersonalCatalog.render(getCategories());
     }
 
     function renderWeekSelect() {
@@ -2297,16 +2294,23 @@
         els.manualTitle.focus();
         return;
       }
+      const selection = window.DersPersonalCatalog.selection();
+      if (!selection) { els.manualSubject.focus(); return; }
+      const subjectId = selection.categoryId || ensureCategoryForHint({
+        subject: `cat-${crypto.randomUUID()}`, categoryName: selection.lesson
+      });
       const quest = makeQuest(
-        els.manualSubject.value,
+        subjectId,
         title,
         els.manualDetail.value.trim(),
         els.manualXp.value,
         "Manuel"
       );
+      quest.examType = selection.examType;
+      if (selection.topicCategory) quest.topicCategory = selection.topicCategory;
       quest.sortOrder = Math.max(-1, ...week.quests.filter(item => (item.categoryId || item.subject) === quest.categoryId).map(item => item.sortOrder || 0)) + 1;
       week.quests.push(quest);
-      els.manualTitle.value = "";
+      window.DersPersonalCatalog.clearTopic();
       els.manualDetail.value = "";
       els.manualXp.value = "100";
       window.DersUI?.clearDirty(document.getElementById('questForm'));

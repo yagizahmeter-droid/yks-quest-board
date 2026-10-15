@@ -1,0 +1,52 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const pointerSelect=require('./pointer-select.cjs');
+module.exports=async({root,browser,siteUrl,apiUrl,users,ids,action})=>{
+  let checks=0;const pass=m=>{checks++;console.log('PASS personal catalog',m);};
+  const contexts=[];
+  async function login(width=1280){const ctx=await browser.newContext({viewport:{width,height:900},serviceWorkers:'block',hasTouch:true});contexts.push(ctx);await ctx.route('**/config.js',r=>r.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'${apiUrl}',supabaseAnonKey:'local-public-fixture'};`}));const p=await ctx.newPage();await p.goto(siteUrl+'/#/account');await p.fill('#authEmail',users[4].email);await p.fill('#authPassword','test-password');await p.click('#signInButton');await p.waitForFunction(()=>Boolean(window.DersBoard.user));await p.evaluate(()=>window.DersBoard.flush());await p.evaluate(()=>window.DersUI.navigate('program'));return p;}
+  try{
+    const p=await login(),phone=await login(390);await p.click('#openQuestEditor');
+    const before=await p.evaluate(()=>structuredClone(window.DersBoard.state));
+    const choose=(id,value)=>pointerSelect(p,'#'+id,value);
+    const lesson=async name=>{const value=await p.locator('#manualSubject option').evaluateAll((list,name)=>list.find(o=>o.label===name)?.value,name);assert.ok(value);await choose('manualSubject',value);};
+    await p.fill('#manualDetail','50 soru ve analiz');await p.fill('#manualXp','235');
+    await choose('manualExam','AYT');assert.equal(await p.inputValue('#manualSubject'),'');assert.equal(await p.inputValue('#manualTopicCategory'),'');
+    assert.equal(await p.locator('#manualSubject option').filter({hasText:'Türkçe'}).count(),0);
+    await lesson('Türk Dili ve Edebiyatı');await choose('manualTopicCategory','Modern Türk Edebiyatı');await choose('manualTopic','Cumhuriyet Dönemi Edebiyatı');
+    assert.equal(await p.inputValue('#manualTitle'),'Cumhuriyet Dönemi Edebiyatı');assert.equal(await p.inputValue('#manualDetail'),'50 soru ve analiz');assert.equal(await p.inputValue('#manualXp'),'235');
+    assert.deepEqual(await p.evaluate(()=>window.DersBoard.state),before);pass('Catalog navigation fills title and preserves XP/detail without mutating board');
+    await p.click('#addQuestButton');await p.evaluate(()=>window.DersBoard.flush());
+    let added=await p.evaluate(()=>window.DersBoard.week().quests.find(q=>q.title==='Cumhuriyet Dönemi Edebiyatı'));
+    assert.equal(added.examType,'AYT');assert.equal(added.topicCategory,'Modern Türk Edebiyatı');assert.equal(added.source,'Manuel');assert.equal(added.lockedForStudent,false);assert.equal(added.assignedQuestId,undefined);assert.equal(added.xp,235);
+    const firstId=added.id;assert.equal(await p.evaluate(()=>window.DersBoard.state.categories.filter(c=>c.name==='Türk Dili ve Edebiyatı').length),1);pass('Missing catalog lesson is created only on save; quest stays personal');
+    const existing=await p.evaluate(()=>window.DersBoard.state.categories.find(c=>c.name==='Türk Dili ve Edebiyatı').id);assert.equal(await p.inputValue('#manualSubject'),existing);
+    await choose('manualTopic','Tanzimat Edebiyatı');await p.click('#addQuestButton');assert.equal(await p.evaluate(()=>window.DersBoard.state.categories.filter(c=>c.name==='Türk Dili ve Edebiyatı').length),1);pass('Subsequent tasks reuse existing lesson ID instead of duplicating it');
+    await choose('manualExam','TYT');await lesson('Matematik');
+    const search=async(id,text)=>{const wrap=p.locator('#'+id).locator('..');await wrap.locator('.select-trigger').click();await wrap.locator('.select-search').fill(text);await wrap.locator('.select-search').press('Enter');};
+    await search('manualTopicCategory','Problemler');await search('manualTopic','Yaş Problemleri');assert.equal(await p.inputValue('#manualTitle'),'Yaş Problemleri');
+    await choose('manualTopicCategory','Geometri');assert.equal(await p.inputValue('#manualTitle'),'');assert.equal(await p.locator('#manualTopic option[value="Yaş Problemleri"]').count(),0);pass('Search/keyboard selection and category-dependent clearing work');
+    await choose('manualTopic','__manual');await p.fill('#manualTitle','Özel matematik konusu');await p.fill('#manualDetail','Konu anlatımı / soru çözümü');await p.click('#addQuestButton');
+    added=await p.evaluate(()=>window.DersBoard.week().quests.find(q=>q.title==='Özel matematik konusu'));assert.equal(added.topicCategory,undefined);assert.equal(added.detail,'Konu anlatımı / soru çözümü');pass('Custom topic remains editable outside the catalog');
+    await choose('manualExam','KPSS');await lesson('Tarih');await choose('manualTopicCategory','Genel Konular');await choose('manualTopic','Osmanlı Tarihi');await p.click('#addQuestButton');
+    added=await p.evaluate(()=>window.DersBoard.week().quests.find(q=>q.title==='Osmanlı Tarihi'));assert.equal(added.examType,'KPSS');pass('KPSS uses the same unchanged central catalog');
+    await p.click('#openCategoryEditor');await p.fill('#categoryNameInput','Matematik');await p.click('#addCategoryButton');
+    const duplicateId=await p.evaluate(()=>window.DersBoard.state.categories.filter(c=>c.name==='Matematik').at(-1).id);
+    await choose('manualExam','TYT');assert.equal(await p.locator('#manualSubject option').evaluateAll(list=>list.filter(o=>o.label==='Matematik').length),1);
+    await choose('manualSubject',duplicateId);await choose('manualTopicCategory','Problemler');await choose('manualTopic','Yaş Problemleri');await p.fill('#manualTitle','İkinci ders kaydı');await p.click('#addQuestButton');
+    assert.equal(await p.evaluate(()=>window.DersBoard.week().quests.find(q=>q.title==='İkinci ders kaydı').categoryId),duplicateId);pass('Existing duplicate lesson IDs remain selectable with distinct labels');
+    await p.click('#openCategoryEditor');await p.fill('#categoryNameInput','Kişisel okuma');await p.click('#addCategoryButton');const customId=await p.evaluate(()=>window.DersBoard.state.categories.find(c=>c.name==='Kişisel okuma').id);
+    await choose('manualSubject',customId);assert.equal(await p.locator('#manualTopicCategory').isDisabled(),true);await choose('manualTopic','__manual');await p.fill('#manualTitle','Kitap bölümü');
+    await p.context().setOffline(true);await p.click('#addQuestButton');await p.context().setOffline(false);await p.evaluate(()=>window.DersBoard.flush());await phone.evaluate(()=>window.DersBoard.flush());await phone.waitForFunction(()=>window.DersBoard.state.weeks.some(w=>w.quests.some(q=>q.title==='Kitap bölümü')));pass('Custom lessons and offline personal quest creation synchronize to another device');
+    const baseline=await action(ids[4],'read_board');await p.locator('.quest').filter({hasText:'Cumhuriyet Dönemi Edebiyatı'}).locator('.check').click();await p.evaluate(()=>window.DersBoard.flush());const completed=await action(ids[4],'read_board');assert.equal(completed.xpBreakdown.personal,baseline.xpBreakdown.personal+235);assert.equal(completed.xpBreakdown.competitive,baseline.xpBreakdown.competitive);pass('Catalog task awards only personal XP, never teacher competitive XP');
+    const current=await p.evaluate(()=>window.DersBoard.state);for(const week of before.weeks)for(const old of week.quests)assert.deepEqual(current.weeks.find(w=>w.id===week.id).quests.find(q=>q.id===old.id),old);assert.ok(current.studyHistory.length>=before.studyHistory.length);pass('Existing tasks and history survive catalog additions unchanged');
+    await p.reload();await p.waitForFunction(()=>Boolean(window.DersBoard.user));assert.equal(await p.evaluate(id=>window.DersBoard.state.weeks.flatMap(w=>w.quests).find(q=>q.id===id).examType,firstId),'AYT');pass('Exam/category metadata survive reload');
+    await p.click('#openQuestEditor');await choose('manualExam','TYT');await lesson('Türkçe');await choose('manualTopicCategory','Dil Bilgisi');await choose('manualTopic','Sözcük Türleri (İsim, Sıfat, Zamir, Zarf, Edat, Bağlaç, Ünlem)');
+    for(const width of [360,390,430,1280])for(const style of ['classic','glass'])for(const theme of ['light','dark']){
+      await p.setViewportSize({width,height:900});await p.evaluate(({style,theme})=>{window.DersTheme.setStyle(style);window.DersTheme.set(theme);},{style,theme});
+      const wrap=p.locator('#manualTopic').locator('..');await wrap.locator('.select-trigger').click();const bounds=await wrap.locator('.select-popup').boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=width+1);assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await wrap.getByRole('option',{name:'Sözcük Türleri (İsim, Sıfat, Zamir, Zarf, Edat, Bağlaç, Ünlem)',exact:true}).tap();
+      await p.locator('#questForm').screenshot({path:path.join(root,'test-results',`personal-catalog-${style}-${theme}-${width}.png`)});
+    }pass('Personal selectors fit desktop and 360/390/430px, with touch in both styles/themes');
+    await p.evaluate(()=>window.DersUI.clearDirty(document.getElementById('questForm')));await p.evaluate(()=>window.DersUI.navigate('account'));await p.click('#signOutButton');await p.waitForFunction(()=>!window.DersBoard.user);assert.equal(await p.inputValue('#manualTitle'),'');assert.equal(await p.inputValue('#manualExam'),'TYT');pass('Sign-out clears account-specific catalog draft');
+    fs.writeFileSync(path.join(root,'test-results/personal-catalog-result.json'),JSON.stringify({checks,productionTouched:false},null,2));
+  }finally{for(const c of contexts)await c.close();}
+};
