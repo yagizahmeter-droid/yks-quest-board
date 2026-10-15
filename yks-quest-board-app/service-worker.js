@@ -1,4 +1,4 @@
-const CACHE_NAME = "ders-pwa-v1-1-teacher-scope-r1";
+const CACHE_NAME = "ders-pwa-v1-1-personal-description-r1";
 const APP_SHELL = [
   "./",
   "./index.html",

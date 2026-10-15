@@ -4,7 +4,7 @@
   const lesson = document.getElementById('manualSubject');
   const group = document.getElementById('manualTopicCategory');
   const topic = document.getElementById('manualTopic');
-  const title = document.getElementById('manualTitle');
+  const detail = document.getElementById('manualDetail');
   let subjects = new Map(), categories = [], initialized = false;
   const key = text => text.normalize('NFC').trim().toLocaleLowerCase('tr-TR');
   const knownLessons = new Set(catalog.exams.flatMap(e => catalog.lessons(e)).map(key));
@@ -46,7 +46,7 @@
     drawTopics();
   }
   function clearTopic() {
-    title.value = ''; topic.value = '__manual';
+    topic.value = '__manual';
     window.DersSelect?.refresh();
   }
   exam.addEventListener('change', () => {
@@ -58,18 +58,17 @@
   });
   group.addEventListener('change', () => { clearTopic(); drawTopics(); });
   topic.addEventListener('change', () => {
-    title.value = topic.value === '__manual' ? '' : topic.value;
-    if (topic.value === '__manual') title.focus();
-  });
-  title.addEventListener('input', () => {
-    if (title.value !== topic.value) { topic.value = '__manual'; window.DersSelect?.refresh(); }
+    if (topic.value === '__manual') detail.focus();
   });
   window.DersPersonalCatalog = {
     render, clearTopic,
-    selection() {
+    selection(description = '') {
       const entry = subjects.get(lesson.value);
       if (!entry) return null;
-      return { ...entry, examType: exam.value, topicCategory: topic.value === title.value && topic.value !== '__manual' ? group.value : '' };
+      const selectedTopic = catalog.topics(exam.value, entry.lesson, group.value).includes(topic.value);
+      // Custom quests still need a legacy-compatible title, but never a second text field.
+      const title = selectedTopic ? topic.value : Array.from(description.trim().split(/\r?\n/, 1)[0]).slice(0, 120).join('');
+      return { ...entry, title, examType: exam.value, topicCategory: selectedTopic ? group.value : '' };
     },
     reset() {
       initialized = false; subjects.clear(); exam.value = 'TYT'; lesson.value = ''; group.value = '';

@@ -863,12 +863,8 @@
         <label class="field">Alt konu<select id="manualTopic" class="select" data-searchable aria-label="Kişisel alt konu"></select></label>
         </div>
         <label class="field">
-          Görev adı
-          <input id="manualTitle" class="input" type="text" placeholder="Örn. Problemler">
-        </label>
-        <label class="field">
           Açıklama
-          <input id="manualDetail" class="input" type="text" placeholder="Örn. 40 soru ve analiz">
+          <textarea id="manualDetail" class="input" rows="3" placeholder="Örn. 40 soru ve analiz"></textarea>
         </label>
         <label class="field">
           XP
@@ -1105,7 +1101,6 @@
       weekNameInput: document.getElementById("weekNameInput"),
       weekRangeInput: document.getElementById("weekRangeInput"),
       manualSubject: document.getElementById("manualSubject"),
-      manualTitle: document.getElementById("manualTitle"),
       manualDetail: document.getElementById("manualDetail"),
       manualXp: document.getElementById("manualXp"),
       addQuestButton: document.getElementById("addQuestButton"),
@@ -2289,19 +2284,16 @@
 
     els.addQuestButton.addEventListener("click", () => {
       const week = activeWeek();
-      const title = els.manualTitle.value.trim();
-      if (!week || !title) {
-        els.manualTitle.focus();
-        return;
-      }
-      const selection = window.DersPersonalCatalog.selection();
+      if (!week) return;
+      const selection = window.DersPersonalCatalog.selection(els.manualDetail.value);
       if (!selection) { els.manualSubject.focus(); return; }
+      if (!selection.title) { els.manualDetail.focus(); return; }
       const subjectId = selection.categoryId || ensureCategoryForHint({
         subject: `cat-${crypto.randomUUID()}`, categoryName: selection.lesson
       });
       const quest = makeQuest(
         subjectId,
-        title,
+        selection.title,
         els.manualDetail.value.trim(),
         els.manualXp.value,
         "Manuel"

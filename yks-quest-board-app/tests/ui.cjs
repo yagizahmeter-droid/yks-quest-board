@@ -55,7 +55,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     guest.once('dialog',d=>d.dismiss());await guest.goBack();await guest.waitForFunction(()=>history.state?.modal==='week');
     assert.equal(await guest.locator('#weekModalBackdrop').isVisible(),true);assert.equal(await guest.inputValue('#modalWeekName'),'Unsaved week');
     guest.once('dialog',d=>d.accept());await guest.click('#closeWeekModal');await guest.waitForFunction(()=>!document.querySelector('#weekModalBackdrop').classList.contains('open'));pass('Dirty modal warns and cancellation retains its content');
-    await guest.click('#openQuestEditor');await guest.fill('#manualTitle','Unsaved personal draft');
+    await guest.click('#openQuestEditor');await guest.fill('#manualDetail','Unsaved personal draft');
     guest.once('dialog',d=>d.dismiss());await go(guest,'history');assert.equal(await guest.locator('#programPage').isVisible(),true);
     guest.once('dialog',d=>d.accept());await go(guest,'history');await guest.locator('#historyPage').waitFor();pass('Unsaved page form warns before navigation');
     await guest.locator('[data-history-view="completed"]').click();
@@ -63,7 +63,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     await pointerSelect(guest,'#historyWeekFilter','original');assert.equal(await guest.locator('#completedHistory .history-item').count(),1);
     await guest.locator('[data-history-view="records"]').click();assert.equal(await guest.locator('#historyList .history-item').count(),1);pass('History records and completed tasks have independent preserved filters');
     await guest.evaluate(()=>window.DersUI.clearDirty(document.getElementById('questForm')));
-    await guest.evaluate(()=>{document.getElementById('manualTitle').value='';});
+    await guest.evaluate(()=>{document.getElementById('manualDetail').value='';});
     const after = await guest.evaluate(()=>JSON.stringify(window.DersBoard.state));
     assert.deepEqual(JSON.parse(after),JSON.parse(before));pass('Navigation, themes and filters do not rewrite board or history');
     await go(guest,'account');await guest.click('#syncNowButton');await guest.getByText('Eşitlendi',{exact:true}).waitFor();pass('Account sync control remains functional');
@@ -74,12 +74,12 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     assert.equal(await blank.locator('#addProgramButton').isVisible(),true);
     await blank.click('#openCategoryEditor');await blank.fill('#categoryNameInput','Biyoloji');await blank.click('#addCategoryButton');
     assert.equal(await blank.evaluate(()=>window.DersBoard.state.categories[0].name),'Biyoloji');
-    await blank.click('#openQuestEditor');await blank.fill('#manualTitle','Canlıların ortak özellikleri');await blank.click('#addQuestButton');
+    await blank.click('#openQuestEditor');await blank.fill('#manualDetail','Canlıların ortak özellikleri');await blank.click('#addQuestButton');
     assert.equal(await blank.locator('#addProgramButton').isVisible(),false);assert.equal(await blank.locator('#editModeButton').isVisible(),true);pass('Empty account can add a lesson and quest, then shows Edit instead of Add Program');
 
     const student = await newPage();await login(student,1);await go(student,'program');
     assert.equal(await student.locator('#editModeButton').innerText(),'Düzenle');
-    await student.click('#editModeButton');await student.click('#openQuestEditor');await student.fill('#manualTitle','UI task');await student.fill('#manualDetail','30 soru ve analiz');
+    await student.click('#editModeButton');await student.click('#openQuestEditor');await student.fill('#manualDetail','UI task\n30 soru ve analiz');
     await student.click('#addQuestButton');await student.locator('.quest-title').getByText('UI task',{exact:true}).waitFor();
     await student.locator('.quest').filter({hasText:'UI task'}).locator('.check').click();await student.evaluate(()=>window.DersBoard.flush());
     await go(student,'home');assert.ok((await student.locator('#totalXp').innerText()).includes('680'));pass('Existing quest completion updates XP and home metrics');
@@ -88,7 +88,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     await student.click('#openCategoryEditor');await student.fill('#categoryNameInput',longName);await student.click('#addCategoryButton');
     const longCategory = await student.evaluate(name=>window.DersBoard.state.categories.find(c=>c.name===name)?.id,longName.trim());
     assert.ok(longCategory,'Long category name was not preserved');
-    await pointerSelect(student,'#manualSubject',longCategory);await student.fill('#manualTitle',longName);await student.click('#addQuestButton');
+    await pointerSelect(student,'#manualSubject',longCategory);await student.fill('#manualDetail',longName);await student.click('#addQuestButton');
     await student.click('#editModeButton');pass('Lesson and quest creation remain available with long names');
     fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
     for (const width of [360,390,430,1280]) {

@@ -5,8 +5,12 @@ kaynağını kullanır: Sınav > Ders > Kategori > Alt konu. TYT, AYT ve KPSS
 ayrıdır. Kategori/alt konu menüleri aranabilir; mouse, klavye ve dokunma
 ortak `select-controls.js` bileşeninden gelir.
 
-Alt konu seçimi görev adını doldurur. Ad her zaman düzenlenebilir; Özel konu
-ve Yeni ders akışları korunur. Açıklama ve XP katalog seçimlerinden etkilenmez.
+Öğrencinin oluşturma formunda görev adı alanı yoktur. Katalog konusu seçilirse
+başlık konudan otomatik üretilir. Özel konu veya kişisel ders için açıklamanın
+ilk satırının ilk 120 karakteri uyumlu başlık olarak kullanılır; açıklamanın
+tamamı ayrıca saklanır. Bu akışta boş açıklama kaydedilmez. Katalog konusu
+seçiliyken açıklama boş kalabilir. Açıklama ve XP seçimlerden etkilenmez.
+Öğretmen formu ve eski görevlerin düzenlenmesi bu değişikliğin kapsamı dışındadır.
 Seçimleri gezmek board verisine yazmaz. Eksik bir katalog dersi yalnızca
 Quest ekle sırasında mevcut `ensureCategoryForHint` üzerinden oluşturulur;
 var olan ders kimlikleri, renkleri ve görevleri korunur. Aynı adlı birden

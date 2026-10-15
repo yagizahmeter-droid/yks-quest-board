@@ -124,7 +124,7 @@
     if (uid !== seenUser) {
       const previous = seenUser; seenUser = uid; teacherInfo = null;
       if (previous !== undefined) {
-        ['manualTitle','manualDetail','categoryNameInput','weekNameInput','weekRangeInput','modalWeekName','modalWeekRange'].forEach(id => $(id).value = '');
+        ['manualDetail','categoryNameInput','weekNameInput','weekRangeInput','modalWeekName','modalWeekRange'].forEach(id => $(id).value = '');
         document.querySelectorAll('[data-dirty]').forEach(el => delete el.dataset.dirty);
         if (!uid) $('authEmail').value = '';
       }
@@ -213,7 +213,7 @@
   $('pageBack').onclick = () => { if (current.depth > 0) history.back(); else navigate('home'); };
   $('addProgramButton').onclick = () => $('newWeekButton').click();
   $('openCategoryEditor').onclick = () => { $('categoryEditor').open = true; $('categoryNameInput').focus(); $('categoryEditor').scrollIntoView({block:'nearest'}); };
-  $('openQuestEditor').onclick = () => { $('questEditor').open = true; $('manualTitle').focus(); $('questEditor').scrollIntoView({block:'nearest'}); };
+  $('openQuestEditor').onclick = () => { $('questEditor').open = true; $('manualDetail').focus(); $('questEditor').scrollIntoView({block:'nearest'}); };
   document.querySelector('[data-go-teacher]').onclick = () => navigate('teacher');
   document.querySelector('[data-account-logout]').onclick = () => { if (canLeave(activeRoot())) $('signOutButton').click(); };
   document.addEventListener('click', event => {
