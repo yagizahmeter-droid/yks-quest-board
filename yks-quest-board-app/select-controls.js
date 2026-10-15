@@ -30,7 +30,11 @@
   }
   function draw(c, query = '') {
     c.items = [...c.native.options].filter(o=>!o.hidden && (!query || fold(o.label).includes(fold(query)))); c.list.replaceChildren();
-    c.items.forEach((o,i) => { const el = document.createElement('div'); el.id=c.id+'-option-'+i; el.setAttribute('role','option'); el.setAttribute('aria-selected',String(o.selected)); el.setAttribute('aria-disabled',String(o.disabled)); el.textContent=o.label; el.onclick=()=>select(c,i); c.list.append(el); });
+    c.items.forEach((o,i) => { const el = document.createElement('div'); el.id=c.id+'-option-'+i; el.setAttribute('role','option'); el.setAttribute('aria-selected',String(o.selected)); el.setAttribute('aria-disabled',String(o.disabled)); el.textContent=o.label;
+      // Keep combobox focus until click commits; a modal otherwise steals focus and closes the popup on mousedown.
+      el.onmousedown=e=>e.preventDefault();
+      // The popup lives inside a label: do not forward this click to its hidden native select.
+      el.onclick=e=>{e.preventDefault();select(c,i);}; c.list.append(el); });
     if (!c.items.length) { const empty=document.createElement('p'); empty.className='select-empty'; empty.textContent='Sonuç bulunamadı'; c.list.append(empty); }
     active(c,Math.max(0,c.items.findIndex(o=>o.selected)));
   }

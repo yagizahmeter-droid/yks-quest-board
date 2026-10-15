@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict'), fs = require('node:fs'), path = require('node:path');
+const pointerSelect=require('./pointer-select.cjs');
 module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
   let checks = 0;
   const contexts = [], errors = [];
@@ -59,7 +60,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     guest.once('dialog',d=>d.accept());await go(guest,'history');await guest.locator('#historyPage').waitFor();pass('Unsaved page form warns before navigation');
     await guest.locator('[data-history-view="completed"]').click();
     assert.ok(await guest.locator('#completedHistory .history-item').count()>0);
-    await guest.selectOption('#historyWeekFilter','original');assert.equal(await guest.locator('#completedHistory .history-item').count(),1);
+    await pointerSelect(guest,'#historyWeekFilter','original');assert.equal(await guest.locator('#completedHistory .history-item').count(),1);
     await guest.locator('[data-history-view="records"]').click();assert.equal(await guest.locator('#historyList .history-item').count(),1);pass('History records and completed tasks have independent preserved filters');
     await guest.evaluate(()=>window.DersUI.clearDirty(document.getElementById('questForm')));
     await guest.evaluate(()=>{document.getElementById('manualTitle').value='';});
@@ -87,7 +88,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     await student.click('#openCategoryEditor');await student.fill('#categoryNameInput',longName);await student.click('#addCategoryButton');
     const longCategory = await student.evaluate(name=>window.DersBoard.state.categories.find(c=>c.name===name)?.id,longName.trim());
     assert.ok(longCategory,'Long category name was not preserved');
-    await student.selectOption('#manualSubject',longCategory);await student.fill('#manualTitle',longName);await student.click('#addQuestButton');
+    await pointerSelect(student,'#manualSubject',longCategory);await student.fill('#manualTitle',longName);await student.click('#addQuestButton');
     await student.click('#editModeButton');pass('Lesson and quest creation remain available with long names');
     fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
     for (const width of [360,390,430,1280]) {
@@ -131,7 +132,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     const link=(await action(ids[0],'overview')).connections.find(c=>c.status==='pending');await action(ids[0],'respond_connection',{id:link.id,status:'approved'});
     const teacher = await newPage();await login(teacher,0);await go(teacher,'teacher');
     await teacher.locator('#teacherPanel [data-action="student"]').click();
-    await teacher.fill('#assignmentName','Retained draft');await teacher.fill('#assignmentRange','14-21 Ekim');await teacher.locator('#assignmentDraft [data-key="category"]').selectOption('Matematik');await teacher.locator('#assignmentDraft [data-key="topic"]').selectOption('__manual');await teacher.locator('#assignmentDraft [data-key="title"]').fill('Retained quest');
+    await teacher.fill('#assignmentName','Retained draft');await teacher.fill('#assignmentRange','14-21 Ekim');await pointerSelect(teacher,'#assignmentDraft [data-key="category"]','Matematik');await pointerSelect(teacher,'#assignmentDraft [data-key="topic"]','__manual');await teacher.locator('#assignmentDraft [data-key="title"]').fill('Retained quest');
     const assigned=(await action(ids[1],'overview')).assignments.find(a=>a.status==='accepted').quests[0];
     await action(ids[1],'request_change',{quest_id:assigned.id,changes:{title:'Pending UI change',detail:'30 soru ve analiz',xp:100}});
     await teacher.evaluate(()=>window.DersTeacher.refresh());

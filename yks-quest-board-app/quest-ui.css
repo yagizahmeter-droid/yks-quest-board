@@ -37,6 +37,7 @@
 .select-empty { padding: 12px; font-size: 13px; color: var(--muted); }
 .week-tools > .select-control { width: min(280px,100%); }
 html[data-appearance="glass"] .select-popup, html[data-appearance="glass"] .student-card { background: var(--glass-panel); backdrop-filter: blur(22px) saturate(1.25); -webkit-backdrop-filter: blur(22px) saturate(1.25); }
+html[data-appearance="glass"] .select-popup { background: color-mix(in srgb, var(--panel) 96%, transparent); }
 @keyframes select-enter { from { opacity: 0; } to { opacity: 1; } }
 @media (max-width: 700px) { .builder-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 480px) { .builder-grid { grid-template-columns: 1fr; } .student-tabs { gap: 4px; } .student-tabs .button { flex: 1 1 100%; } .week-tools > .select-control { width: 100%; flex: 1 1 100%; } }

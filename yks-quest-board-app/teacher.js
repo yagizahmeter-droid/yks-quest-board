@@ -2,7 +2,7 @@
   const panel = document.getElementById('teacherPanel');
   const roleSelect = document.getElementById('roleSelect');
   let overview = null, owner = null, snapshot = '', busy = false;
-  const freshQuest = () => ({ exam_type: 'TYT', category: '', title: '', detail: '', xp: 100, repeat_kind: 'none', repeat_target: 1 });
+  const freshQuest = () => ({ exam_type: 'TYT', category: '', topic_category: '', title: '', detail: '', xp: 100, repeat_kind: 'none', repeat_target: 1 });
   let draft = [freshQuest()];
   let viewToken = 0;
   const drafts = new Map();
@@ -101,11 +101,15 @@
     const wrap = document.getElementById('assignmentDraft'); if (!wrap) return;
     const options = (values, selected, placeholder) => `<option value="">${placeholder}</option>${values.map(v => `<option value="${esc(v)}" ${v === selected ? 'selected' : ''}>${esc(v)}</option>`).join('')}`;
     wrap.innerHTML = draft.map((q, i) => {
-      const topics = window.DersCurriculum.topics(q.exam_type, q.category), manual = q.manual || (q.title && !topics.includes(q.title));
+      // `category` is the persisted lesson; topic_category is only catalog navigation.
+      const catalog = window.DersCurriculum;
+      const group = q.topic_category || catalog.categoryFor(q.exam_type, q.category, q.title);
+      const topics = catalog.topics(q.exam_type, q.category, group), manual = q.manual || (q.title && !topics.includes(q.title));
       return `<fieldset class="teacher-quest-draft" data-index="${i}"><legend>Quest ${i+1}</legend><div class="builder-grid">
       <label class="field">Sınav<select class="select" aria-label="Sınav türü" data-key="exam_type">${window.DersCurriculum.exams.map(v => `<option ${v === q.exam_type ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
       <label class="field">Ders<select class="select" aria-label="Ders" data-key="category" data-searchable>${options(window.DersCurriculum.lessons(q.exam_type), q.category, 'Ders seç')}</select></label>
-      <label class="field">Konu<select class="select" aria-label="Konu" data-key="topic" data-searchable ${!q.category ? 'disabled' : ''}>${options(topics, manual ? '' : q.title, 'Konu seç')}<option value="__manual" ${manual ? 'selected' : ''}>Konuyu kendim yazacağım</option></select></label>
+      <label class="field">Kategori<select class="select" aria-label="Konu kategorisi" data-key="topic_category" data-searchable ${!q.category ? 'disabled' : ''}>${options(catalog.categories(q.exam_type, q.category), group, 'Kategori seç')}</select></label>
+      <label class="field">Alt konu<select class="select" aria-label="Konu" data-key="topic" data-searchable ${!q.category ? 'disabled' : ''}>${options(topics, manual ? '' : q.title, 'Alt konu seç')}<option value="__manual" ${manual ? 'selected' : ''}>Özel konu</option></select></label>
       ${manual ? `<label class="field">Konu adı<input class="input" data-key="title" aria-label="Görev adı" value="${esc(q.title)}" maxlength="200" required></label>` : ''}
       <label class="field builder-detail">Açıklama<textarea class="textarea" data-key="detail" aria-label="Açıklama" maxlength="500">${esc(q.detail)}</textarea></label>
       <label class="field">XP<input class="input" aria-label="XP" type="number" min="5" max="10000" data-key="xp" value="${q.xp}" required></label>
@@ -114,12 +118,13 @@
       <button class="icon-button" type="button" data-action="draft-delete" data-id="${i}" title="Quest sil" aria-label="Quest ${i+1} sil"><i data-lucide="trash-2"></i></button></fieldset>`;
     }).join('');
     wrap.oninput = event => { const field = event.target.dataset.key, i = event.target.closest('[data-index]')?.dataset.index;
-      if (field && i !== undefined && !['exam_type','category','topic','repeat_kind'].includes(field)) draft[i][field] = ['xp','repeat_target'].includes(field) ? Number(event.target.value) : event.target.value; };
+      if (field && i !== undefined && !['exam_type','category','topic_category','topic','repeat_kind'].includes(field)) draft[i][field] = ['xp','repeat_target'].includes(field) ? Number(event.target.value) : event.target.value; };
     wrap.onchange = event => {
       const field = event.target.dataset.key, i = event.target.closest('[data-index]')?.dataset.index; if (i === undefined) return;
       const q = draft[i], value = event.target.value;
-      if (field === 'exam_type') { q.exam_type = value; q.category = ''; q.title = ''; q.manual = false; }
-      else if (field === 'category') { q.category = value; q.title = ''; q.manual = false; }
+      if (field === 'exam_type') { q.exam_type = value; q.category = ''; q.topic_category = ''; q.title = ''; q.manual = false; }
+      else if (field === 'category') { q.category = value; q.topic_category = ''; q.title = ''; q.manual = false; }
+      else if (field === 'topic_category') { q.topic_category = value; q.title = ''; q.manual = false; }
       else if (field === 'topic') { q.manual = value === '__manual'; q.title = q.manual ? '' : value; }
       else if (field === 'repeat_kind') { q.repeat_kind = value; q.repeat_target = value === 'weekly' ? 5 : 1; }
       else return;

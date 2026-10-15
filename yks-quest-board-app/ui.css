@@ -212,7 +212,8 @@ h3 { font-size: 15px; margin: 8px 0; }
 .fx-pop { top: 18%; }
 .xp-effects { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 19; }
 .xp-effects .confetti-piece { position: absolute; }
-.toast { background: var(--text); color: var(--bg); max-width: min(480px, calc(100% - 32px)); }
+.toast { inset: auto auto max(18px, env(safe-area-inset-bottom)) 50%; margin: 0; width: max-content; border: 0; background: var(--text); color: var(--bg); max-width: min(480px, calc(100% - 32px)); }
+.toast::backdrop { background: transparent; pointer-events: none; }
 .loading-state { display: flex; gap: 12px; align-items: center; min-height: 180px; color: var(--muted); }
 .loading-spinner { width: 20px; height: 20px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: loading .8s linear infinite; }
 @keyframes loading { to { transform: rotate(360deg); } }

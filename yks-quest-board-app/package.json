@@ -7,6 +7,7 @@
     "build": "node scripts/build.cjs",
     "lint": "node scripts/check.cjs",
     "test": "node tests/integration.cjs",
+    "test:curriculum": "node tests/curriculum.cjs",
     "test:staging": "node tests/staging.cjs",
     "deploy:vercel": "vercel",
     "deploy:netlify": "netlify deploy --prod --dir ."

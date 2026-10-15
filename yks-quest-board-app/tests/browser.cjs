@@ -1,4 +1,5 @@
 const http=require('node:http'), assert=require('node:assert/strict'), fs=require('node:fs'), path=require('node:path');
+const pointerSelect=require('./pointer-select.cjs');
 module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
   // Local Auth/REST transport fixture; every data operation runs against real RLS in PostgreSQL.
   const users=ids.map((id,i)=>({id,email:`test${i}@example.test`,aud:'authenticated',role:'authenticated',app_metadata:{provider:'email'},user_metadata:{},created_at:new Date().toISOString()}));
@@ -47,12 +48,12 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     const t=await pageFor(0),s=await pageFor(1),phone=await pageFor(1,390);
     const fresh=await pageFor(4,360);assert.equal(await fresh.locator('#questCount').innerText(),'0 / 0');assert.equal(await fresh.locator('#totalXp').innerText(),'0 XP');
     const spacing=await fresh.locator('.profile-init').evaluate(el=>el.querySelector('button').getBoundingClientRect().top-el.querySelector('input').getBoundingClientRect().bottom);assert.ok(spacing>=12);console.log('PASS Teacher/student profile initialization button has safe mobile spacing');
-    await fresh.selectOption('#roleSelect','student');await fresh.fill('#profileName','New Student');await fresh.getByRole('button',{name:'Hesabımı hazırla'}).click();
+    await pointerSelect(fresh,'#roleSelect','student');await fresh.fill('#profileName','New Student');await fresh.getByRole('button',{name:'Hesabımı hazırla'}).click();
     await fresh.locator('#teacherPanel').getByText('New Student · Öğrenci',{exact:true}).waitFor();
     assert.equal(await fresh.locator('#roleSelect').isDisabled(),true);await fresh.evaluate(()=>window.DersUI.navigate('program'));assert.equal(await fresh.locator('#addProgramButton').isVisible(),true);assert.equal(await fresh.locator('#editModeButton').isVisible(),false);console.log('PASS New account starts empty and role is set once');
     await t.locator('#teacherPanel [data-action="student"]').click();
     await t.fill('#assignmentName','Browser Program');await t.fill('#assignmentRange','21-28 Ekim');
-    await t.locator('#assignmentDraft [data-key="category"]').selectOption('Fizik');await t.locator('#assignmentDraft [data-key="topic"]').selectOption('Basınç');
+    await pointerSelect(t,'#assignmentDraft [data-key="category"]','Fizik');await pointerSelect(t,'#assignmentDraft [data-key="topic_category"]','Enerji ve Madde');await pointerSelect(t,'#assignmentDraft [data-key="topic"]','Basınç ve Kaldırma Kuvveti');
     await t.locator('#assignmentDraft [data-key="detail"]').fill('50 soru ve analiz');await t.locator('#assignmentDraft [data-key="xp"]').fill('200');
     await t.getByRole('button',{name:'Programı gönder',exact:true}).click();
     await t.locator('#teacherPanel').getByText('Browser Program',{exact:true}).waitFor();
@@ -71,7 +72,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await s.locator('#questDialog').waitFor({state:'hidden'});await t.locator('#teacherPanel [data-action="refresh"]').click();
     await t.getByRole('button',{name:'Değişikliği onayla'}).click();await s.evaluate(()=>window.DersBoard.flush());
     await s.locator('.quest-title').filter({hasText:'Basınç güncellendi'}).waitFor();console.log('PASS Browser change request and teacher approval');
-    await s.selectOption('#weekSelect','original');await s.locator('.quest').filter({hasText:'Temel Kavramlar'}).click();await s.evaluate(()=>window.DersBoard.flush());
+    await pointerSelect(s,'#weekSelect','original');await s.locator('.quest').filter({hasText:'Temel Kavramlar'}).click();await s.evaluate(()=>window.DersBoard.flush());
     await s.getByRole('button',{name:/Tamamlananlar/}).click();assert.equal(await s.locator('.quest.done').count(),1);
     await s.evaluate(()=>window.DersUI.navigate('history'));assert.equal(await s.locator('#historyList .history-item').count(),2);await s.evaluate(()=>window.DersUI.navigate('program'));console.log('PASS Completed tab, independent weeks, global XP and history');
     await s.click('#newWeekButton');await s.fill('#modalWeekName','Empty browser week');await s.fill('#modalWeekRange','28 Ekim-4 Kasım');await s.click('#emptyWeekModalButton');
@@ -107,7 +108,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
     const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
     await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),{timeout:20000});
-    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-r1');return (await cache.keys()).map(r=>r.url);});
+    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-catalog-r1');return (await cache.keys()).map(r=>r.url);});
     assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
     for(const asset of ['appearance.js','appearance.css','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg'])assert.ok(cached.some(url=>url.endsWith('/'+asset)));
     await pwa.evaluate(()=>{window.DersTheme.setStyle('glass');window.DersTheme.setAccent('red');});
@@ -119,5 +120,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await require('./appearance.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users});
     await require('./floating.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`});
     await require('./quest-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids,admin});
+    await require('./catalog-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
+    await require('./dropdown-layers.cjs')({root,browser,siteUrl:`http://127.0.0.1:${site.address().port}`});
   }finally{if(browser)await browser.close();await new Promise(resolve=>api.close(resolve));await new Promise(resolve=>site.close(resolve));}
 };

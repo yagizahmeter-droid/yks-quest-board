@@ -990,7 +990,7 @@
     <footer class="appearance-footer"><button id="resetAppearance" class="button" type="button"><i data-lucide="rotate-ccw"></i>Varsayılana dön</button></footer>
   </dialog>
   <span class="app-version" aria-label="Uygulama sürümü v1.1">v1.1</span>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" popover="manual"></div>
 
   <script src="./quest-system.js"></script>
   <script src="./curriculum.js"></script>
@@ -1849,9 +1849,17 @@
 
     function showToast(message) {
       els.toast.textContent = message;
+      // Native dialogs live above all document z-indexes. Reopen the passive popover above the current top layer.
+      if (typeof els.toast.showPopover === 'function') {
+        if (els.toast.matches(':popover-open')) els.toast.hidePopover();
+        els.toast.showPopover();
+      }
       els.toast.classList.add("show");
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => els.toast.classList.remove("show"), 1200);
+      toastTimer = setTimeout(() => {
+        els.toast.classList.remove("show");
+        if (typeof els.toast.hidePopover === 'function' && els.toast.matches(':popover-open')) els.toast.hidePopover();
+      }, 1200);
     }
 
     function escapeHtml(value) {
