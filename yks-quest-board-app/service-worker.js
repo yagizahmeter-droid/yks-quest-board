@@ -1,4 +1,4 @@
-const CACHE_NAME = "ders-pwa-v1-0-1-r3";
+const CACHE_NAME = "ders-pwa-v1-1-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,6 +6,10 @@ const APP_SHELL = [
   "./config.js",
   "./sync.js",
   "./teacher.js",
+  "./quest-system.js",
+  "./curriculum.js",
+  "./select-controls.js",
+  "./quest-ui.css",
   "./ui.js",
   "./theme.js",
   "./ui.css",
@@ -16,9 +20,11 @@ const APP_SHELL = [
   "./assets/brand-mark.svg",
   "./vendor/supabase.js",
   "./vendor/lucide.js",
-  "./icons/icon.svg",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "./icons/ders-v2.svg",
+  "./icons/ders-192-v2.png",
+  "./icons/ders-512-v2.png",
+  "./icons/ders-maskable-v2.png",
+  "./icons/ders-apple-v2.png"
 ];
 
 self.addEventListener("install", (event) => {
@@ -32,7 +38,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+      .then((keys) => Promise.all(keys.filter((key) => /^(?:ders-pwa-|yks-quest-board-)/.test(key) && key !== CACHE_NAME).map((key) => caches.delete(key))))
       .then(() => self.clients.claim())
   );
 });

@@ -2,18 +2,21 @@
   const panel = document.getElementById('teacherPanel');
   const roleSelect = document.getElementById('roleSelect');
   let overview = null, owner = null, snapshot = '', busy = false;
-  let draft = [{ category: '', title: '', detail: '', xp: 100 }];
+  const freshQuest = () => ({ exam_type: 'TYT', category: '', title: '', detail: '', xp: 100, repeat_kind: 'none', repeat_target: 1 });
+  let draft = [freshQuest()];
+  let viewToken = 0;
+  const drafts = new Map();
   let shownStudent = null, studentData = null;
   let composer = null;
   const esc = value => window.DersBoard.escape(String(value ?? ''));
-  const labels = { pending: 'Onay bekliyor', approved: 'Onaylandı', rejected: 'Reddedildi', revoked: 'Bağlantı kaldırıldı', accepted: 'Kabul edildi' };
+  const labels = { pending: 'Onay bekliyor', approved: 'Onaylandı', rejected: 'Reddedildi', revoked: 'Bağlantı kaldırıldı', accepted: 'Kabul edildi', withdrawn: 'Geri çekildi' };
   const button = (text, action, id = '', extra = '') => `<button class="button" type="button" data-action="${action}" data-id="${esc(id)}" ${extra}>${text}</button>`;
   const input = (label, id, type = 'text', value = '') => `<label class="field">${label}<input class="input" id="${id}" type="${type}" value="${esc(value)}" ${type === 'number' ? 'min="5" max="10000" step="5"' : ''}></label>`;
   const row = (title, detail, controls = '') => `<div class="teacher-item"><strong>${esc(title)}</strong><span class="sync-status">${esc(detail)}</span><div class="signed-in-actions">${controls}</div></div>`;
   function resetOwner(uid) {
     if (owner === uid) return;
     overview = null; snapshot = ''; closeDialog(true); owner = uid;
-    composer = null; draft = [{ category: '', title: '', detail: '', xp: 100 }];
+    composer = null; draft = [freshQuest()]; drafts.clear();
   }
   async function rpc(action, payload = {}) {
     if (!window.DersBoard.user || !navigator.onLine) throw new Error('Bu işlem için internet bağlantısı ve giriş gerekli.');
@@ -32,7 +35,8 @@
       const data = await rpc('overview');
       if (owner !== uid) return;
       overview = data;
-      if (shownStudent && !overview.connections.some(c => c.student_id === shownStudent && c.status === 'approved')) closeDialog(true);
+      window.DersQuests.setServerTime(data.server_now);
+      if (shownStudent && !overview.connections.some(c => c.student_id === shownStudent && c.status === 'approved')) { const id = shownStudent; closeDialog(true); drafts.delete(id); }
       render();
     } catch (error) {
       if (owner !== uid) return;
@@ -59,7 +63,7 @@
     if (!overview.profile) {
       roleSelect.disabled = false;
       roleSelect.dataset.draft = '';
-      panel.innerHTML = '<div data-draft>' + input('Adın', 'profileName') + button('Hesabımı hazırla', 'init') + '</div>';
+      panel.innerHTML = '<div class="profile-init" data-draft>' + input('Adın', 'profileName') + button('Hesabımı hazırla', 'init') + '</div>';
       return;
     }
     window.DersUI?.clearDirty(roleSelect);
@@ -68,38 +72,23 @@
     window.DersBoard.setProfile(overview.profile);
     const connections = overview.connections;
     const approved = connections.filter(c => c.status === 'approved');
-    const existingForm = document.getElementById('assignmentForm');
-    if (existingForm) composer = { student: document.getElementById('assignmentStudent').value, name: document.getElementById('assignmentName').value, range: document.getElementById('assignmentRange').value, dirty: existingForm.dataset.dirty };
     panel.innerHTML = `<div class="sync-head"><strong>${esc(overview.profile.display_name)} · ${teacher ? 'Öğretmen' : 'Öğrenci'}</strong>${button('Yenile', 'refresh')}</div>`;
     if (teacher) {
       panel.insertAdjacentHTML('beforeend', `<div class="teacher-tools">${button('Davet kodu oluştur', 'invite')}<output id="inviteResult" class="invite-result"></output></div>`);
     } else {
       panel.insertAdjacentHTML('beforeend', `<div class="teacher-tools">${input('Öğretmen davet kodu', 'inviteInput')}${button('Bağlantı iste', 'join')}</div>`);
     }
-    for (const c of connections.filter(c => c.status === 'pending' || c.status === 'approved')) {
+    if (teacher) panel.insertAdjacentHTML('beforeend', `<div class="student-grid">${approved.map(c => `<button class="student-card" type="button" data-action="student" data-id="${esc(c.student_id)}"><span class="avatar" aria-hidden="true">${esc(c.name.slice(0,1))}</span><span><strong>${esc(c.name)}</strong><small>Bağlı öğrenci</small></span><i data-lucide="chevron-right"></i></button>`).join('')}</div>`);
+    for (const c of connections.filter(c => c.status === 'pending' || (!teacher && c.status === 'approved'))) {
       const controls = teacher && c.status === 'pending'
         ? button('Onayla', 'connection-approve', c.id) + button('Reddet', 'connection-reject', c.id)
         : c.status === 'approved' ? (teacher ? button('İlerlemeyi gör', 'student', c.student_id) : '') + button('Bağlantıyı kaldır', 'disconnect', c.id) : '';
       panel.insertAdjacentHTML('beforeend', row(c.name, labels[c.status], controls));
     }
     if (!connections.some(c => c.status === 'approved' || c.status === 'pending')) panel.insertAdjacentHTML('beforeend', '<p class="sync-status">Henüz öğretmen-öğrenci bağlantısı yok.</p>');
-    if (teacher && approved.length) {
-      panel.insertAdjacentHTML('beforeend', `<form id="assignmentForm" class="program-composer">
-        <h3>Haftalık program gönder</h3><label class="field">Öğrenci<select class="select" id="assignmentStudent">${approved.map(c => `<option value="${esc(c.student_id)}">${esc(c.name)}</option>`).join('')}</select></label>
-        <div class="modal-grid">${input('Hafta adı', 'assignmentName')}${input('Tarih aralığı', 'assignmentRange')}</div>
-        <div id="assignmentDraft"></div><div class="signed-in-actions">${button('Quest ekle', 'draft-add')}${button('Bu haftayı kopyala', 'draft-copy')}<button class="button primary" type="submit">Programı gönder</button></div>
-      </form>`);
-      renderDraft();
-      if (composer) {
-        if (approved.some(c => c.student_id === composer.student)) document.getElementById('assignmentStudent').value = composer.student;
-        document.getElementById('assignmentName').value = composer.name; document.getElementById('assignmentRange').value = composer.range;
-        if (composer.dirty) document.getElementById('assignmentForm').dataset.dirty = composer.dirty;
-      }
-      document.getElementById('assignmentForm').onsubmit = event => { event.preventDefault(); run('send'); };
-    }
     for (const a of overview.assignments) {
       const detail = `${a.name} · ${a.week_range || a.week_name} · ${labels[a.status]} · ${a.quests?.length || 0} quest`;
-      const controls = !teacher && a.status === 'pending' ? button('Programı kontrol et', 'review', a.id) : button('Görevleri gör', 'review', a.id);
+      const controls = (!teacher && a.status === 'pending' ? button('Programı kontrol et', 'review', a.id) : button('Görevleri gör', 'review', a.id)) + (teacher && a.status === 'pending' ? button('İsteği geri çek', 'withdraw', a.id) : '');
       panel.insertAdjacentHTML('beforeend', row(a.week_name, detail, controls));
     }
     for (const r of overview.requests) {
@@ -110,46 +99,103 @@
   }
   function renderDraft() {
     const wrap = document.getElementById('assignmentDraft'); if (!wrap) return;
-    wrap.innerHTML = draft.map((q, i) => `<div class="draft-row" data-index="${i}">
-      <input class="input" aria-label="Kategori" data-key="category" value="${esc(q.category)}" placeholder="Ders">
-      <input class="input" aria-label="Görev adı" data-key="title" value="${esc(q.title)}" placeholder="Görev adı">
-      <input class="input" aria-label="Açıklama" data-key="detail" value="${esc(q.detail)}" placeholder="Örn. 30 soru ve analiz">
-      <input class="input" aria-label="XP" type="number" min="5" max="10000" data-key="xp" value="${q.xp}">
-      ${button('Sil', 'draft-delete', i)}</div>`).join('');
+    const options = (values, selected, placeholder) => `<option value="">${placeholder}</option>${values.map(v => `<option value="${esc(v)}" ${v === selected ? 'selected' : ''}>${esc(v)}</option>`).join('')}`;
+    wrap.innerHTML = draft.map((q, i) => {
+      const topics = window.DersCurriculum.topics(q.exam_type, q.category), manual = q.manual || (q.title && !topics.includes(q.title));
+      return `<fieldset class="teacher-quest-draft" data-index="${i}"><legend>Quest ${i+1}</legend><div class="builder-grid">
+      <label class="field">Sınav<select class="select" aria-label="Sınav türü" data-key="exam_type">${window.DersCurriculum.exams.map(v => `<option ${v === q.exam_type ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+      <label class="field">Ders<select class="select" aria-label="Ders" data-key="category" data-searchable>${options(window.DersCurriculum.lessons(q.exam_type), q.category, 'Ders seç')}</select></label>
+      <label class="field">Konu<select class="select" aria-label="Konu" data-key="topic" data-searchable ${!q.category ? 'disabled' : ''}>${options(topics, manual ? '' : q.title, 'Konu seç')}<option value="__manual" ${manual ? 'selected' : ''}>Konuyu kendim yazacağım</option></select></label>
+      ${manual ? `<label class="field">Konu adı<input class="input" data-key="title" aria-label="Görev adı" value="${esc(q.title)}" maxlength="200" required></label>` : ''}
+      <label class="field builder-detail">Açıklama<textarea class="textarea" data-key="detail" aria-label="Açıklama" maxlength="500">${esc(q.detail)}</textarea></label>
+      <label class="field">XP<input class="input" aria-label="XP" type="number" min="5" max="10000" data-key="xp" value="${q.xp}" required></label>
+      <label class="field">Tekrar<select class="select" data-key="repeat_kind" aria-label="Tekrar türü">${[['none','Tek sefer'],['weekly','Haftalık tekrar'],['daily','Günlük görev']].map(([v,l]) => `<option value="${v}" ${q.repeat_kind === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+      ${q.repeat_kind === 'weekly' ? `<label class="field">Tekrar sayısı<input class="input" type="number" min="1" max="100" data-key="repeat_target" aria-label="Tekrar sayısı" value="${q.repeat_target}" required></label>` : ''}</div>
+      <button class="icon-button" type="button" data-action="draft-delete" data-id="${i}" title="Quest sil" aria-label="Quest ${i+1} sil"><i data-lucide="trash-2"></i></button></fieldset>`;
+    }).join('');
     wrap.oninput = event => { const field = event.target.dataset.key, i = event.target.closest('[data-index]')?.dataset.index;
-      if (field && i !== undefined) draft[i][field] = field === 'xp' ? Number(event.target.value) : event.target.value; };
+      if (field && i !== undefined && !['exam_type','category','topic','repeat_kind'].includes(field)) draft[i][field] = ['xp','repeat_target'].includes(field) ? Number(event.target.value) : event.target.value; };
+    wrap.onchange = event => {
+      const field = event.target.dataset.key, i = event.target.closest('[data-index]')?.dataset.index; if (i === undefined) return;
+      const q = draft[i], value = event.target.value;
+      if (field === 'exam_type') { q.exam_type = value; q.category = ''; q.title = ''; q.manual = false; }
+      else if (field === 'category') { q.category = value; q.title = ''; q.manual = false; }
+      else if (field === 'topic') { q.manual = value === '__manual'; q.title = q.manual ? '' : value; }
+      else if (field === 'repeat_kind') { q.repeat_kind = value; q.repeat_target = value === 'weekly' ? 5 : 1; }
+      else return;
+      renderDraft(); wrap.querySelector(`[data-index="${i}"] [data-key="${field}"]`)?.focus();
+    };
   }
   const dialog = document.createElement('dialog'); dialog.id = 'questDialog'; dialog.className = 'ders-dialog'; document.body.append(dialog);
   function closeDialog(force = false, nextRoute) {
+    if (!force && busy) { window.DersBoard.toast('İşlem sürüyor. Biraz bekle.'); return false; }
     if (!force && window.DersUI && !window.DersUI.canLeave(dialog)) return false;
-    dialog.close(); dialog.replaceChildren(); shownStudent = null; studentData = null;
+    viewToken++; rememberComposer(); dialog.close(); dialog.replaceChildren(); shownStudent = null; studentData = null;
     window.DersUI?.clearDirty(dialog); window.DersUI?.modalClosed('teacher-dialog', nextRoute); return true;
   }
   function showDialog(title, body) {
-    if (dialog.open && window.DersUI && !window.DersUI.canLeave(dialog)) return;
-    dialog.close(); shownStudent = null; studentData = null; window.DersUI?.clearDirty(dialog);
+    if (dialog.open && window.DersUI && !window.DersUI.canLeave(dialog)) return false;
+    viewToken++; rememberComposer(); dialog.close(); shownStudent = null; studentData = null; window.DersUI?.clearDirty(dialog);
     dialog.innerHTML = `<div class="modal-head"><h2>${esc(title)}</h2><button class="icon-button" type="button" id="dismissDialog" aria-label="Kapat" title="Kapat"><i data-lucide="x"></i></button></div><div class="modal-body">${body}</div>`;
     dialog.querySelector('#dismissDialog').onclick = () => closeDialog(); dialog.showModal();
     window.DersUI?.openModal('teacher-dialog', dialog, closeDialog);
+    return true;
   }
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
+  function rememberComposer() {
+    const form = document.getElementById('assignmentForm'); if (!form || !shownStudent) return;
+    drafts.set(shownStudent, { quests: draft, name: document.getElementById('assignmentName').value, range: document.getElementById('assignmentRange').value, start: document.getElementById('assignmentStart').value, end: document.getElementById('assignmentEnd').value });
+  }
+  function programForm() {
+    const day = window.DersQuests.today();
+    composer = drafts.get(shownStudent) || { quests: [freshQuest()], name: '', range: '', start: day, end: new Date(Date.parse(day+'T12:00:00Z')+6*86400000).toISOString().slice(0,10) };
+    draft = composer.quests;
+    document.getElementById('studentWorkspace').innerHTML = `<form id="assignmentForm" class="program-composer"><input type="hidden" id="assignmentStudent" value="${esc(shownStudent)}"><div class="modal-grid">${input('Hafta adı','assignmentName','text',composer.name)}${input('Tarih aralığı','assignmentRange','text',composer.range)}</div><div class="modal-grid">${input('Günlük görev başlangıcı','assignmentStart','date',composer.start)}${input('Günlük görev bitişi','assignmentEnd','date',composer.end)}</div><div id="assignmentDraft"></div><p id="assignmentError" role="alert"></p><div class="signed-in-actions">${button('<i data-lucide="plus"></i>Quest ekle','draft-add')}${button('<i data-lucide="copy"></i>Bu haftayı kopyala','draft-copy')}<button class="button primary" type="submit"><i data-lucide="send"></i>Programı gönder</button></div></form>`;
+    const templates = overview.assignments.filter(a => a.student_id === shownStudent && ['accepted','pending'].includes(a.status));
+    document.getElementById('assignmentDraft').insertAdjacentHTML('beforebegin', `<label class="field">Kopyalanacak hafta<select class="select" id="assignmentTemplate"><option value="own">Kişisel haftam · ${esc(window.DersBoard.week().name)}</option>${templates.map(a => `<option value="${esc(a.id)}">${esc(a.week_name)} · ${labels[a.status]}</option>`).join('')}</select></label>`);
+    document.getElementById('assignmentForm').onsubmit = e => { e.preventDefault(); run('send'); }; renderDraft();
+  }
+  function openStudent(id) {
+    const c = overview.connections.find(c => c.student_id === id && c.status === 'approved');
+    if (!c || !showDialog(c.name, `<div class="segmented student-tabs" role="tablist" aria-label="Öğrenci yönetimi">${[['Program hazırla','student-program'],['İlerlemeyi gör','student-progress'],['Deneme sonuçları','student-results']].map(([label,action]) => button(label,action,'',`role="tab" aria-selected="${action==='student-program'}"`)).join('')}</div><div id="studentWorkspace" role="tabpanel"></div><div class="student-disconnect">${button('Bağlantıyı kaldır','disconnect',c.id)}</div>`)) return;
+    shownStudent = id;
+    const tabs = [...dialog.querySelectorAll('[role="tab"]')];
+    tabs.forEach((tab, i) => { tab.id = 'student-tab-'+i; tab.tabIndex = i===0 ? 0 : -1; tab.setAttribute('aria-controls','studentWorkspace'); tab.onkeydown = event => {
+      if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      event.preventDefault(); const next = event.key==='Home' ? 0 : event.key==='End' ? tabs.length-1 : (i+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length; tabs[next].focus(); tabs[next].click();
+    }; });
+    document.getElementById('studentWorkspace').setAttribute('aria-labelledby',tabs[0].id); programForm();
+  }
+  async function studentTab(action) {
+    const wrap = document.getElementById('studentWorkspace'); if (!wrap || !shownStudent || !window.DersUI?.canLeave(wrap)) return;
+    rememberComposer(); window.DersUI?.clearDirty(wrap);
+    const token = ++viewToken, uid = owner, id = shownStudent;
+    dialog.querySelectorAll('[role="tab"]').forEach(b => { const selected = b.dataset.action === action; b.tabIndex = selected ? 0 : -1; b.setAttribute('aria-selected',String(selected)); b.classList.toggle('is-active',selected); if(selected)wrap.setAttribute('aria-labelledby',b.id); });
+    if (action === 'student-program') { programForm(); return; }
+    if (action === 'student-results') { wrap.innerHTML = '<div class="empty-state"><i data-lucide="chart-no-axes-combined"></i><h3>Coming Soon — Yakında!</h3></div>'; return; }
+    wrap.innerHTML = '<p role="status">İlerleme yükleniyor…</p>';
+    const data = await rpc('student_board',{student_id:id});
+    if (token !== viewToken || uid !== owner || id !== shownStudent || !dialog.open || !overview.connections.some(c => c.student_id === id && c.status === 'approved')) return;
+    studentView(data,id);
+  }
   function review(a) {
     const quests = a.quests || [];
-    showDialog(a.week_name, `<p>${esc(a.week_range)} · ${labels[a.status]}</p>${quests.map(q => row(`${q.category_name} · ${q.title}`, `${q.detail} · ${q.xp} XP`)).join('')}
+    showDialog(a.week_name, `<p>${esc(a.week_range)} · ${labels[a.status]}</p>${quests.map(q => row(`${q.exam_type ? q.exam_type + ' · ' : ''}${q.category_name} · ${q.title}`, `${q.detail} · ${q.xp} XP${q.repeat_kind === 'weekly' ? ' / tekrar · '+q.repeat_target+' tekrar' : q.repeat_kind === 'daily' ? ' / gün · '+q.starts_on+' – '+q.ends_on : ''}`)).join('')}
       <div class="signed-in-actions">${overview.profile.role === 'student' && a.status === 'pending' ? button('Programı kabul et', 'program-accept', a.id) + button('Programı reddet', 'program-reject', a.id) : ''}</div>`);
   }
   function studentView(data, id) {
     const s = data.state || { weeks: [], studyHistory: [] };
-    showDialog(`${data.name} · İlerleme`, '<div id="studentSummary"></div>'); shownStudent = id; studentData = s;
+    document.getElementById('studentWorkspace').innerHTML = '<div id="studentSummary"></div>'; studentData = s;
     const wrap = dialog.querySelector('#studentSummary');
-    const all = s.weeks.flatMap(w => w.quests || []); const xp = all.reduce((n,q) => n+(q.done ? q.xp : 0),0);
-    wrap.innerHTML = `<strong>${xp} XP · ${all.filter(q => q.done).length}/${all.length} görev</strong><label class="field">Hafta<select id="studentWeek" class="select">${s.weeks.map(w => `<option value="${esc(w.id)}">${esc(w.range || w.name)}</option>`).join('')}</select></label><div id="studentQuests"></div><h3>Çalışma geçmişi</h3>${(s.studyHistory || []).slice(-30).reverse().map(h => row(`${h.categoryName} · ${h.title}`, `${h.detail} · ${h.xp} XP · ${new Date(h.completedAt).toLocaleString('tr-TR')}`)).join('')}`;
+    const all = s.weeks.flatMap(w => w.quests || []); const xp = all.reduce((n,q) => n+window.DersQuests.earned(q),0);
+    wrap.innerHTML = `<strong>${xp} XP · ${all.filter(q => q.done).length}/${all.length} görev</strong><label class="field">Hafta<select id="studentWeek" class="select">${s.weeks.map(w => `<option value="${esc(w.id)}">${esc(w.range || w.name)}${w.archived ? ' · Arşiv' : ''}</option>`).join('')}</select></label><div id="studentQuests"></div><h3>Çalışma geçmişi</h3>${(s.studyHistory || []).slice(-60).reverse().map(h => row(`${h.categoryName} · ${h.title}`, `${h.detail} · ${h.xp} XP · ${h.occurrenceDate || new Date(h.completedAt).toLocaleDateString('tr-TR', { timeZone: 'Europe/Istanbul' })} · ${new Date(h.completedAt).toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul', hour: '2-digit', minute: '2-digit' })}`)).join('')}`;
+    if (data.xpBreakdown) { const p = document.createElement('p'); p.className = 'sync-status'; p.textContent = `Rekabet ${data.xpBreakdown.competitive} XP · Kişisel ${data.xpBreakdown.personal} XP`; wrap.prepend(p); }
     const select = wrap.querySelector('#studentWeek');
-    const draw = () => { const w = s.weeks.find(w => w.id === select.value); wrap.querySelector('#studentQuests').innerHTML = (w?.quests || []).map(q => row(q.title, `${q.detail} · ${q.done ? 'Tamamlandı' : 'Bekliyor'} · ${q.xp} XP`)).join(''); };
+    const draw = () => { const w = s.weeks.find(w => w.id === select.value); wrap.querySelector('#studentQuests').innerHTML = (w?.quests || []).map(q => row(q.title, `${q.detail} · ${window.DersQuests.describe(q)} · ${window.DersQuests.earned(q)} XP kazanıldı${window.DersQuests.recurring(q) ? ' · '+window.DersQuests.completions(q).map(e => e.date).join(', ') : ''}`)).join(''); };
     select.onchange = draw; draw();
   }
   function editQuest(q, w, change = false) {
-    showDialog(change ? 'Değişiklik iste' : 'Quest düzenle', `<form id="questEditForm">${input('Görev adı','editTitle','text',q.title)}${input('Açıklama','editDetail','text',q.detail)}${input('XP','editXp','number',q.xp)}<p id="editError" role="alert"></p><button class="button primary" type="submit">${change ? 'İsteği gönder' : 'Kaydet'}</button></form>`);
+    if (!showDialog(change ? 'Değişiklik iste' : 'Quest düzenle', `<form id="questEditForm">${input('Görev adı','editTitle','text',q.title)}${input('Açıklama','editDetail','text',q.detail)}${input('XP','editXp','number',q.xp)}<p id="editError" role="alert"></p><button class="button primary" type="submit">${change ? 'İsteği gönder' : 'Kaydet'}</button></form>`)) return;
     dialog.querySelector('#questEditForm').onsubmit = async event => {
       event.preventDefault(); const changes = { title: dialog.querySelector('#editTitle').value.trim(), detail: dialog.querySelector('#editDetail').value.trim(), xp: Number(dialog.querySelector('#editXp').value) };
       if (!changes.title || !Number.isInteger(changes.xp) || changes.xp < 5 || changes.xp > 10000) { dialog.querySelector('#editError').textContent = 'Görev adı ve 5–10000 XP gerekli.'; return; }
@@ -169,23 +215,30 @@
         const output = document.getElementById('inviteResult'); output.textContent = `${data.code} · 7 gün geçerli`; output.dataset.code = data.code; return;
       } else if (action === 'join') await rpc('request_connection', { code: document.getElementById('inviteInput').value });
       else if (action === 'connection-approve' || action === 'connection-reject') await rpc('respond_connection', { id, status: action.endsWith('approve') ? 'approved' : 'rejected' });
-      else if (action === 'disconnect') { if (!confirm('Bağlantı kaldırılsın mı? Öğretmenin bu öğrenciye erişimi sona erecek.')) return; await rpc('remove_connection', { id }); closeDialog(true); }
-      else if (action === 'student') { studentView(await rpc('student_board', { student_id: id }), id); return; }
-      else if (action === 'draft-add') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft.push({ category:'',title:'',detail:'',xp:100 }); renderDraft(); return; }
+      else if (action === 'disconnect') { if (!confirm('Bağlantı kaldırılsın mı? Öğretmenin bu öğrenciye erişimi sona erecek.')) return; await rpc('remove_connection', { id }); closeDialog(true); drafts.clear(); }
+      else if (action === 'student') { openStudent(id); return; }
+      else if (action.startsWith('student-')) { await studentTab(action); return; }
+      else if (action === 'draft-add') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft.push(freshQuest()); renderDraft(); return; }
       else if (action === 'draft-delete') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft.splice(Number(id),1); renderDraft(); return; }
-      else if (action === 'draft-copy') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft = window.DersBoard.week().quests.map(q => ({ category: window.DersBoard.category(q.categoryId || q.subject).name, title:q.title,detail:q.detail,xp:q.xp })); renderDraft(); return; }
+      else if (action === 'draft-copy') { document.getElementById('assignmentForm').dataset.dirty = 'true'; const template = overview.assignments.find(a => a.id === document.getElementById('assignmentTemplate').value && a.student_id === shownStudent);
+        draft = template ? template.quests.map(q => ({ ...freshQuest(), exam_type:q.exam_type || 'TYT', category:q.category_name, title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat_kind || 'none',repeat_target:q.repeat_target || 1 })) : window.DersBoard.week().quests.map(q => ({ ...freshQuest(), exam_type:q.examType || 'TYT', category:window.DersBoard.category(q.categoryId || q.subject).name, title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat?.kind || 'none',repeat_target:q.repeat?.target || 1 })); renderDraft(); return; }
       else if (action === 'send') {
-        await rpc('assign_program', { student_id: document.getElementById('assignmentStudent').value, week_name: document.getElementById('assignmentName').value.trim(), week_range: document.getElementById('assignmentRange').value.trim(), quests:draft });
+        if (draft.some(q => q.repeat_kind !== 'none') && !overview.capabilities?.repeatQuests) throw new Error('Tekrarlı görevler için sunucu güncellemesi gerekli. Program gönderilmedi.');
+        const start = document.getElementById('assignmentStart').value, end = document.getElementById('assignmentEnd').value;
+        const days = Math.round((Date.parse(end+'T12:00:00Z')-Date.parse(start+'T12:00:00Z'))/86400000)+1;
+        const quests = draft.map(q => ({ exam_type:q.exam_type, category:q.category, title:q.title.trim(), detail:q.detail.trim(), xp:q.xp, repeat_kind:q.repeat_kind, repeat_target:q.repeat_kind==='daily' ? days : q.repeat_kind==='weekly' ? q.repeat_target : 1, ...(q.repeat_kind==='daily' ? {starts_on:start,ends_on:end} : {}) }));
+        if (!document.getElementById('assignmentName').value.trim() || !quests.length || quests.some(q => !window.DersCurriculum.supports(q.exam_type,q.category) || !q.title || !Number.isInteger(q.xp) || q.xp<5 || q.xp>10000 || !Number.isInteger(q.repeat_target) || q.repeat_target<1 || q.repeat_target>100 || (q.repeat_kind==='daily' && days>31))) throw new Error('Hafta adı, ders, konu, geçerli XP ve tekrar hedefi gerekli. Günlük aralık 1–31 gün olabilir.');
+        await rpc('assign_program', { student_id: shownStudent, week_name: document.getElementById('assignmentName').value.trim(), week_range: document.getElementById('assignmentRange').value.trim(), quests });
         window.DersUI?.clearDirty(document.getElementById('assignmentForm'));
-        document.getElementById('assignmentName').value = ''; document.getElementById('assignmentRange').value = '';
-        composer = null; draft = [{ category:'',title:'',detail:'',xp:100 }]; snapshot = '';
+        window.DersUI?.clearDirty(dialog); drafts.delete(shownStudent); programForm(); snapshot = '';
       } else if (action === 'review') { review(overview.assignments.find(a => a.id === id)); return; }
+      else if (action === 'withdraw') { if (!overview.capabilities?.withdrawProgram) throw new Error('İsteği geri çekmek için sunucu güncellemesi gerekli.'); if (!confirm('Öğrencinin henüz kabul etmediği bu program isteği geri çekilsin mi?')) return; await rpc('withdraw_assignment',{id}); }
       else if (action === 'program-accept' || action === 'program-reject') {
         await window.DersBoard.flush(); await rpc('respond_assignment', { id,status:action.endsWith('accept') ? 'accepted' : 'rejected' });
         closeDialog(true, action === 'program-accept' ? 'program' : undefined); await window.DersBoard.flush();
       } else if (action === 'change-approve' || action === 'change-reject') await rpc('resolve_change', { id,status:action.endsWith('approve') ? 'approved' : 'rejected' });
       await refresh(); window.DersBoard.toast(action === 'refresh' ? 'Güncellendi' : 'İşlem tamamlandı');
-    } catch (error) { window.DersBoard.toast(error.message || 'İşlem tamamlanamadı.'); }
+    } catch (error) { const output = document.getElementById('assignmentError'); if (action === 'send' && output) output.textContent = error.message; else window.DersBoard.toast(error.message || 'İşlem tamamlanamadı.'); }
     finally { busy = false; }
   }
   function onAction(event) { const target = event.target.closest('[data-action]'); if (target) { event.preventDefault(); run(target.dataset.action,target.dataset.id); } }

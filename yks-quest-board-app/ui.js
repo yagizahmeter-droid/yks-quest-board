@@ -167,12 +167,13 @@
     const groups = s.weeks.filter(w => !weekFilter || w.id === weekFilter).map(w => ({ week: w, quests: w.quests.filter(q => {
       if (!q.done || (categoryFilter && (q.categoryId || q.subject) !== categoryFilter)) return false;
       if (!dateFilter) return true;
+      if (window.DersQuests.recurring(q)) return window.DersQuests.completions(q).some(e => e.date === dateFilter);
       const h = s.studyHistory.find(h => h.id === q.completionId);
       if (!h) return false;
-      const d = new Date(h.completedAt), key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      const key = new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Istanbul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(h.completedAt));
       return key === dateFilter;
     }) })).filter(g => g.quests.length);
-    $('completedHistory').innerHTML = groups.length ? groups.map(g => `<h2 class="history-week-label">${esc(g.week.name)}</h2>${g.quests.map(q => `<article class="history-item"><strong>${esc(window.DersBoard.category(q.categoryId || q.subject).name)} · ${esc(q.title)}</strong><span class="sync-status">${esc(q.detail)} · ${q.xp} XP</span><span class="chip completed-badge">${q.lockedForStudent ? 'Öğretmen atadı · ' : ''}Tamamlandı</span></article>`).join('')}`).join('') : '<div class="empty-state"><i data-lucide="circle-check"></i><h2>Henüz tamamlanan görev yok</h2></div>';
+    $('completedHistory').innerHTML = groups.length ? groups.map(g => `<h2 class="history-week-label">${esc(g.week.name)}</h2>${g.quests.map(q => `<article class="history-item"><strong>${esc(window.DersBoard.category(q.categoryId || q.subject).name)} · ${esc(q.title)}</strong><span class="sync-status">${esc(q.detail)} · ${window.DersQuests.earned(q)} XP</span><span class="chip completed-badge">${q.lockedForStudent ? 'Öğretmen atadı · ' : ''}Tamamlandı</span></article>`).join('')}`).join('') : '<div class="empty-state"><i data-lucide="circle-check"></i><h2>Henüz tamamlanan görev yok</h2></div>';
   }
   function icons() {
     document.querySelectorAll('.edit-tools button[data-action]').forEach(b => {
@@ -226,6 +227,7 @@
     }
   });
   document.addEventListener('input', event => {
+    if (event.target.dataset.uiTransient === 'true') return;
     const scope = event.target.closest('[data-draft], form, .modal-backdrop, dialog');
     if (scope && !scope.hasAttribute('data-auto-save')) scope.dataset.dirty = 'true';
   });
@@ -234,7 +236,7 @@
     if (!overlay) return;
     if (event.key === 'Escape' && overlay.root.tagName !== 'DIALOG') { event.preventDefault(); if (canLeave(overlay.root)) overlay.close(true); }
     if (event.key === 'Tab') {
-      const items = [...overlay.root.querySelectorAll('button, input, select, textarea, a[href], [tabindex="0"]')].filter(el => !el.disabled && !el.hidden && el.getClientRects().length);
+      const items = [...overlay.root.querySelectorAll('button, input, select, textarea, a[href], [tabindex="0"]')].filter(el => !el.disabled && !el.hidden && el.tabIndex >= 0 && el.getAttribute('aria-hidden') !== 'true' && el.getClientRects().length);
       const first = items[0], last = items.at(-1);
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }

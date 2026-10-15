@@ -103,7 +103,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
         if(questWidth<=150){await student.screenshot({path:path.join(root,'test-results',`floating-quest-width-${width}.png`),fullPage:true});console.log('QUEST WIDTH',JSON.stringify(await student.evaluate(()=>({route:location.hash,state:history.state,programHidden:document.querySelector('#programPage').hidden,quest:document.querySelector('.quest-main')?.outerHTML,boardWidth:document.querySelector('#board').getBoundingClientRect().width}))));}
         assert.ok(questWidth>150,`${width}/${theme} quest text width ${questWidth}`);
         const version = await student.locator('.app-version').evaluate(el=>{const box=el.getBoundingClientRect();return {text:el.textContent,left:box.left,right:box.right,top:box.top,bottom:box.bottom,pointerEvents:getComputedStyle(el).pointerEvents};});
-        assert.equal(version.text,'v1.0.1');assert.equal(version.pointerEvents,'none');
+        assert.equal(version.text,'v1.1');assert.equal(version.pointerEvents,'none');
         assert.ok(version.left>=0 && version.right<=width && version.top>=0 && version.bottom<=900,`${width}/${theme} version bounds`);
         for (const selector of ['#pageTitle','.app-version']) {
         const contrast = await student.locator(selector).evaluate(el=>{
@@ -130,7 +130,8 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     const invite=(await action(ids[0],'create_invite')).code;await action(ids[1],'request_connection',{code:invite});
     const link=(await action(ids[0],'overview')).connections.find(c=>c.status==='pending');await action(ids[0],'respond_connection',{id:link.id,status:'approved'});
     const teacher = await newPage();await login(teacher,0);await go(teacher,'teacher');
-    await teacher.fill('#assignmentName','Retained draft');await teacher.fill('#assignmentRange','14-21 Ekim');await teacher.locator('#assignmentDraft [data-key="title"]').fill('Retained quest');
+    await teacher.locator('#teacherPanel [data-action="student"]').click();
+    await teacher.fill('#assignmentName','Retained draft');await teacher.fill('#assignmentRange','14-21 Ekim');await teacher.locator('#assignmentDraft [data-key="category"]').selectOption('Matematik');await teacher.locator('#assignmentDraft [data-key="topic"]').selectOption('__manual');await teacher.locator('#assignmentDraft [data-key="title"]').fill('Retained quest');
     const assigned=(await action(ids[1],'overview')).assignments.find(a=>a.status==='accepted').quests[0];
     await action(ids[1],'request_change',{quest_id:assigned.id,changes:{title:'Pending UI change',detail:'30 soru ve analiz',xp:100}});
     await teacher.evaluate(()=>window.DersTeacher.refresh());
@@ -138,7 +139,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     assert.ok(Number(await teacher.locator('.main-nav [data-teacher-count]').innerText())>0);pass('Pending badge updates without erasing teacher draft');
     teacher.once('dialog',d=>d.dismiss());await go(teacher,'home');assert.equal(await teacher.locator('#teacherPage').isVisible(),true);pass('Teacher program draft is guarded on navigation');
     await teacher.evaluate(()=>window.DersUI.clearDirty(document.getElementById('assignmentForm')));
-    await teacher.locator('#teacherPanel [data-action="student"]').click();await teacher.locator('#studentSummary').waitFor();
+    await teacher.locator('[data-action="student-progress"]').click();await teacher.locator('#studentSummary').waitFor();
     await teacher.goBack();await teacher.locator('#questDialog').waitFor({state:'hidden'});assert.equal(await teacher.locator('#teacherPage').isVisible(),true);pass('Teacher progress modal participates in browser back');
     await teacher.screenshot({path:path.join(root,'test-results','ui-teacher-desktop.png'),fullPage:true});
     let releaseResponse, received;
@@ -147,7 +148,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
       if(route.request().postDataJSON().p_action!=='student_board'){await route.continue();return;}
       const response=await route.fetch();received();await responseGate;await route.fulfill({response});
     });
-    await teacher.locator('#teacherPanel [data-action="student"]').click();await responseReady;
+    await teacher.locator('#teacherPanel [data-action="student"]').click();await teacher.locator('[data-action="student-progress"]').click();await responseReady;
     await teacher.evaluate(()=>window.DersBoard.client.auth.signOut());await teacher.waitForFunction(()=>!window.DersBoard.user);
     assert.equal(await teacher.locator('#teacherPanel [data-action="student"]').count(),0);pass('Account switch immediately clears teacher cache and controls');
     releaseResponse();await teacher.waitForFunction(()=>document.querySelector('#toast').textContent.includes('Oturum değişti'));

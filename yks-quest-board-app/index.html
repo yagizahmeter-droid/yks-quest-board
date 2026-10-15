@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#101114">
   <script src="./theme.js"></script>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="icon" href="./icons/ders-v2.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/ders-apple-v2.png">
   <title>D.E.R.S.</title>
   <script src="./config.js"></script>
   <script src="./vendor/supabase.js"></script>
@@ -776,6 +776,7 @@
   </style>
   <link rel="stylesheet" href="./ui.css">
   <link rel="stylesheet" href="./appearance.css">
+  <link rel="stylesheet" href="./quest-ui.css">
   <script src="./vendor/lucide.js"></script>
 </head>
 <body>
@@ -819,7 +820,7 @@
     <section id="homePage" class="page-view" data-page="home">
       <section class="overview" aria-label="Haftalık durum">
         <div class="stats">
-          <div class="stat"><span><i data-lucide="zap"></i> Toplam XP</span><strong id="totalXp">0 XP</strong><small>Tüm haftalar</small></div>
+          <div class="stat"><span><i data-lucide="zap"></i> Toplam XP</span><strong id="totalXp">0 XP</strong><small id="xpBreakdown" aria-label="Sunucuda doğrulanan XP">Tüm haftalar</small></div>
           <div class="stat"><span><i data-lucide="sparkles"></i> Seviye</span><strong id="level">Level 1</strong></div>
           <div class="stat"><span><i data-lucide="circle-check"></i> Görev sayacı</span><strong id="questCount">0 / 0</strong><small>Tamamlanan / toplam</small></div>
           <div class="stat"><span><i data-lucide="chart-no-axes-column-increasing"></i> Haftalık ilerleme</span><strong id="progressText">0%</strong><div class="progress-track" role="progressbar" aria-label="Haftalık ilerleme" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div id="progressFill" class="progress-fill"></div></div><small id="remainingText">İlk quest seni bekliyor</small></div>
@@ -874,7 +875,7 @@
         <label class="field">Yeni hafta adı<input id="weekNameInput" class="input" type="text" placeholder="Örn. 14-21 Ekim Haftası"></label>
         <label class="field">Tarih aralığı<input id="weekRangeInput" class="input" type="text" placeholder="Örn. 14-21 Ekim"></label>
         <button id="createWeekButton" class="button" type="button">Boş hafta oluştur</button>
-      </div><button id="resetButton" class="button danger" type="button"><i data-lucide="rotate-ccw"></i>Bu haftayı sıfırla</button></details>
+      </div><div class="signed-in-actions"><button id="resetButton" class="button danger" type="button"><i data-lucide="rotate-ccw"></i>Bu haftayı sıfırla</button><button id="deleteWeekButton" class="button danger" type="button"><i data-lucide="archive"></i>Haftayı sil</button></div></details>
     </section></section>
     <section id="teacherPage" class="page-view teacher-card" data-page="teacher" aria-label="Öğretmen paneli" hidden>
       <div class="card-head">
@@ -988,9 +989,11 @@
     <label class="monochrome-control"><span>Renksiz mod</span><input id="monochromeToggle" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
     <footer class="appearance-footer"><button id="resetAppearance" class="button" type="button"><i data-lucide="rotate-ccw"></i>Varsayılana dön</button></footer>
   </dialog>
-  <span class="app-version" aria-label="Uygulama sürümü v1.0.1">v1.0.1</span>
+  <span class="app-version" aria-label="Uygulama sürümü v1.1">v1.1</span>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <script src="./quest-system.js"></script>
+  <script src="./curriculum.js"></script>
   <script>
     const STORAGE_KEY = "yksQuestBoard.v1";
     const META_KEY = "yksQuestBoard.meta.v1";
@@ -1140,6 +1143,7 @@
     };
 
     let currentUser = null;
+    let verifiedXp = null;
     let state = loadState();
     let activeSubject = "all";
     let toastTimer = null;
@@ -1197,8 +1201,9 @@
         changeRequests: Array.isArray(rawState.changeRequests) ? rawState.changeRequests : []
       };
       if (!next.weeks.length) next.weeks = emptyState().weeks;
-      if (!next.activeWeekId || !next.weeks.some((week) => week.id === next.activeWeekId)) {
-        next.activeWeekId = next.weeks[0].id;
+      if(!next.weeks.some(week=>!week.archived))next.weeks.push(emptyState().weeks[0]);
+      if (!next.activeWeekId || !next.weeks.some((week) => week.id === next.activeWeekId&&!week.archived)) {
+        next.activeWeekId = next.weeks.find(week=>!week.archived).id;
       }
       next.categories = normalizeCategories(rawState.categories, next.weeks);
       next.weeks = next.weeks.map((week, weekIndex) => ({
@@ -1284,7 +1289,7 @@
     }
 
     function activeWeek() {
-      return state.weeks.find((week) => week.id === state.activeWeekId) || state.weeks[0];
+      return state.weeks.find((week) => week.id === state.activeWeekId&&!week.archived) || state.weeks.find(week=>!week.archived);
     }
 
     function getCategories() {
@@ -1373,6 +1378,7 @@
       authGeneration += 1;
       clearTimeout(syncTimer);
       currentUser = user;
+      verifiedXp = null;
       state = loadState();
       activeSubject = "all";
       revision += 1;
@@ -1416,6 +1422,14 @@
     }
 
     async function fetchCloudState() {
+      const uid = currentUser.id, generation = authGeneration;
+      const result = await supabaseClient.rpc('ders_action', { p_action: 'read_board', p_payload: {} });
+      if (!result.error) {
+        if (uid === currentUser?.id && generation === authGeneration) verifiedXp = result.data.xpBreakdown || null;
+        return result.data.state ? result.data : null;
+      }
+      // Older servers still support the original board read until the approved migration.
+      if (result.error.code !== 'P0001' || !result.error.message.includes('Bilinmeyen işlem')) throw result.error;
       const { data, error } = await supabaseClient.from(SUPABASE_TABLE)
         .select("state, updated_at, version").eq("user_id", currentUser.id).maybeSingle();
       if (error) throw error;
@@ -1449,6 +1463,7 @@
           if (error) throw error;
           if (data.error) throw new Error(data.error);
           if (data.conflict) { remote = data; continue; }
+          verifiedXp = data.xpBreakdown || verifiedXp;
           const changed = revision !== startRevision;
           state = changed ? normalizeState(window.DersSync.mergeState(localSnapshot, state, candidate)) : candidate;
           localStorage.setItem(boardStorageKey(), JSON.stringify(state));
@@ -1469,9 +1484,10 @@
     function getStats(quests) {
       const total = quests.length;
       const done = quests.filter((quest) => quest.done).length;
-      const earnedXp = quests.reduce((sum, quest) => sum + (quest.done ? quest.xp : 0), 0);
-      const possibleXp = quests.reduce((sum, quest) => sum + quest.xp, 0);
-      const percent = total ? Math.round((done / total) * 100) : 0;
+      const earnedXp = quests.reduce((sum, quest) => sum + window.DersQuests.earned(quest), 0);
+      const possibleXp = quests.reduce((sum, quest) => {const p=window.DersQuests.progress(quest);return sum+window.DersQuests.earned(quest)+(p.target-p.count)*quest.xp;},0);
+      const units=quests.reduce((n,q)=>n+window.DersQuests.progress(q).count,0),targets=quests.reduce((n,q)=>n+window.DersQuests.progress(q).target,0);
+      const percent = targets ? Math.round((units / targets) * 100) : 0;
       const level = Math.max(1, Math.floor(earnedXp / 500) + 1);
       return { total, done, earnedXp, possibleXp, percent, level };
     }
@@ -1510,7 +1526,7 @@
 
     function renderWeekSelect() {
       els.weekSelect.innerHTML = "";
-      state.weeks.forEach((week) => {
+      state.weeks.filter(week=>!week.archived).forEach((week) => {
         const option = document.createElement("option");
         option.value = week.id;
         option.textContent = week.name;
@@ -1593,6 +1609,9 @@
       const accountStats = getStats(state.weeks.flatMap(item => item.quests));
       const left = stats.total - stats.done;
       els.totalXp.textContent = `${accountStats.earnedXp} XP`;
+      document.getElementById('xpBreakdown').textContent = currentUser && verifiedXp
+        ? `Doğrulanan: Rekabet ${verifiedXp.competitive} XP · Kişisel ${verifiedXp.personal} XP`
+        : 'Tüm haftalar';
       els.level.textContent = `Level ${accountStats.level}`;
       els.questCount.textContent = `${stats.done} / ${stats.total}`;
       els.progressText.textContent = `${stats.percent}%`;
@@ -1690,6 +1709,14 @@
         </span>
         <span class="xp">+${quest.xp} XP</span>
       `;
+      if(quest.examType)button.querySelector('.quest-meta').insertAdjacentHTML('beforeend',`<span class="chip">${escapeHtml(quest.examType)}</span>`);
+      if(window.DersQuests.recurring(quest)){
+        const progress=window.DersQuests.progress(quest);
+        button.classList.toggle('today-done',Boolean(progress.todayDone));
+        button.setAttribute('aria-disabled',String(progress.blocked));
+        button.setAttribute('aria-label',`${subject.name}: ${quest.title}, ${window.DersQuests.describe(quest)}`);
+        button.querySelector('.quest-main').insertAdjacentHTML('beforeend',`<span class="repeat-progress" role="status">${escapeHtml(window.DersQuests.describe(quest))}</span>`);
+      }
       if (completedView) {
         button.querySelector(".quest-meta").insertAdjacentHTML("beforeend", `<span class="chip completed-badge">Tamamlandı</span>`);
       }
@@ -1751,6 +1778,7 @@
       const week = activeWeek();
       const quest = week.quests.find((item) => item.id === id);
       if (!quest) return;
+      if(window.DersQuests.recurring(quest)){window.DersQuests.complete(quest);return;}
       const beforeLevel = getStats(state.weeks.flatMap(item => item.quests)).level;
       quest.done = !quest.done;
       if (quest.done) {
@@ -1895,7 +1923,7 @@
       els.historyWeekFilter.value = weekId;
       els.historyCategoryFilter.value = categoryId;
       const records = (state.studyHistory || [])
-        .filter((record) => !date || localDateKey(record.completedAt) === date)
+        .filter((record) => !date || (record.occurrenceDate || localDateKey(record.completedAt)) === date)
         .filter((record) => !weekId || record.weekId === weekId)
         .filter((record) => !categoryId || record.categoryId === categoryId)
         .sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
@@ -1905,7 +1933,7 @@
         item.className = "history-item";
         item.innerHTML = `
           <strong>${escapeHtml(record.categoryName)} · ${escapeHtml(record.title)}</strong>
-          <span class="text-muted">${escapeHtml(record.detail)} · +${record.xp} XP · ${new Date(record.completedAt).toLocaleString("tr-TR")}</span>
+          <span class="text-muted">${escapeHtml(record.detail)} · +${record.xp} XP · ${new Date(record.completedAt).toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" })}</span>
           <span class="chip">${escapeHtml(record.weekName || record.weekId)} · ${escapeHtml(record.source === 'teacher_assigned' ? 'Öğretmen atadı' : record.source || "Manuel")}</span>
         `;
         els.historyList.append(item);
@@ -1917,8 +1945,7 @@
     }
 
     function localDateKey(value) {
-      const date = new Date(value);
-      return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+      return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(value));
     }
 
     function openWeekModal() {
@@ -2204,8 +2231,9 @@
     els.resetButton.addEventListener("click", () => {
       const week = activeWeek();
       if (!week) return;
-      if (!confirm(`${week.name} ilerlemesi sıfırlansın mı?`)) return;
+      if (!confirm(`${week.name} tek seferlik görevlerinin ilerlemesi sıfırlansın mı? Tekrarlı öğretmen görevlerinin kazanılmış XP ve kayıtları korunacak.`)) return;
       week.quests.forEach((quest) => {
+        if(window.DersQuests.recurring(quest))return;
         if (quest.done) removeHistoryRecord(quest);
         quest.done = false;
         quest.completionId = null;
@@ -2213,6 +2241,16 @@
       saveState();
       render();
       showToast("Hafta sıfırlandı");
+    });
+
+    document.getElementById('deleteWeekButton').addEventListener('click',async()=>{
+      const week=activeWeek();if(!week)return;
+      if(!confirm(`${week.name} listeden kaldırılsın mı? ${week.quests.length} görev arşivlenecek. Kazanılmış XP ve çalışma geçmişi korunacak; arşivlenen görevler yeniden tamamlanamaz.`))return;
+      try{
+        if(currentUser)await window.DersQuests.archiveWeek(week);
+        else {week.archived=true;const other=state.weeks.find(w=>!w.archived);if(other)state.activeWeekId=other.id;else createWeek('Yeni Hafta','');saveState();render();}
+        showToast('Hafta arşivlendi. XP ve geçmiş korundu.');
+      }catch(error){showToast(error.message||'Hafta kaldırılamadı.');}
     });
 
     els.newWeekButton.addEventListener("click", openWeekModal);
@@ -2348,7 +2386,7 @@
     window.DersBoard = {
       get client() { return supabaseClient; }, get user() { return currentUser; }, get state() { return state; },
       get authReady() { return authReady; },
-      week: activeWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud,
+      week: activeWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud, render,
       setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; window.DersUI?.refresh(); },
       editQuest(id, weekId, changes) {
         const q = state.weeks.find(w => w.id === weekId)?.quests.find(q => q.id === id);
@@ -2360,6 +2398,7 @@
     initCloud().catch(error => { authReady = true; syncError(error); });
   </script>
   <script src="./teacher.js"></script>
+  <script src="./select-controls.js"></script>
   <script src="./ui.js"></script>
   <script src="./appearance.js"></script>
 </body>

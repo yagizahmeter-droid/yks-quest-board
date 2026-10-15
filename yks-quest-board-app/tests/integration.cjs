@@ -57,6 +57,11 @@ async function main() {
     assert.deepEqual(await board(student),before); check(true,'Migration preserves existing JSON and version');
     assert.deepEqual((await board(teacher2)).state,legacy);check(true,'Original legacy board preserved byte-for-byte as JSON');
     check((await admin.query('select count(*)::int n from ders_private.board_backups')).rows[0].n===2,'Full pre-migration backup captured');
+    const repeatBefore=await board(student);
+    await admin.query(fs.readFileSync(path.join(root,'migrations/20261014_teacher_quest_repeats.sql'),'utf8'));
+    assert.deepEqual(await board(student),repeatBefore);check(true,'Repeat migration preserves existing board JSON and version');
+    await admin.query(fs.readFileSync(path.join(root,'migrations/20261015_competitive_xp.sql'),'utf8'));
+    assert.deepEqual(await board(student),repeatBefore);check(true,'XP provenance migration preserves original JSON and version');
     for(const [id,role,name] of [[teacher,'teacher','Test Teacher'],[student,'student','Test Student'],[outsider,'student','Unrelated Student'],[teacher2,'teacher','Unrelated Teacher']]) await action(id,'init_profile',{role,name});
     await action(student,'init_profile',{role:'teacher',name:'Fake'});
     check((await action(student,'overview')).profile.role==='student','Role cannot be escalated after registration');
@@ -120,6 +125,8 @@ async function main() {
     check(merged.weeks.length===2 && merged.weeks[0].quests[0].done && merged.studyHistory.length===1,'Offline completion and remote program merge without data loss');
     const malicious=structuredClone(remote); malicious.weeks[1].quests[0].title='Edited offline';
     check(mergeState(remote,malicious,remote).weeks[1].quests[0].title===quest.title,'Merge preserves server-controlled teacher fields');
+    await require('./repeats.cjs')({admin,action,asUser,board,check,denied});
+    await require('./xp-provenance.cjs')({admin,action,asUser,board,check,denied});
     if(process.env.SKIP_BROWSER!=='1') await require('./browser.cjs')({root,deps,action,asUser,admin,ids,personal});
     console.log(`RESULT: ${checks} database/security/sync checks passed`);
   } catch(error) { console.error('TEST FAILURE',error); throw error; }
