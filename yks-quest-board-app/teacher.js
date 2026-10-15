@@ -2,7 +2,7 @@
   const panel = document.getElementById('teacherPanel');
   const roleSelect = document.getElementById('roleSelect');
   let overview = null, owner = null, snapshot = '', busy = false;
-  const freshQuest = () => ({ exam_type: 'TYT', category: '', topic_category: '', title: '', detail: '', xp: 100, repeat_kind: 'none', repeat_target: 1 });
+  const freshQuest = () => ({ exam_type: 'TYT', category: '', topic_category: '', topic_name: '', topic_scope: '', title: '', detail: '', xp: 100, repeat_kind: 'none', repeat_target: 1 });
   let draft = [freshQuest()];
   let viewToken = 0;
   const drafts = new Map();
@@ -104,13 +104,17 @@
       // `category` is the persisted lesson; topic_category is only catalog navigation.
       const catalog = window.DersCurriculum;
       const group = q.topic_category || catalog.categoryFor(q.exam_type, q.category, q.title);
-      const topics = catalog.topics(q.exam_type, q.category, group), manual = q.manual || (q.title && !topics.includes(q.title));
+      const topics = catalog.topics(q.exam_type, q.category, group);
+      const legacy = q.title && !q.topic_scope && !topics.includes(q.title);
+      if (!legacy && q.title && !q.topic_scope) { q.topic_scope = 'topic'; q.topic_name = q.title; q.topic_category = group; }
+      const selected = legacy ? '__legacy' : q.topic_scope === 'category' ? '__category' : q.topic_name;
+      if (!legacy) q.title = catalog.taskTitle(group, q.topic_name, q.topic_scope);
       return `<fieldset class="teacher-quest-draft" data-index="${i}"><legend>Quest ${i+1}</legend><div class="builder-grid">
       <label class="field">Sınav<select class="select" aria-label="Sınav türü" data-key="exam_type">${window.DersCurriculum.exams.map(v => `<option ${v === q.exam_type ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
       <label class="field">Ders<select class="select" aria-label="Ders" data-key="category" data-searchable>${options(window.DersCurriculum.lessons(q.exam_type), q.category, 'Ders seç')}</select></label>
       <label class="field">Kategori<select class="select" aria-label="Konu kategorisi" data-key="topic_category" data-searchable ${!q.category ? 'disabled' : ''}>${options(catalog.categories(q.exam_type, q.category), group, 'Kategori seç')}</select></label>
-      <label class="field">Alt konu<select class="select" aria-label="Konu" data-key="topic" data-searchable ${!q.category ? 'disabled' : ''}>${options(topics, manual ? '' : q.title, 'Alt konu seç')}<option value="__manual" ${manual ? 'selected' : ''}>Özel konu</option></select></label>
-      ${manual ? `<label class="field">Konu adı<input class="input" data-key="title" aria-label="Görev adı" value="${esc(q.title)}" maxlength="200" required></label>` : ''}
+      <label class="field">Alt konu<select class="select" aria-label="Konu" data-key="topic" data-searchable ${!group && !legacy ? 'disabled' : ''}>${options(topics, selected, 'Alt konu seç')}${group ? `<option value="__category" ${selected === '__category' ? 'selected' : ''}>Genel</option>` : ''}${legacy ? `<option value="__legacy" selected>Eski görev · ${esc(q.title)}</option>` : ''}</select></label>
+      <div class="field builder-title"><span>Görev</span><output data-role="derived-title">${esc(q.title) || '—'}</output></div>
       <label class="field builder-detail">Açıklama<textarea class="textarea" data-key="detail" aria-label="Açıklama" maxlength="500">${esc(q.detail)}</textarea></label>
       <label class="field">XP<input class="input" aria-label="XP" type="number" min="5" max="10000" data-key="xp" value="${q.xp}" required></label>
       <label class="field">Tekrar<select class="select" data-key="repeat_kind" aria-label="Tekrar türü">${[['none','Tek sefer'],['weekly','Haftalık tekrar'],['daily','Günlük görev']].map(([v,l]) => `<option value="${v}" ${q.repeat_kind === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
@@ -122,10 +126,10 @@
     wrap.onchange = event => {
       const field = event.target.dataset.key, i = event.target.closest('[data-index]')?.dataset.index; if (i === undefined) return;
       const q = draft[i], value = event.target.value;
-      if (field === 'exam_type') { q.exam_type = value; q.category = ''; q.topic_category = ''; q.title = ''; q.manual = false; }
-      else if (field === 'category') { q.category = value; q.topic_category = ''; q.title = ''; q.manual = false; }
-      else if (field === 'topic_category') { q.topic_category = value; q.title = ''; q.manual = false; }
-      else if (field === 'topic') { q.manual = value === '__manual'; q.title = q.manual ? '' : value; }
+      if (field === 'exam_type') { q.exam_type = value; q.category = ''; q.topic_category = ''; q.topic_name = ''; q.topic_scope = ''; q.title = ''; }
+      else if (field === 'category') { q.category = value; q.topic_category = ''; q.topic_name = ''; q.topic_scope = ''; q.title = ''; }
+      else if (field === 'topic_category') { q.topic_category = value; q.topic_name = ''; q.topic_scope = ''; q.title = ''; }
+      else if (field === 'topic' && value !== '__legacy') { q.topic_scope = value === '__category' ? 'category' : value ? 'topic' : ''; q.topic_name = value === '__category' ? null : value; q.title = window.DersCurriculum.taskTitle(q.topic_category, q.topic_name, q.topic_scope); }
       else if (field === 'repeat_kind') { q.repeat_kind = value; q.repeat_target = value === 'weekly' ? 5 : 1; }
       else return;
       renderDraft(); wrap.querySelector(`[data-index="${i}"] [data-key="${field}"]`)?.focus();
@@ -201,6 +205,7 @@
   }
   function editQuest(q, w, change = false) {
     if (!showDialog(change ? 'Değişiklik iste' : 'Quest düzenle', `<form id="questEditForm">${input('Görev adı','editTitle','text',q.title)}${input('Açıklama','editDetail','text',q.detail)}${input('XP','editXp','number',q.xp)}<p id="editError" role="alert"></p><button class="button primary" type="submit">${change ? 'İsteği gönder' : 'Kaydet'}</button></form>`)) return;
+    if (q.lockedForStudent && q.topicScope) dialog.querySelector('#editTitle').readOnly = true;
     dialog.querySelector('#questEditForm').onsubmit = async event => {
       event.preventDefault(); const changes = { title: dialog.querySelector('#editTitle').value.trim(), detail: dialog.querySelector('#editDetail').value.trim(), xp: Number(dialog.querySelector('#editXp').value) };
       if (!changes.title || !Number.isInteger(changes.xp) || changes.xp < 5 || changes.xp > 10000) { dialog.querySelector('#editError').textContent = 'Görev adı ve 5–10000 XP gerekli.'; return; }
@@ -226,12 +231,13 @@
       else if (action === 'draft-add') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft.push(freshQuest()); renderDraft(); return; }
       else if (action === 'draft-delete') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft.splice(Number(id),1); renderDraft(); return; }
       else if (action === 'draft-copy') { document.getElementById('assignmentForm').dataset.dirty = 'true'; const template = overview.assignments.find(a => a.id === document.getElementById('assignmentTemplate').value && a.student_id === shownStudent);
-        draft = template ? template.quests.map(q => ({ ...freshQuest(), exam_type:q.exam_type || 'TYT', category:q.category_name, title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat_kind || 'none',repeat_target:q.repeat_target || 1 })) : window.DersBoard.week().quests.map(q => ({ ...freshQuest(), exam_type:q.examType || 'TYT', category:window.DersBoard.category(q.categoryId || q.subject).name, title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat?.kind || 'none',repeat_target:q.repeat?.target || 1 })); renderDraft(); return; }
+        draft = template ? template.quests.map(q => ({ ...freshQuest(), exam_type:q.exam_type || 'TYT', category:q.category_name, topic_category:q.topic_category || '', topic_name:q.topic_scope === 'category' ? null : q.topic_name || '', topic_scope:q.topic_scope || '', title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat_kind || 'none',repeat_target:q.repeat_target || 1 })) : window.DersBoard.week().quests.map(q => ({ ...freshQuest(), exam_type:q.examType || 'TYT', category:window.DersBoard.category(q.categoryId || q.subject).name, topic_category:q.topicCategory || '', topic_name:q.topicScope === 'category' ? null : q.topicName || '', topic_scope:q.topicScope || '', title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat?.kind || 'none',repeat_target:q.repeat?.target || 1 })); renderDraft(); return; }
       else if (action === 'send') {
+        if (draft.some(q => q.topic_scope) && !overview.capabilities?.topicCatalog) throw new Error('Konu alanlarını kaydetmek için sunucu güncellemesi gerekli. Program gönderilmedi.');
         if (draft.some(q => q.repeat_kind !== 'none') && !overview.capabilities?.repeatQuests) throw new Error('Tekrarlı görevler için sunucu güncellemesi gerekli. Program gönderilmedi.');
         const start = document.getElementById('assignmentStart').value, end = document.getElementById('assignmentEnd').value;
         const days = Math.round((Date.parse(end+'T12:00:00Z')-Date.parse(start+'T12:00:00Z'))/86400000)+1;
-        const quests = draft.map(q => ({ exam_type:q.exam_type, category:q.category, title:q.title.trim(), detail:q.detail.trim(), xp:q.xp, repeat_kind:q.repeat_kind, repeat_target:q.repeat_kind==='daily' ? days : q.repeat_kind==='weekly' ? q.repeat_target : 1, ...(q.repeat_kind==='daily' ? {starts_on:start,ends_on:end} : {}) }));
+        const quests = draft.map(q => ({ exam_type:q.exam_type, category:q.category, title:q.title.trim(), detail:q.detail.trim(), xp:q.xp, repeat_kind:q.repeat_kind, repeat_target:q.repeat_kind==='daily' ? days : q.repeat_kind==='weekly' ? q.repeat_target : 1, ...(q.topic_scope ? {topic_category:q.topic_category,topic_name:q.topic_name,topic_scope:q.topic_scope} : {}), ...(q.repeat_kind==='daily' ? {starts_on:start,ends_on:end} : {}) }));
         if (!document.getElementById('assignmentName').value.trim() || !quests.length || quests.some(q => !window.DersCurriculum.supports(q.exam_type,q.category) || !q.title || !Number.isInteger(q.xp) || q.xp<5 || q.xp>10000 || !Number.isInteger(q.repeat_target) || q.repeat_target<1 || q.repeat_target>100 || (q.repeat_kind==='daily' && days>31))) throw new Error('Hafta adı, ders, konu, geçerli XP ve tekrar hedefi gerekli. Günlük aralık 1–31 gün olabilir.');
         await rpc('assign_program', { student_id: shownStudent, week_name: document.getElementById('assignmentName').value.trim(), week_range: document.getElementById('assignmentRange').value.trim(), quests });
         window.DersUI?.clearDirty(document.getElementById('assignmentForm'));

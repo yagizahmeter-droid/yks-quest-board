@@ -20,7 +20,7 @@
   function quest(base, local, remote) {
     const result = fields(base, local, remote);
     if (remote.lockedForStudent) {
-      for (const key of ['title', 'detail', 'xp', 'categoryId', 'subject', 'source', 'sourceDay', 'lockedForStudent', 'assignedQuestId', 'assignedByTeacherId','examType']) result[key] = remote[key];
+      for (const key of ['title', 'detail', 'xp', 'categoryId', 'subject', 'source', 'sourceDay', 'lockedForStudent', 'assignedQuestId', 'assignedByTeacherId','examType','topicCategory','topicName','topicScope']) result[key] = remote[key];
       if(remote.repeat){for(const key of ['repeat','completions','done','completionId','examType'])result[key]=remote[key];}
     }
     return result;

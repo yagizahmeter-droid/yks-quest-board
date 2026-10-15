@@ -44,4 +44,8 @@ assert.ok(!c.topics('TYT','Matematik').some(t=>t.startsWith('Türev')));
 assert.ok(!c.supports('TYT','Tarih-2'));assert.ok(!c.supports('AYT','Türkçe'));
 assert.deepEqual(c.topics('Unknown','Fizik'),[]);
 assert.deepEqual(c.topics('TYT','Unknown'),[]);
+assert.equal(c.taskTitle('Problemler',null,'category'),'Problemler');
+assert.equal(c.taskTitle('Problemler','Yaş Problemleri','topic'),'Yaş Problemleri');
+assert.equal(c.taskTitle('Problemler',null,''),'');
+assert.ok(!c.topics('TYT','Matematik','Problemler').includes('Genel'));
 console.log('PASS source hierarchy, parenthetical qualifiers, exam boundaries, immutable reads and unchanged KPSS');

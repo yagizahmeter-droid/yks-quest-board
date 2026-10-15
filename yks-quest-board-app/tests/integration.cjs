@@ -62,6 +62,8 @@ async function main() {
     assert.deepEqual(await board(student),repeatBefore);check(true,'Repeat migration preserves existing board JSON and version');
     await admin.query(fs.readFileSync(path.join(root,'migrations/20261015_competitive_xp.sql'),'utf8'));
     assert.deepEqual(await board(student),repeatBefore);check(true,'XP provenance migration preserves original JSON and version');
+    await admin.query(fs.readFileSync(path.join(root,'migrations/20261015180312_teacher_topic_fields.sql'),'utf8'));
+    assert.deepEqual(await board(student),repeatBefore);check(true,'Topic metadata migration preserves original JSON and version');
     for(const [id,role,name] of [[teacher,'teacher','Test Teacher'],[student,'student','Test Student'],[outsider,'student','Unrelated Student'],[teacher2,'teacher','Unrelated Teacher']]) await action(id,'init_profile',{role,name});
     await action(student,'init_profile',{role:'teacher',name:'Fake'});
     check((await action(student,'overview')).profile.role==='student','Role cannot be escalated after registration');
@@ -127,6 +129,7 @@ async function main() {
     check(mergeState(remote,malicious,remote).weeks[1].quests[0].title===quest.title,'Merge preserves server-controlled teacher fields');
     await require('./repeats.cjs')({admin,action,asUser,board,check,denied});
     await require('./xp-provenance.cjs')({admin,action,asUser,board,check,denied});
+    await require('./teacher-topics.cjs')({admin,action,asUser,board,check,denied});
     if(process.env.SKIP_BROWSER!=='1') await require('./browser.cjs')({root,deps,action,asUser,admin,ids,personal});
     console.log(`RESULT: ${checks} database/security/sync checks passed`);
   } catch(error) { console.error('TEST FAILURE',error); throw error; }

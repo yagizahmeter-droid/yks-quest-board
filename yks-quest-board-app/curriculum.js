@@ -110,6 +110,7 @@
       ? Object.values(groups(exam, lesson)).flat()
       : [...(Object.hasOwn(groups(exam, lesson), category) ? groups(exam, lesson)[category] : [])],
     categoryFor: (exam, lesson, topic) => Object.entries(groups(exam, lesson)).find(([, topics]) => topics.includes(topic))?.[0] || '',
+    taskTitle: (category, topic, scope) => scope === 'category' ? category || '' : scope === 'topic' ? topic || '' : '',
     supports: (exam, lesson) => Object.hasOwn(catalog[exam] || {}, lesson)
   };
   root.DersCurriculum = api;

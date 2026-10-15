@@ -68,10 +68,10 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     assert.match(await phone.locator('#totalXp').innerText(),/380/);
     console.log('PASS Browser teacher sends, student accepts and second device sees completion');
     await s.locator('.quest').filter({hasText:'Basınç'}).getByRole('button',{name:'Değişiklik iste'}).click();
-    await s.fill('#editTitle','Basınç güncellendi');await s.getByRole('button',{name:'İsteği gönder'}).click();
+    assert.equal(await s.locator('#editTitle').getAttribute('readonly'),'');await s.fill('#editDetail','Basınç güncellendi');await s.getByRole('button',{name:'İsteği gönder'}).click();
     await s.locator('#questDialog').waitFor({state:'hidden'});await t.locator('#teacherPanel [data-action="refresh"]').click();
     await t.getByRole('button',{name:'Değişikliği onayla'}).click();await s.evaluate(()=>window.DersBoard.flush());
-    await s.locator('.quest-title').filter({hasText:'Basınç güncellendi'}).waitFor();console.log('PASS Browser change request and teacher approval');
+    await s.locator('.quest').filter({hasText:'Basınç güncellendi'}).waitFor();assert.equal(await s.locator('.quest-title').getByText('Basınç ve Kaldırma Kuvveti',{exact:true}).count(),1);console.log('PASS Browser change request and teacher approval');
     await pointerSelect(s,'#weekSelect','original');await s.locator('.quest').filter({hasText:'Temel Kavramlar'}).click();await s.evaluate(()=>window.DersBoard.flush());
     await s.getByRole('button',{name:/Tamamlananlar/}).click();assert.equal(await s.locator('.quest.done').count(),1);
     await s.evaluate(()=>window.DersUI.navigate('history'));assert.equal(await s.locator('#historyList .history-item').count(),2);await s.evaluate(()=>window.DersUI.navigate('program'));console.log('PASS Completed tab, independent weeks, global XP and history');
@@ -108,7 +108,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
     const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
     await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),{timeout:20000});
-    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-personal-catalog-r1');return (await cache.keys()).map(r=>r.url);});
+    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-teacher-scope-r1');return (await cache.keys()).map(r=>r.url);});
     assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
     for(const asset of ['appearance.js','appearance.css','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','personal-catalog.js'])assert.ok(cached.some(url=>url.endsWith('/'+asset)));
     await pwa.evaluate(()=>{window.DersTheme.setStyle('glass');window.DersTheme.setAccent('red');});
@@ -123,5 +123,6 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await require('./catalog-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
     await require('./dropdown-layers.cjs')({root,browser,siteUrl:`http://127.0.0.1:${site.address().port}`});
     await require('./personal-catalog.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
+    await require('./teacher-general-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
   }finally{if(browser)await browser.close();await new Promise(resolve=>api.close(resolve));await new Promise(resolve=>site.close(resolve));}
 };

@@ -13,7 +13,9 @@
 #assignmentDraft { display: grid; gap: 20px; }
 .teacher-quest-draft { margin: 0; padding: 14px 0; border: 0; border-bottom: 1px solid var(--line); min-width: 0; }
 .teacher-quest-draft legend { font-size: 14px; font-weight: 600; color: var(--muted); }
-.builder-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; margin-bottom: 12px; }
+.builder-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; margin-bottom: 12px; }
+.builder-title { grid-column: 1 / -1; }
+.builder-title output { color: var(--text); font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
 .builder-detail { grid-column: 1 / -1; }
 .builder-detail textarea { min-height: 70px; resize: vertical; }
 .repeat-progress { display: block; font-size: 12px; line-height: 1.5; color: var(--accent); overflow-wrap: anywhere; }
