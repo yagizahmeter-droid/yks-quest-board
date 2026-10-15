@@ -1,4 +1,4 @@
-const CACHE_NAME = "ders-pwa-v1-1-personal-description-r1";
+const CACHE_NAME = "ders-pwa-v1-1-1-preview-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,6 +6,11 @@ const APP_SHELL = [
   "./config.js",
   "./sync.js",
   "./teacher.js",
+  "./teacher-drafts.js",
+  "./program-import.js",
+  "./backgrounds.js",
+  "./release-history.js",
+  "./v111.css",
   "./quest-system.js",
   "./curriculum.js",
   "./personal-catalog.js",
@@ -22,6 +27,13 @@ const APP_SHELL = [
   "./vendor/supabase.js",
   "./vendor/lucide.js",
   "./icons/ders-v2.svg",
+  "./icons/ders-v3.svg",
+  "./icons/ders-16-v3.png",
+  "./icons/ders-32-v3.png",
+  "./icons/ders-192-v3.png",
+  "./icons/ders-512-v3.png",
+  "./icons/ders-maskable-v3.png",
+  "./icons/ders-apple-v3.png",
   "./icons/ders-192-v2.png",
   "./icons/ders-512-v2.png",
   "./icons/ders-maskable-v2.png",

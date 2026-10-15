@@ -103,8 +103,8 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
         const questWidth=await student.locator('.quest-main').first().evaluate(e=>e.getBoundingClientRect().width);
         if(questWidth<=150){await student.screenshot({path:path.join(root,'test-results',`floating-quest-width-${width}.png`),fullPage:true});console.log('QUEST WIDTH',JSON.stringify(await student.evaluate(()=>({route:location.hash,state:history.state,programHidden:document.querySelector('#programPage').hidden,quest:document.querySelector('.quest-main')?.outerHTML,boardWidth:document.querySelector('#board').getBoundingClientRect().width}))));}
         assert.ok(questWidth>150,`${width}/${theme} quest text width ${questWidth}`);
-        const version = await student.locator('.app-version').evaluate(el=>{const box=el.getBoundingClientRect();return {text:el.textContent,left:box.left,right:box.right,top:box.top,bottom:box.bottom,pointerEvents:getComputedStyle(el).pointerEvents};});
-        assert.equal(version.text,'v1.1');assert.equal(version.pointerEvents,'none');
+        await student.locator('.app-version').scrollIntoViewIfNeeded();const version = await student.locator('.app-version').evaluate(el=>{const box=el.getBoundingClientRect();return {text:el.textContent,left:box.left,right:box.right,top:box.top,bottom:box.bottom,pointerEvents:getComputedStyle(el).pointerEvents};});
+        assert.equal(version.text,'v1.1.1 · Önizleme');assert.notEqual(version.pointerEvents,'none');
         assert.ok(version.left>=0 && version.right<=width && version.top>=0 && version.bottom<=900,`${width}/${theme} version bounds`);
         for (const selector of ['#pageTitle','.app-version']) {
         const contrast = await student.locator(selector).evaluate(el=>{

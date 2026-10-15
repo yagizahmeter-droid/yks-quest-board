@@ -6,8 +6,9 @@
   <meta name="theme-color" content="#101114">
   <script src="./theme.js"></script>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="./icons/ders-v2.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="./icons/ders-apple-v2.png">
+  <link rel="icon" href="./icons/ders-v3.svg" type="image/svg+xml">
+  <link rel="icon" href="./icons/ders-32-v3.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="./icons/ders-apple-v3.png">
   <title>D.E.R.S.</title>
   <script src="./config.js"></script>
   <script src="./vendor/supabase.js"></script>
@@ -777,6 +778,7 @@
   <link rel="stylesheet" href="./ui.css">
   <link rel="stylesheet" href="./appearance.css">
   <link rel="stylesheet" href="./quest-ui.css">
+  <link rel="stylesheet" href="./v111.css">
   <script src="./vendor/lucide.js"></script>
 </head>
 <body>
@@ -917,6 +919,7 @@
     </section>
     <div id="accountOnboarding" class="account-onboarding" hidden><h2>Hesabını tamamla</h2><button class="button primary" type="button" data-go-teacher><i data-lucide="user-round-pen"></i>Hesap türünü seç</button></div>
     </section>
+    <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.1.1 · Önizleme</button></footer>
   </main>
   </div>
 
@@ -941,11 +944,11 @@
           </label>
         </div>
 
-        <div class="upload-box">
-          <label class="field">
-            Program fotoğrafı
-            <input id="programPhoto" class="input" type="file" accept="image/*">
-          </label>
+        <div class="upload-box" id="programDropZone">
+          <div class="program-upload"><i data-lucide="folder-plus"></i><strong>Program fotoğrafını yükle</strong>
+          <label class="button" for="programPhoto">Dosya seç</label><input id="programPhoto" class="visually-hidden" type="file" accept="image/png,image/jpeg,image/webp">
+          <small>PNG, JPEG, WebP · En fazla 12 MB</small><output id="programFileName"></output>
+          <button id="rotateProgramPhoto" class="icon-button" type="button" title="Fotoğrafı 90 derece döndür" aria-label="Fotoğrafı 90 derece döndür"><i data-lucide="rotate-ccw"></i></button><output id="programRotation" aria-live="polite">0°</output></div>
           <div class="draft-tools">
             <button id="analyzePhotoButton" class="button primary" type="button">Programı analiz et</button>
             <button id="toggleOcrTextButton" class="button" type="button">OCR metnini göster</button>
@@ -988,14 +991,15 @@
     </div></fieldset>
     <fieldset class="appearance-field"><legend>Vurgu rengi</legend><div id="accentPalette" class="accent-palette" role="radiogroup" aria-label="Vurgu rengi"></div></fieldset>
     <label class="monochrome-control"><span>Renksiz mod</span><input id="monochromeToggle" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
+<fieldset class="appearance-field"><legend>Arka plan</legend><div id="backgroundOptions" class="background-options"></div><div class="background-custom"><label class="button" for="backgroundFile"><i data-lucide="folder-plus"></i>Fotoğraf seç</label><input class="visually-hidden" id="backgroundFile" type="file" accept="image/png,image/jpeg,image/webp"><button class="button" id="useCustomBackground" type="button" disabled>Özel arka plan</button><button class="icon-button" id="removeBackground" type="button" disabled title="Özel arka planı kaldır" aria-label="Özel arka planı kaldır"><i data-lucide="trash-2"></i></button></div><p id="backgroundStatus" role="status">Yalnızca bu cihazda saklanır. Tarayıcı verileri temizlenirse silinir.</p></fieldset>
     <footer class="appearance-footer"><button id="resetAppearance" class="button" type="button"><i data-lucide="rotate-ccw"></i>Varsayılana dön</button></footer>
   </dialog>
-  <span class="app-version" aria-label="Uygulama sürümü v1.1">v1.1</span>
   <div id="toast" class="toast" role="status" aria-live="polite" popover="manual"></div>
 
   <script src="./quest-system.js"></script>
   <script src="./curriculum.js"></script>
   <script src="./personal-catalog.js"></script>
+  <script src="./program-import.js"></script>
   <script>
     const STORAGE_KEY = "yksQuestBoard.v1";
     const META_KEY = "yksQuestBoard.meta.v1";
@@ -1012,21 +1016,6 @@
       { id: "tarih", key: "tarih", name: "Tarih", color: "#ff7c7c", sortOrder: 60 }
     ];
 
-    const topicHints = [
-      { subject: "turkce", categoryName: "Türkçe", title: "Dil bilgisi", keys: ["DIL BILGISI"] },
-      { subject: "turkce", categoryName: "Türkçe", title: "Sözcükte ve cümlede anlam", keys: ["SOZCUKTE", "CUMLEDE ANLAM"] },
-      { subject: "matematik", categoryName: "Matematik", title: "Temel kavramlar", keys: ["TEMEL KAVRAM"] },
-      { subject: "matematik", categoryName: "Matematik", title: "Sayı basamakları", keys: ["SAYI BASAMAK"] },
-      { subject: "fizik", categoryName: "Fizik", title: "Basınç", keys: ["BASINC"] },
-      { subject: "fizik", categoryName: "Fizik", title: "Sıvıların kaldırma kuvveti", keys: ["SIVILARIN KALDIRMA", "KALDIRMA KUVVETI"] },
-      { subject: "kimya", categoryName: "Kimya", title: "Kimya bilimi", keys: ["KIMYA BILIMI"] },
-      { subject: "kimya", categoryName: "Kimya", title: "Atomun yapısı", keys: ["ATOMUN YAPISI"] },
-      { subject: "biyoloji", categoryName: "Biyoloji", title: "Canlıların ortak özellikleri", keys: ["CANLILARIN ORTAK"] },
-      { subject: "biyoloji", categoryName: "Biyoloji", title: "Canlıların temel bileşenleri", keys: ["CANLILARIN TEMEL", "TEMEL BILESEN"] },
-      { subject: "tarih", categoryName: "Tarih", title: "Osmanlı dağılma dönemi", keys: ["OSMANLI DAGILMA", "OSMANLI"] },
-      { subject: "tarih", categoryName: "Tarih", title: "1. Dünya Savaşı", keys: ["1 DUNYA SAVASI", "1. DUNYA", "DUNYA SAVASI"] },
-      { subject: "tarih", categoryName: "Tarih", title: "Milli mücadele dönemi", keys: ["MILLI MUCADELE"] }
-    ];
 
     const seedWeek = {
       id: "2026-10-07",
@@ -1230,6 +1219,7 @@
         key: category.id || category.key,
         name: category.name,
         color: category.color || LEGACY_CATEGORIES[index % LEGACY_CATEGORIES.length]?.color || "#5fb4ff",
+        ...(category.origin==='manual'?{origin:'manual'}:{}),
         sortOrder: category.sortOrder ?? index * 10
       }]));
       weeks.forEach((week) => {
@@ -1289,6 +1279,18 @@
       }
     }
 
+    function saveDraftChange(change) {
+      const before=structuredClone(state),oldSubject=activeSubject,oldRevision=revision;
+      const keys=[boardStorageKey(),metaStorageKey()];let stored;
+      try { stored=keys.map(key=>localStorage.getItem(key));change();saveState();return true; }
+      catch(error){
+        state=before;activeSubject=oldSubject;revision=oldRevision;
+        if(stored)keys.forEach((key,i)=>{try{if(stored[i]===null)localStorage.removeItem(key);else localStorage.setItem(key,stored[i]);}catch{}});
+        const message='Kaydedilemedi. Taslağın korundu; cihazın depolama alanını kontrol et.';
+        els.analysisStatus.textContent=message;showToast(message);return false;
+      }
+    }
+
     function activeWeek() {
       return state.weeks.find((week) => week.id === state.activeWeekId&&!week.archived) || state.weeks.find(week=>!week.archived);
     }
@@ -1330,16 +1332,17 @@
 
     function createWeek(name, range, quests = []) {
       const id = `week-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      if(!saveDraftChange(()=>{
       state.weeks.push({
         id,
         name,
         range,
         sortOrder: state.weeks.length,
-        quests: quests.map((quest, index) => ({ ...quest, sortOrder: quest.sortOrder ?? index }))
+        quests: quests.map((item, index) => {const {categoryName,...quest}=item;if(quest.subject.startsWith('ocr:')){const categoryId=ensureCategoryForHint({subject:'cat-'+crypto.randomUUID(),categoryName});quest.subject=categoryId;quest.categoryId=categoryId;}return { ...quest, sortOrder: quest.sortOrder ?? index };})
       });
       state.activeWeekId = id;
       activeSubject = "all";
-      saveState();
+      }))return null;
       render();
       return id;
     }
@@ -1702,6 +1705,7 @@
         <span class="xp">+${quest.xp} XP</span>
       `;
       if(quest.examType)button.querySelector('.quest-meta').insertAdjacentHTML('beforeend',`<span class="chip">${escapeHtml(quest.examType)}</span>`);
+      else if(!quest.lockedForStudent)button.querySelector('.quest-meta').insertAdjacentHTML('beforeend','<span class="chip">Belirtilmemiş</span>');
       if(window.DersQuests.recurring(quest)){
         const progress=window.DersQuests.progress(quest);
         button.classList.toggle('today-done',Boolean(progress.todayDone));
@@ -1949,6 +1953,8 @@
     }
 
     function openWeekModal() {
+      photoGeneration++;
+      programFile=null;programRotation=0;document.getElementById('programFileName').textContent='';document.getElementById('programRotation').textContent='0°';
       draftQuests = [];
       els.modalWeekName.value = els.weekNameInput.value.trim() || "";
       els.modalWeekRange.value = els.weekRangeInput.value.trim() || "";
@@ -1964,7 +1970,9 @@
     }
 
     function closeWeekModal(force = false) {
+      if(photoBusy&&!force){showToast('Fotoğraf analizi sürüyor. Biraz bekle.');return;}
       if (!force && window.DersUI && !window.DersUI.canLeave(els.weekModalBackdrop)) return;
+      photoGeneration++;
       els.weekModalBackdrop.classList.remove("open");
       window.DersUI?.clearDirty(els.weekModalBackdrop);
       window.DersUI?.modalClosed('week');
@@ -1973,7 +1981,8 @@
 
     function renderDraftList() {
       els.draftList.innerHTML = "";
-      const categories = getCategories();
+      const categories = [...getCategories()];
+      for(const name of window.DersProgramImport.lessons)if(!categories.some(c=>normalizeText(c.name)===normalizeText(name)))categories.push({id:'ocr:'+encodeURIComponent(name),name});
       if (!draftQuests.length) {
         const empty = document.createElement("div");
         empty.className = "draft-empty";
@@ -1986,15 +1995,18 @@
         const row = document.createElement("div");
         row.className = "draft-row";
         row.innerHTML = `
-          <select class="select" aria-label="Ders">${categories.map((subject) => `<option value="${escapeHtml(subject.id)}" ${subject.id === quest.subject ? "selected" : ""}>${escapeHtml(subject.name)}</option>`).join("")}</select>
+          <select class="select" aria-label="Ders"><option value="">Ders seç</option>${[...categories,...draftQuests.filter(q=>q.categoryName&&!categories.some(c=>c.id===q.subject)).map(q=>({id:q.subject,name:q.categoryName}))].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i).map((subject) => `<option value="${escapeHtml(subject.id)}" ${subject.id === quest.subject ? "selected" : ""}>${escapeHtml(subject.name)}</option>`).join("")}</select>
           <input class="input" type="text" aria-label="Görev adı" value="${escapeHtml(quest.title)}">
           <input class="input" type="text" aria-label="Soru sayısı ve açıklama" value="${escapeHtml(quest.detail)}">
           <input class="input" type="number" min="5" step="5" aria-label="XP" value="${quest.xp}">
           <button class="button danger" type="button">Sil</button>
         `;
         const [subjectInput, titleInput, detailInput, xpInput, deleteButton] = row.children;
+        const info=document.createElement('div');info.className='draft-reference';info.textContent=(quest.sourceDay||'Haftalık havuz')+(quest.needsReview?' · Okumayı kontrol et':'');
+        const day=document.createElement('input');day.className='input';day.setAttribute('aria-label','Kaynak gün (bilgi amaçlı)');day.value=quest.sourceDay||'';day.oninput=()=>quest.sourceDay=day.value;info.append(day);row.append(info);
         subjectInput.addEventListener("change", () => {
           draftQuests[index].subject = subjectInput.value;
+          draftQuests[index].categoryName=subjectInput.selectedOptions[0]?.textContent||'';
         });
         titleInput.addEventListener("input", () => {
           draftQuests[index].title = titleInput.value;
@@ -2015,9 +2027,10 @@
 
     function addDraftQuest(quest = {}) {
       els.weekModalBackdrop.dataset.dirty = 'true';
-      const firstCategory = getCategories()[0]?.id || "genel";
+      const firstCategory = getCategories()[0]?.id || 'ocr:'+encodeURIComponent('Türkçe');
       draftQuests.push({
         subject: quest.subject || firstCategory,
+        categoryName:quest.categoryName || getCategories().find(c=>c.id===(quest.subject||firstCategory))?.name || 'Türkçe',
         title: quest.title || "",
         detail: quest.detail || "",
         xp: Math.max(5, Number(quest.xp) || 100),
@@ -2041,10 +2054,6 @@
         .trim();
     }
 
-    function inferTopic(line) {
-      const normalized = normalizeText(line);
-      return topicHints.find((hint) => hint.keys.some((key) => normalized.includes(key)));
-    }
 
     function ensureCategoryForHint(hint) {
       const categories = getCategories();
@@ -2061,136 +2070,86 @@
       return hint.subject;
     }
 
-    function extractDetail(line) {
-      const normalized = normalizeText(line);
-      const numberMatch = normalized.match(/(\d+)\s*SORU/);
-      const hasAnalysis = normalized.includes("ANALIZ");
-      if (numberMatch && hasAnalysis) return `${numberMatch[1]} soru ve analiz`;
-      if (numberMatch && normalized.includes("COZUM")) return `${numberMatch[1]} soru çözümü`;
-      if (numberMatch) return `${numberMatch[1]} soru`;
-      if (normalized.includes("KONU ANLATIM") && normalized.includes("SORU COZUM")) return "Konu anlatımı / soru çözümü";
-      if (normalized.includes("KONU ANLATIM")) return "Konu anlatımı";
-      if (normalized.includes("SORU COZUM")) return "Soru çözümü";
-      if (normalized.includes("VIDEO")) return "Video / not çalışması";
-      return "";
-    }
-
-    function estimateXp(subject, detail) {
-      const normalized = normalizeText(detail);
-      const questionMatch = normalized.match(/(\d+)\s*SORU/);
-      let xp = subject === "tarih" ? 55 : 85;
-      if (normalized.includes("KONU ANLATIM")) xp += 15;
-      if (normalized.includes("SORU COZUM")) xp += 20;
-      if (normalized.includes("ANALIZ")) xp += 35;
-      if (questionMatch) xp += Math.min(80, Math.round(Number(questionMatch[1]) * 1.2));
-      if (subject === "matematik") xp += 15;
-      if (subject === "tarih") xp = Math.max(45, Math.round(xp * .62));
-      return Math.ceil(xp / 5) * 5;
-    }
 
     function parseProgramText(text) {
-      const lines = String(text || "")
-        .split(/\n+/)
-        .map((line) => line.replace(/[|_]+/g, " ").replace(/\s+/g, " ").trim())
-        .filter(Boolean);
-      const ignored = /^(YAGIZ|AHMET|ER|TURKCE|FIZIK|KIMYA|BIYOLOJI|MATEMATIK|TARIH|CARSAMBA|PERSEMBE|CUMA|CUMARTESI|PAZAR|PAZARTESI|SALI|\d+\s*EKIM)$/i;
-      const found = [];
-      let pendingTopic = null;
-
-      lines.forEach((line) => {
-        const normalized = normalizeText(line);
-        if (!normalized || ignored.test(normalized)) return;
-        const topic = inferTopic(line);
-        const detail = extractDetail(line);
-
-        if (topic && detail) {
-          found.push({
-            subject: ensureCategoryForHint(topic),
-            title: topic.title,
-            detail,
-            xp: estimateXp(topic.subject, detail),
-            sourceDay: "Fotoğraftan"
-          });
-          pendingTopic = null;
-          return;
-        }
-
-        if (topic) {
-          pendingTopic = topic;
-          return;
-        }
-
-        if (pendingTopic && detail) {
-          found.push({
-            subject: ensureCategoryForHint(pendingTopic),
-            title: pendingTopic.title,
-            detail,
-            xp: estimateXp(pendingTopic.subject, detail),
-            sourceDay: "Fotoğraftan"
-          });
-          pendingTopic = null;
-        }
-      });
-
-      return found;
+      return prepareImported(window.DersProgramImport.parseText(text));
     }
+
+    function prepareImported(rows) {
+      return rows.map(q=>({...q,subject:getCategories().find(c=>normalizeText(c.name)===normalizeText(q.categoryName))?.id || (q.categoryName?'ocr:'+encodeURIComponent(q.categoryName):'')}));
+    }
+
 
     function loadTesseract() {
       if (window.Tesseract) return Promise.resolve(window.Tesseract);
       return new Promise((resolve, reject) => {
         const script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+        script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@7.0.0/dist/tesseract.min.js";
         script.onload = () => resolve(window.Tesseract);
         script.onerror = () => reject(new Error("OCR kütüphanesi yüklenemedi"));
         document.head.append(script);
       });
     }
 
+    let programFile=null,programRotation=0,photoBusy=false,photoGeneration=0;
+    function chooseProgramPhoto(file){
+      if(photoBusy||!file)return;
+      try{window.DersProgramImport.validate(file);programFile=file;programRotation=0;document.getElementById('programRotation').textContent='0°';document.getElementById('programFileName').textContent=file.name;els.analysisStatus.textContent='Fotoğraf hazır.';}
+      catch(error){programFile=null;els.programPhoto.value='';document.getElementById('programFileName').textContent='';els.analysisStatus.textContent=error.message;}
+    }
+    els.programPhoto.addEventListener('change',()=>chooseProgramPhoto(els.programPhoto.files[0]));
+    document.getElementById('programDropZone').addEventListener('dragover',e=>e.preventDefault());
+    document.getElementById('programDropZone').addEventListener('drop',e=>{e.preventDefault();const file=e.dataTransfer.files[0];chooseProgramPhoto(file);if(file&&programFile===file){els.programPhoto.files=e.dataTransfer.files;els.programPhoto.dispatchEvent(new Event('input',{bubbles:true}));}});
+    document.getElementById('rotateProgramPhoto').onclick=()=>{if(!photoBusy){programRotation=(programRotation+270)%360;document.getElementById('programRotation').textContent=programRotation+'°';}};
+    function appendImported(rows,batch){
+      const fresh=rows.filter(q=>!q.cellId||!draftQuests.some(old=>old.importBatch===batch&&old.cellId===q.cellId)).map(q=>({...q,importBatch:batch}));
+      draftQuests.push(...fresh);renderDraftList();return fresh.length;
+    }
     async function analyzeProgramPhoto() {
-      const file = els.programPhoto.files[0];
+      if(photoBusy)return;
+      const file = programFile;
       if (!file) {
         els.analysisStatus.textContent = "Önce program fotoğrafını seçmelisin.";
         return;
       }
       els.analysisStatus.textContent = "Fotoğraf okunuyor. Bu işlem biraz sürebilir.";
       els.analyzePhotoButton.disabled = true;
+      photoBusy=true;els.programPhoto.disabled=true;els.parseTextButton.disabled=true;els.createFromDraftButton.disabled=true;els.emptyWeekModalButton.disabled=true;let worker;
+      const uid=currentUser?.id,rotation=programRotation,generation=photoGeneration;
       try {
         const tesseract = await loadTesseract();
-        const result = await tesseract.recognize(file, "tur+eng", {
-          logger: (info) => {
-            if (info.status === "recognizing text") {
-              els.analysisStatus.textContent = `Fotoğraf okunuyor: %${Math.round(info.progress * 100)}`;
-            }
-          }
-        });
-        const text = result?.data?.text || "";
-        els.ocrText.value = text;
-        const parsed = parseProgramText(text);
-        draftQuests = parsed;
-        renderDraftList();
-        els.analysisStatus.textContent = parsed.length
-          ? `${parsed.length} quest bulundu. Kaydetmeden önce kontrol edebilirsin.`
+        worker=await tesseract.createWorker('tur+eng',1);
+        const result=await window.DersProgramImport.read(file,{worker,rotation,progress:(done,total)=>{if(generation===photoGeneration)els.analysisStatus.textContent=`Hücreler okunuyor: ${done} / ${total}`;}});
+        if(currentUser?.id!==uid||generation!==photoGeneration||!els.weekModalBackdrop.classList.contains('open'))return;
+        els.ocrText.value=result.text;
+        const added=appendImported(prepareImported(result.quests),`${file.name}:${file.size}:${file.lastModified}:${rotation}`);
+        els.analysisStatus.textContent = result.quests.length
+          ? `${added} quest eklendi. ${result.table?'Tablo hücreleri okundu.':'Tablo yapısı bulunamadı; ders ve gün eşleşmelerini kontrol et.'} ${result.warnings?'Belirsiz okumaları kontrol et.':''}`
           : "Program fotoğrafı okunamadı. Daha net bir fotoğraf yükleyebilir veya görevleri manuel ekleyebilirsin.";
       } catch (error) {
         console.error(error);
+        if(currentUser?.id!==uid||generation!==photoGeneration)return;
         els.analysisStatus.textContent = "Program fotoğrafı okunamadı. Daha net bir fotoğraf yükleyebilir veya görevleri manuel ekleyebilirsin.";
       } finally {
-        els.analyzePhotoButton.disabled = false;
+        if(worker)await worker.terminate();photoBusy=false;els.programPhoto.disabled=false;els.parseTextButton.disabled=false;els.createFromDraftButton.disabled=false;els.emptyWeekModalButton.disabled=false;els.analyzePhotoButton.disabled=false;
       }
     }
 
     function createWeekFromDraft(empty = false) {
+      if(photoBusy)return;
+      if(!empty&&(!draftQuests.length||draftQuests.some(q=>!q.title.trim()||!q.subject))){els.analysisStatus.textContent='Her görev için ders ve konu seçmelisin. Mevcut taslak korundu.';return;}
       const name = els.modalWeekName.value.trim() || `Yeni Hafta ${state.weeks.length + 1}`;
       const range = els.modalWeekRange.value.trim() || name;
       const cleanDrafts = empty ? [] : draftQuests
         .filter((quest) => quest.title.trim())
-        .map((quest) => makeQuest(quest.subject, quest.title, quest.detail, quest.xp, quest.sourceDay || "Haftalık havuz"));
-      createWeek(name, range, cleanDrafts);
+        .map((quest) => ({...makeQuest(quest.subject, quest.title, quest.detail, quest.xp, quest.sourceDay || "Haftalık havuz"),categoryName:quest.categoryName}));
+      if(!createWeek(name, range, cleanDrafts))return;
       closeWeekModal(true);
       showToast(empty ? "Boş hafta oluşturuldu" : `${cleanDrafts.length} quest ile hafta oluşturuldu`);
     }
 
     els.weekSelect.addEventListener("change", () => {
+      if (window.DersUI && !window.DersUI.canLeave(document.getElementById('programPage'))) { els.weekSelect.value=state.activeWeekId; window.DersSelect?.refresh(); return; }
       state.activeWeekId = els.weekSelect.value;
       activeSubject = "all";
       saveState();
@@ -2210,18 +2169,19 @@
       }
       const id = `cat-${Date.now()}-${Math.random().toString(16).slice(2)}`;
       const categoryOrder = getCategories().length * 10;
-      state.categories.push({
+      if(!saveDraftChange(()=>state.categories.push({
         id,
         key: id,
         name,
+        origin: 'manual',
         color: els.categoryColorInput.value || "#5fb4ff",
         sortOrder: categoryOrder
-      });
+      })))return;
       els.categoryNameInput.value = "";
       window.DersUI?.clearDirty(document.getElementById('categoryForm'));
-      saveState();
       render();
       showToast("Kategori eklendi");
+      window.DersPersonalCatalog.useManual(id);
     });
 
     [els.historyDateFilter, els.historyWeekFilter, els.historyCategoryFilter].forEach((filter) => {
@@ -2269,8 +2229,7 @@
 
     els.parseTextButton.addEventListener("click", () => {
       const parsed = parseProgramText(els.ocrText.value);
-      draftQuests = parsed;
-      renderDraftList();
+      appendImported(parsed.map((q,i)=>({...q,cellId:'text:'+i})),els.ocrText.value);
       els.analysisStatus.textContent = parsed.length
         ? `${parsed.length} quest bulundu. Kaydetmeden önce kontrol edebilirsin.`
         : "Metinden görev çıkarılamadı. Satır ekleyerek manuel girebilirsin.";
@@ -2288,6 +2247,7 @@
       const selection = window.DersPersonalCatalog.selection(els.manualDetail.value);
       if (!selection) { els.manualSubject.focus(); return; }
       if (!selection.title) { els.manualDetail.focus(); return; }
+      if(!saveDraftChange(()=>{
       const subjectId = selection.categoryId || ensureCategoryForHint({
         subject: `cat-${crypto.randomUUID()}`, categoryName: selection.lesson
       });
@@ -2298,15 +2258,15 @@
         els.manualXp.value,
         "Manuel"
       );
-      quest.examType = selection.examType;
+      if(selection.examType!=='unspecified')quest.examType = selection.examType;
       if (selection.topicCategory) quest.topicCategory = selection.topicCategory;
       quest.sortOrder = Math.max(-1, ...week.quests.filter(item => (item.categoryId || item.subject) === quest.categoryId).map(item => item.sortOrder || 0)) + 1;
       week.quests.push(quest);
+      }))return;
       window.DersPersonalCatalog.clearTopic();
       els.manualDetail.value = "";
       els.manualXp.value = "100";
       window.DersUI?.clearDirty(document.getElementById('questForm'));
-      saveState();
       render();
       showToast("Quest eklendi");
     });
@@ -2367,7 +2327,7 @@
     els.createWeekButton.addEventListener("click", () => {
       const name = els.weekNameInput.value.trim() || `Yeni Hafta ${state.weeks.length + 1}`;
       const range = els.weekRangeInput.value.trim() || name;
-      createWeek(name, range, []);
+      if(!createWeek(name, range, []))return;
       els.weekNameInput.value = "";
       els.weekRangeInput.value = "";
       window.DersUI?.clearDirty(els.createWeekButton.closest('[data-draft]'));
@@ -2401,9 +2361,12 @@
     render();
     initCloud().catch(error => { authReady = true; syncError(error); });
   </script>
+  <script src="./teacher-drafts.js"></script>
   <script src="./teacher.js"></script>
   <script src="./select-controls.js"></script>
   <script src="./ui.js"></script>
   <script src="./appearance.js"></script>
+  <script src="./backgrounds.js"></script>
+  <script src="./release-history.js"></script>
 </body>
 </html>

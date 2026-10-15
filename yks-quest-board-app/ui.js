@@ -19,13 +19,21 @@
   current ||= history.state;
   try { document.body.classList.toggle('nav-compact', localStorage.getItem('ders-navigation-compact') === 'true'); } catch {}
 
-  function dirty(root) { return Boolean(root && (root.dataset.dirty === 'true' || root.querySelector('[data-dirty="true"]'))); }
+  const baselines = new WeakMap();
+  const draftSelector = '[data-draft], form, .modal-backdrop, dialog:not([data-auto-save])';
+  let closedModalBack = false;
+  function values(root) {
+    return JSON.stringify([...root.querySelectorAll('input,select,textarea')].filter(el => !el.closest('[data-auto-save]') && el.dataset.uiTransient !== 'true').map((el,i) => [el.id || `${el.name}:${el.dataset.key || ''}:${i}`, el.type === 'file' ? [...el.files].map(f => [f.name,f.size,f.lastModified]) : ['checkbox','radio'].includes(el.type) ? el.checked : el.value]));
+  }
+  function scopes(root) { return root ? [...(root.matches?.(draftSelector) ? [root] : []), ...root.querySelectorAll(draftSelector)].filter(el => !el.closest('[data-auto-save]')) : []; }
+  function dirty(root) { return scopes(root).some(el => el.dataset.dirty==='true' && baselines.has(el) && baselines.get(el) !== values(el)); }
   function canLeave(root) { return !dirty(root) || confirm('Kaydedilmemiş değişiklikler var. Yine de ayrılmak istiyor musun?'); }
   function activeRoot() { return overlays.get(current.modal)?.root || document.querySelector('.page-view:not([hidden])'); }
   function clearDirty(root) {
     if (!root) return;
     delete root.dataset.dirty;
     root.querySelectorAll('[data-dirty]').forEach(el => delete el.dataset.dirty);
+    scopes(root).forEach(el => baselines.set(el, values(el)));
   }
   function navigate(route, options = {}) {
     if (!routes.includes(route)) route = 'home';
@@ -56,12 +64,13 @@
     if (nextRoute) {
       current = stateFor(nextRoute, current.depth);
       history.replaceState(current, '', '#/' + nextRoute); draw();
-    } else history.back();
+    } else { closedModalBack = true; history.back(); }
   }
   window.addEventListener('popstate', event => {
     if (restoring) { restoring = false; return; }
     const next = event.state?.dersNav ? event.state : stateFor(parse(), 0);
-    if (!canLeave(activeRoot())) {
+    const alreadyClosed = closedModalBack; closedModalBack = false;
+    if (!alreadyClosed && !canLeave(activeRoot())) {
       restoring = true;
       const delta = current.depth - next.depth;
       if (delta) history.go(delta);
@@ -84,7 +93,7 @@
     if (!canLeave(activeRoot())) { history.replaceState(current, '', '#/' + current.route); return; }
     current = stateFor(parse(), current.depth + 1); history.replaceState(current, '', '#/' + current.route); draw();
   });
-  window.addEventListener('beforeunload', event => { if (dirty(activeRoot())) { event.preventDefault(); event.returnValue = ''; } });
+  window.addEventListener('beforeunload', event => { if (dirty(document.body)) { event.preventDefault(); event.returnValue = ''; } });
 
   function draw() {
     let route = current.route;
@@ -125,7 +134,7 @@
       const previous = seenUser; seenUser = uid; teacherInfo = null;
       if (previous !== undefined) {
         ['manualDetail','categoryNameInput','weekNameInput','weekRangeInput','modalWeekName','modalWeekRange'].forEach(id => $(id).value = '');
-        document.querySelectorAll('[data-dirty]').forEach(el => delete el.dataset.dirty);
+        clearDirty(document.body);
         if (!uid) $('authEmail').value = '';
       }
       clearDirty($('signedOutPanel'));
@@ -242,6 +251,12 @@
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     }
   });
+  document.addEventListener('focusin', event => {
+    const root = event.target.closest(draftSelector);
+    if (root && root.dataset.dirty!=='true') baselines.set(root, values(root));
+  });
+  scopes(document.body).forEach(el => baselines.set(el,values(el)));
+  new MutationObserver(() => scopes(document.body).forEach(el => { if (!baselines.has(el)) baselines.set(el,values(el)); })).observe(document.body,{childList:true,subtree:true});
   document.querySelectorAll('input[name="theme"]').forEach(input => {
     input.checked = input.value === window.DersTheme.choice;
     input.onchange = () => window.DersTheme.set(input.value);

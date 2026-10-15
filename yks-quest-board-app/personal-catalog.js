@@ -12,7 +12,7 @@
     select.replaceChildren(...entries.map(([value, label]) => new Option(label, value)));
     select.value = entries.some(([v]) => v === value) ? value : '';
   }
-  fill(exam, catalog.exams.map(e => [e,e]), 'TYT');
+  fill(exam, [...catalog.exams.map(e => [e,e]),['unspecified','Belirtilmemiş']], 'TYT');
   function drawTopics() {
     const entry = subjects.get(lesson.value);
     const groups = entry ? catalog.categories(exam.value, entry.lesson) : [];
@@ -28,12 +28,12 @@
     const previous = subjects.get(lesson.value), current = lesson.value;
     subjects = new Map();
     for (const name of catalog.lessons(exam.value)) {
-      const existing = categories.find(c => key(c.name) === key(name));
+      const existing = categories.find(c => c.origin!=='manual' && key(c.name) === key(name));
       const value = existing?.id || 'catalog:' + encodeURIComponent(name);
       subjects.set(value, { lesson: name, label: name, categoryId: existing?.id || null });
     }
     // Preserve personal lessons, including duplicate names, without mixing another exam's catalog lessons.
-    for (const c of categories) if (!subjects.has(c.id) && (!knownLessons.has(key(c.name)) || catalog.lessons(exam.value).some(l => key(l) === key(c.name)))) {
+    for (const c of categories) if (!subjects.has(c.id) && (exam.value==='unspecified' ? c.origin==='manual'||!knownLessons.has(key(c.name)) : c.origin!=='manual'&&knownLessons.has(key(c.name))&&catalog.lessons(exam.value).some(l=>key(l)===key(c.name)))) {
       const name = catalog.lessons(exam.value).find(l => key(l) === key(c.name)) || c.name;
       const duplicates = [...subjects.values()].filter(s => key(s.lesson) === key(name)).length;
       subjects.set(c.id, { lesson: name, label: duplicates ? `${c.name} (${duplicates + 1})` : c.name, categoryId: c.id });
@@ -62,6 +62,7 @@
   });
   window.DersPersonalCatalog = {
     render, clearTopic,
+    useManual(id) { exam.value='unspecified';render(categories);lesson.value=id;drawTopics();document.getElementById('addQuestButton').disabled=!subjects.has(id);window.DersSelect?.refresh(); },
     selection(description = '') {
       const entry = subjects.get(lesson.value);
       if (!entry) return null;

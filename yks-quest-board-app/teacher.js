@@ -7,7 +7,7 @@
   let viewToken = 0;
   const drafts = new Map();
   let shownStudent = null, studentData = null;
-  let composer = null;
+  let composer = null, sendAfter=0;
   const esc = value => window.DersBoard.escape(String(value ?? ''));
   const labels = { pending: 'Onay bekliyor', approved: 'Onaylandı', rejected: 'Reddedildi', revoked: 'Bağlantı kaldırıldı', accepted: 'Kabul edildi', withdrawn: 'Geri çekildi' };
   const button = (text, action, id = '', extra = '') => `<button class="button" type="button" data-action="${action}" data-id="${esc(id)}" ${extra}>${text}</button>`;
@@ -118,7 +118,8 @@
       <label class="field builder-detail">Açıklama<textarea class="textarea" data-key="detail" aria-label="Açıklama" maxlength="500">${esc(q.detail)}</textarea></label>
       <label class="field">XP<input class="input" aria-label="XP" type="number" min="5" max="10000" data-key="xp" value="${q.xp}" required></label>
       <label class="field">Tekrar<select class="select" data-key="repeat_kind" aria-label="Tekrar türü">${[['none','Tek sefer'],['weekly','Haftalık tekrar'],['daily','Günlük görev']].map(([v,l]) => `<option value="${v}" ${q.repeat_kind === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
-      ${q.repeat_kind === 'weekly' ? `<label class="field">Tekrar sayısı<input class="input" type="number" min="1" max="100" data-key="repeat_target" aria-label="Tekrar sayısı" value="${q.repeat_target}" required></label>` : ''}</div>
+      ${q.repeat_kind === 'weekly' ? `<label class="field">Tekrar sayısı<input class="input" type="number" min="1" max="100" data-key="repeat_target" aria-label="Tekrar sayısı" value="${q.repeat_target}" required></label>` : ''}
+      ${q.repeat_kind==='daily'&&q.starts_on?`<label class="field">Görevin başlangıcı<input class="input" type="date" data-key="starts_on" value="${esc(q.starts_on)}" required></label><label class="field">Görevin bitişi<input class="input" type="date" data-key="ends_on" value="${esc(q.ends_on)}" required></label>`:''}</div>
       <button class="icon-button" type="button" data-action="draft-delete" data-id="${i}" title="Quest sil" aria-label="Quest ${i+1} sil"><i data-lucide="trash-2"></i></button></fieldset>`;
     }).join('');
     wrap.oninput = event => { const field = event.target.dataset.key, i = event.target.closest('[data-index]')?.dataset.index;
@@ -130,7 +131,7 @@
       else if (field === 'category') { q.category = value; q.topic_category = ''; q.topic_name = ''; q.topic_scope = ''; q.title = ''; }
       else if (field === 'topic_category') { q.topic_category = value; q.topic_name = ''; q.topic_scope = ''; q.title = ''; }
       else if (field === 'topic' && value !== '__legacy') { q.topic_scope = value === '__category' ? 'category' : value ? 'topic' : ''; q.topic_name = value === '__category' ? null : value; q.title = window.DersCurriculum.taskTitle(q.topic_category, q.topic_name, q.topic_scope); }
-      else if (field === 'repeat_kind') { q.repeat_kind = value; q.repeat_target = value === 'weekly' ? 5 : 1; }
+      else if (field === 'repeat_kind') { q.repeat_kind = value; q.repeat_target = value === 'weekly' ? 5 : 1;delete q.starts_on;delete q.ends_on; }
       else return;
       renderDraft(); wrap.querySelector(`[data-index="${i}"] [data-key="${field}"]`)?.focus();
     };
@@ -139,7 +140,8 @@
   function closeDialog(force = false, nextRoute) {
     if (!force && busy) { window.DersBoard.toast('İşlem sürüyor. Biraz bekle.'); return false; }
     if (!force && window.DersUI && !window.DersUI.canLeave(dialog)) return false;
-    viewToken++; rememberComposer(); dialog.close(); dialog.replaceChildren(); shownStudent = null; studentData = null;
+    try{rememberComposer();}catch(error){if(!force){window.DersBoard.toast(error.message);return false;}}
+    viewToken++; dialog.close(); dialog.replaceChildren(); shownStudent = null; studentData = null;
     window.DersUI?.clearDirty(dialog); window.DersUI?.modalClosed('teacher-dialog', nextRoute); return true;
   }
   function showDialog(title, body) {
@@ -153,16 +155,22 @@
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
   function rememberComposer() {
     const form = document.getElementById('assignmentForm'); if (!form || !shownStudent) return;
-    drafts.set(shownStudent, { quests: draft, name: document.getElementById('assignmentName').value, range: document.getElementById('assignmentRange').value, start: document.getElementById('assignmentStart').value, end: document.getElementById('assignmentEnd').value });
+    const entry = { id:composer.id, quests:structuredClone(draft), name:document.getElementById('assignmentName').value, range:document.getElementById('assignmentRange').value, start:document.getElementById('assignmentStart').value, end:document.getElementById('assignmentEnd').value };
+    window.DersTeacherDrafts.save(owner,shownStudent,entry); drafts.set(shownStudent,entry); return entry;
   }
   function programForm() {
     const day = window.DersQuests.today();
-    composer = drafts.get(shownStudent) || { quests: [freshQuest()], name: '', range: '', start: day, end: new Date(Date.parse(day+'T12:00:00Z')+6*86400000).toISOString().slice(0,10) };
-    draft = composer.quests;
+    const book = window.DersTeacherDrafts.load(owner,shownStudent);
+    composer = structuredClone(drafts.get(shownStudent) || book.entries.find(d=>d.id===book.active) || { id:crypto.randomUUID(), quests:[freshQuest()], name:'',range:'',start:day,end:new Date(Date.parse(day+'T12:00:00Z')+6*86400000).toISOString().slice(0,10) });
+    draft = structuredClone(composer.quests);
     document.getElementById('studentWorkspace').innerHTML = `<form id="assignmentForm" class="program-composer"><input type="hidden" id="assignmentStudent" value="${esc(shownStudent)}"><div class="modal-grid">${input('Hafta adı','assignmentName','text',composer.name)}${input('Tarih aralığı','assignmentRange','text',composer.range)}</div><div class="modal-grid">${input('Günlük görev başlangıcı','assignmentStart','date',composer.start)}${input('Günlük görev bitişi','assignmentEnd','date',composer.end)}</div><div id="assignmentDraft"></div><p id="assignmentError" role="alert"></p><div class="signed-in-actions">${button('<i data-lucide="plus"></i>Quest ekle','draft-add')}${button('<i data-lucide="copy"></i>Bu haftayı kopyala','draft-copy')}<button class="button primary" type="submit"><i data-lucide="send"></i>Programı gönder</button></div></form>`;
     const templates = overview.assignments.filter(a => a.student_id === shownStudent && ['accepted','pending'].includes(a.status));
-    document.getElementById('assignmentDraft').insertAdjacentHTML('beforebegin', `<label class="field">Kopyalanacak hafta<select class="select" id="assignmentTemplate"><option value="own">Kişisel haftam · ${esc(window.DersBoard.week().name)}</option>${templates.map(a => `<option value="${esc(a.id)}">${esc(a.week_name)} · ${labels[a.status]}</option>`).join('')}</select></label>`);
-    document.getElementById('assignmentForm').onsubmit = e => { e.preventDefault(); run('send'); }; renderDraft();
+    document.getElementById('assignmentDraft').insertAdjacentHTML('beforebegin', `<div class="modal-grid"><label class="field">Taslak<select class="select" id="assignmentDraftSelect" data-ui-transient="true">${[...book.entries.filter(d=>d.id!==composer.id),composer].map(d=>`<option value="${esc(d.id)}" ${d.id===composer.id?'selected':''}>${esc(d.name || 'Adsız taslak')}</option>`).join('')}</select></label>${button('<i data-lucide="trash-2"></i>Taslağı sil','draft-remove')}</div><label class="field">Kopyalanacak hafta<select class="select" id="assignmentTemplate" data-ui-transient="true"><option value="current">Açık taslak</option><option value="own">Kişisel haftam · ${esc(window.DersBoard.week().name)}</option>${templates.map(a => `<option value="${esc(a.id)}">${esc(a.week_name)} · ${labels[a.status]}</option>`).join('')}</select></label>`);
+    document.getElementById('assignmentDraftSelect').onchange = event => { rememberComposer();const selected=window.DersTeacherDrafts.load(owner,shownStudent).entries.find(d=>d.id===event.target.value);if(selected){drafts.set(shownStudent,selected);programForm();} };
+    const form=document.getElementById('assignmentForm');form.onsubmit = e => { e.preventDefault(); run('send'); };
+    form.addEventListener('input',()=>queueMicrotask(()=>{if(form.isConnected)try{rememberComposer();}catch(error){document.getElementById('assignmentError').textContent=error.message;}}));
+    form.addEventListener('change',event=>{if(['assignmentStart','assignmentEnd'].includes(event.target.id)){draft.forEach(q=>{delete q.starts_on;delete q.ends_on;});renderDraft();}if(form.isConnected)try{rememberComposer();}catch(error){document.getElementById('assignmentError').textContent=error.message;}});
+    renderDraft(); window.DersUI?.clearDirty(dialog);
   }
   function openStudent(id) {
     const c = overview.connections.find(c => c.student_id === id && c.status === 'approved');
@@ -197,7 +205,7 @@
     document.getElementById('studentWorkspace').innerHTML = '<div id="studentSummary"></div>'; studentData = s;
     const wrap = dialog.querySelector('#studentSummary');
     const all = s.weeks.flatMap(w => w.quests || []); const xp = all.reduce((n,q) => n+window.DersQuests.earned(q),0);
-    wrap.innerHTML = `<strong>${xp} XP · ${all.filter(q => q.done).length}/${all.length} görev</strong><label class="field">Hafta<select id="studentWeek" class="select">${s.weeks.map(w => `<option value="${esc(w.id)}">${esc(w.range || w.name)}${w.archived ? ' · Arşiv' : ''}</option>`).join('')}</select></label><div id="studentQuests"></div><h3>Çalışma geçmişi</h3>${(s.studyHistory || []).slice(-60).reverse().map(h => row(`${h.categoryName} · ${h.title}`, `${h.detail} · ${h.xp} XP · ${h.occurrenceDate || new Date(h.completedAt).toLocaleDateString('tr-TR', { timeZone: 'Europe/Istanbul' })} · ${new Date(h.completedAt).toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul', hour: '2-digit', minute: '2-digit' })}`)).join('')}`;
+    wrap.innerHTML = `<strong>${xp} XP · ${all.filter(q => q.done).length}/${all.length} görev</strong><label class="field">Hafta<select id="studentWeek" class="select" data-ui-transient="true">${s.weeks.map(w => `<option value="${esc(w.id)}">${esc(w.range || w.name)}${w.archived ? ' · Arşiv' : ''}</option>`).join('')}</select></label><div id="studentQuests"></div><h3>Çalışma geçmişi</h3>${(s.studyHistory || []).slice(-60).reverse().map(h => row(`${h.categoryName} · ${h.title}`, `${h.detail} · ${h.xp} XP · ${h.occurrenceDate || new Date(h.completedAt).toLocaleDateString('tr-TR', { timeZone: 'Europe/Istanbul' })} · ${new Date(h.completedAt).toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul', hour: '2-digit', minute: '2-digit' })}`)).join('')}`;
     if (data.xpBreakdown) { const p = document.createElement('p'); p.className = 'sync-status'; p.textContent = `Rekabet ${data.xpBreakdown.competitive} XP · Kişisel ${data.xpBreakdown.personal} XP`; wrap.prepend(p); }
     const select = wrap.querySelector('#studentWeek');
     const draw = () => { const w = s.weeks.find(w => w.id === select.value); wrap.querySelector('#studentQuests').innerHTML = (w?.quests || []).map(q => row(q.title, `${q.detail} · ${window.DersQuests.describe(q)} · ${window.DersQuests.earned(q)} XP kazanıldı${window.DersQuests.recurring(q) ? ' · '+window.DersQuests.completions(q).map(e => e.date).join(', ') : ''}`)).join(''); };
@@ -216,7 +224,23 @@
       } catch (error) { const output = dialog.querySelector('#editError'); if (output) output.textContent = error.message; else window.DersBoard.toast(error.message); }
     };
   }
+  function copyDraft() {
+    const selected=document.getElementById('assignmentTemplate').value, source=rememberComposer();
+    const template=overview.assignments.find(a=>a.id===selected&&a.student_id===shownStudent);
+    let quests, name=source.name,range=source.range,start=source.start,end=source.end;
+    if(selected==='current') quests=structuredClone(source.quests);
+    else if(template){
+      quests=template.quests.map(q=>({...freshQuest(),exam_type:q.exam_type||'TYT',category:q.category_name,topic_category:q.topic_category||'',topic_name:q.topic_scope==='category'?null:q.topic_name||'',topic_scope:q.topic_scope||'',title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat_kind||'none',repeat_target:q.repeat_target||1,...(q.repeat_kind==='daily'?{starts_on:q.starts_on,ends_on:q.ends_on}:{})}));
+      name=template.week_name;range=template.week_range;
+      const daily=template.quests.filter(q=>q.repeat_kind==='daily');if(daily.length){start=daily.map(q=>q.starts_on).sort()[0];end=daily.map(q=>q.ends_on).sort().at(-1);}
+    } else if(selected==='own'){
+      const week=window.DersBoard.week();quests=week.quests.map(q=>({...freshQuest(),exam_type:q.examType||'TYT',category:window.DersBoard.category(q.categoryId||q.subject).name,topic_category:q.topicCategory||'',topic_name:q.topicScope==='category'?null:q.topicName||'',topic_scope:q.topicScope||'',title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat?.kind||'none',repeat_target:q.repeat?.target||1}));name=week.name;range=week.range;
+    } else throw new Error('Kopyalanacak hafta bulunamadı. Açık taslak korundu.');
+    const copy={id:crypto.randomUUID(),quests,name:(name||'Hafta')+' — Kopya',range,start,end};
+    window.DersTeacherDrafts.save(owner,shownStudent,copy);drafts.set(shownStudent,copy);programForm();window.DersBoard.toast('Bağımsız taslak oluşturuldu');
+  }
   async function run(action, id) {
+    if(action==='send'&&Date.now()<sendAfter)return;
     if (busy) return; busy = true;
     try {
       if (action === 'init') await rpc('init_profile', { role: roleSelect.value, name: document.getElementById('profileName').value.trim() });
@@ -228,20 +252,20 @@
       else if (action === 'disconnect') { if (!confirm('Bağlantı kaldırılsın mı? Öğretmenin bu öğrenciye erişimi sona erecek.')) return; await rpc('remove_connection', { id }); closeDialog(true); drafts.clear(); }
       else if (action === 'student') { openStudent(id); return; }
       else if (action.startsWith('student-')) { await studentTab(action); return; }
-      else if (action === 'draft-add') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft.push(freshQuest()); renderDraft(); return; }
-      else if (action === 'draft-delete') { document.getElementById('assignmentForm').dataset.dirty = 'true'; draft.splice(Number(id),1); renderDraft(); return; }
-      else if (action === 'draft-copy') { document.getElementById('assignmentForm').dataset.dirty = 'true'; const template = overview.assignments.find(a => a.id === document.getElementById('assignmentTemplate').value && a.student_id === shownStudent);
-        draft = template ? template.quests.map(q => ({ ...freshQuest(), exam_type:q.exam_type || 'TYT', category:q.category_name, topic_category:q.topic_category || '', topic_name:q.topic_scope === 'category' ? null : q.topic_name || '', topic_scope:q.topic_scope || '', title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat_kind || 'none',repeat_target:q.repeat_target || 1 })) : window.DersBoard.week().quests.map(q => ({ ...freshQuest(), exam_type:q.examType || 'TYT', category:window.DersBoard.category(q.categoryId || q.subject).name, topic_category:q.topicCategory || '', topic_name:q.topicScope === 'category' ? null : q.topicName || '', topic_scope:q.topicScope || '', title:q.title,detail:q.detail,xp:q.xp,repeat_kind:q.repeat?.kind || 'none',repeat_target:q.repeat?.target || 1 })); renderDraft(); return; }
+      else if (action === 'draft-add') { document.getElementById('assignmentForm').dataset.dirty='true';draft.push(freshQuest()); renderDraft(); rememberComposer(); return; }
+      else if (action === 'draft-delete') { document.getElementById('assignmentForm').dataset.dirty='true';draft.splice(Number(id),1); renderDraft(); rememberComposer(); return; }
+      else if (action === 'draft-copy') { copyDraft(); return; }
+      else if (action === 'draft-remove') { if(!confirm('Yalnızca bu cihazdaki açık taslak silinsin mi? Gönderilmiş programlar değişmez.'))return;const book=window.DersTeacherDrafts.remove(owner,shownStudent,composer.id);drafts.delete(shownStudent);if(book.active)drafts.set(shownStudent,book.entries.find(d=>d.id===book.active));programForm();return; }
       else if (action === 'send') {
         if (draft.some(q => q.topic_scope) && !overview.capabilities?.topicCatalog) throw new Error('Konu alanlarını kaydetmek için sunucu güncellemesi gerekli. Program gönderilmedi.');
         if (draft.some(q => q.repeat_kind !== 'none') && !overview.capabilities?.repeatQuests) throw new Error('Tekrarlı görevler için sunucu güncellemesi gerekli. Program gönderilmedi.');
         const start = document.getElementById('assignmentStart').value, end = document.getElementById('assignmentEnd').value;
-        const days = Math.round((Date.parse(end+'T12:00:00Z')-Date.parse(start+'T12:00:00Z'))/86400000)+1;
-        const quests = draft.map(q => ({ exam_type:q.exam_type, category:q.category, title:q.title.trim(), detail:q.detail.trim(), xp:q.xp, repeat_kind:q.repeat_kind, repeat_target:q.repeat_kind==='daily' ? days : q.repeat_kind==='weekly' ? q.repeat_target : 1, ...(q.topic_scope ? {topic_category:q.topic_category,topic_name:q.topic_name,topic_scope:q.topic_scope} : {}), ...(q.repeat_kind==='daily' ? {starts_on:start,ends_on:end} : {}) }));
-        if (!document.getElementById('assignmentName').value.trim() || !quests.length || quests.some(q => !window.DersCurriculum.supports(q.exam_type,q.category) || !q.title || !Number.isInteger(q.xp) || q.xp<5 || q.xp>10000 || !Number.isInteger(q.repeat_target) || q.repeat_target<1 || q.repeat_target>100 || (q.repeat_kind==='daily' && days>31))) throw new Error('Hafta adı, ders, konu, geçerli XP ve tekrar hedefi gerekli. Günlük aralık 1–31 gün olabilir.');
+        const quests = draft.map(q => {const first=q.starts_on||start,last=q.ends_on||end,target=q.repeat_kind==='daily'?Math.round((Date.parse(last+'T12:00:00Z')-Date.parse(first+'T12:00:00Z'))/86400000)+1:q.repeat_kind==='weekly'?q.repeat_target:1;return { exam_type:q.exam_type, category:q.category, title:q.title.trim(), detail:q.detail.trim(), xp:q.xp, repeat_kind:q.repeat_kind, repeat_target:target, ...(q.topic_scope ? {topic_category:q.topic_category,topic_name:q.topic_name,topic_scope:q.topic_scope} : {}), ...(q.repeat_kind==='daily' ? {starts_on:first,ends_on:last} : {}) };});
+        if (!document.getElementById('assignmentName').value.trim() || !quests.length || quests.some(q => !window.DersCurriculum.supports(q.exam_type,q.category) || !q.title || !Number.isInteger(q.xp) || q.xp<5 || q.xp>10000 || !Number.isInteger(q.repeat_target) || q.repeat_target<1 || q.repeat_target>100 || (q.repeat_kind==='daily' && q.repeat_target>31))) throw new Error('Hafta adı, ders, konu, geçerli XP ve tekrar hedefi gerekli. Günlük aralık 1–31 gün olabilir.');
         await rpc('assign_program', { student_id: shownStudent, week_name: document.getElementById('assignmentName').value.trim(), week_range: document.getElementById('assignmentRange').value.trim(), quests });
+        sendAfter=Date.now()+500;
         window.DersUI?.clearDirty(document.getElementById('assignmentForm'));
-        window.DersUI?.clearDirty(dialog); drafts.delete(shownStudent); programForm(); snapshot = '';
+        window.DersUI?.clearDirty(dialog); window.DersTeacherDrafts.remove(owner,shownStudent,composer.id);drafts.delete(shownStudent); programForm(); snapshot = '';
       } else if (action === 'review') { review(overview.assignments.find(a => a.id === id)); return; }
       else if (action === 'withdraw') { if (!overview.capabilities?.withdrawProgram) throw new Error('İsteği geri çekmek için sunucu güncellemesi gerekli.'); if (!confirm('Öğrencinin henüz kabul etmediği bu program isteği geri çekilsin mi?')) return; await rpc('withdraw_assignment',{id}); }
       else if (action === 'program-accept' || action === 'program-reject') {
