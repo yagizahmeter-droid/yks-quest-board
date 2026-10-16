@@ -109,7 +109,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
     const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
     await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),{timeout:20000});
-    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-1-preview-r1');return (await cache.keys()).map(r=>r.url);});
+    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-1-preview-r2');return (await cache.keys()).map(r=>r.url);});
     assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
     for(const asset of ['appearance.js','appearance.css','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','personal-catalog.js'])assert.ok(cached.some(url=>url.endsWith('/'+asset)));
     await pwa.evaluate(()=>{window.DersTheme.setStyle('glass');window.DersTheme.setAccent('red');});

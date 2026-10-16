@@ -17,12 +17,16 @@
 body::before { background-color:var(--background-color,transparent); }
 :root[data-background]:not([data-background="industrial"]) { --glass-panel:rgba(255,255,255,.86); --glass-chrome:rgba(247,249,248,.9); --wallpaper-overlay:rgba(255,255,255,.08); }
 :root[data-background]:not([data-background="industrial"])[data-theme="dark"] { --glass-panel:rgba(24,28,30,.88); --glass-chrome:rgba(18,22,24,.92); --wallpaper-overlay:rgba(0,0,0,.1); }
-.app-footer { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:12px; padding:20px 0 4px; color:var(--muted); font-size:11px; }
+html { scroll-padding-bottom:calc(88px + env(safe-area-inset-bottom,0px)); }
+.app { padding-bottom:calc(88px + env(safe-area-inset-bottom,0px)); }
+.app-footer { position:fixed; right:max(20px,env(safe-area-inset-right,0px)); bottom:max(20px,env(safe-area-inset-bottom,0px)); z-index:18; display:flex; align-items:center; gap:10px; max-width:calc(100% - 40px); padding:0; color:var(--muted); font-size:11px; white-space:nowrap; pointer-events:none; }
+.app-footer > span { padding:2px 4px; border-radius:4px; background:var(--bg); }
 .app-footer .app-version { position:static; pointer-events:auto; cursor:pointer; font:inherit; color:var(--text); border:1px solid var(--line); padding:6px 9px; border-radius:6px; }
+body.drawer-open .app-footer, body:has(dialog[open],.modal-backdrop.open) .app-footer, .app-footer.footer-obscured { visibility:hidden; }
 .release-history { width:min(640px,calc(100% - 24px)); max-height:85dvh; overflow:auto; padding:24px; }
 .release-history section { padding:16px 0; border-top:1px solid var(--line); }
 .release-history h3 { font-size:16px; line-height:1.5; }
 .release-history li { margin:8px 0; line-height:1.6; }
-@media(max-width:720px){.background-options{grid-template-columns:repeat(3,minmax(0,1fr));}.program-upload{padding:16px 4px;}.release-history{padding:18px;}}
+@media(max-width:720px){.background-options{grid-template-columns:repeat(3,minmax(0,1fr));}.program-upload{padding:16px 4px;}.release-history{padding:18px;}.app-footer{right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));max-width:calc(100% - 24px);gap:8px;}.app-footer .app-version{min-height:44px;display:inline-flex;align-items:center;}body:has(input:focus,textarea:focus,[contenteditable="true"]:focus) .app-footer{visibility:hidden;}}
 .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; border:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 label.button:has(+ input[type="file"]:focus-visible) { outline:3px solid var(--accent); outline-offset:3px; }
