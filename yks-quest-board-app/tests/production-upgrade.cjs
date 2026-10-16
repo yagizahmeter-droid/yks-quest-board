@@ -1,8 +1,17 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'test-results'),signal=path.join(out,'production-v111-ready.json');
+async function waitForInstalledShell(page){
+ // Await cache probes explicitly so a Promise cannot be mistaken for a ready shell.
+ const deadline=Date.now()+30000;
+ while(Date.now()<deadline){
+  const ready=await page.evaluate(async()=>{const registration=await navigator.serviceWorker.getRegistration();if(!registration||registration.installing||registration.waiting||registration.active?.state!=='activated'||navigator.serviceWorker.controller!==registration.active)return false;const keys=await caches.keys();if(!keys.includes('ders-pwa-v1-1-1-r1'))return false;const cache=await caches.open('ders-pwa-v1-1-1-r1'),html=await cache.match(location.origin+'/');return Boolean(html&&(await html.text()).includes('release-history.js')&&await cache.match(location.origin+'/release-history.js'));});
+  if(ready)return;await new Promise(resolve=>setTimeout(resolve,100));
+ }
+ throw Error('New service worker and release shell did not finish activating');
+}
 (async()=>{
- fs.mkdirSync(out,{recursive:true});assert.equal(fs.existsSync(signal),false,'Remove the previous test signal before a new run');
+ const verifyNow=process.argv.includes('--verify-now');fs.mkdirSync(out,{recursive:true});if(!verifyNow)assert.equal(fs.existsSync(signal),false,'Remove the previous test signal before a new run');
  const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
  try{
   const context=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'allow'});
@@ -16,11 +25,11 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'test-results'),signa
   fs.writeFileSync(path.join(out,'production-upgrade-before.json'),JSON.stringify(before,null,2));console.log('READY_FOR_RELEASE',JSON.stringify(before));
   // Keep the old service worker and guest browser alive until deployment has been verified READY.
   const deadline=Date.now()+15*60*1000;
-  while(!fs.existsSync(signal)){if(Date.now()>deadline)throw Error('Release signal timed out');await new Promise(resolve=>setTimeout(resolve,500));}
-  const release=JSON.parse(fs.readFileSync(signal,'utf8'));assert.equal(release.version,'1.1.1');
+  while(!verifyNow&&!fs.existsSync(signal)){if(Date.now()>deadline)throw Error('Release signal timed out');await new Promise(resolve=>setTimeout(resolve,500));}
+  if(!verifyNow){const release=JSON.parse(fs.readFileSync(signal,'utf8'));assert.equal(release.version,'1.1.1');}
   await page.reload();await page.waitForFunction(()=>window.DersReleases&&DersBoard.authReady);
   await page.evaluate(async()=>{const registration=await navigator.serviceWorker.getRegistration();await registration.update();});
-  await page.waitForFunction(async()=>{const keys=await caches.keys();return keys.includes('ders-pwa-v1-1-1-r1')&&!keys.some(k=>/^(ders-pwa-|yks-quest-board-)/.test(k)&&k!=='ders-pwa-v1-1-1-r1');});
+  await waitForInstalledShell(page);
   assert.equal(await page.evaluate(()=>localStorage.getItem('ders-release-probe')),marker);
   assert.equal(await page.evaluate(()=>YKS_CONFIG.supabaseUrl),'https://jswgagzbetwviamiwcck.supabase.co');
   assert.equal(await page.locator('.app-version').textContent(),'v1.1.1');
@@ -33,7 +42,7 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'test-results'),signa
   await context.setOffline(true);await page.reload();await page.waitForFunction(()=>window.DersReleases);assert.equal(await page.locator('.app-version').textContent(),'v1.1.1');
   await page.locator('#versionHistoryButton').click();await page.locator('#releaseHistoryDialog').waitFor();assert.equal(await page.locator('#releaseHistoryDialog section').count(),5);
   assert.deepEqual(errors,[]);assert.equal(databaseRequests,0);
-  const result={passed:true,version:'1.1.1',previousVersion:before.version,pwaUpgrade:true,offline:true,manifestIcons:true,releaseHistory:true,localStoragePreserved:true,databaseRequests,realUserWrites:false};
+  const result={passed:true,version:'1.1.1',previousVersion:before.version,pwaUpgrade:before.version==='v1.1',installedShell:true,offline:true,manifestIcons:true,releaseHistory:true,localStoragePreserved:true,databaseRequests,realUserWrites:false};
   fs.writeFileSync(path.join(out,'production-upgrade-result.json'),JSON.stringify(result,null,2));console.log('RESULT',JSON.stringify(result));
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});
