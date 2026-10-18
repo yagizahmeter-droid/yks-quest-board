@@ -27,6 +27,21 @@
   document.body.append(dialog);
   const $ = id => dialog.querySelector('#' + id);
   let currentRole = null;
+  const publicAssets = new Map();
+  function asset(path, image = false) {
+    const url = new URL(path,location.href);
+    if (url.origin !== location.origin || !/[.](?:js|css|webp)$/.test(url.pathname) || url.pathname.includes('/api/')) throw new Error('Geçersiz önizleme dosyası.');
+    if (!publicAssets.has(url.href)) publicAssets.set(url.href,(async()=>{
+      const response = await fetch(url);
+      if (!response.ok || new URL(response.url).origin !== location.origin) throw new Error('Önizleme dosyası yüklenemedi.');
+      if (!image) return response.text();
+      const blob = await response.blob();
+      return new Promise((resolve,reject)=>{
+        const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(blob);
+      });
+    })().catch(error=>{publicAssets.delete(url.href);throw error;}));
+    return publicAssets.get(url.href);
+  }
   function stopPreview() {
     previewToken++; $('adminPreview').replaceChildren(); $('adminPreview').hidden = true;
     $('adminReturn').hidden = true; $('adminReset').hidden = true; $('adminNotesSection').hidden = false;
@@ -127,14 +142,26 @@
       const mark = new DOMParser().parseFromString(await brand.text(),'image/svg+xml').getElementById('ders-mark');
       if (mark) doc.querySelectorAll('.brand-mark use').forEach(use => use.replaceWith(...[...mark.childNodes].map(node=>doc.importNode(node,true))));
       // Opaque-origin sandbox plus CSP: no cookies/storage, parent access, API calls or form navigation.
-      doc.querySelectorAll('script[src="./config.js"],script[src="./vendor/supabase.js"],script[src="./admin.js"],link[rel="manifest"]').forEach(el => el.remove());
+      doc.querySelectorAll('script[src="./config.js"],script[src="./vendor/supabase.js"],script[src="./admin.js"],link[rel="manifest"],link[rel="icon"],link[rel="apple-touch-icon"]').forEach(el => el.remove());
       const base = doc.createElement('base'); base.href = new URL('./', location.href).href;
       const csp = doc.createElement('meta'); csp.httpEquiv = 'Content-Security-Policy';
-      csp.content = `default-src 'none'; script-src 'unsafe-inline' ${location.origin}; style-src 'unsafe-inline' ${location.origin}; img-src ${location.origin} data: blob:; font-src ${location.origin}; connect-src 'none'; frame-src 'none'; worker-src 'none'; form-action 'none'; base-uri ${location.origin}`;
+      csp.content = `default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; frame-src 'none'; worker-src 'none'; form-action 'none'; base-uri ${location.origin}`;
       const runtime = doc.createElement('script'); runtime.src = new URL('./admin-preview.js', location.href).href;
       runtime.dataset.role = role;
       runtime.dataset.appearance = JSON.stringify({choice:window.DersTheme.choice,style:window.DersTheme.style,accent:window.DersTheme.accent,monochrome:window.DersTheme.monochrome,background:window.DersBackgrounds.selected});
       doc.head.prepend(csp, base, runtime);
+      // The opaque sandbox has no Vercel cookie. Inline only public static assets
+      // fetched by the parent; never pass authentication or account state into it.
+      const [light,dark] = await Promise.all([asset('./assets/background-light.webp',true),asset('./assets/background-dark.webp',true)]);
+      await Promise.all([...doc.querySelectorAll('script[src]')].map(async script => {
+        const source = await asset(script.getAttribute('src'));
+        script.removeAttribute('src'); script.textContent = source.replace(/<[/]script/gi,'<' + String.fromCharCode(92) + '/script');
+      }));
+      await Promise.all([...doc.querySelectorAll('link[rel="stylesheet"]')].map(async link => {
+        const style = doc.createElement('style');
+        style.textContent = (await asset(link.getAttribute('href'))).split('./assets/background-light.webp').join(light).split('./assets/background-dark.webp').join(dark);
+        link.replaceWith(style);
+      }));
       doc.querySelectorAll('script:not([src])').forEach(script => {
         script.textContent = script.textContent.replace('if ("serviceWorker" in navigator)', 'if (false)');
       });
