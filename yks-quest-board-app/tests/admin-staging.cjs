@@ -15,8 +15,8 @@ async function run(){
   pass('Real Auth distinguishes the authorized admin from student/outsider accounts');
   const snapshot=await admin.rpc('ders_action',{p_action:'read_board',p_payload:{}});assert.ifError(snapshot.error);
   const {data:{user}}=await admin.auth.getUser(),id=crypto.randomUUID();
-  const saved=await admin.from('ders_admin_notes').insert({id,user_id:user.id,kind:'bug',context:'appearance',screen:'Staging görünüm testi',body:'v1.1.2 sentetik test notu'});assert.ifError(saved.error);
-  const read=await admin.from('ders_admin_notes').select('*').eq('id',id).single();assert.ifError(read.error);assert.ok(Date.parse(read.data.created_at));
+  const saved=await admin.from('ders_admin_notes').insert({id,user_id:user.id,kind:'test',context:'appearance',screen:'Staging görünüm testi',body:'v1.1.2 sentetik test notu'});assert.ifError(saved.error);
+  const read=await admin.from('ders_admin_notes').select('*').eq('id',id).single();assert.ifError(read.error);assert.ok(Date.parse(read.data.created_at));assert.equal(read.data.kind,'test');
   const events=await admin.from('ders_admin_events').select('*').eq('action','note_saved');assert.ifError(events.error);assert.ok(events.data.length);
   assert.ok(events.data.every(event=>!('body'in event)&&!('token'in event)));
   pass('Notes persist with screen/server date; automatic event excludes note text and secrets');
@@ -36,6 +36,7 @@ async function run(){
   await p.fill('#authEmail',config.users[0].email);await p.fill('#authPassword',config.users[0].password);await p.click('#signInButton');
   await p.locator('#adminButton').waitFor({state:'visible'});await p.click('#adminButton');
   await p.locator('#adminNoteList').getByText('v1.1.2 sentetik test notu',{exact:true}).first().waitFor();
+  await require('./pointer-select.cjs')(p,'#adminNoteKind','test');
   await p.fill('#adminNoteScreen','Gerçek test tarayıcısı');await p.fill('#adminNoteBody','Gerçek staging UI kaydı');await p.click('#adminSaveNote');
   await p.getByText('Not kaydedildi.',{exact:true}).waitFor();
   await p.click('[data-preview-role="student"]');const frame=await(await p.locator('.admin-frame').elementHandle()).contentFrame();

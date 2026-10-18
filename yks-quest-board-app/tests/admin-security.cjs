@@ -3,6 +3,7 @@ module.exports=async({root,admin,asUser,check,denied,ids})=>{
  const [manager,student,other]=ids;
  const before=(await admin.query('select * from public.quest_board_states order by user_id')).rows;
  await admin.query(fs.readFileSync(path.join(root,'supabase/migrations/20261016180341_admin_preview_notes.sql'),'utf8'));
+ await admin.query(fs.readFileSync(path.join(root,'supabase/migrations/20261018184218_admin_note_test_kind.sql'),'utf8'));
  assert.deepEqual((await admin.query('select * from public.quest_board_states order by user_id')).rows,before);
  check(true,'Admin schema leaves all boards and XP untouched');
  assert.equal((await asUser(student,'select public.ders_admin_status() allowed')).rows[0].allowed,false);
@@ -21,6 +22,8 @@ module.exports=async({root,admin,asUser,check,denied,ids})=>{
  await denied(asUser(manager,"delete from ders_admin_events"),'Client cannot erase operation history');
  check((await asUser(other,'select * from ders_admin_events')).rows.length===0,'Other admin cannot read private operation history');
  check((await asUser(manager,'select * from ders_admin_notes')).rows.length===1,'Admin can read own saved note');
+ await asUser(manager,"insert into ders_admin_notes(kind,context,body) values('test','teacher','test-kind note')");
+ check((await asUser(manager,"select * from ders_admin_notes where kind='test'")).rows.length===1,'Test note kind is accepted without rewriting existing notes');
  check((await asUser(other,'select * from ders_admin_notes')).rows.length===0,'Different admin cannot read private notes');
  check((await asUser(student,'select * from ders_admin_notes')).rows.length===0,'Student cannot read notes');
  await denied(asUser(manager,"insert into ders_admin_notes(user_id,kind,context,body) values($1,'bug','teacher','forged owner')",[other]),'Admin cannot forge note owner');

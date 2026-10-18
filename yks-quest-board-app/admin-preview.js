@@ -1,6 +1,10 @@
 (() => {
   const script = document.currentScript, role = script.dataset.role === 'teacher' ? 'teacher' : 'student';
   const appearance = JSON.parse(script.dataset.appearance || '{}');
+  function signal(state) {
+    if (script.dataset.previewChannel && script.dataset.parentOrigin) parent.postMessage({type:'ders-admin-preview',channel:script.dataset.previewChannel,state},script.dataset.parentOrigin);
+  }
+  window.addEventListener('error',()=>signal('error'),{once:true});
   const memory = () => {
     const values = new Map();
     return {getItem:k=>values.get(String(k)) ?? null,setItem:(k,v)=>values.set(String(k),String(v)),removeItem:k=>values.delete(String(k)),clear:()=>values.clear(),key:i=>[...values.keys()][i]??null,get length(){return values.size;}};
@@ -70,5 +74,12 @@
     // Keep all navigation in this frame; a base URL must never target the parent app.
     document.querySelectorAll('a[data-route]').forEach(a=>a.setAttribute('href','#/'+a.dataset.route));
     window.DersUI.navigate(role === 'teacher' ? 'teacher' : 'program');
+    const deadline = Date.now() + 10000;
+    const settled = () => {
+      if (window.DersBoard?.authReady && window.DersBoard.user && window.DersBoard.state.profile.role === role) signal('ready');
+      else if (Date.now() < deadline) setTimeout(settled,50);
+      else signal('error');
+    };
+    settled();
   });
 })();

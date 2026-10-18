@@ -16,7 +16,7 @@
     <div id="adminPreview" hidden></div>
     <section id="adminNotesSection"><h3>Test notlarım</h3>
     <form id="adminNoteForm" class="admin-note-form">
-      <div class="admin-note-fields"><label class="field">Not türü<select class="select" id="adminNoteKind"><option value="bug">Hata</option><option value="suggestion">Öneri</option></select></label>
+      <div class="admin-note-fields"><label class="field">Not türü<select class="select" id="adminNoteKind"><option value="bug">Hata</option><option value="suggestion">Öneri</option><option value="test">Test</option></select></label>
       <label class="field">İlgili görünüm<select class="select" id="adminNoteContext"><option value="student">Öğrenci</option><option value="teacher">Öğretmen</option><option value="appearance">Görünüm</option></select></label></div>
       <label class="field">Ekran<input class="input" id="adminNoteScreen" maxlength="120" value="Programım" required></label>
       <label class="field">Not<textarea class="textarea" id="adminNoteBody" maxlength="4000" required rows="4"></textarea></label>
@@ -28,22 +28,52 @@
   const $ = id => dialog.querySelector('#' + id);
   let currentRole = null;
   const publicAssets = new Map();
+  const appBase = new URL('./',location.href);
+  const scripts = ['theme.js','sync.js','vendor/lucide.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','teacher-drafts.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
+  const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css'];
+  const assetPaths = new Map([...scripts,...styles,'admin-preview.js','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg'].map(name=>[new URL(name,appBase).pathname,name]));
+  const failure = (code,details = {}) => Object.assign(new Error(code),{code,...details});
+  let cancelFrame = null;
+  function ownedAsset(value) {
+    try { const url = new URL(value,appBase); return url.origin === appBase.origin ? assetPaths.get(url.pathname) : null; }
+    catch { return null; }
+  }
   function asset(path, image = false) {
-    const url = new URL(path,location.href);
-    if (url.origin !== location.origin || !/[.](?:js|css|webp)$/.test(url.pathname) || url.pathname.includes('/api/')) throw new Error('Geçersiz önizleme dosyası.');
+    const name = ownedAsset(path);
+    if (!name) throw failure('template');
+    const url = new URL(name,appBase);
     if (!publicAssets.has(url.href)) publicAssets.set(url.href,(async()=>{
       const response = await fetch(url);
-      if (!response.ok || new URL(response.url).origin !== location.origin) throw new Error('Önizleme dosyası yüklenemedi.');
+      const mime = response.headers.get('content-type') || '';
+      const validType = name.endsWith('.js') ? /javascript|ecmascript/.test(mime) : name.endsWith('.css') ? /text\/css/.test(mime) : name.endsWith('.svg') ? /image\/svg[+]xml/.test(mime) : /image\/webp/.test(mime);
+      if (!response.ok || new URL(response.url).origin !== location.origin || !validType) throw failure('assets',{resource:name,status:response.status});
       if (!image) return response.text();
       const blob = await response.blob();
       return new Promise((resolve,reject)=>{
         const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(blob);
       });
-    })().catch(error=>{publicAssets.delete(url.href);throw error;}));
+    })().catch(error=>{publicAssets.delete(url.href);throw error.code ? error : failure('assets',{resource:name});}));
     return publicAssets.get(url.href);
   }
+  function ready(frame,channel) {
+    return new Promise((resolve,reject)=>{
+      const finish = error => {
+        clearTimeout(timer); window.removeEventListener('message',receive);
+        if (cancelFrame === cancel) cancelFrame = null;
+        error ? reject(error) : resolve();
+      };
+      const cancel = () => finish(failure('cancelled'));
+      const receive = event => {
+        if (event.source !== frame.contentWindow || event.origin !== 'null' || event.data?.type !== 'ders-admin-preview' || event.data.channel !== channel) return;
+        if (event.data.state === 'ready') finish();
+        if (event.data.state === 'error') finish(failure('start'));
+      };
+      const timer = setTimeout(()=>finish(failure('start')),12000);
+      cancelFrame = cancel; window.addEventListener('message',receive);
+    });
+  }
   function stopPreview() {
-    previewToken++; $('adminPreview').replaceChildren(); $('adminPreview').hidden = true;
+    previewToken++; cancelFrame?.(); $('adminPreview').replaceChildren(); $('adminPreview').hidden = true;
     $('adminReturn').hidden = true; $('adminReset').hidden = true; $('adminNotesSection').hidden = false;
     currentRole = null;
     dialog.querySelectorAll('[data-preview-role]').forEach(b => b.setAttribute('aria-pressed', 'false'));
@@ -83,7 +113,7 @@
   function renderNotes() {
     const list = $('adminNoteList'); list.replaceChildren();
     if (!notes.length) { list.textContent = 'Henüz test notu yok.'; return; }
-    const labels = {bug:'Hata',suggestion:'Öneri',student:'Öğrenci',teacher:'Öğretmen',appearance:'Görünüm'};
+    const labels = {bug:'Hata',suggestion:'Öneri',test:'Test',student:'Öğrenci',teacher:'Öğretmen',appearance:'Görünüm'};
     for (const note of notes) {
       const li = document.createElement('li'), heading = document.createElement('strong');
       heading.textContent = labels[note.kind] + ' · ' + labels[note.context] + ' · ' + note.screen;
@@ -136,18 +166,34 @@
     stopPreview(); const token = previewToken, uid = owner;
     $('adminStatus').textContent = 'Örnek görünüm hazırlanıyor…';
     try {
-      const [response,brand] = await Promise.all([fetch('./index.html', {cache:'no-store'}),fetch('./assets/brand-mark.svg')]);
-      if (!response.ok || !brand.ok) throw new Error();
+      const [response,brand] = await Promise.all([fetch(new URL('index.html',appBase), {cache:'no-store'}),asset('./assets/brand-mark.svg')]);
+      if (!response.ok || new URL(response.url).origin !== location.origin || !(response.headers.get('content-type') || '').includes('text/html')) throw failure('assets',{resource:'index.html',status:response.status});
       const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
-      const mark = new DOMParser().parseFromString(await brand.text(),'image/svg+xml').getElementById('ders-mark');
+      const mark = new DOMParser().parseFromString(brand,'image/svg+xml').getElementById('ders-mark');
       if (mark) doc.querySelectorAll('.brand-mark use').forEach(use => use.replaceWith(...[...mark.childNodes].map(node=>doc.importNode(node,true))));
       // Opaque-origin sandbox plus CSP: no cookies/storage, parent access, API calls or form navigation.
-      doc.querySelectorAll('script[src="./config.js"],script[src="./vendor/supabase.js"],script[src="./admin.js"],link[rel="manifest"],link[rel="icon"],link[rel="apple-touch-icon"]').forEach(el => el.remove());
+      const found = new Set();
+      doc.querySelectorAll('script[src]').forEach(script=>{
+        const name = ownedAsset(script.getAttribute('src'));
+        if (!scripts.includes(name) || found.has(name)) script.remove();
+        else { found.add(name); script.setAttribute('src',new URL(name,appBase).href); }
+      });
+      const core = [...doc.querySelectorAll('script:not([src])')].filter(script=>script.textContent.includes('const STORAGE_KEY = "yksQuestBoard.v1"') && script.textContent.includes('window.DersBoard ='));
+      if (core.length !== 1 || scripts.some(name=>!found.has(name))) throw failure('template');
+      doc.querySelectorAll('script:not([src])').forEach(script=>{if (script !== core[0]) script.remove();});
+      doc.querySelectorAll('link[rel="stylesheet"]').forEach(link=>{
+        const name = ownedAsset(link.getAttribute('href'));
+        if (!styles.includes(name)) link.remove();
+        else link.setAttribute('href',new URL(name,appBase).href);
+      });
+      doc.querySelectorAll('link[rel="manifest"],link[rel="icon"],link[rel="apple-touch-icon"]').forEach(el=>el.remove());
       const base = doc.createElement('base'); base.href = new URL('./', location.href).href;
       const csp = doc.createElement('meta'); csp.httpEquiv = 'Content-Security-Policy';
       csp.content = `default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; frame-src 'none'; worker-src 'none'; form-action 'none'; base-uri ${location.origin}`;
       const runtime = doc.createElement('script'); runtime.src = new URL('./admin-preview.js', location.href).href;
       runtime.dataset.role = role;
+      const channel = crypto.randomUUID();
+      runtime.dataset.previewChannel = channel; runtime.dataset.parentOrigin = location.origin;
       runtime.dataset.appearance = JSON.stringify({choice:window.DersTheme.choice,style:window.DersTheme.style,accent:window.DersTheme.accent,monochrome:window.DersTheme.monochrome,background:window.DersBackgrounds.selected});
       doc.head.prepend(csp, base, runtime);
       // The opaque sandbox has no Vercel cookie. Inline only public static assets
@@ -169,14 +215,29 @@
       const frame = document.createElement('iframe'); frame.className = 'admin-frame';
       frame.title = (role === 'student' ? 'Öğrenci' : 'Öğretmen') + ' örnek görünümü';
       frame.setAttribute('sandbox','allow-scripts allow-forms'); frame.referrerPolicy = 'no-referrer';
+      frame.style.visibility = 'hidden'; frame.inert = true;
+      const started = ready(frame,channel);
       frame.srcdoc = '<!doctype html>' + doc.documentElement.outerHTML;
       $('adminPreview').replaceChildren(frame); $('adminPreview').hidden = false;
+      await started;
+      if (token !== previewToken || uid !== board.user?.id || !allowed || !dialog.open) return;
+      frame.style.removeProperty('visibility'); frame.inert = false;
       $('adminReturn').hidden = false; $('adminNotesSection').hidden = true;
       $('adminReset').hidden = false; currentRole = role;
       if (!$('adminNoteBody').value.trim()) { $('adminNoteContext').value = role; $('adminNoteScreen').value = role === 'teacher' ? 'Öğretmen' : 'Programım'; }
       dialog.querySelectorAll('[data-preview-role]').forEach(b => b.setAttribute('aria-pressed',String(b.dataset.previewRole === role)));
       $('adminStatus').textContent = 'Örnek veriler · Değişiklikler bu önizlemede kalır. Görünüm değişince sıfırlanır.';
-    } catch { $('adminStatus').textContent = 'Önizleme açılamadı. Yeniden dene.'; }
+    } catch (error) {
+      if (token !== previewToken || uid !== board.user?.id || !dialog.open || error.code === 'cancelled') return;
+      publicAssets.clear(); stopPreview();
+      const messages = {
+        assets:'Önizleme dosyaları yüklenemedi. İnternet bağlantını kontrol edip yeniden dene.',
+        template:'Sayfa önizleme için hazırlanamadı. Sayfayı yenileyip tekrar dene.',
+        start:'Önizleme başlatılamadı. Sayfayı yenileyip tekrar dene.'
+      };
+      $('adminStatus').textContent = messages[error.code] || messages.start;
+      console.warn('D.E.R.S. admin preview failed',{role,code:error.code || 'start',resource:error.resource,status:error.status});
+    }
   }
   $('adminNoteForm').onsubmit = async event => {
     event.preventDefault();
