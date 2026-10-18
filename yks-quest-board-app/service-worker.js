@@ -1,4 +1,4 @@
-const CACHE_NAME = "ders-pwa-v1-1-1-r1";
+const CACHE_NAME = "ders-pwa-v1-1-2-preview-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -11,6 +11,10 @@ const APP_SHELL = [
   "./backgrounds.js",
   "./release-history.js",
   "./v111.css",
+  "./admin.js",
+  "./admin.css",
+  "./admin-preview.js",
+  "./history-groups.js",
   "./quest-system.js",
   "./curriculum.js",
   "./personal-catalog.js",

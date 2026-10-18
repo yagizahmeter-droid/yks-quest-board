@@ -57,8 +57,8 @@ body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-even
 :root[data-monochrome="true"] .subject-title h2 { color: var(--text) !important; }
 :root[data-monochrome="true"] .confetti-piece { background: var(--accent) !important; }
 :root[data-monochrome="true"] .accent-swatch > span { filter: grayscale(1); }
-:root[data-appearance="glass"] { --muted: #3c4942; }
-:root[data-appearance="glass"][data-theme="dark"] { --muted: #d2dbd5; }
+:root[data-appearance="glass"] { --muted: #25342b; --glass-panel: rgba(255,255,255,.68); --glass-chrome: rgba(247,249,248,.72); }
+:root[data-appearance="glass"][data-theme="dark"] { --muted: #e4eee7; --glass-panel: rgba(28,34,39,.68); --glass-chrome: rgba(20,26,31,.72); }
 :root[data-appearance="glass"] :is(.sidebar,.workspace-header,.page-header,.section-heading) { background: var(--glass-chrome); border-color: var(--glass-line); box-shadow: var(--glass-shadow); -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur)); }
 :root[data-appearance="glass"] :is(.stat,.destination,.card,.account-surface,.modal,.ders-dialog,.teacher-item,.history-item,.history-week-label) { background: var(--glass-panel); border-color: var(--glass-line); box-shadow: var(--glass-shadow); -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur)); }
 :root[data-appearance="glass"] :is(.button:not(.primary),.icon-button,.quest-action,.teacher-item,.history-item,.tab,.input,.select,.textarea,.upload-box) { background: var(--glass-panel); border-color: var(--glass-line); }

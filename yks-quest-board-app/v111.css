@@ -15,8 +15,8 @@
 .background-custom { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:16px; }
 #backgroundStatus { font-size:12px; color:var(--muted); line-height:1.6; }
 body::before { background-color:var(--background-color,transparent); }
-:root[data-background]:not([data-background="industrial"]) { --glass-panel:rgba(255,255,255,.86); --glass-chrome:rgba(247,249,248,.9); --wallpaper-overlay:rgba(255,255,255,.08); }
-:root[data-background]:not([data-background="industrial"])[data-theme="dark"] { --glass-panel:rgba(24,28,30,.88); --glass-chrome:rgba(18,22,24,.92); --wallpaper-overlay:rgba(0,0,0,.1); }
+:root[data-background]:not([data-background="industrial"]) { --wallpaper-overlay:rgba(255,255,255,.08); }
+:root[data-background]:not([data-background="industrial"])[data-theme="dark"] { --wallpaper-overlay:rgba(0,0,0,.1); }
 html { scroll-padding-bottom:calc(88px + env(safe-area-inset-bottom,0px)); }
 .app { padding-bottom:calc(88px + env(safe-area-inset-bottom,0px)); }
 .app-footer { position:fixed; right:max(20px,env(safe-area-inset-right,0px)); bottom:max(20px,env(safe-area-inset-bottom,0px)); z-index:18; display:flex; align-items:center; gap:10px; max-width:calc(100% - 40px); padding:0; color:var(--muted); font-size:11px; white-space:nowrap; pointer-events:none; }
@@ -29,4 +29,8 @@ body.drawer-open .app-footer, body:has(dialog[open],.modal-backdrop.open) .app-f
 .release-history li { margin:8px 0; line-height:1.6; }
 @media(max-width:720px){.background-options{grid-template-columns:repeat(3,minmax(0,1fr));}.program-upload{padding:16px 4px;}.release-history{padding:18px;}.app-footer{right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));max-width:calc(100% - 24px);gap:8px;}.app-footer .app-version{min-height:44px;display:inline-flex;align-items:center;}body:has(input:focus,textarea:focus,[contenteditable="true"]:focus) .app-footer{visibility:hidden;}}
 .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; border:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.history-week-group { min-width:0; }
+.history-week-group > summary { padding:12px 0; font-weight:650; cursor:pointer; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+.history-day-label { font-size:13px; font-weight:600; color:var(--muted); margin:18px 0 10px; }
+.history-week-group .history-item { margin-bottom:8px; }
 label.button:has(+ input[type="file"]:focus-visible) { outline:3px solid var(--accent); outline-offset:3px; }

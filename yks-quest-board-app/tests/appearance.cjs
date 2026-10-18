@@ -11,14 +11,14 @@ module.exports=async({root,browser,apiUrl,siteUrl,users})=>{
     assert.equal(await page.evaluate(()=>window.DersTheme.style),'classic');
     assert.equal(await page.evaluate(()=>window.DersTheme.accent),'green');
     assert.equal(await page.evaluate(()=>window.DersTheme.monochrome),false);pass('Existing defaults remain classic with the original green palette');
-    await page.click('#appearanceButton');await page.getByRole('radio',{name:'Bulanık',exact:true}).check();
+    await page.click('#appearanceButton');await page.getByRole('radio',{name:'Saydam',exact:true}).check();
     await page.getByRole('radio',{name:'Koyu',exact:true}).check();await page.getByRole('radio',{name:'Kırmızı',exact:true}).check();
     await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.DersBoard.authReady&&window.DersUI);
     assert.deepEqual(await page.evaluate(()=>[window.DersTheme.style,window.DersTheme.choice,window.DersTheme.accent]),['glass','dark','red']);
     await page.click('#appearanceButton');assert.equal(await page.getByRole('radio',{name:'Kırmızı',exact:true}).isChecked(),true);pass('Style, theme and accent persist independently across reload');
     await page.getByRole('switch',{name:'Renksiz mod'}).check();assert.equal(await page.getByRole('radio',{name:'Kırmızı',exact:true}).isDisabled(),true);
     await page.getByRole('switch',{name:'Renksiz mod'}).uncheck();assert.equal(await page.getByRole('radio',{name:'Kırmızı',exact:true}).isChecked(),true);pass('Monochrome preserves the chosen accent and exposes an accessible switch');
-    await page.getByRole('radio',{name:'Sistem',exact:true}).check();await page.emulateMedia({colorScheme:'light'});
+    await page.locator('#appearanceDialog').getByRole('radio',{name:'Sistem teması',exact:true}).check();await page.emulateMedia({colorScheme:'light'});
     await page.waitForFunction(()=>document.documentElement.dataset.theme==='light');
     await page.emulateMedia({colorScheme:'dark'});await page.waitForFunction(()=>document.documentElement.dataset.theme==='dark');pass('System theme updates glass background and color tokens');
     await page.press('#resetAppearance','Escape');await page.locator('#appearanceDialog').waitFor({state:'hidden'});

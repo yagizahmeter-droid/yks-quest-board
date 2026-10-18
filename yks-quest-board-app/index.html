@@ -779,6 +779,7 @@
   <link rel="stylesheet" href="./appearance.css">
   <link rel="stylesheet" href="./quest-ui.css">
   <link rel="stylesheet" href="./v111.css">
+  <link rel="stylesheet" href="./admin.css">
   <script src="./vendor/lucide.js"></script>
 </head>
 <body>
@@ -793,6 +794,7 @@
       <a href="#/program" data-route="program" title="Programım"><i data-lucide="notebook-tabs"></i><span>Programım</span></a>
       <a href="#/teacher" data-route="teacher" title="Öğretmen"><i data-lucide="graduation-cap"></i><span>Öğretmen</span><b class="notification-count" data-teacher-count hidden></b></a>
       <a href="#/history" data-route="history" title="Çalışma geçmişi"><i data-lucide="history"></i><span>Çalışma geçmişi</span></a>
+      <button id="adminButton" class="nav-command" type="button" hidden title="Yönetici paneli"><i data-lucide="user-round-pen"></i><span>Yönetici paneli</span></button>
     </nav>
     <div class="sidebar-bottom">
       <fieldset class="theme-control"><legend>Tema</legend>
@@ -921,7 +923,7 @@
     </section>
   </main>
   </div>
-  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.1.1</button></footer>
+  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.1.2 · Önizleme</button></footer>
 
   <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
     <section class="modal">
@@ -982,12 +984,12 @@
     <header class="appearance-heading"><h2 id="appearanceTitle">Görünüm</h2><button id="closeAppearance" class="icon-button" type="button" aria-label="Görünüm ayarlarını kapat" title="Kapat"><i data-lucide="x"></i></button></header>
     <fieldset class="appearance-field"><legend>Arayüz stili</legend><div class="style-options">
       <label class="style-option"><input type="radio" name="appearanceStyle" value="classic"><span class="style-preview preview-classic" aria-hidden="true"><span></span><span></span><span></span></span><strong>Klasik</strong></label>
-      <label class="style-option"><input type="radio" name="appearanceStyle" value="glass"><span class="style-preview preview-glass" aria-hidden="true"><span></span><span></span><span></span></span><strong>Bulanık</strong></label>
+      <label class="style-option"><input type="radio" name="appearanceStyle" value="glass"><span class="style-preview preview-glass" aria-hidden="true"><span></span><span></span><span></span></span><strong>Saydam</strong></label>
     </div></fieldset>
     <fieldset class="appearance-field"><legend>Tema</legend><div class="appearance-theme-options">
       <label><input type="radio" name="appearanceTheme" value="light"><i data-lucide="sun"></i>Açık</label>
       <label><input type="radio" name="appearanceTheme" value="dark"><i data-lucide="moon"></i>Koyu</label>
-      <label><input type="radio" name="appearanceTheme" value="system"><i data-lucide="monitor"></i>Sistem</label>
+      <label><input type="radio" name="appearanceTheme" value="system"><i data-lucide="monitor"></i>Sistem teması</label>
     </div></fieldset>
     <fieldset class="appearance-field"><legend>Vurgu rengi</legend><div id="accentPalette" class="accent-palette" role="radiogroup" aria-label="Vurgu rengi"></div></fieldset>
     <label class="monochrome-control"><span>Renksiz mod</span><input id="monochromeToggle" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
@@ -1000,6 +1002,7 @@
   <script src="./curriculum.js"></script>
   <script src="./personal-catalog.js"></script>
   <script src="./program-import.js"></script>
+  <script src="./history-groups.js"></script>
   <script>
     const STORAGE_KEY = "yksQuestBoard.v1";
     const META_KEY = "yksQuestBoard.meta.v1";
@@ -1927,12 +1930,20 @@
       els.historyWeekFilter.value = weekId;
       els.historyCategoryFilter.value = categoryId;
       const records = (state.studyHistory || [])
-        .filter((record) => !date || (record.occurrenceDate || localDateKey(record.completedAt)) === date)
+        .filter((record) => !date || window.DersHistory.dayKey(record) === date)
         .filter((record) => !weekId || record.weekId === weekId)
         .filter((record) => !categoryId || record.categoryId === categoryId)
         .sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
       els.historyList.innerHTML = records.length ? "" : `<div class="empty-state"><i data-lucide="history"></i><h2>Henüz çalışma kaydı yok</h2><p>Seçili filtrelerde tamamlanan çalışma bulunmuyor.</p></div>`;
-      records.slice(0, 80).forEach((record) => {
+      for (const week of window.DersHistory.group(records.slice(0,80),state.weeks)) {
+        const group = document.createElement("details"); group.className = "history-week-group"; group.open = true;
+        const summary = document.createElement("summary"); summary.textContent = week.name; group.append(summary);
+        for (const day of week.days) {
+          const section = document.createElement("section"), heading = document.createElement("h3");
+          heading.className = "history-day-label";
+          heading.textContent = day.date ? new Date(day.date + "T12:00:00Z").toLocaleDateString("tr-TR",{timeZone:"Europe/Istanbul",day:"numeric",month:"long",year:"numeric",weekday:"long"}) : "Tarihi bilinmiyor";
+          section.append(heading);
+          day.records.forEach((record) => {
         const item = document.createElement("div");
         item.className = "history-item";
         item.innerHTML = `
@@ -1940,8 +1951,12 @@
           <span class="text-muted">${escapeHtml(record.detail)} · +${record.xp} XP · ${new Date(record.completedAt).toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" })}</span>
           <span class="chip">${escapeHtml(record.weekName || record.weekId)} · ${escapeHtml(record.source === 'teacher_assigned' ? 'Öğretmen atadı' : record.source || "Manuel")}</span>
         `;
-        els.historyList.append(item);
-      });
+            section.append(item);
+          });
+          group.append(section);
+        }
+        els.historyList.append(group);
+      }
     }
 
     function renderTeacherPanel() {
@@ -2368,5 +2383,6 @@
   <script src="./appearance.js"></script>
   <script src="./backgrounds.js"></script>
   <script src="./release-history.js"></script>
+  <script src="./admin.js"></script>
 </body>
 </html>

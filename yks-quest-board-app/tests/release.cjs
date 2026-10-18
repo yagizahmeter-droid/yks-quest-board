@@ -9,7 +9,7 @@ const releaseConfig=configSource.includes(liveUrl)?configSource:liveFixture;
 let checks=0;
 function pass(message){checks++;console.log('PASS release',message);}
 try {
-  for(const asset of ['config.js','index.html','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','ui.js','theme.js','ui.css','appearance.js','appearance.css','assets','service-worker.js','manifest.webmanifest','icons','vendor','scripts'])
+  for(const asset of ['config.js','index.html','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','admin.js','admin.css','admin-preview.js','history-groups.js','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','ui.js','theme.js','ui.css','appearance.js','appearance.css','assets','service-worker.js','manifest.webmanifest','icons','vendor','scripts'])
     fs.cpSync(path.join(root,asset),path.join(fixture,asset),{recursive:true});
   const fixtureConfig=path.join(fixture,'config.js');
   const run=(env={},flags=[])=>spawnSync(process.execPath,['-r',path.join(fixture,'scripts/windows-realpath.cjs'),path.join(fixture,'scripts/build.cjs'),...flags],{
@@ -23,7 +23,7 @@ try {
   assert.equal(/hswipswqulolcwqvcjvi|sb_secret_|service_role/.test(builtConfig),false);
   pass('Production artifact contains the exact live public configuration');
   assert.ok(fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8').includes('class="app-version"'));
-  assert.deepEqual(fs.readdirSync(path.join(fixture,'dist')).sort(),['config.js','icons','index.html','manifest.webmanifest','service-worker.js','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','theme.js','ui.css','ui.js','appearance.js','appearance.css','assets','vendor'].sort());
+  assert.deepEqual(fs.readdirSync(path.join(fixture,'dist')).sort(),['config.js','icons','index.html','manifest.webmanifest','service-worker.js','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','admin.js','admin.css','admin-preview.js','history-groups.js','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','theme.js','ui.css','ui.js','appearance.js','appearance.css','assets','vendor'].sort());
   pass('Release includes v1.1 and only public application assets');
   fs.writeFileSync(fixtureConfig,releaseConfig.replace(liveUrl,'https://hswipswqulolcwqvcjvi.supabase.co'));
   result=run();assert.notEqual(result.status,0);assert.ok(result.stderr.includes('existing live Supabase project'));

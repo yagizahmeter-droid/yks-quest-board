@@ -5,7 +5,7 @@ module.exports=async({root,browser,apiUrl,siteUrl})=>{
   await context.route('**/config.js',r=>r.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'${apiUrl}',supabaseAnonKey:'fixture'};`}));
   try{
     await page.goto(siteUrl);await page.waitForFunction(()=>window.DersUI&&window.DersBoard.authReady);
-    await page.click('#appearanceButton');await page.getByRole('radio',{name:'Bulanık',exact:true}).check();
+    await page.click('#appearanceButton');await page.getByRole('radio',{name:'Saydam',exact:true}).check();
     assert.equal(await page.getByRole('radio',{name:'Liquid Glass',exact:true}).count(),0);
     await page.click('#closeAppearance');await page.waitForFunction(()=>history.state?.modal!=='appearance');
     await page.reload();await page.waitForFunction(()=>window.DersUI&&window.DersBoard.authReady);
@@ -55,6 +55,6 @@ module.exports=async({root,browser,apiUrl,siteUrl})=>{
     });assert.ok(scroll>=23&&scroll<=25,'Floating sticky header moved offscreen');
     assert.deepEqual(errors,[]);
     fs.writeFileSync(path.join(root,'test-results','floating-result.json'),JSON.stringify({combinations:measurements.length,renamedStyle:true,persistedGlassPreference:true,drawerKeyboard:true,compactNavigation:true,stickyHeader:true,measurements},null,2));
-    console.log('PASS floating 24 responsive style/theme combinations, consistent corners, single blur layers, Bulanık preference, keyboard drawer and sticky header');
+    console.log('PASS floating 24 responsive style/theme combinations, consistent corners, single blur layers, Saydam preference, keyboard drawer and sticky header');
   }finally{await context.close();}
 };

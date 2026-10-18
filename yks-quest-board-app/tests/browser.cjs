@@ -19,6 +19,14 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
       if(url.pathname==='/auth/v1/user') {res.end(JSON.stringify(users.find(u=>u.id===uid)));return;}
       if(url.pathname==='/auth/v1/logout') {res.end('{}');return;}
       if(!ids.includes(uid)) {res.writeHead(401).end(JSON.stringify({message:'Authentication required'}));return;}
+      if(url.pathname==='/rest/v1/rpc/ders_admin_status') {res.end(JSON.stringify((await asUser(uid,'select public.ders_admin_status() allowed')).rows[0].allowed));return;}
+      if(url.pathname==='/rest/v1/rpc/ders_admin_record_event') {await asUser(uid,'select public.ders_admin_record_event($1,$2,$3)',[body.p_id,body.p_action,body.p_context]);res.end('null');return;}
+      if(url.pathname==='/rest/v1/ders_admin_events') {res.end(JSON.stringify((await asUser(uid,'select action,context,created_at from ders_admin_events order by created_at desc limit 100')).rows));return;}
+      if(url.pathname==='/rest/v1/ders_admin_notes') {
+        if(req.method==='POST'){await asUser(uid,'insert into ders_admin_notes(id,user_id,kind,context,screen,body) values($1,$2,$3,$4,$5,$6)',[body.id,body.user_id,body.kind,body.context,body.screen,body.body]);res.writeHead(201).end();return;}
+        const rows=(await asUser(uid,'select id,body,kind,context,screen,created_at from ders_admin_notes order by created_at desc limit 100')).rows;
+        res.end(JSON.stringify(rows));return;
+      }
       if(url.pathname==='/rest/v1/rpc/ders_action') {res.end(JSON.stringify(await action(uid,body.p_action,body.p_payload)));return;}
       if(url.pathname==='/rest/v1/quest_board_states') {
         const rows=(await asUser(uid,'select * from public.quest_board_states where user_id=$1',[uid])).rows;
@@ -32,6 +40,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
   const {chromium}=deps('playwright'); let browser;
   try {
     browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+    if(process.env.V112_ONLY==='1'){await require('./admin-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,admin});return;}
     if(process.env.V111_ONLY==='1'){const opts={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./stability-browser.cjs')(opts);await require('./v111-browser.cjs')(opts);return;}
     const errors=[];
     async function pageFor(index,width=1280){
@@ -109,7 +118,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
     const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
     await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),{timeout:20000});
-    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-1-r1');return (await cache.keys()).map(r=>r.url);});
+    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-2-preview-r1');return (await cache.keys()).map(r=>r.url);});
     assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
     for(const asset of ['appearance.js','appearance.css','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','personal-catalog.js'])assert.ok(cached.some(url=>url.endsWith('/'+asset)));
     await pwa.evaluate(()=>{window.DersTheme.setStyle('glass');window.DersTheme.setAccent('red');});
