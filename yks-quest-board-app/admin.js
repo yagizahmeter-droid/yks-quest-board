@@ -168,7 +168,7 @@
       if (token !== previewToken || uid !== board.user?.id || !allowed || !dialog.open) return;
       const frame = document.createElement('iframe'); frame.className = 'admin-frame';
       frame.title = (role === 'student' ? 'Öğrenci' : 'Öğretmen') + ' örnek görünümü';
-      frame.setAttribute('sandbox','allow-scripts'); frame.referrerPolicy = 'no-referrer';
+      frame.setAttribute('sandbox','allow-scripts allow-forms'); frame.referrerPolicy = 'no-referrer';
       frame.srcdoc = '<!doctype html>' + doc.documentElement.outerHTML;
       $('adminPreview').replaceChildren(frame); $('adminPreview').hidden = false;
       $('adminReturn').hidden = false; $('adminNotesSection').hidden = true;

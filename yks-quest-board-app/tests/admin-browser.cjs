@@ -1,4 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const pointerSelect=require('./pointer-select.cjs');
 module.exports=async({root,browser,apiUrl,siteUrl,users,admin})=>{
  const context=await browser.newContext({viewport:{width:1440,height:1000},serviceWorkers:'block'});
  const errors=[],requests=[];let checks=0;
@@ -25,7 +26,7 @@ module.exports=async({root,browser,apiUrl,siteUrl,users,admin})=>{
   await frame.waitForFunction(()=>document.readyState==='complete'&&window.DersBoard?.user&&window.DersUI);
   await frame.locator('#programPage').waitFor({state:'visible'});
   assert.equal(await frame.evaluate(()=>DersBoard.user.email),'student@example.invalid');
-  assert.equal(await p.locator('.admin-frame').getAttribute('sandbox'),'allow-scripts');
+  assert.equal(await p.locator('.admin-frame').getAttribute('sandbox'),'allow-scripts allow-forms');
   assert.equal(await frame.evaluate(()=>{try{parent.document.body;return false;}catch{return true;}}),true);
   assert.equal(await frame.evaluate(()=>{try{return document.cookie.length===0;}catch{return true;}}),true);
   await frame.locator('.quest').filter({hasText:'Yaş Problemleri'}).locator('.check').click();
@@ -61,6 +62,11 @@ module.exports=async({root,browser,apiUrl,siteUrl,users,admin})=>{
   await frame.locator('#teacherPanel [data-action="student"]').click();
   await frame.locator('#assignmentForm').waitFor();
   await frame.fill('#assignmentName','Örnek taslak');
+  await pointerSelect(frame,'#assignmentDraft [data-key="category"]','Matematik');
+  await pointerSelect(frame,'#assignmentDraft [data-key="topic_category"]','Problemler');
+  await pointerSelect(frame,'#assignmentDraft [data-key="topic"]','__category');
+  await frame.getByRole('button',{name:'Programı gönder',exact:true}).click();
+  await frame.locator('#teacherPanel').getByText('Örnek taslak',{exact:true}).waitFor();
   assert.deepEqual(await p.evaluate(()=>structuredClone(DersBoard.state)),before);
   assert.equal(requests.length,0);
   await p.click('#adminReturn');await p.locator('.admin-frame').waitFor({state:'detached'});
