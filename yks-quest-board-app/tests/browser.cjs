@@ -40,7 +40,12 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
   const {chromium}=deps('playwright'); let browser;
   try {
     browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
-    if(process.env.V112_ONLY==='1'){await require(process.env.ADMIN_PREVIEW_FIX_ONLY==='1'?'./admin-preview-fix.cjs':'./admin-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,admin});return;}
+    if(process.env.V112_ONLY==='1'){
+      const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,admin};
+      await require(process.env.ADMIN_PREVIEW_FIX_ONLY==='1'?'./admin-preview-fix.cjs':'./admin-browser.cjs')(options);
+      if(process.env.ADMIN_PREVIEW_FIX_ONLY==='1')await require('./workspace-scroll.cjs')(options);
+      return;
+    }
     if(process.env.V111_ONLY==='1'){const opts={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./stability-browser.cjs')(opts);await require('./v111-browser.cjs')(opts);return;}
     const errors=[];
     async function pageFor(index,width=1280){

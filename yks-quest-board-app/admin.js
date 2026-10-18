@@ -161,12 +161,17 @@
   }
   async function preview(role, resetting = false) {
     if (!['student','teacher'].includes(role) || !await authorize() || !dialog.open) return;
+    if (!['http:','https:'].includes(location.protocol)) {
+      stopPreview();
+      $('adminStatus').textContent = 'Rol önizlemesi dosyadan açılamaz. Uygulamayı HTTPS web adresinden veya yerel geliştirme sunucusundan açıp yönetici hesabınla giriş yap.';
+      return;
+    }
     try { await recordEvent(resetting ? 'sample_reset' : 'preview_open',role); }
     catch (error) { $('adminStatus').textContent = error.message; return; }
     stopPreview(); const token = previewToken, uid = owner;
     $('adminStatus').textContent = 'Örnek görünüm hazırlanıyor…';
     try {
-      const [response,brand] = await Promise.all([fetch(new URL('index.html',appBase), {cache:'no-store'}),asset('./assets/brand-mark.svg')]);
+      const [response,brand] = await Promise.all([fetch(new URL('index.html',appBase), {cache:'no-store'}).catch(()=>{throw failure('assets',{resource:'index.html'});}),asset('./assets/brand-mark.svg')]);
       if (!response.ok || new URL(response.url).origin !== location.origin || !(response.headers.get('content-type') || '').includes('text/html')) throw failure('assets',{resource:'index.html',status:response.status});
       const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
       const mark = new DOMParser().parseFromString(brand,'image/svg+xml').getElementById('ders-mark');

@@ -1,10 +1,36 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const pointerSelect=require('./pointer-select.cjs');
-module.exports=async({root,browser,apiUrl,siteUrl,users})=>{
+module.exports=async({root,browser,apiUrl,siteUrl,users,key='fixture',password='test-password'})=>{
+ const fileContext=await browser.newContext({serviceWorkers:'block'});
+ try{
+  await fileContext.route('**/config.js',r=>r.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'${apiUrl}',supabaseAnonKey:'${key}'};`}));
+  const filePage=await fileContext.newPage();
+  await filePage.goto(require('node:url').pathToFileURL(path.join(root,'index.html')).href+'#/account');
+  await filePage.fill('#authEmail',users[0].email);await filePage.fill('#authPassword',password);await filePage.click('#signInButton');
+  await filePage.locator('#adminButton').waitFor({state:'visible'});
+  await filePage.evaluate(async()=>{await DersBoard.flush();await DersTeacher.refresh();});
+  await filePage.click('#adminButton');
+  if(process.env.ADMIN_FILE_PREVIEW_REPRO==='1'){
+   await filePage.click('[data-preview-role="student"]');
+   await filePage.locator('#adminStatus').getByText(/başlatılamadı/).waitFor();
+   assert.equal(await filePage.locator('.admin-frame').count(),0);
+   console.log('PASS admin preview origin Original code reproduces file-origin CORS failure reported by user');return;
+  }
+  let blockedFetches=0;
+  filePage.on('request',r=>{if(/\/(?:index[.]html|admin-preview[.]js|assets\/brand-mark[.]svg)$/.test(r.url()))blockedFetches++;});
+  const before=await filePage.evaluate(()=>structuredClone(DersBoard.state));
+  for(const role of ['student','teacher']){
+   await filePage.click(`[data-preview-role="${role}"]`);
+   await filePage.locator('#adminStatus').getByText(/dosyadan açılamaz/).waitFor();
+   assert.equal(await filePage.locator('.admin-frame').count(),0);
+  }
+  assert.equal(blockedFetches,0);assert.deepEqual(await filePage.evaluate(()=>structuredClone(DersBoard.state)),before);
+  console.log('PASS admin preview origin File-origin launch is diagnosed before any blocked asset fetch or account mutation');
+ }finally{await fileContext.close();}
  const context=await browser.newContext({viewport:{width:1280,height:900},serviceWorkers:'block'});
  let missing=false,broken=false,checks=0;const errors=[],frameRequests=[];
  const pass=text=>{checks++;console.log('PASS admin preview fix',text);};
- await context.route('**/config.js',r=>r.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'${apiUrl}',supabaseAnonKey:'fixture'};`}));
+ await context.route('**/config.js',r=>r.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'${apiUrl}',supabaseAnonKey:'${key}'};`}));
  await context.route('**/index.html',async route=>{
   const response=await route.fetch();
   let html=await response.text();
@@ -19,10 +45,18 @@ module.exports=async({root,browser,apiUrl,siteUrl,users})=>{
   await route.fulfill({response,body:source});
  });
  const p=await context.newPage();
+ async function wheelPreview(frame){
+  const top=await frame.evaluate(()=>{const spacer=document.createElement('div');spacer.dataset.scrollFixture='';spacer.style.height='1200px';document.querySelector('.app').append(spacer);window.scrollTo(0,0);return document.querySelector('.workspace-header').getBoundingClientRect().top;});
+  await p.locator('.admin-frame').scrollIntoViewIfNeeded();const box=await p.locator('.admin-frame').boundingBox();
+  await p.mouse.move(box.x+box.width-50,box.y+box.height/2);await p.mouse.wheel(0,350);
+  await frame.waitForFunction(()=>scrollY>=250);
+  assert.ok(await frame.evaluate(top=>Math.abs(top-document.querySelector('.workspace-header').getBoundingClientRect().top-scrollY)<2,top),'Preview header must follow its content');
+  await frame.evaluate(()=>{document.querySelector('[data-scroll-fixture]').remove();window.scrollTo(0,0);});
+ }
  p.on('pageerror',error=>{if(!broken)errors.push(error.message);});
  p.on('request',request=>{if(request.frame()!==p.mainFrame()&&/rest\/v1|auth\/v1|vercel.live/.test(request.url()))frameRequests.push(request.url());});
  try{
-  await p.goto(siteUrl+'/#/account');await p.fill('#authEmail',users[0].email);await p.fill('#authPassword','test-password');await p.click('#signInButton');
+  await p.goto(siteUrl+'/#/account');await p.fill('#authEmail',users[0].email);await p.fill('#authPassword',password);await p.click('#signInButton');
   await p.locator('#adminButton').waitFor({state:'visible'});await p.evaluate(async()=>{await DersBoard.flush();await DersTeacher.refresh();});
   const before=await p.evaluate(()=>structuredClone(DersBoard.state));
   await p.click('#adminButton');
@@ -40,6 +74,7 @@ module.exports=async({root,browser,apiUrl,siteUrl,users})=>{
   assert.equal(await frame.evaluate(()=>DersBoard.user.email),'student@example.invalid');
   assert.equal(await frame.evaluate(()=>Boolean(window.__untrustedPreviewScript)),false);
   assert.equal(await frame.locator('script[src],link[rel="stylesheet"]').count(),0);
+  await wheelPreview(frame);
   await frame.locator('.quest').filter({hasText:'Yaş Problemleri'}).locator('.check').click();await frame.evaluate(()=>DersBoard.flush());
   assert.deepEqual(await p.evaluate(()=>structuredClone(DersBoard.state)),before);
   pass('Missing asset has a clear error; retry opens actual student UI despite toolbar and rewritten script URLs');
@@ -48,6 +83,7 @@ module.exports=async({root,browser,apiUrl,siteUrl,users})=>{
   await frame.locator('#teacherPanel [data-action="student"]').click();await frame.locator('#assignmentForm').waitFor({state:'visible'});
   assert.equal(await frame.evaluate(()=>DersBoard.user.email),'teacher@example.invalid');
   assert.equal(await frame.evaluate(()=>{try{parent.document.body;return false;}catch{return true;}}),true);
+  await wheelPreview(frame);
   await p.click('#adminReturn');await p.locator('.admin-frame').waitFor({state:'detached'});
   pass('Actual teacher composer opens, stays isolated and returns to admin');
   assert.deepEqual(await p.locator('#adminNoteKind option').allTextContents(),['Hata','Öneri','Test']);

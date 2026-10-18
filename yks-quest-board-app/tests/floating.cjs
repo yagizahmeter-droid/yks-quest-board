@@ -52,9 +52,9 @@ module.exports=async({root,browser,apiUrl,siteUrl})=>{
       const height=document.querySelector('.workspace').style.minHeight;document.querySelector('.workspace').style.minHeight='3000px';window.scrollTo(0,700);
       await new Promise(requestAnimationFrame);const top=document.querySelector('.workspace-header').getBoundingClientRect().top;
       document.querySelector('.workspace').style.minHeight=height;window.scrollTo(0,0);return top;
-    });assert.ok(scroll>=23&&scroll<=25,'Floating sticky header moved offscreen');
+    });assert.ok(scroll>=-677&&scroll<=-675,'Workspace header must scroll with page content');
     assert.deepEqual(errors,[]);
-    fs.writeFileSync(path.join(root,'test-results','floating-result.json'),JSON.stringify({combinations:measurements.length,renamedStyle:true,persistedGlassPreference:true,drawerKeyboard:true,compactNavigation:true,stickyHeader:true,measurements},null,2));
-    console.log('PASS floating 24 responsive style/theme combinations, consistent corners, single blur layers, Saydam preference, keyboard drawer and sticky header');
+    fs.writeFileSync(path.join(root,'test-results','floating-result.json'),JSON.stringify({combinations:measurements.length,renamedStyle:true,persistedGlassPreference:true,drawerKeyboard:true,compactNavigation:true,scrollingHeader:true,measurements},null,2));
+    console.log('PASS floating 24 responsive style/theme combinations, consistent corners, single blur layers, Saydam preference, keyboard drawer and scrolling header');
   }finally{await context.close();}
 };
