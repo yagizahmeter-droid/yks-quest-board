@@ -24,7 +24,14 @@ try {
   pass('Production artifact contains the exact live public configuration');
   assert.ok(fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8').includes('class="app-version"'));
   assert.deepEqual(fs.readdirSync(path.join(fixture,'dist')).sort(),['config.js','icons','index.html','manifest.webmanifest','service-worker.js','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','admin.js','admin.css','admin-preview.js','history-groups.js','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','theme.js','ui.css','ui.js','appearance.js','appearance.css','assets','vendor'].sort());
-  pass('Release includes v1.1 and only public application assets');
+  const html=fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8');
+  assert.ok(html.includes('aria-label="Sürüm geçmişini aç">v1.1.2</button>'));
+  assert.ok(!html.includes('v1.1.2 · Önizleme'));
+  const releases=require('../release-history.js').releases;
+  assert.equal(releases[0].version,'1.1.2');assert.equal(releases[0].date,'2026-10-18');assert.equal(releases[0].sections.length,5);
+  assert.equal(releases.filter(r=>r.version==='1.1.2').length,1);
+  assert.ok(fs.readFileSync(path.join(fixture,'dist/service-worker.js'),'utf8').includes('ders-pwa-v1-1-2-release-r1'));
+  pass('Release includes only public assets, v1.1.2 identity, dated sectioned notes and its PWA cache');
   fs.writeFileSync(fixtureConfig,releaseConfig.replace(liveUrl,'https://hswipswqulolcwqvcjvi.supabase.co'));
   result=run();assert.notEqual(result.status,0);assert.ok(result.stderr.includes('existing live Supabase project'));
   pass('Vercel production environment rejects staging configuration');

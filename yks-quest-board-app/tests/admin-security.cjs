@@ -2,6 +2,11 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 module.exports=async({root,admin,asUser,check,denied,ids})=>{
  const [manager,student,other]=ids;
  const before=(await admin.query('select * from public.quest_board_states order by user_id')).rows;
+ await admin.query(fs.readFileSync(path.join(root,'supabase/migrations/20261018194844_admin_release_backup.sql'),'utf8'));
+ const recovery=(await admin.query("select data->'public.quest_board_states' = (select jsonb_agg(to_jsonb(t)) from public.quest_board_states t) as matches from ders_release_private.app_snapshots where version='1.1.2'")).rows[0];
+ assert.equal(recovery.matches,true);
+ check(true,'Server-only recovery snapshot preserves original board values');
+ await denied(asUser(student,'select * from ders_release_private.app_snapshots'),'Clients cannot read release recovery data');
  await admin.query(fs.readFileSync(path.join(root,'supabase/migrations/20261016180341_admin_preview_notes.sql'),'utf8'));
  await admin.query(fs.readFileSync(path.join(root,'supabase/migrations/20261018184218_admin_note_test_kind.sql'),'utf8'));
  assert.deepEqual((await admin.query('select * from public.quest_board_states order by user_id')).rows,before);
