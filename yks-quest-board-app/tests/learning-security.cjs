@@ -5,8 +5,13 @@ module.exports=async({root,admin,asUser,action,board,check,denied,ids})=>{
  const before=(await admin.query('select * from quest_board_states order by user_id')).rows;
  const policies=(await admin.query('select * from pg_policies where schemaname=$1 order by tablename,policyname',['public'])).rows;
  const oldFn=(await admin.query("select pg_get_functiondef('ders_private.action(text,jsonb)'::regprocedure) def")).rows;
- await admin.query(fs.readFileSync(path.join(root,'supabase/migrations/20261020182434_learning_focus_interactions.sql'),'utf8'));
- await admin.query(fs.readFileSync(path.join(root,'supabase/migrations/20261020194500_learning_request_identity.sql'),'utf8'));
+ await admin.query(fs.readFileSync(path.join(root,'supabase/migrations/20261020201713_v113_release_backup.sql'),'utf8'));
+ const guardedMigration=require('../scripts/v113-migration.cjs');
+ await admin.query(guardedMigration('20261020182434_learning_focus_interactions.sql'));
+ await admin.query(guardedMigration('20261020194500_learning_request_identity.sql'));
+ check((await admin.query("select data ? '_checks' ok from ders_release_private.app_snapshots where version='1.1.3'")).rows[0].ok,'Server-only recovery snapshot and atomic preservation guards pass');
+ await denied(asUser(student,'select * from ders_release_private.app_snapshots'),'Release backup inaccessible to authenticated clients');
+ await denied(asUser(student,'select ders_release_private.v113_fingerprint()'),'Release fingerprints inaccessible to authenticated clients');
  await denied(rpc(student,'overview',{request_user_id:outsider}),'In-flight request cannot switch authenticated account');
  check(!!await rpc(student,'overview',{request_user_id:student}),'Matching request account is accepted');
  assert.deepEqual((await admin.query('select * from quest_board_states order by user_id')).rows,before);

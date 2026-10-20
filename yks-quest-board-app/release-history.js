@@ -2,7 +2,7 @@
  const compare=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(y[i]||0)-(x[i]||0);if(d)return d;}return 0;};
  const formatDate=date=>new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
  const releases=[
-  {version:'1.1.3',name:'Focus & Learning Update',date:'2026-10-20',dateKind:'preview',sections:[
+  {version:'1.1.3',name:'Focus & Learning Update',date:'2026-10-20',dateKind:'release',sections:[
    {title:'Odak ve Çalışma Süreleri',items:['Özelleştirilebilir çalışma / mola süreleri, tekrarlı oturum, otomatik geçiş ve mini sayaç.','Göreve bağlı veya serbest net çalışma kayıtları ve günlük ders dağılımı; süre tutmak XP üretmez.']},
    {title:'Öğrenci Karnesi',items:['Yetkili öğretmene haftalık görev ilerlemesi, çalışma süreleri ve geçmiş hafta değerlendirmeleri.','Görev altında öğrenci soruları ve öğretmen yorum / yanıtları.']},
    {title:'Bildirim Merkezi',items:['Programa, yorumlara, sorulara ve haftalık değerlendirmelere bağlı hesap bazlı bildirimler.','Okundu / okunmadı ve ayrı bildirim tercihleri.']},
