@@ -2,6 +2,12 @@
  const compare=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(y[i]||0)-(x[i]||0);if(d)return d;}return 0;};
  const formatDate=date=>new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
  const releases=[
+  {version:'1.1.3',name:'Focus & Learning Update',date:'2026-10-20',dateKind:'preview',sections:[
+   {title:'Odak ve Çalışma Süreleri',items:['Özelleştirilebilir çalışma / mola süreleri, tekrarlı oturum, otomatik geçiş ve mini sayaç.','Göreve bağlı veya serbest net çalışma kayıtları ve günlük ders dağılımı; süre tutmak XP üretmez.']},
+   {title:'Öğrenci Karnesi',items:['Yetkili öğretmene haftalık görev ilerlemesi, çalışma süreleri ve geçmiş hafta değerlendirmeleri.','Görev altında öğrenci soruları ve öğretmen yorum / yanıtları.']},
+   {title:'Bildirim Merkezi',items:['Programa, yorumlara, sorulara ve haftalık değerlendirmelere bağlı hesap bazlı bildirimler.','Okundu / okunmadı ve ayrı bildirim tercihleri.']},
+   {title:'Düzen ve Güvenlik',items:['Daha okunabilir masaüstü ölçeği, hizalı kartlar ve sade bölüm başlıkları.','Mevcut görev, XP ve yetkiler korunarak ayrı erişim kontrollü çalışma kayıtları.']}
+  ]},
   {version:'1.1.2',name:'Control & Polish Update',date:'2026-10-18',dateKind:'release',sections:[
    {title:'Saydam Görünüm',items:['Bulanık görünümün adı Saydam olarak sadeleştirildi; arka planlarla uyumlu yarı saydam ve hafif buzlu cam yüzeyler iyileştirildi.','Mevcut tema ve renk tercihleri ile Klasik görünüm korundu.']},
    {title:'Yönetici Paneli',items:['Yalnızca yetkili yöneticiye açık panel ve gerçek öğrenci / öğretmen arayüzlerinde izole örnek veri önizlemeleri eklendi.','Roller arasında geçiş, admin paneline dönüş ve yalnızca önizleme verilerini sıfırlama sağlandı.']},
@@ -17,7 +23,7 @@
  ].sort((a,b)=>compare(a.version,b.version));
  root.DersReleases={releases,compare,formatDate};if(typeof document==='undefined'){module.exports=root.DersReleases;return;}
  const dialog=document.createElement('dialog');dialog.id='releaseHistoryDialog';dialog.className='ders-dialog release-history';dialog.dataset.autoSave='';dialog.setAttribute('aria-labelledby','releaseHistoryTitle');
- dialog.innerHTML='<header class="appearance-heading"><h2 id="releaseHistoryTitle">Sürüm Geçmişi</h2><button type="button" class="icon-button" aria-label="Sürüm geçmişini kapat" title="Kapat"><i data-lucide="x"></i></button></header>'+releases.map(r=>`<section><h3>${r.version==='0'?'Beta':'v'+r.version} · ${r.name}</h3>${r.date?`<p><span>${r.dateKind==='archive'?'Arşiv tarihi':'Çıkış tarihi'}: </span><time datetime="${r.date}">${formatDate(r.date)}</time></p>`:''}${(r.sections||[{items:r.features}]).map(s=>`${s.title?`<h4>${s.title}</h4>`:''}<ul>${s.items.map(f=>`<li>${f}</li>`).join('')}</ul>`).join('')}</section>`).join('');document.body.append(dialog);
+ dialog.innerHTML='<header class="appearance-heading"><h2 id="releaseHistoryTitle">Sürüm Geçmişi</h2><button type="button" class="icon-button" aria-label="Sürüm geçmişini kapat" title="Kapat"><i data-lucide="x"></i></button></header>'+releases.map(r=>`<section><h3>${r.version==='0'?'Beta':'v'+r.version} · ${r.name}</h3>${r.date?`<p><span>${r.dateKind==='archive'?'Arşiv tarihi':r.dateKind==='preview'?'Önizleme tarihi':'Çıkış tarihi'}: </span><time datetime="${r.date}">${formatDate(r.date)}</time></p>`:''}${(r.sections||[{items:r.features}]).map(s=>`${s.title?`<h4>${s.title}</h4>`:''}<ul>${s.items.map(f=>`<li>${f}</li>`).join('')}</ul>`).join('')}</section>`).join('');document.body.append(dialog);
  const trigger=document.getElementById('versionHistoryButton');function close(){dialog.close();window.DersUI.modalClosed('release-history');trigger.focus({preventScroll:true});}trigger.onclick=()=>{dialog.showModal();window.DersUI.openModal('release-history',dialog,close);};dialog.querySelector('button').onclick=close;dialog.oncancel=e=>{e.preventDefault();close();};
  const footer=trigger.closest('.app-footer'),mobile=matchMedia('(max-width:720px)');let frame;
  // Keep the fixed mobile signature out of the way of scrolling page content.

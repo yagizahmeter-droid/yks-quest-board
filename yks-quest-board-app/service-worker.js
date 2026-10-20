@@ -1,5 +1,6 @@
-const CACHE_NAME = "ders-pwa-v1-1-2-release-r1";
+const CACHE_NAME = "ders-pwa-v1-1-3-preview-r1";
 const APP_SHELL = [
+  './focus-core.js','./study.js','./learning-ui.js','./v113.css',
   "./",
   "./index.html",
   "./manifest.webmanifest",

@@ -1,7 +1,7 @@
 (() => {
-  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup'];
-  const titles = { home: 'Genel bakış', program: 'Programım', teacher: 'Öğretmen', history: 'Çalışma geçmişi', account: 'Hesabım', 'account/signup': 'Kayıt ol' };
-  const privateRoutes = new Set(['program', 'teacher', 'history']);
+  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus'];
+  const titles = { home: 'Genel Bakış', program: 'Programım', teacher: 'Öğretmen', history: 'Çalışma Geçmişi', account: 'Hesabım', 'account/signup': 'Kayıt ol',focus:'Odak Modu' };
+  const privateRoutes = new Set(['program', 'teacher', 'history','focus']);
   const $ = id => document.getElementById(id);
   const mobile = matchMedia('(max-width: 720px)');
   const overlays = new Map();
@@ -120,6 +120,8 @@
     $('authSwitch').href = '#/' + $('authSwitch').dataset.route;
     drawCompleted();
     icons();
+    document.body.classList.toggle('focus-view',route==='focus');
+    document.dispatchEvent(new CustomEvent('ders:route',{detail:route}));
   }
   function refresh() {
     const board = window.DersBoard;
@@ -151,7 +153,7 @@
     $('editModeButton').hidden = !hasProgram && !document.body.classList.contains('edit-mode');
     $('editModeButton').innerHTML = `<i data-lucide="${document.body.classList.contains('edit-mode') ? 'check' : 'pencil'}"></i>${document.body.classList.contains('edit-mode') ? 'Bitir' : 'Düzenle'}`;
     $('homeWeekLabel').textContent = week.range || week.name;
-    $('homeProgramSummary').textContent = week.quests.length ? `${week.quests.filter(q => !q.done).length} bekleyen quest` : 'Henüz program yok';
+    $('homeProgramSummary').textContent = week.quests.length ? `${week.quests.filter(q => !q.done).length} bekleyen görev` : 'Henüz program yok';
     $('homeHistorySummary').textContent = s.studyHistory.length ? `${s.studyHistory.length} çalışma kaydı` : 'Henüz kayıt yok';
     $('guestNavigation').hidden = Boolean(uid); $('memberNavigation').hidden = !uid; $('accountProfile').hidden = !uid;
     const name = s.profile?.displayName || board.user?.email?.split('@')[0] || 'Hesabım';

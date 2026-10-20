@@ -28,6 +28,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
         res.end(JSON.stringify(rows));return;
       }
       if(url.pathname==='/rest/v1/rpc/ders_action') {res.end(JSON.stringify(await action(uid,body.p_action,body.p_payload)));return;}
+      if(url.pathname==='/rest/v1/rpc/ders_learning') {res.end(JSON.stringify((await asUser(uid,'select public.ders_learning($1,$2) r',[body.p_action,body.p_payload||{}])).rows[0].r));return;}
       if(url.pathname==='/rest/v1/quest_board_states') {
         const rows=(await asUser(uid,'select * from public.quest_board_states where user_id=$1',[uid])).rows;
         res.end(JSON.stringify(rows[0]||null));return;
@@ -40,6 +41,9 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
   const {chromium}=deps('playwright'); let browser;
   try {
     browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+    if(process.env.V113_ONLY==='1'){
+      await require('./learning-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,asUser,ids});return;
+    }
     if(process.env.V112_ONLY==='1'){
       const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,admin};
       await require(process.env.ADMIN_PREVIEW_FIX_ONLY==='1'?'./admin-preview-fix.cjs':'./admin-browser.cjs')(options);

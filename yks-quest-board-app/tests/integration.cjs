@@ -65,6 +65,14 @@ async function main() {
     await admin.query(fs.readFileSync(path.join(root,'migrations/20261015180312_teacher_topic_fields.sql'),'utf8'));
     assert.deepEqual(await board(student),repeatBefore);check(true,'Topic metadata migration preserves original JSON and version');
     for(const [id,role,name] of [[teacher,'teacher','Test Teacher'],[student,'student','Test Student'],[outsider,'student','Unrelated Student'],[teacher2,'teacher','Unrelated Teacher']]) await action(id,'init_profile',{role,name});
+    if(process.env.V113_ONLY==='1'){
+      await require('./learning-security.cjs')({root,admin,asUser,action,board,check,denied,ids});
+      if(process.env.SKIP_BROWSER!=='1')await require('./browser.cjs')({root,deps,action,asUser,admin,ids,personal});
+      await require('./repeats.cjs')({admin,action,asUser,board,check,denied});
+      await require('./xp-provenance.cjs')({admin,action,asUser,board,check,denied});
+      await require('./teacher-topics.cjs')({admin,action,asUser,board,check,denied});
+      console.log(`RESULT: ${checks} focused v1.1.3 security checks passed`);return;
+    }
     if(process.env.V112_ONLY==='1'){
       await require('./admin-security.cjs')({root,admin,asUser,check,denied,ids});
       await require('./browser.cjs')({root,deps,action,asUser,admin,ids,personal});

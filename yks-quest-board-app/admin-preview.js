@@ -38,11 +38,23 @@
   let assignments = [{id:'preview-assignment',student_id:student,teacher_id:teacher,name:role==='teacher'?'Örnek Öğrenci':'Örnek Öğretmen',week_name:'Örnek öğretmen programı',week_range:'Test haftası',status:'pending',quests:[{id:'preview-offer',category_name:'Matematik',title:'Problemler',detail:'40 soru ve analiz',xp:100,exam_type:'TYT',repeat_kind:'none'}]}];
   let requests = [];
   const result = data => ({data:clone(data),error:null});
+  const learning={segments:[],reviews:[],messages:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}};
+  function learn(action,p){
+    if(action==='overview'||action==='report')return result({...learning,state:action==='report'?state:null,teachers:[{id:teacher,name:'Örnek Öğretmen'}]});
+    if(action==='save_segments'){for(const s of p.segments||[])if(!learning.segments.some(x=>x.id===s.id))learning.segments.push({...s,user_id:id,duration_ms:Date.parse(s.ended_at)-Date.parse(s.started_at),category_name:s.quest_id?'Matematik':'Serbest Çalışma'});return result({saved:true});}
+    if(action==='messages')return result(learning.messages.filter(m=>m.week_id===p.week_id&&m.quest_id===p.quest_id));
+    if(action==='message'){if(!learning.messages.some(m=>m.id===p.id))learning.messages.push({...p,author_id:id,author_name:profile.display_name,kind:role==='student'?'question':p.kind||'feedback',created_at:now()});return result({saved:true});}
+    if(action==='review'){const old=learning.reviews.find(r=>r.week_id===p.week_id);if(old)Object.assign(old,{body:p.body,updated_at:now()});else learning.reviews.push({...p,id:crypto.randomUUID(),teacher_id:teacher,teacher_name:'Örnek Öğretmen',updated_at:now()});return result({saved:true});}
+    if(action==='preferences'){learning.preferences=clone(p);return result({saved:true});}
+    if(action==='read_notification')return result({saved:true});
+    return {data:null,error:{message:'Bu işlem örnek görünümde kullanılamaz.'}};
+  }
   function read() {
     const tasks=state.weeks.flatMap(w=>w.quests), earned=q=>q.done?q.xp:0;
     return {state,version,updated_at:now(),xpBreakdown:{total:tasks.reduce((n,q)=>n+earned(q),0),personal:tasks.filter(q=>!q.lockedForStudent).reduce((n,q)=>n+earned(q),0),competitive:tasks.filter(q=>q.lockedForStudent).reduce((n,q)=>n+earned(q),0)}};
   }
   async function rpc(name,{p_action:action,p_payload:p={}}={}) {
+    if(name==='ders_learning')return learn(action,p);
     if(name!=='ders_action') return {data:null,error:{message:'Örnek görünümde bu işlem kullanılamaz.'}};
     if(action==='overview') return result({profile,connections,assignments,requests,server_now:now(),capabilities:{topicCatalog:true,repeatQuests:true,withdrawProgram:true}});
     if(action==='read_board'||action==='student_board') return result(read());

@@ -29,8 +29,8 @@
   let currentRole = null;
   const publicAssets = new Map();
   const appBase = new URL('./',location.href);
-  const scripts = ['theme.js','sync.js','vendor/lucide.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','teacher-drafts.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
-  const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css'];
+  const scripts = ['theme.js','sync.js','vendor/lucide.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','focus-core.js','study.js','learning-ui.js','teacher-drafts.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
+  const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css','v113.css'];
   const assetPaths = new Map([...scripts,...styles,'admin-preview.js','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg'].map(name=>[new URL(name,appBase).pathname,name]));
   const failure = (code,details = {}) => Object.assign(new Error(code),{code,...details});
   let cancelFrame = null;
