@@ -5,7 +5,7 @@
  const clock=ms=>{const s=Math.ceil(ms/1000);return `${Math.floor(s/3600).toString().padStart(2,'0')}:${Math.floor(s/60)%60<10?'0':''}${Math.floor(s/60)%60}:${(s%60).toString().padStart(2,'0')}`;};
  let settingsOwner,renderedSession='',date=core.dayKey(Date.now());
  const dialog=document.createElement('dialog');dialog.id='learningDialog';dialog.className='ders-dialog learning-dialog';document.body.append(dialog);
- const mini=document.createElement('aside');mini.className='focus-mini';mini.id='focusMini';mini.hidden=true;mini.innerHTML='<button type="button" id="focusMiniOpen"><i data-lucide="timer"></i><span><small id="miniPhase"></small><strong id="miniClock"></strong></span></button>'+icon('pause','Duraklat / Devam et','focusMiniPause');document.body.append(mini);
+ const mini=document.createElement('aside');mini.className='focus-mini';mini.id='focusMini';mini.hidden=true;mini.innerHTML='<button type="button" id="focusMiniOpen"><i data-lucide="timer"></i><span><small id="miniPhase"></small><strong id="miniClock"></strong></span></button>'+icon('pause','Duraklat','focusMiniPause')+icon('rotate-ccw','Sıfırla','focusMiniReset');document.body.append(mini);
  function close(force=false,nextRoute){if(!force&&!window.DersUI.canLeave(dialog))return;dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('learning',nextRoute);}
  function show(title,body){if(dialog.open&&!window.DersUI.canLeave(dialog))return false;dialog.innerHTML=`<header class="modal-head"><h2>${esc(title)}</h2>${icon('x','Kapat','closeLearning')}</header><div class="modal-body">${body}</div>`;if(!dialog.open)dialog.showModal();window.DersUI.openModal('learning',dialog,close);$('closeLearning').onclick=()=>close();window.DersUI.clearDirty(dialog);return true;}
  dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
@@ -33,6 +33,8 @@
  function renderFocus(){
   const s=study.session,active=s&&!['completed','ended'].includes(s.status),inFocus=window.DersUI.route==='focus';
   mini.hidden=!active||inFocus||!board.user;document.body.classList.toggle('has-focus-mini',!mini.hidden);
+  const action=s?.status==='paused'?'resume':s?.status==='waiting'?'next':'pause',control=$('focusMiniPause');
+  if(control.dataset.action!==action){const label=action==='resume'?'Devam et':action==='next'?'Sonraki aşama':'Duraklat';control.dataset.action=action;control.title=label;control.setAttribute('aria-label',label);control.innerHTML=`<i data-lucide="${action==='pause'?'pause':'play'}"></i>`;}
   if(s){$('miniPhase').textContent=s.phase==='work'?'Çalışma':'Mola';$('miniClock').textContent=clock(core.remaining(s,Date.now()));}
   if(!$('focusClock'))return;
   const signature=s?.id+':'+s?.status;
@@ -45,7 +47,8 @@
   if($('focusTask').dataset.active!==String(!!active)){$('focusTask').dataset.active=String(!!active);window.DersSelect?.refresh();}
   $('focusStatus').textContent=study.status|| (study.pending?'Süre kayıtları eşitlenmeyi bekliyor.':s?.settings.sound?(study.soundReady?'Ses açık':'Sesi etkinleştirmek için Devam et veya ses ayarına dokun.'):'');
  }
- $('focusMiniOpen').onclick=()=>window.DersUI.navigate('focus');$('focusMiniPause').onclick=()=>{try{study.act(study.session?.status==='paused'?'resume':'pause');}catch(e){error(e);}};
+ $('focusMiniOpen').onclick=()=>window.DersUI.navigate('focus');$('focusMiniPause').onclick=()=>{try{study.act(study.session?.status==='paused'?'resume':study.session?.status==='waiting'?'next':'pause');}catch(e){error(e);}};
+ $('focusMiniReset').onclick=()=>{try{study.act('reset');}catch(e){error(e);}};
  function daily(){
   const wrap=$('dailyStudySummary');if(!wrap)return;if(!board.user){wrap.replaceChildren();return;}
   const segments=study.segments().map(s=>({...s,category_name:s.category_name||tasks().find(t=>t.questId===s.quest_id&&t.weekId===s.week_id)?.categoryName||'Serbest Çalışma'}));

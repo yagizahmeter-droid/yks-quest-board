@@ -27,7 +27,12 @@
  }
  function act(state,action,now){
   let s=tick(state,now);if(!s)return null;
-  if(action==='pause'&&s.status==='running'){record(s,now);s.remainingMs=Math.max(0,s.deadline-now);s.status='paused';}
+  if(action==='reset'){
+   // Seal elapsed work once; retain segment IDs/sequence for offline replay safety.
+   if(s.status==='running')record(s,now);
+   s.phase='work';s.cycle=1;s.status='paused';s.remainingMs=s.settings.workMs;
+   s.deadline=now+s.remainingMs;s.activeSince=null;s.events=[];
+  }else if(action==='pause'&&s.status==='running'){record(s,now);s.remainingMs=Math.max(0,s.deadline-now);s.status='paused';}
   else if(action==='resume'&&s.status==='paused'){s.deadline=now+s.remainingMs;s.activeSince=s.phase==='work'?now:null;s.status='running';}
   else if(action==='next'&&s.status==='waiting')advance(s,now);
   else if(action==='skip'&&['running','paused','waiting'].includes(s.status)){

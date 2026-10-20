@@ -20,3 +20,21 @@ const result=core.summary([midnight,midnight],[{id:'complete',completedAt:'2026-
 assert.equal(result.totalMs,600000);assert.equal(result.completed,1);assert.equal(result.top,'Matematik');assert.equal(core.summary([],[],'2026-10-20').totalMs,0);
 const reloaded=core.tick(JSON.parse(JSON.stringify(core.create(settings,t,id))),t+190000);assert.deepEqual(reloaded.segments,core.tick(core.create(settings,t,id),t+190000).segments);
 console.log('PASS Focus: timestamp recovery, pause/break exclusion, manual/auto transitions, skip/finish, validation, reload idempotency and Istanbul daily summary');
+for(const from of ['running','paused','break','waiting','completed']){
+ let previous=core.create({...settings,auto:from!=='waiting',repeat:from!=='completed'},t,id);
+ const at=from==='running'?t+15000:from==='paused'?t+20000:t+65000;
+ if(from==='paused')previous=core.act(previous,'pause',t+10000);
+ if(['break','waiting','completed'].includes(from))previous=core.tick(previous,at);
+ const frozen=structuredClone(previous),reset=core.act(previous,'reset',at);
+ assert.deepEqual(previous,frozen,'Reset is immutable');
+ assert.equal(reset.status,'paused');assert.equal(reset.phase,'work');assert.equal(reset.cycle,1);assert.equal(reset.remainingMs,60000);assert.equal(reset.activeSince,null);assert.deepEqual(reset.events,[]);
+ assert.equal(reset.id,id);assert.deepEqual(reset.segments.slice(0,previous.segments.length),previous.segments);
+ const expected=from==='running'?15000:from==='paused'?10000:60000;assert.equal(total(reset),expected);
+ assert.deepEqual(core.act(reset,'reset',at+5000).segments,reset.segments);
+ assert.equal(total(core.tick(reset,at+999999)),expected,'Idle reset time is not recorded');
+ const resumed=core.act(JSON.parse(JSON.stringify(reset)),'resume',at+10000);
+ const again=core.act(resumed,'reset',at+17000);assert.equal(total(again),expected+7000);
+ assert.equal(new Set(again.segments.map(s=>s.id)).size,again.segments.length);
+ assert.equal(again.sequence,reset.sequence+1);
+}
+console.log('PASS Reset: running/paused/break/waiting/completed, original duration and first cycle, retained unique work segments, reload and repeated-reset idempotency');
