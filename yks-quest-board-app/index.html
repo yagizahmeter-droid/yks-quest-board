@@ -781,6 +781,7 @@
   <link rel="stylesheet" href="./v111.css">
   <link rel="stylesheet" href="./admin.css">
   <link rel="stylesheet" href="./v113.css">
+  <link rel="stylesheet" href="./v114.css">
   <script src="./vendor/lucide.js"></script>
 </head>
 <body>
@@ -788,24 +789,24 @@
   <div id="navigationBackdrop" class="navigation-backdrop" hidden></div>
   <aside id="sidebar" class="sidebar" aria-label="Ana gezinme">
     <a class="brand-link" href="#/home" data-route="home" aria-label="D.E.R.S. ana sayfa"><svg class="brand-mark" viewBox="0 0 256 256" aria-hidden="true"><use href="./assets/brand-mark.svg#ders-mark"></use></svg><strong>D.E.R.S.</strong></a>
-    <button id="closeNavigation" class="icon-button mobile-only" type="button" aria-label="Menüyü kapat" title="Menüyü kapat"><i data-lucide="x"></i></button>
+    <button id="closeNavigation" class="icon-button mobile-only" type="button" aria-label="Menüyü Kapat" title="Menüyü Kapat"><i data-lucide="x"></i></button>
     <span class="navigation-label">ÇALIŞMA ALANI</span>
     <nav class="main-nav">
-      <a href="#/home" data-route="home" title="Ana sayfa"><i data-lucide="layout-dashboard"></i><span>Ana sayfa</span></a>
+      <a href="#/home" data-route="home" title="Ana Sayfa"><i data-lucide="layout-dashboard"></i><span>Ana Sayfa</span></a>
       <a href="#/program" data-route="program" title="Programım"><i data-lucide="notebook-tabs"></i><span>Programım</span></a>
       <a href="#/teacher" data-route="teacher" title="Öğretmen"><i data-lucide="graduation-cap"></i><span>Öğretmen</span><b class="notification-count" data-teacher-count hidden></b></a>
       <a href="#/history" data-route="history" title="Çalışma Geçmişi"><i data-lucide="history"></i><span>Çalışma Geçmişi</span></a>
       <a href="#/focus" data-route="focus" title="Odak Modu"><i data-lucide="timer"></i><span>Odak Modu</span></a>
-      <button id="adminButton" class="nav-command" type="button" hidden title="Yönetici paneli"><i data-lucide="user-round-pen"></i><span>Yönetici paneli</span></button>
+      <button id="adminButton" class="nav-command" type="button" hidden title="Yönetici Paneli"><i data-lucide="user-round-pen"></i><span>Yönetici Paneli</span></button>
     </nav>
     <div class="sidebar-bottom">
       <fieldset class="theme-control"><legend>Tema</legend>
-        <label title="Açık tema"><input type="radio" name="theme" value="light" aria-label="Açık tema"><i data-lucide="sun"></i></label>
-        <label title="Koyu tema"><input type="radio" name="theme" value="dark" aria-label="Koyu tema"><i data-lucide="moon"></i></label>
-        <label title="Sistem teması"><input type="radio" name="theme" value="system" aria-label="Sistem teması"><i data-lucide="monitor"></i></label>
+        <label title="Açık Tema"><input type="radio" name="theme" value="light" aria-label="Açık Tema"><i data-lucide="sun"></i></label>
+        <label title="Koyu Tema"><input type="radio" name="theme" value="dark" aria-label="Koyu Tema"><i data-lucide="moon"></i></label>
+        <label title="Sistem Teması"><input type="radio" name="theme" value="system" aria-label="Sistem Teması"><i data-lucide="monitor"></i></label>
       </fieldset>
-      <nav id="guestNavigation" class="account-nav"><a href="#/account" data-route="account" aria-label="Giriş yap" title="Giriş yap"><i data-lucide="log-in"></i><span>Giriş yap</span></a><a href="#/account/signup" data-route="account/signup" aria-label="Kayıt ol" title="Kayıt ol"><i data-lucide="user-plus"></i><span>Kayıt ol</span></a></nav>
-      <nav id="memberNavigation" class="account-nav" hidden><a href="#/account" data-route="account" aria-label="Profil / Hesap" title="Profil / Hesap"><span id="userInitials" class="avatar">D</span><span id="navigationUser">Profil / Hesap</span></a><button class="nav-command" type="button" data-account-logout aria-label="Çıkış yap" title="Çıkış yap"><i data-lucide="log-out"></i><span>Çıkış yap</span></button></nav>
+      <nav id="guestNavigation" class="account-nav"><a href="#/account" data-route="account" aria-label="Giriş Yap" title="Giriş Yap"><i data-lucide="log-in"></i><span>Giriş Yap</span></a><a href="#/account/signup" data-route="account/signup" aria-label="Kayıt Ol" title="Kayıt Ol"><i data-lucide="user-plus"></i><span>Kayıt Ol</span></a></nav>
+      <nav id="memberNavigation" class="account-nav" hidden><a href="#/account" data-route="account" aria-label="Profil / Hesap" title="Profil / Hesap"><span id="userInitials" class="avatar">D</span><span id="navigationUser">Profil / Hesap</span></a><button class="nav-command" type="button" data-account-logout aria-label="Çıkış Yap" title="Çıkış Yap"><i data-lucide="log-out"></i><span>Çıkış Yap</span></button></nav>
       <div id="navigationSync" class="navigation-sync"><span></span><small>Oturum kapalı</small></div>
     </div>
   </aside>
@@ -814,14 +815,14 @@
       <button id="toggleNavigation" class="icon-button" type="button" aria-label="Menüyü aç / daralt" aria-controls="sidebar" aria-expanded="true" title="Menüyü aç / daralt"><i data-lucide="panel-left"></i></button>
       <a class="mobile-brand" href="#/home" data-route="home"><svg class="brand-mark" viewBox="0 0 256 256" aria-hidden="true"><use href="./assets/brand-mark.svg#ders-mark"></use></svg>D.E.R.S.</a>
       <span class="workspace-label">Çalışma Alanım</span>
-      <button id="appearanceButton" class="icon-button appearance-trigger" type="button" aria-label="Görünüm ayarları" title="Görünüm ayarları"><i data-lucide="sparkles"></i></button>
+      <button id="appearanceButton" class="icon-button appearance-trigger" type="button" aria-label="Görünüm Ayarları" title="Görünüm Ayarları"><i data-lucide="sparkles"></i></button>
       <button id="notificationsButton" class="icon-button" type="button" aria-label="Bildirimler" title="Bildirimler"><i data-lucide="bell"></i><b id="notificationBadge" hidden></b></button>
       <a href="#/account" data-route="account" class="header-account icon-button" aria-label="Hesabım" title="Hesabım"><i data-lucide="circle-user-round"></i></a>
     </header>
   <main id="pageContent" class="app" tabindex="-1">
     <header class="page-header">
-      <div><div class="page-eyebrow" id="pageEyebrow">DİJİTAL EĞİTİM VE RUTİN SİSTEMİ</div><h1 id="pageTitle">Genel Bakış</h1><span id="weekSubtitle">İlk Hafta</span></div>
-      <button id="pageBack" class="icon-button" type="button" aria-label="Önceki sayfa" title="Önceki sayfa" hidden><i data-lucide="arrow-left"></i></button>
+      <div><h1 id="pageTitle">Genel Bakış</h1><span id="weekSubtitle">İlk Hafta</span></div>
+      <button id="pageBack" class="icon-button" type="button" aria-label="Önceki Sayfa" title="Önceki Sayfa" hidden><i data-lucide="arrow-left"></i></button>
     </header>
     <section id="routeLoading" class="loading-state" role="status" hidden><span class="loading-spinner"></span>Hesabın yükleniyor</section>
     <section id="homePage" class="page-view" data-page="home">
@@ -851,21 +852,21 @@
       <div class="week-tools">
         <select id="weekSelect" class="select" aria-label="Hafta seç"></select>
         <button id="editModeButton" class="button" type="button">Düzenle</button>
-        <button id="newWeekButton" class="button primary" type="button"><i data-lucide="plus"></i>Yeni hafta</button>
+        <button id="newWeekButton" class="button primary" type="button"><i data-lucide="plus"></i>Yeni Hafta</button>
       </div>
-      <div class="program-actions"><button id="openCategoryEditor" class="button" type="button"><i data-lucide="folder-plus"></i>Yeni ders ekle</button><button id="openQuestEditor" class="button" type="button"><i data-lucide="list-plus"></i>Görev ekle</button></div>
+      <div class="program-actions"><button id="openCategoryEditor" class="button" type="button"><i data-lucide="folder-plus"></i>Yeni Ders Ekle</button><button id="openQuestEditor" class="button" type="button"><i data-lucide="list-plus"></i>Görev Ekle</button></div>
       </div>
-      <div id="programEmpty" class="empty-state" hidden><i data-lucide="notebook-pen"></i><h2>Yeni bir başlangıç</h2><p>Bu haftanın programı henüz yok.</p><button id="addProgramButton" class="button primary" type="button"><i data-lucide="plus"></i>Program Ekle</button></div>
+      <div id="programEmpty" class="empty-state" hidden><i data-lucide="notebook-pen"></i><h2>Yeni Bir Başlangıç</h2><p>Bu haftanın programı henüz yok.</p><button id="addProgramButton" class="button primary" type="button"><i data-lucide="plus"></i>Program Ekle</button></div>
     <nav id="subjectNav" class="subject-nav" aria-label="Ders filtreleri"></nav>
     <section id="board" class="board" aria-live="polite"></section>
     <section class="controls-card" aria-label="Görev ve hafta yönetimi">
-      <details id="categoryEditor" class="inline-editor"><summary><i data-lucide="folder-plus"></i>Yeni ders</summary><div id="categoryForm" class="controls-row" data-draft>
-        <label class="field">Ders adı<input id="categoryNameInput" class="input" type="text" placeholder="Örn. Matematik"></label>
+      <details id="categoryEditor" class="inline-editor"><summary><i data-lucide="folder-plus"></i>Yeni Ders</summary><div id="categoryForm" class="controls-row" data-draft>
+        <label class="field">Ders Adı<input id="categoryNameInput" class="input" type="text" placeholder="Örn. Matematik"></label>
         <label class="field">Renk
         <input id="categoryColorInput" class="input" type="color" value="#5fb4ff" aria-label="Kategori rengi">
-        </label><button id="addCategoryButton" class="button primary" type="button">Dersi ekle</button>
+        </label><button id="addCategoryButton" class="button primary" type="button">Dersi Ekle</button>
       </div></details>
-      <details id="questEditor" class="inline-editor"><summary><i data-lucide="list-plus"></i>Yeni görev</summary><div id="questForm" class="quest-add-row" data-draft>
+      <details id="questEditor" class="inline-editor"><summary><i data-lucide="list-plus"></i>Yeni Görev</summary><div id="questForm" class="quest-add-row" data-draft>
         <div class="personal-catalog-row">
         <label class="field">Sınav<select id="manualExam" class="select" aria-label="Kişisel görev sınavı"></select></label>
         <label class="field">
@@ -873,7 +874,7 @@
           <select id="manualSubject" class="select" data-searchable></select>
         </label>
         <label class="field">Kategori<select id="manualTopicCategory" class="select" data-searchable aria-label="Kişisel konu kategorisi"></select></label>
-        <label class="field">Alt konu<select id="manualTopic" class="select" data-searchable aria-label="Kişisel alt konu"></select></label>
+        <label class="field">Alt Konu<select id="manualTopic" class="select" data-searchable aria-label="Kişisel alt konu"></select></label>
         </div>
         <label class="field">
           Açıklama
@@ -883,18 +884,18 @@
           XP
           <input id="manualXp" class="input" type="number" min="5" step="5" value="100">
         </label>
-        <button id="addQuestButton" class="button primary" type="button">Görev ekle</button>
+        <button id="addQuestButton" class="button primary" type="button">Görev Ekle</button>
       </div></details>
-      <details id="weekToolsEditor" class="inline-editor"><summary><i data-lucide="calendar-range"></i>Hafta işlemleri</summary><div class="controls-row" data-draft>
-        <label class="field">Yeni hafta adı<input id="weekNameInput" class="input" type="text" placeholder="Örn. 14-21 Ekim Haftası"></label>
-        <label class="field">Tarih aralığı<input id="weekRangeInput" class="input" type="text" placeholder="Örn. 14-21 Ekim"></label>
-        <button id="createWeekButton" class="button" type="button">Boş hafta oluştur</button>
-      </div><div class="signed-in-actions"><button id="resetButton" class="button danger" type="button"><i data-lucide="rotate-ccw"></i>Bu haftayı sıfırla</button><button id="deleteWeekButton" class="button danger" type="button"><i data-lucide="archive"></i>Haftayı sil</button></div></details>
+      <details id="weekToolsEditor" class="inline-editor"><summary><i data-lucide="calendar-range"></i>Hafta İşlemleri</summary><div class="controls-row" data-draft>
+        <label class="field">Yeni Hafta Adı<input id="weekNameInput" class="input" type="text" placeholder="Örn. 14-21 Ekim Haftası"></label>
+        <label class="field">Tarih Aralığı<input id="weekRangeInput" class="input" type="text" placeholder="Örn. 14-21 Ekim"></label>
+        <button id="createWeekButton" class="button" type="button">Boş Hafta Oluştur</button>
+      </div><div class="signed-in-actions"><button id="resetButton" class="button danger" type="button"><i data-lucide="rotate-ccw"></i>Bu Haftayı Sıfırla</button><button id="deleteWeekButton" class="button danger" type="button"><i data-lucide="archive"></i>Haftayı Sil</button></div></details>
     </section></section>
     <section id="teacherPage" class="page-view teacher-card" data-page="teacher" aria-label="Öğretmen paneli" hidden>
       <div class="card-head">
         <div class="subject-title">
-          <h2>Bağlantılar ve programlar</h2>
+          <h2>Bağlantılar Ve Programlar</h2>
         </div>
         <select id="roleSelect" class="select" aria-label="Rol seç">
           <option value="student">Öğrenci</option>
@@ -905,7 +906,7 @@
     </section>
 
     <section id="historyPage" class="page-view history-card" data-page="history" aria-label="Çalışma Geçmişi" hidden>
-      <div class="segmented" aria-label="Geçmiş görünümü"><button class="button is-active" type="button" data-history-view="records" aria-pressed="true">Çalışma kayıtları</button><button class="button" type="button" data-history-view="completed" aria-pressed="false">Tamamlanan görevler</button></div>
+      <div class="segmented" aria-label="Geçmiş görünümü"><button class="button is-active" type="button" data-history-view="records" aria-pressed="true">Çalışma Kayıtları</button><button class="button" type="button" data-history-view="completed" aria-pressed="false">Tamamlanan Görevler</button></div>
       <div class="history-filters">
         <input id="historyDateFilter" class="input" type="date" aria-label="Tarih filtresi">
         <select id="historyWeekFilter" class="select" aria-label="Hafta filtresi"></select>
@@ -917,28 +918,28 @@
     <section id="accountPage" class="page-view" data-page="account" hidden>
     <section class="account-surface sync-card" aria-label="Hesap ve senkronizasyon">
       <div id="accountProfile" class="account-profile" hidden><span id="profileAvatar" class="avatar">D</span><div><h2 id="profileDisplayName">Hesabım</h2><span id="profileRole" class="sync-status"></span></div></div>
-      <div class="sync-head"><div class="sync-title"><strong id="authHeading">Giriş yap</strong><span id="syncStatus" class="sync-status" role="status">Bulut bağlantısı kontrol ediliyor.</span></div></div>
+      <div class="sync-head"><div class="sync-title"><strong id="authHeading">Giriş Yap</strong><span id="syncStatus" class="sync-status" role="status">Bulut bağlantısı kontrol ediliyor.</span></div></div>
       <div id="authDisabled" class="auth-disabled">Bulut bağlantısı yapılandırılmamış.</div>
-      <div id="signedOutPanel" class="auth-grid" data-draft>
-        <label class="field">E-posta<input id="authEmail" class="input" type="email" autocomplete="email" placeholder="mail@ornek.com"></label>
+      <form id="signedOutPanel" class="auth-grid" data-draft>
+        <label class="field">E-Posta<input id="authEmail" class="input" type="email" autocomplete="email" placeholder="mail@ornek.com"></label>
         <label class="field">Şifre<input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="En az 6 karakter"></label>
-        <button id="signInButton" class="button primary" type="button"><i data-lucide="log-in"></i>Giriş yap</button>
-        <button id="signUpButton" class="button primary" type="button" hidden><i data-lucide="user-plus"></i>Hesap oluştur</button>
-        <a id="authSwitch" href="#/account/signup" data-route="account/signup">Kayıt ol</a>
-      </div>
-      <div id="signedInPanel" class="signed-in-row"><span id="signedInUser" class="sync-status"></span><div class="signed-in-actions"><button id="syncNowButton" class="button" type="button"><i data-lucide="refresh-cw"></i>Şimdi eşitle</button><button id="signOutButton" class="button danger" type="button"><i data-lucide="log-out"></i>Çıkış</button></div></div>
+        <button id="signInButton" class="button primary" type="button"><i data-lucide="log-in"></i>Giriş Yap</button>
+        <button id="signUpButton" class="button primary" type="button" hidden><i data-lucide="user-plus"></i>Hesap Oluştur</button>
+        <a id="authSwitch" href="#/account/signup" data-route="account/signup">Kayıt Ol</a>
+      </form>
+      <div id="signedInPanel" class="signed-in-row"><span id="signedInUser" class="sync-status"></span><div class="signed-in-actions"><button id="syncNowButton" class="button" type="button"><i data-lucide="refresh-cw"></i>Şimdi Eşitle</button><button id="signOutButton" class="button danger" type="button"><i data-lucide="log-out"></i>Çıkış</button></div></div>
     </section>
-    <div id="accountOnboarding" class="account-onboarding" hidden><h2>Hesabını tamamla</h2><button class="button primary" type="button" data-go-teacher><i data-lucide="user-round-pen"></i>Hesap türünü seç</button></div>
+    <div id="accountOnboarding" class="account-onboarding" hidden><h2>Hesabını Tamamla</h2><button class="button primary" type="button" data-go-teacher><i data-lucide="user-round-pen"></i>Hesap Türünü Seç</button></div>
     </section>
   </main>
   </div>
-  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.1.3</button></footer>
+  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.1.4</button></footer>
 
   <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
     <section class="modal">
       <header class="modal-head">
         <div class="modal-title">
-          <h2 id="weekModalTitle">Yeni hafta</h2>
+          <h2 id="weekModalTitle">Yeni Hafta</h2>
           <span class="modal-note">Program fotoğrafını görev havuzuna çevir, sonra kaydetmeden önce düzenle.</span>
         </div>
         <button id="closeWeekModal" class="button" type="button">Kapat</button>
@@ -946,64 +947,66 @@
       <div class="modal-body">
         <div class="modal-grid">
           <label class="field">
-            Hafta adı
+            Hafta Adı
             <input id="modalWeekName" class="input" type="text" placeholder="Örn. 14-21 Ekim Haftası">
           </label>
           <label class="field">
-            Tarih aralığı
+            Tarih Aralığı
             <input id="modalWeekRange" class="input" type="text" placeholder="Örn. 14-21 Ekim">
           </label>
         </div>
 
         <div class="upload-box" id="programDropZone">
           <div class="program-upload"><i data-lucide="folder-plus"></i><strong>Program fotoğrafını yükle</strong>
-          <label class="button" for="programPhoto">Dosya seç</label><input id="programPhoto" class="visually-hidden" type="file" accept="image/png,image/jpeg,image/webp">
+          <label class="button" for="programPhoto">Dosya Seç</label><input id="programPhoto" class="visually-hidden" type="file" accept="image/png,image/jpeg,image/webp">
           <small>PNG, JPEG, WebP · En fazla 12 MB</small><output id="programFileName"></output>
           <button id="rotateProgramPhoto" class="icon-button" type="button" title="Fotoğrafı 90 derece döndür" aria-label="Fotoğrafı 90 derece döndür"><i data-lucide="rotate-ccw"></i></button><output id="programRotation" aria-live="polite">0°</output></div>
           <div class="draft-tools">
-            <button id="analyzePhotoButton" class="button primary" type="button">Programı analiz et</button>
-            <button id="toggleOcrTextButton" class="button" type="button">OCR metnini göster</button>
+            <button id="analyzePhotoButton" class="button primary" type="button">Programı Analiz Et</button>
+            <button id="toggleOcrTextButton" class="button" type="button">OCR Metnini Göster</button>
             <span id="analysisStatus" class="modal-note">Fotoğraf seçersen önce görevleri kontrol ekranına alırım.</span>
           </div>
           <div id="analysisTextWrap" class="analysis-text">
             <label class="field">
-              Okunan metin
+              Okunan Metin
               <textarea id="ocrText" class="textarea" placeholder="Fotoğraf okunamazsa metni buraya yapıştırıp tekrar görev çıkarabilirsin."></textarea>
             </label>
-            <button id="parseTextButton" class="button" type="button">Metinden görev çıkar</button>
+            <button id="parseTextButton" class="button" type="button">Metinden Görev Çıkar</button>
           </div>
         </div>
 
         <section>
           <div class="draft-tools">
             <strong>Görevleri kontrol et</strong>
-            <button id="addDraftQuestButton" class="button" type="button">Satır ekle</button>
+            <button id="addDraftQuestButton" class="button" type="button">Satır Ekle</button>
           </div>
           <div id="draftList" class="draft-list"></div>
         </section>
       </div>
       <footer class="modal-foot">
-        <button id="emptyWeekModalButton" class="button" type="button">Boş hafta oluştur</button>
-        <button id="createFromDraftButton" class="button primary" type="button">Haftayı oluştur</button>
+        <button id="emptyWeekModalButton" class="button" type="button">Boş Hafta Oluştur</button>
+        <button id="createFromDraftButton" class="button primary" type="button">Haftayı Oluştur</button>
       </footer>
     </section>
   </div>
 
   <dialog id="appearanceDialog" class="ders-dialog appearance-dialog" aria-labelledby="appearanceTitle" data-auto-save>
     <header class="appearance-heading"><h2 id="appearanceTitle">Görünüm</h2><button id="closeAppearance" class="icon-button" type="button" aria-label="Görünüm ayarlarını kapat" title="Kapat"><i data-lucide="x"></i></button></header>
-    <fieldset class="appearance-field"><legend>Arayüz stili</legend><div class="style-options">
+    <fieldset class="appearance-field"><legend>Arayüz Stili</legend><div class="style-options">
       <label class="style-option"><input type="radio" name="appearanceStyle" value="classic"><span class="style-preview preview-classic" aria-hidden="true"><span></span><span></span><span></span></span><strong>Klasik</strong></label>
       <label class="style-option"><input type="radio" name="appearanceStyle" value="glass"><span class="style-preview preview-glass" aria-hidden="true"><span></span><span></span><span></span></span><strong>Saydam</strong></label>
+      <label class="style-option"><input type="radio" name="appearanceStyle" value="natural"><span class="style-preview preview-natural" aria-hidden="true"><span></span><span></span><span></span></span><strong>Natural UI</strong></label>
+      <label class="style-option"><input type="radio" name="appearanceStyle" value="cloud"><span class="style-preview preview-cloud" aria-hidden="true"><span></span><span></span><span></span></span><strong>Cloud UI</strong></label>
     </div></fieldset>
     <fieldset class="appearance-field"><legend>Tema</legend><div class="appearance-theme-options">
       <label><input type="radio" name="appearanceTheme" value="light"><i data-lucide="sun"></i>Açık</label>
       <label><input type="radio" name="appearanceTheme" value="dark"><i data-lucide="moon"></i>Koyu</label>
-      <label><input type="radio" name="appearanceTheme" value="system"><i data-lucide="monitor"></i>Sistem teması</label>
+      <label><input type="radio" name="appearanceTheme" value="system"><i data-lucide="monitor"></i>Sistem Teması</label>
     </div></fieldset>
-    <fieldset class="appearance-field"><legend>Vurgu rengi</legend><div id="accentPalette" class="accent-palette" role="radiogroup" aria-label="Vurgu rengi"></div></fieldset>
-    <label class="monochrome-control"><span>Renksiz mod</span><input id="monochromeToggle" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
-<fieldset class="appearance-field"><legend>Arka plan</legend><div id="backgroundOptions" class="background-options"></div><div class="background-custom"><label class="button" for="backgroundFile"><i data-lucide="folder-plus"></i>Fotoğraf seç</label><input class="visually-hidden" id="backgroundFile" type="file" accept="image/png,image/jpeg,image/webp"><button class="button" id="useCustomBackground" type="button" disabled>Özel arka plan</button><button class="icon-button" id="removeBackground" type="button" disabled title="Özel arka planı kaldır" aria-label="Özel arka planı kaldır"><i data-lucide="trash-2"></i></button></div><p id="backgroundStatus" role="status">Yalnızca bu cihazda saklanır. Tarayıcı verileri temizlenirse silinir.</p></fieldset>
-    <footer class="appearance-footer"><button id="resetAppearance" class="button" type="button"><i data-lucide="rotate-ccw"></i>Varsayılana dön</button></footer>
+    <fieldset class="appearance-field"><legend>Vurgu Rengi</legend><div id="accentPalette" class="accent-palette" role="radiogroup" aria-label="Vurgu Rengi"></div></fieldset>
+    <label class="monochrome-control"><span>Renksiz Mod</span><input id="monochromeToggle" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
+<fieldset class="appearance-field"><legend>Arka Plan</legend><div id="backgroundOptions" class="background-options"></div><div class="background-custom"><label class="button" for="backgroundFile"><i data-lucide="folder-plus"></i>Fotoğraf Seç</label><input class="visually-hidden" id="backgroundFile" type="file" accept="image/png,image/jpeg,image/webp"><button class="button" id="useCustomBackground" type="button" disabled>Özel Arka Plan</button><button class="icon-button" id="removeBackground" type="button" disabled title="Özel arka planı kaldır" aria-label="Özel arka planı kaldır"><i data-lucide="trash-2"></i></button></div><p id="backgroundStatus" role="status">Yalnızca bu cihazda saklanır. Tarayıcı verileri temizlenirse silinir.</p></fieldset>
+    <footer class="appearance-footer"><button id="resetAppearance" class="button" type="button"><i data-lucide="rotate-ccw"></i>Varsayılana Dön</button></footer>
   </dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" popover="manual"></div>
 
@@ -1514,7 +1517,7 @@
     function render() {
       const week = activeWeek();
       if (!week) return;
-      els.weekSubtitle.textContent = week.range || week.name || "Dijital Eğitim ve Rutin Sistemi";
+      els.weekSubtitle.textContent = week.range || week.name || "D.E.R.S.";
       document.title = `D.E.R.S. - ${week.range || week.name}`;
       document.body.classList.toggle("edit-mode", editMode);
       els.editModeButton.classList.toggle("is-active", editMode);
@@ -1686,7 +1689,7 @@
       if (editMode && !completedView) {
         const tools = document.createElement("div");
         tools.className = "edit-tools";
-        tools.innerHTML = `<button class="quest-action" type="button">Kategori sil</button>`;
+        tools.innerHTML = `<button class="quest-action" type="button">Kategori Sil</button>`;
         tools.querySelector("button").addEventListener("click", () => deleteCategory(subject.id));
         head.append(tools);
       }
@@ -1771,7 +1774,7 @@
       }
       if (quest.lockedForStudent) {
         const change = document.createElement('button');
-        change.className = 'quest-action'; change.type = 'button'; change.textContent = 'Değişiklik iste';
+        change.className = 'quest-action'; change.type = 'button'; change.textContent = 'Değişiklik İste';
         change.addEventListener('click', event => { event.stopPropagation(); window.DersTeacher.requestChange(quest, activeWeek()); });
         button.querySelector('.quest-main').append(change);
       }
@@ -1947,7 +1950,7 @@
         .filter((record) => !weekId || record.weekId === weekId)
         .filter((record) => !categoryId || record.categoryId === categoryId)
         .sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
-      els.historyList.innerHTML = records.length ? "" : `<div class="empty-state"><i data-lucide="history"></i><h2>Henüz çalışma kaydı yok</h2><p>Seçili filtrelerde tamamlanan çalışma bulunmuyor.</p></div>`;
+      els.historyList.innerHTML = records.length ? "" : `<div class="empty-state"><i data-lucide="history"></i><h2>Henüz Çalışma Kaydı Yok</h2><p>Seçili filtrelerde tamamlanan çalışma bulunmuyor.</p></div>`;
       for (const week of window.DersHistory.group(records.slice(0,80),state.weeks)) {
         const group = document.createElement("details"); group.className = "history-week-group"; group.open = true;
         const summary = document.createElement("summary"); summary.textContent = week.name; group.append(summary);
@@ -2024,7 +2027,7 @@
         row.className = "draft-row";
         row.innerHTML = `
           <select class="select" aria-label="Ders"><option value="">Ders seç</option>${[...categories,...draftQuests.filter(q=>q.categoryName&&!categories.some(c=>c.id===q.subject)).map(q=>({id:q.subject,name:q.categoryName}))].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i).map((subject) => `<option value="${escapeHtml(subject.id)}" ${subject.id === quest.subject ? "selected" : ""}>${escapeHtml(subject.name)}</option>`).join("")}</select>
-          <input class="input" type="text" aria-label="Görev adı" value="${escapeHtml(quest.title)}">
+          <input class="input" type="text" aria-label="Görev Adı" value="${escapeHtml(quest.title)}">
           <input class="input" type="text" aria-label="Soru sayısı ve açıklama" value="${escapeHtml(quest.detail)}">
           <input class="input" type="number" min="5" step="5" aria-label="XP" value="${quest.xp}">
           <button class="button danger" type="button">Sil</button>
@@ -2317,6 +2320,8 @@
       showToast("Hesap oluşturuldu");
     });
 
+    document.getElementById('signedOutPanel').addEventListener('submit', event => {event.preventDefault();(els.signInButton.hidden?document.getElementById('signUpButton'):els.signInButton).click();});
+    els.authPassword.addEventListener('keydown', event => {if(event.key==='Enter'&&!event.isComposing){event.preventDefault();document.getElementById('signedOutPanel').requestSubmit();}});
     els.signInButton.addEventListener("click", async () => {
       if (!supabaseClient) return;
       const email = els.authEmail.value.trim();

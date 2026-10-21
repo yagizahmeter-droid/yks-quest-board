@@ -1,6 +1,6 @@
 (() => {
   const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus'];
-  const titles = { home: 'Genel Bakış', program: 'Programım', teacher: 'Öğretmen', history: 'Çalışma Geçmişi', account: 'Hesabım', 'account/signup': 'Kayıt ol',focus:'Odak Modu' };
+  const titles = { home: 'Genel Bakış', program: 'Programım', teacher: 'Öğretmen', history: 'Çalışma Geçmişi', account: 'Hesabım', 'account/signup': 'Kayıt Ol',focus:'Odak Modu' };
   const privateRoutes = new Set(['program', 'teacher', 'history','focus']);
   const $ = id => document.getElementById(id);
   const mobile = matchMedia('(max-width: 720px)');
@@ -103,7 +103,7 @@
     }
     document.querySelectorAll('[data-page]').forEach(el => el.hidden = loading || el.dataset.page !== route.split('/')[0]);
     $('routeLoading').hidden = !loading;
-    $('pageTitle').textContent = route.startsWith('account') && !window.DersBoard.user ? (route === 'account/signup' ? 'Kayıt ol' : 'Giriş yap') : titles[route];
+    $('pageTitle').textContent = route.startsWith('account') && !window.DersBoard.user ? (route === 'account/signup' ? 'Kayıt Ol' : 'Giriş Yap') : titles[route];
     $('pageTitle').tabIndex = -1;
     document.title = `D.E.R.S. · ${$('pageTitle').textContent}`;
     $('pageBack').hidden = route === 'home';
@@ -113,9 +113,9 @@
     const signup = route === 'account/signup';
     $('signUpButton').hidden = !signup;
     $('signInButton').hidden = signup;
-    $('authHeading').textContent = window.DersBoard.user ? 'Hesap senkronizasyonu' : signup ? 'Yeni hesap' : 'Tekrar hoş geldin';
+    $('authHeading').textContent = window.DersBoard.user ? 'Hesap Senkronizasyonu' : signup ? 'Yeni Hesap' : 'Tekrar Hoş Geldin';
     $('authPassword').autocomplete = signup ? 'new-password' : 'current-password';
-    $('authSwitch').textContent = signup ? 'Zaten hesabım var' : 'Kayıt ol';
+    $('authSwitch').textContent = signup ? 'Zaten hesabım var' : 'Kayıt Ol';
     $('authSwitch').dataset.route = signup ? 'account' : 'account/signup';
     $('authSwitch').href = '#/' + $('authSwitch').dataset.route;
     drawCompleted();
@@ -184,23 +184,23 @@
       const key = new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Istanbul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(h.completedAt));
       return key === dateFilter;
     }) })).filter(g => g.quests.length);
-    $('completedHistory').innerHTML = groups.length ? groups.map(g => `<h2 class="history-week-label">${esc(g.week.name)}</h2>${g.quests.map(q => `<article class="history-item"><strong>${esc(window.DersBoard.category(q.categoryId || q.subject).name)} · ${esc(q.title)}</strong><span class="sync-status">${esc(q.detail)} · ${window.DersQuests.earned(q)} XP</span><span class="chip completed-badge">${q.lockedForStudent ? 'Öğretmen atadı · ' : ''}Tamamlandı</span></article>`).join('')}`).join('') : '<div class="empty-state"><i data-lucide="circle-check"></i><h2>Henüz tamamlanan görev yok</h2></div>';
+    $('completedHistory').innerHTML = groups.length ? groups.map(g => `<h2 class="history-week-label">${esc(g.week.name)}</h2>${g.quests.map(q => `<article class="history-item"><strong>${esc(window.DersBoard.category(q.categoryId || q.subject).name)} · ${esc(q.title)}</strong><span class="sync-status">${esc(q.detail)} · ${window.DersQuests.earned(q)} XP</span><span class="chip completed-badge">${q.lockedForStudent ? 'Öğretmen atadı · ' : ''}Tamamlandı</span></article>`).join('')}`).join('') : '<div class="empty-state"><i data-lucide="circle-check"></i><h2>Henüz Tamamlanan Görev Yok</h2></div>';
   }
   function icons() {
     document.querySelectorAll('.edit-tools button[data-action]').forEach(b => {
-      const map = { up:['arrow-up','Yukarı taşı'], down:['arrow-down','Aşağı taşı'], edit:['pencil','Düzenle'], delete:['trash-2','Sil'] }, v = map[b.dataset.action];
+      const map = { up:['arrow-up','Yukarı Taşı'], down:['arrow-down','Aşağı Taşı'], edit:['pencil','Düzenle'], delete:['trash-2','Sil'] }, v = map[b.dataset.action];
       if (v && !b.querySelector('svg, i')) { b.innerHTML = `<i data-lucide="${v[0]}"></i>`; b.title = v[1]; b.setAttribute('aria-label',v[1]); }
     });
     if (!window.lucide || !document.querySelector('i[data-lucide]')) return;
     window.lucide.createIcons();
     document.querySelectorAll('svg[data-lucide]').forEach(svg => { svg.removeAttribute('data-lucide'); svg.setAttribute('aria-hidden','true'); });
   }
-  function closeSidebar(force = false) {
+  function closeSidebar(force = false, handoff = false) {
     document.body.classList.remove('drawer-open'); $('navigationBackdrop').hidden = true;
     $('sidebar').removeAttribute('role'); $('sidebar').removeAttribute('aria-modal'); $('sidebar').inert = mobile.matches;
     document.querySelector('.workspace').inert = false;
     $('toggleNavigation').setAttribute('aria-expanded', String(!mobile.matches && !document.body.classList.contains('nav-compact')));
-    modalClosed('navigation');
+    if (handoff) overlays.delete('navigation'); else modalClosed('navigation');
     if (force) $('toggleNavigation').focus({ preventScroll: true });
   }
   function toggleSidebar() {
@@ -258,7 +258,14 @@
     if (root && root.dataset.dirty!=='true') baselines.set(root, values(root));
   });
   scopes(document.body).forEach(el => baselines.set(el,values(el)));
-  new MutationObserver(() => scopes(document.body).forEach(el => { if (!baselines.has(el)) baselines.set(el,values(el)); })).observe(document.body,{childList:true,subtree:true});
+  new MutationObserver(records => {
+    const added = new Set();
+    for (const record of records) for (const node of record.addedNodes) if (node.nodeType === 1) {
+      const scope=node.closest(draftSelector);if(scope)added.add(scope);
+      for(const child of scopes(node))added.add(child);
+    }
+    for(const el of added)if(!baselines.has(el))baselines.set(el,values(el));
+  }).observe(document.body,{childList:true,subtree:true});
   document.querySelectorAll('input[name="theme"]').forEach(input => {
     input.checked = input.value === window.DersTheme.choice;
     input.onchange = () => window.DersTheme.set(input.value);
@@ -272,6 +279,6 @@
     const messages = { invalid_credentials:'E-posta veya şifre hatalı.', email_not_confirmed:'Giriş yapmadan önce e-postanı doğrula.', user_already_exists:'Bu e-posta için zaten bir hesap var.', email_address_invalid:'Geçerli bir e-posta adresi gir.', weak_password:'Daha güçlü bir şifre seç.', over_request_rate_limit:'Çok fazla deneme yapıldı. Biraz sonra tekrar dene.', over_email_send_rate_limit:'E-posta gönderim sınırına ulaşıldı. Biraz sonra tekrar dene.' };
     return messages[error.code] || 'İşlem tamamlanamadı. Bilgilerini kontrol edip tekrar dene.';
   }
-  window.DersUI = { refresh, navigate, openModal, modalClosed, clearDirty, canLeave, authError, get route() { return current.route; }, setTeacherInfo(data) { teacherInfo = data; refresh(); } };
+  window.DersUI = { refresh, navigate, openModal, modalClosed, clearDirty, canLeave, authError, closeNavigationForModal(){if(document.body.classList.contains('drawer-open'))closeSidebar(false,true);}, get route() { return current.route; }, setTeacherInfo(data) { teacherInfo = data; refresh(); } };
   refresh();
 })();

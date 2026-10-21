@@ -1,0 +1,266 @@
+{
+  "exam": "TYT",
+  "lesson": "Türkçe",
+  "topics": {
+    "TYT|Türkçe|Anlam Bilgisi|Sözcükte Anlam": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Sözcükte Anlam 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Sözcükte Anlam 2"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Sözcükte Anlam 3"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Sözcükte Anlam 4"
+      }
+    ],
+    "TYT|Türkçe|Anlam Bilgisi|Cümlede Anlam": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Cümlede Anlam 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Cümlede Anlam 2"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Cümlede Anlam 3"
+      }
+    ],
+    "TYT|Türkçe|Anlam Bilgisi|Paragrafta Anlam": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Paragrafta Anlam 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Paragrafta Anlam 2"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Paragrafta Anlam 3"
+      }
+    ],
+    "TYT|Türkçe|Anlam Bilgisi|Paragrafın Yapısı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Paragrafın Yapısı"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Ses Bilgisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Ses Bilgisi 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Ses Bilgisi 2"
+      }
+    ],
+    "TYT|Türkçe|Yazım ve Noktalama|Yazım Kuralları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Yazım Kuralları 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Yazım Kuralları 2"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Yazım Kuralları 3"
+      }
+    ],
+    "TYT|Türkçe|Yazım ve Noktalama|Noktalama İşaretleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Noktalama İşaretleri 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Noktalama İşaretleri 2"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Noktalama İşaretleri 3"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Biçim Bilgisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Biçim Bilgisi 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Biçim Bilgisi 2"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|İsim": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "İsim"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Sıfat": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Sıfat"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Zamir": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Zamir"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|İsim ve Sıfat Tamlamaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "İsim ve Sıfat Tamlamaları"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Zarf": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Zarf"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Edat, Bağlaç, Ünlem": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Edat, Bağlaç, Ünlem"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Fiilde Kip": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Fiilde Kip"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Ek-Fiil": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Ek-Fiil"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Fiilde Yapı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Fiilde Yapı"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Fiilimsiler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Fiilimsiler"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Fiilde Çatı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Fiilde Çatı"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Cümlenin Ögeleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Cümlenin Ögeleri"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Cümle Türleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Cümle Türleri"
+      }
+    ],
+    "TYT|Türkçe|Dil Bilgisi|Anlatım Bozuklukları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Anlatım Bozuklukları 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+        "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8",
+        "tocPage": 9,
+        "sourceTitle": "Anlatım Bozuklukları 2"
+      }
+    ]
+  }
+}

@@ -1,0 +1,486 @@
+{
+  "exam": "AYT",
+  "lesson": "Fizik",
+  "topics": {
+    "AYT|Fizik|Mekanik|Vektörler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Vektörler"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Bağıl Hareket": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Bağıl Hareket"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Newton’ın Hareket Yasaları (Net Kuvvetin Hesaplanması)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Newton’ın Hareket Yasaları (Net Kuvvetin Hesaplanması)"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Newton’ın Hareket Yasaları (Net Kuvvet Etkisindeki Cismin Hareketi)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Newton’ın Hareket Yasaları (Net Kuvvet Etkisindeki Cismin Hareketi)"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Bir Boyutta Sabit İvmeli Hareket": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Bir Boyutta Sabit İvmeli Hareket"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Serbest Düşme ve Hava Direnç Kuvveti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Serbest Düşme ve Hava Direnç Kuvveti"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Bir Boyutta Yukarı veya Aşağı Atılan Cisimlerin Hareketi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Bir Boyutta Yukarı veya Aşağı Atılan Cisimlerin Hareketi"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Yatay Atış": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Yatay Atış"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Eğik Atış": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Eğik Atış"
+      }
+    ],
+    "AYT|Fizik|Mekanik|İş Kavramı ve Enerji Türleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "İş Kavramı ve Enerji Türleri"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Enerji Korunumu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Enerji Korunumu"
+      }
+    ],
+    "AYT|Fizik|Mekanik|İtme ve Çizgisel Momentum Arasındaki İlişki": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "İtme ve Çizgisel Momentum Arasındaki İlişki"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Çizgisel Momentumun Korunumu (Bir Boyutta Çarpışmalar)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Çizgisel Momentumun Korunumu (Bir Boyutta Çarpışmalar)"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Çizgisel Momentumun Korunumu (İki Boyutta Çarpışmalar ve Patlamalar)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Çizgisel Momentumun Korunumu (İki Boyutta Çarpışmalar ve Patlamalar)"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Tork": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Tork"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Denge ve Denge Şartları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Denge ve Denge Şartları"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Kütle ve Ağırlık Merkezi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Kütle ve Ağırlık Merkezi"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Basit Makineler (Basit Makinelerin Özellikleri, Kaldıraçlar, Makaralar)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Basit Makineler (Basit Makinelerin Özellikleri, Kaldıraçlar, Makaralar)"
+      }
+    ],
+    "AYT|Fizik|Mekanik|Basit Makineler (Palanga, Eğik Düzlem, Vida, Çıkrık, Çark, Kasnaklar ve Basit Makinelerde Verim)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Basit Makineler (Palanga, Eğik Düzlem, Vida, Çıkrık, Çark, Kasnaklar ve Basit Makinelerde Verim)"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Elektriksel Kuvvet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Elektriksel Kuvvet"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Elektrik Alan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Elektrik Alan"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Elektriksel Potansiyel Enerji ve Elektriksel Potansiyel": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Elektriksel Potansiyel Enerji ve Elektriksel Potansiyel"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Elektriksel Potansiyel Fark ve Elektriksel İş": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Elektriksel Potansiyel Fark ve Elektriksel İş"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Düzgün Elektrik Alan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Düzgün Elektrik Alan"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Sığa Kavramı ve Sığaçlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Sığa Kavramı ve Sığaçlar"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Manyetik Alan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Manyetik Alan"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Düz Tele Etki Eden Manyetik Kuvvet ve Manyetik Kuvvetin Döndürme Etkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Düz Tele Etki Eden Manyetik Kuvvet ve Manyetik Kuvvetin Döndürme Etkisi"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Yüklü Parçacıkların Manyetik Alan İçindeki Hareketi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Yüklü Parçacıkların Manyetik Alan İçindeki Hareketi"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Manyetik Akı ve İndüksiyon Akımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Manyetik Akı ve İndüksiyon Akımı"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Öz İndüksiyon Akımı, Lorentz Kuvveti ve Elektromotor Kuvveti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Öz İndüksiyon Akımı, Lorentz Kuvveti ve Elektromotor Kuvveti"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Alternatif Akım": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Alternatif Akım"
+      }
+    ],
+    "AYT|Fizik|Elektrik ve Manyetizma|Transformatörler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Transformatörler"
+      }
+    ],
+    "AYT|Fizik|Çembersel Hareket ve Kütle Çekimi|Düzgün Çembersel Hareket Kavramları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Düzgün Çembersel Hareket Kavramları"
+      }
+    ],
+    "AYT|Fizik|Çembersel Hareket ve Kütle Çekimi|Merkezcil Kuvvet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Merkezcil Kuvvet"
+      }
+    ],
+    "AYT|Fizik|Çembersel Hareket ve Kütle Çekimi|Virajlarda Emniyetli Dönüş Şartları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Virajlarda Emniyetli Dönüş Şartları"
+      }
+    ],
+    "AYT|Fizik|Çembersel Hareket ve Kütle Çekimi|Öteleme ve Dönme Hareketi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Öteleme ve Dönme Hareketi"
+      }
+    ],
+    "AYT|Fizik|Çembersel Hareket ve Kütle Çekimi|Eylemsizlik Momenti ve Dönme Kinetik Enerjisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Eylemsizlik Momenti ve Dönme Kinetik Enerjisi"
+      }
+    ],
+    "AYT|Fizik|Çembersel Hareket ve Kütle Çekimi|Açısal Momentum": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 9,
+        "sourceTitle": "Açısal Momentum"
+      }
+    ],
+    "AYT|Fizik|Çembersel Hareket ve Kütle Çekimi|Kütle Çekim Kuvveti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Kütle Çekim Kuvveti"
+      }
+    ],
+    "AYT|Fizik|Çembersel Hareket ve Kütle Çekimi|Kepler Kanunları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Kepler Kanunları"
+      }
+    ],
+    "AYT|Fizik|Basit Harmonik Hareket|Basit Harmonik Hareket Kavramları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Basit Harmonik Hareket Kavramları"
+      }
+    ],
+    "AYT|Fizik|Basit Harmonik Hareket|Basit Sarkaç ve Yay Sarkacı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Basit Sarkaç ve Yay Sarkacı"
+      }
+    ],
+    "AYT|Fizik|Dalga Mekaniği|Su Dalgalarında Kırınım ve Girişim": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Su Dalgalarında Kırınım ve Girişim"
+      }
+    ],
+    "AYT|Fizik|Dalga Mekaniği|Işığın Çift Yarıkta Girişimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Işığın Çift Yarıkta Girişimi"
+      }
+    ],
+    "AYT|Fizik|Dalga Mekaniği|Işığın Tek Yarıkta Kırınımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Işığın Tek Yarıkta Kırınımı"
+      }
+    ],
+    "AYT|Fizik|Dalga Mekaniği|Işığın Dalga Doğası ve Doppler Olayı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Işığın Dalga Doğası ve Doppler Olayı"
+      }
+    ],
+    "AYT|Fizik|Dalga Mekaniği|Elektromanyetik Dalgalar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Elektromanyetik Dalgalar"
+      }
+    ],
+    "AYT|Fizik|Atom Fiziği ve Radyoaktivite|Atomun Tarihsel Gelişimi ve Bohr Atom Teorisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Atomun Tarihsel Gelişimi ve Bohr Atom Teorisi"
+      }
+    ],
+    "AYT|Fizik|Atom Fiziği ve Radyoaktivite|Büyük Patlama Teorisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Büyük Patlama Teorisi"
+      }
+    ],
+    "AYT|Fizik|Atom Fiziği ve Radyoaktivite|Kararlı ve Kararsız Atomlar, Radyoaktif Işımalar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Kararlı ve Kararsız Atomlar, Radyoaktif Işımalar"
+      }
+    ],
+    "AYT|Fizik|Modern Fizik|Özel Görelilik (Einstein’in Temel Postülaları)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Özel Görelilik (Einstein’in Temel Postülaları)"
+      }
+    ],
+    "AYT|Fizik|Modern Fizik|Özel Görelilik (Göreli Zaman, Göreli Uzunluk ve Kütle Enerji Eşdeğerliği)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Özel Görelilik (Göreli Zaman, Göreli Uzunluk ve Kütle Enerji Eşdeğerliği)"
+      }
+    ],
+    "AYT|Fizik|Modern Fizik|Fotoelektrik Olay": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Fotoelektrik Olay"
+      }
+    ],
+    "AYT|Fizik|Modern Fizik|Fotoelektrik Olay Uygulamaları ve Kesme Gerilimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Fotoelektrik Olay Uygulamaları ve Kesme Gerilimi"
+      }
+    ],
+    "AYT|Fizik|Modern Fizik|Compton Saçılması ve De Broglie Dalga Boyu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Compton Saçılması ve De Broglie Dalga Boyu"
+      }
+    ],
+    "AYT|Fizik|Modern Fiziğin Teknolojideki Uygulamaları|Görüntüleme Cihazları, LCD ve Plazma": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Görüntüleme Cihazları, LCD ve Plazma"
+      }
+    ],
+    "AYT|Fizik|Modern Fiziğin Teknolojideki Uygulamaları|Yarı İletken Teknolojisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Yarı İletken Teknolojisi"
+      }
+    ],
+    "AYT|Fizik|Modern Fiziğin Teknolojideki Uygulamaları|Süper İletkenler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Süper İletkenler"
+      }
+    ],
+    "AYT|Fizik|Modern Fiziğin Teknolojideki Uygulamaları|Nanoteknoloji": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "Nanoteknoloji"
+      }
+    ],
+    "AYT|Fizik|Modern Fiziğin Teknolojideki Uygulamaları|LASER Işınları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+        "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484",
+        "tocPage": 10,
+        "sourceTitle": "LASER Işınları"
+      }
+    ]
+  }
+}

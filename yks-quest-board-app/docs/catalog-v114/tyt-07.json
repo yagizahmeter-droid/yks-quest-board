@@ -1,0 +1,310 @@
+{
+  "exam": "TYT",
+  "lesson": "Coğrafya",
+  "topics": {
+    "TYT|Coğrafya|Doğa ve Dünya|Doğa ve İnsan Etkileşimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Doğa ve İnsan Etkileşimi"
+      }
+    ],
+    "TYT|Coğrafya|Doğa ve Dünya|Coğrafyanın Konusu ve Bölümleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Coğrafyanın Konusu ve Bölümleri"
+      }
+    ],
+    "TYT|Coğrafya|Doğa ve Dünya|Dünya’nın Şekli ve Günlük Hareketi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Dünya’nın Şekli ve Günlük Hareketi"
+      }
+    ],
+    "TYT|Coğrafya|Doğa ve Dünya|Dünya’nın Yıllık Hareketi ve Eksen Eğikliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Dünya’nın Yıllık Hareketi ve Eksen Eğikliği"
+      }
+    ],
+    "TYT|Coğrafya|Coğrafi Konum|Koordinat Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Koordinat Sistemi"
+      }
+    ],
+    "TYT|Coğrafya|Coğrafi Konum|Yerel Saat ve Ulusal Saat": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Yerel Saat ve Ulusal Saat"
+      }
+    ],
+    "TYT|Coğrafya|Coğrafi Konum|Türkiye’nin Konumu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’nin Konumu"
+      }
+    ],
+    "TYT|Coğrafya|Harita Bilgisi|Harita Unsurları ve Harita Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Harita Unsurları ve Harita Çeşitleri"
+      }
+    ],
+    "TYT|Coğrafya|Harita Bilgisi|Haritalarda Hesaplamalar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Haritalarda Hesaplamalar"
+      }
+    ],
+    "TYT|Coğrafya|Harita Bilgisi|Yeryüzü Şekillerinin Haritalara Aktarılması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Yeryüzü Şekillerinin Haritalara Aktarılması"
+      }
+    ],
+    "TYT|Coğrafya|İklim Bilgisi|Atmosfer, Hava Durumu ve İklim": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Atmosfer, Hava Durumu ve İklim"
+      }
+    ],
+    "TYT|Coğrafya|İklim Bilgisi|Sıcaklık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Sıcaklık"
+      }
+    ],
+    "TYT|Coğrafya|İklim Bilgisi|Basınç ve Rüzgârlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Basınç ve Rüzgârlar"
+      }
+    ],
+    "TYT|Coğrafya|İklim Bilgisi|Nem ve Yağış": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Nem ve Yağış"
+      }
+    ],
+    "TYT|Coğrafya|İklim Bilgisi|İklim Tipleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "İklim Tipleri"
+      }
+    ],
+    "TYT|Coğrafya|İklim Bilgisi|Türkiye İklimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye İklimi"
+      }
+    ],
+    "TYT|Coğrafya|Yerleşme ve Bölgeler|Yerleşme ve Türkiye’de Yerleşmeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Yerleşme ve Türkiye’de Yerleşmeler"
+      }
+    ],
+    "TYT|Coğrafya|Yerleşme ve Bölgeler|Bölge Sınıflandırılması ve Türleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Bölge Sınıflandırılması ve Türleri"
+      }
+    ],
+    "TYT|Coğrafya|İnsan ve Doğa|Doğal Çevrenin Kullanımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Doğal Çevrenin Kullanımı"
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|Dünya’nın Tektonik Oluşumu ve Jeolojik Zaman - lar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Dünya’nın Tektonik Oluşumu ve Jeolojik Zaman -\nlar"
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|İç Kuvvetler ve Kayaçlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "İç Kuvvetler ve Kayaçlar"
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|Dış Kuvvetler (Çözülme, Kütle Hareketleri, Rüzgârlar, Buzullar)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Dış Kuvvetler (Çözülme, Kütle Hareketleri, Rüzgârlar, \nBuzullar)"
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|Dış Kuvvetler (Akarsular)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Dış Kuvvetler (Akarsular)"
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|Dış Kuvvetler (Karstik Şekiller, Dalgalar, Akıntılar).": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Dış Kuvvetler (Karstik Şekiller, Dalgalar, Akıntılar)."
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|Türkiye’de Ana Yer Şekilleri, İç ve Dış Kuvvetler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’de Ana Yer Şekilleri, İç ve Dış Kuvvetler"
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|Dünyada Su Kaynakları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Dünyada Su Kaynakları"
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|Türkiye’de Su Kaynakları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’de Su Kaynakları"
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|Dünyada ve Türkiye’de Topraklar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Dünyada ve Türkiye’de Topraklar"
+      }
+    ],
+    "TYT|Coğrafya|Yer Şekilleri, Su, Toprak ve Bitkiler|Dünyada ve Türkiye’de Bitkiler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Dünyada ve Türkiye’de Bitkiler"
+      }
+    ],
+    "TYT|Coğrafya|Nüfus ve Göç|Nüfusun Özellikleri ve Gelişimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Nüfusun Özellikleri ve Gelişimi"
+      }
+    ],
+    "TYT|Coğrafya|Nüfus ve Göç|Nüfusun Dağılışı ve Nüfus Piramitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Nüfusun Dağılışı ve Nüfus Piramitleri"
+      }
+    ],
+    "TYT|Coğrafya|Nüfus ve Göç|Türkiye Nüfusu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye Nüfusu"
+      }
+    ],
+    "TYT|Coğrafya|Nüfus ve Göç|Göçler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Göçler"
+      }
+    ],
+    "TYT|Coğrafya|Ekonomik Faaliyetler|Ekonomik Faaliyetler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Ekonomik Faaliyetler"
+      }
+    ],
+    "TYT|Coğrafya|Ekonomik Faaliyetler|Uluslararası Ulaşım Hatları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Uluslararası Ulaşım Hatları"
+      }
+    ],
+    "TYT|Coğrafya|Doğal Afetler|Afetlerin Genel Özellikleri ve Sınıflandırılması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Afetlerin Genel Özellikleri ve Sınıflandırılması"
+      }
+    ],
+    "TYT|Coğrafya|Doğal Afetler|Deprem, Tsunami ve Volkanik Faaliyetler, Kütle Hare- ketleri, Erozyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Deprem, Tsunami ve Volkanik Faaliyetler, Kütle Hare-\nketleri, Erozyon"
+      }
+    ],
+    "TYT|Coğrafya|Doğal Afetler|Şiddetli Rüzgârlar, Sel ve Taşkın, Çığ, Orman Yangın- ları, Salgın Hastalıklar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+        "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3",
+        "tocPage": 9,
+        "sourceTitle": "Şiddetli Rüzgârlar, Sel ve Taşkın, Çığ, Orman Yangın-\nları, Salgın Hastalıklar"
+      }
+    ]
+  }
+}

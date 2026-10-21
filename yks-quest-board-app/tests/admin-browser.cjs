@@ -65,7 +65,7 @@ module.exports=async({root,browser,apiUrl,siteUrl,users,admin})=>{
   await pointerSelect(frame,'#assignmentDraft [data-key="category"]','Matematik');
   await pointerSelect(frame,'#assignmentDraft [data-key="topic_category"]','Problemler');
   await pointerSelect(frame,'#assignmentDraft [data-key="topic"]','__category');
-  await frame.getByRole('button',{name:'Programı gönder',exact:true}).click();
+  await frame.getByRole('button',{name:'Programı Gönder',exact:true}).click();
   await frame.locator('#teacherPanel').getByText('Örnek taslak',{exact:true}).waitFor();
   assert.deepEqual(await p.evaluate(()=>structuredClone(DersBoard.state)),before);
   assert.equal(requests.length,0);
@@ -131,7 +131,7 @@ module.exports=async({root,browser,apiUrl,siteUrl,users,admin})=>{
   pass('Uploaded photo supports Saydam while Classic remains opaque without blur');
   await p.setViewportSize({width:1440,height:1000});await p.click('#appearanceButton');
   await p.getByRole('radio',{name:'Saydam',exact:true}).check();
-  await p.locator('#appearanceDialog').getByRole('radio',{name:'Sistem teması',exact:true}).check();
+  await p.locator('#appearanceDialog').getByRole('radio',{name:'Sistem Teması',exact:true}).check();
   await p.click('#closeAppearance');await p.waitForTimeout(100);
   fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
   for(const theme of ['light','dark']){

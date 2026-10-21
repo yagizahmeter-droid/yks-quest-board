@@ -1,0 +1,630 @@
+{
+  "exam": "TYT",
+  "lesson": "Felsefe",
+  "topics": {
+    "TYT|Felsefe|Felsefi Alanlar|Felsefeyi Tanıma": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Felsefeyi Tanıma"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Felsefe ile Düşünme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Felsefe ile Düşünme"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Varlık Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Varlık Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilgi Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Bilgi Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilim Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Bilim Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Ahlak Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Ahlak Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Din Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Din Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Siyaset Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Siyaset Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Sanat Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Sanat Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Felsefi Okuma ve Yazma": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Felsefi Okuma ve Yazma"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Felsefi Okuma ve Yazma"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|MÖ 6. Yüzyıl-MS 2. Yüzyıl Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "MÖ 6. Yüzyıl-MS 2. Yüzyıl Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|MS 2. Yüzyıl - MS 15. Yüzyıl Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "MS 2. Yüzyıl - MS 15. Yüzyıl Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|15. Yüzyıl - 17. Yüzyıl Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "15. Yüzyıl - 17. Yüzyıl Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|18. Yüzyıl - 19. Yüzyıl Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "18. Yüzyıl - 19. Yüzyıl Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|20. Yüzyıl Felsefesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "20. Yüzyıl Felsefesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Felsefenin Anlamı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Felsefenin Anlamı"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Felsefi Düşüncenin Ortaya Çıkışı ve Özellikleri - Felsefe Sorusu Nedir?": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Felsefi Düşüncenin Ortaya Çıkışı ve Özellikleri - Felsefe Sorusu Nedir?"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Felsefenin İnsan ve Toplum Hayatı Üzerindeki Rolü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Felsefenin İnsan ve Toplum Hayatı Üzerindeki Rolü"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Düşünme ve Akıl Yürütmeye İlişkin Kavramlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Düşünme ve Akıl Yürütmeye İlişkin Kavramlar"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Düşünme ve Dil İlişkisi - Felsefi Bir Görüşü veya Argümanı Sorgulama": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Düşünme ve Dil İlişkisi - Felsefi Bir Görüşü veya Argümanı Sorgulama"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Varlık Felsefesinin Konusu ve Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Varlık Felsefesinin Konusu ve Problemleri"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Varlık Felsefesi Alanındaki Çağdaş Yaklaşımlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Varlık Felsefesi Alanındaki Çağdaş Yaklaşımlar"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Evrende Amaçlılık ve Düzenlilik - Varlık Türlerinin Sınıflandırılması - Bir Konunun Varlık Felsefesi Açısından Değerlendirilmesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Evrende Amaçlılık ve Düzenlilik - Varlık Türlerinin Sınıflandırılması - Bir Konunun Varlık Felsefesi Açısından Değerlendirilmesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilgi Felsefesinin Konusu ve Bilginin İmkânı Problemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Bilgi Felsefesinin Konusu ve Bilginin İmkânı Problemi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilginin Kaynağı ile İlgili Görüşler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Bilginin Kaynağı ile İlgili Görüşler"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilginin Sınırları - Doğru Bilginin Ölçütü - Doğruluk ve Gerçeklik - Bilginin Değeri ve Güvenirliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Bilginin Sınırları - Doğru Bilginin Ölçütü - Doğruluk ve Gerçeklik - Bilginin Değeri ve Güvenirliği"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilim Felsefesinin Konusu ve Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Bilim Felsefesinin Konusu ve Problemleri"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilimin Değeri - Bilim Felsefe İlişkisi - Bilim ve Hayat İlişkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Bilimin Değeri - Bilim Felsefe İlişkisi - Bilim ve Hayat İlişkisi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Ahlak Felsefesinin Konusu ve Problemleri - İyi ve Kötünün Ölçütü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Ahlak Felsefesinin Konusu ve Problemleri - İyi ve Kötünün Ölçütü"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Özgürlük ve Sorumluluk": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Özgürlük ve Sorumluluk"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Evrensel Bir Ahlak Yasasını Kabul Eden Görüşler ve Filozoflar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Evrensel Bir Ahlak Yasasını Kabul Eden Görüşler ve Filozoflar"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Evrensel Bir Ahlak Yasasını Reddeden Görüşler ve Filozoflar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Evrensel Bir Ahlak Yasasını Reddeden Görüşler ve Filozoflar"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|İyilik ve Mutluluk İlişkisi - Özgürlük": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "İyilik ve Mutluluk İlişkisi - Özgürlük, Sorumluluk ve Kural İlişkisi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Sorumluluk ve Kural İlişkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "İyilik ve Mutluluk İlişkisi - Özgürlük, Sorumluluk ve Kural İlişkisi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Din Felsefesinin Konusu ve Soruları - Tanrı’nın Varlığı ile İlgili Görüşler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Din Felsefesinin Konusu ve Soruları - Tanrı’nın Varlığı ile İlgili Görüşler"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Din Felsefesinin Soruları - Teoloji ve Din Felsefesi - Felsefe": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Din Felsefesinin Soruları - Teoloji ve Din Felsefesi - Felsefe, Bilim ve Din Açısından Ben Kimim?"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilim ve Din Açısından Ben Kimim?": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Din Felsefesinin Soruları - Teoloji ve Din Felsefesi - Felsefe, Bilim ve Din Açısından Ben Kimim?"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Siyaset Felsefesinin Konusu ve Problemleri - Hak": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Siyaset Felsefesinin Konusu ve Problemleri - Hak, Adalet, Özgürlük - İktidarın Kaynağı"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Adalet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Siyaset Felsefesinin Konusu ve Problemleri - Hak, Adalet, Özgürlük - İktidarın Kaynağı"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Özgürlük - İktidarın Kaynağı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Siyaset Felsefesinin Konusu ve Problemleri - Hak, Adalet, Özgürlük - İktidarın Kaynağı"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|İdeal Devlet Düzenine Yönelik Görüşler - Ütopya": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "İdeal Devlet Düzenine Yönelik Görüşler - Ütopya"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Egemenlik Sorunu - Toplumsal Sorunlara Felsefi Bakış": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Egemenlik Sorunu - Toplumsal Sorunlara Felsefi Bakış"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Sanat Felsefesinin Konusu ve Problemleri - Güzellik - Sanat Nedir?": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Sanat Felsefesinin Konusu ve Problemleri - Güzellik - Sanat Nedir?"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Sanat Kuramları - Sanat Eserinin Özellikleri - Sanat ve Duyarlılık - Şehir": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Sanat Kuramları - Sanat Eserinin Özellikleri - Sanat ve Duyarlılık - Şehir, İnsan ve Sanat"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|İnsan ve Sanat": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 9,
+        "sourceTitle": "Sanat Kuramları - Sanat Eserinin Özellikleri - Sanat ve Duyarlılık - Şehir, İnsan ve Sanat"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|İlk Medeniyetlerin Felsefenin Doğuşuna Etkisi - Anadolu’da Yaşamış Filozoflar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "İlk Medeniyetlerin Felsefenin Doğuşuna Etkisi - Anadolu’da Yaşamış Filozoflar"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|İlk Neden(Arkhe) ve Değişim Problemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "İlk Neden(Arkhe) ve Değişim Problemi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Sofistler ile Sokrates’in Bilgi ve Değer Anlayışları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Sofistler ile Sokrates’in Bilgi ve Değer Anlayışları"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Platon’un Varlık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Platon’un Varlık, Bilgi ve Değer Anlayışı"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilgi ve Değer Anlayışı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Platon’un Varlık, Bilgi ve Değer Anlayışı"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Aristoteles’in Varlık, Bilgi ve Değer Anlayışı"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Aristoteles’in Varlık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Aristoteles’in Varlık, Bilgi ve Değer Anlayışı"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Görüş Analizi: Konfüçyüs": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: Konfüçyüs, Sokrates, Platon ve Aristoteles"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Sokrates": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: Konfüçyüs, Sokrates, Platon ve Aristoteles"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Platon ve Aristoteles": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: Konfüçyüs, Sokrates, Platon ve Aristoteles"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|MS 2.Yüzyıl - MS 15.Yüzyıl Felsefesinin Ortaya Çıkışı - Hristiyan Felsefesinin Özellikleri ve Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "MS 2.Yüzyıl - MS 15.Yüzyıl Felsefesinin Ortaya Çıkışı - Hristiyan Felsefesinin Özellikleri ve Problemleri"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|İslam Felsefesinin Özellikleri ve Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "İslam Felsefesinin Özellikleri ve Problemleri"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|İnanç - Akıl İlişkisi - Çeviri Faaliyetleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "İnanç - Akıl İlişkisi - Çeviri Faaliyetleri"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Görüş Analizi (Augustinus, Fârâbî, İbn Sîna, Gâzâlî ve İbn Rüşd) - Tasavvuf Düşüncesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi (Augustinus, Fârâbî, İbn Sîna, Gâzâlî ve İbn Rüşd) - Tasavvuf Düşüncesi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|15. Yüzyıl - 17. Yüzyıl Felsefesinin Ortaya Çıkışı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "15. Yüzyıl - 17. Yüzyıl Felsefesinin Ortaya Çıkışı"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|15. Yüzyıl - 17. Yüzyıl Felsefesinde Öne Çıkan Görüşler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "15. Yüzyıl - 17. Yüzyıl Felsefesinde Öne Çıkan Görüşler"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Bilimsel Çalışmaların 15. Yüzyıl - 17. Yüzyıl Felsefesine Etkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Bilimsel Çalışmaların 15. Yüzyıl - 17. Yüzyıl Felsefesine Etkisi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Görüş Analizi: R. Descartes": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: R. Descartes, B. Spinoza ve T. Hobbes"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|B. Spinoza ve T. Hobbes": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: R. Descartes, B. Spinoza ve T. Hobbes"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|18. Yüzyıl - 19. Yüzyıl Felsefesinin Ortaya Çıkışı - Genel Özellikleri - Dil ve Edebiyatla İlişkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "18. Yüzyıl - 19. Yüzyıl Felsefesinin Ortaya Çıkışı - Genel Özellikleri - Dil ve Edebiyatla İlişkisi"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|18. Yüzyıl - 19. Yüzyıl Felsefesinin Öne Çıkan Problemleri -": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "18. Yüzyıl - 19. Yüzyıl Felsefesinin Öne Çıkan Problemleri - 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "18. Yüzyıl - 19. Yüzyıl Felsefesinin Öne Çıkan Problemleri - 2"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Görüş Analizi: J. Locke": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: J. Locke, I. Kant ve F. Hegel"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|I. Kant ve F. Hegel": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: J. Locke, I. Kant ve F. Hegel"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|20. Yüzyıl Felsefesinin Ortaya Çıkışı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "20. Yüzyıl Felsefesinin Ortaya Çıkışı"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|20. Yüzyıl Felsefesinin Öne Çıkan Özellikleri ve Temel Problemleri -": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "20. Yüzyıl Felsefesinin Öne Çıkan Özellikleri ve Temel Problemleri - 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "20. Yüzyıl Felsefesinin Öne Çıkan Özellikleri ve Temel Problemleri - 2"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Türkiye’de Felsefi Düşünceye Katkıda Bulunan Felsefeciler - Çağımızın Felsefecileri - Yaşadıkları Yerler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Türkiye’de Felsefi Düşünceye Katkıda Bulunan Felsefeciler - Çağımızın Felsefecileri - Yaşadıkları Yerler"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|Görüş Analizi: F. Nietzsche": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: F. Nietzsche, H. Bergson, J. P. Sartre ve T. Kuhn"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|H. Bergson": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: F. Nietzsche, H. Bergson, J. P. Sartre ve T. Kuhn"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|J. P. Sartre ve T. Kuhn": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "Görüş Analizi: F. Nietzsche, H. Bergson, J. P. Sartre ve T. Kuhn"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|N. Topçu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "N. Topçu, T. Mengüşoğlu ve K. Popper’ın Görüşlerinin Tartışılması"
+      }
+    ],
+    "TYT|Felsefe|Felsefi Alanlar|T. Mengüşoğlu ve K. Popper’ın Görüşlerinin Tartışılması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+        "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9",
+        "tocPage": 10,
+        "sourceTitle": "N. Topçu, T. Mengüşoğlu ve K. Popper’ın Görüşlerinin Tartışılması"
+      }
+    ]
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "exam": "AYT",
+  "lesson": "Coğrafya-1",
+  "topics": {
+    "AYT|Coğrafya-1|Ekosistemler|Biyoçeşitlilik ve Biyomlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Biyoçeşitlilik ve Biyomlar"
+      }
+    ],
+    "AYT|Coğrafya-1|Ekosistemler|Ekosistemler ve Madde Döngüleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Ekosistemler ve Madde Döngüleri"
+      }
+    ],
+    "AYT|Coğrafya-1|Nüfus ve Yerleşme|Nüfus Politikaları ve Türkiye Nüfusunun Geleceği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Nüfus Politikaları ve Türkiye Nüfusunun Geleceği"
+      }
+    ],
+    "AYT|Coğrafya-1|Nüfus ve Yerleşme|Yerleşme Özellikleri ve Şehirler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Yerleşme Özellikleri ve Şehirler"
+      }
+    ],
+    "AYT|Coğrafya-1|Ekonomik Faaliyetler|Üretim, Dağıtım ve Tüketim": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Üretim, Dağıtım ve Tüketim"
+      }
+    ],
+    "AYT|Coğrafya-1|Ekonomik Faaliyetler|Doğal Kaynaklar ve Ekonomi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Doğal Kaynaklar ve Ekonomi"
+      }
+    ],
+    "AYT|Coğrafya-1|Ekonomik Faaliyetler|Türkiye’nin Ekonomi Politikaları ve Tarımı Etkileyen Faktörler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’nin Ekonomi Politikaları ve Tarımı Etkileyen \nFaktörler"
+      }
+    ],
+    "AYT|Coğrafya-1|Ekonomik Faaliyetler|Türkiye’de Tarım Ürünleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’de Tarım Ürünleri"
+      }
+    ],
+    "AYT|Coğrafya-1|Ekonomik Faaliyetler|Türkiye’de Ormancılık ve Hayvancılık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’de Ormancılık ve Hayvancılık"
+      }
+    ],
+    "AYT|Coğrafya-1|Ekonomik Faaliyetler|Türkiye’de Madencilik ve Enerji Kaynakları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’de Madencilik ve Enerji Kaynakları"
+      }
+    ],
+    "AYT|Coğrafya-1|Ekonomik Faaliyetler|Türkiye’de Sanayi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’de Sanayi"
+      }
+    ],
+    "AYT|Coğrafya-1|Kültür Bölgeleri|İlk Kültür Merkezleri ve Kültür Bölgeleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "İlk Kültür Merkezleri ve Kültür Bölgeleri"
+      }
+    ],
+    "AYT|Coğrafya-1|Kültür Bölgeleri|Türk Kültürü ve Anadolu’nun Kültürel Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Türk Kültürü ve Anadolu’nun Kültürel Özellikleri"
+      }
+    ],
+    "AYT|Coğrafya-1|Küresel Ortam ve Bölgeler|Küresel Ticaret": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Küresel Ticaret"
+      }
+    ],
+    "AYT|Coğrafya-1|Küresel Ortam ve Bölgeler|Turizm": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Turizm"
+      }
+    ],
+    "AYT|Coğrafya-1|Küresel Ortam ve Bölgeler|Ülkelerin Sanayileşme Süreci ve Tarım-Ekonomi İlişki- si": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Ülkelerin Sanayileşme Süreci ve Tarım-Ekonomi İlişki-\nsi"
+      }
+    ],
+    "AYT|Coğrafya-1|Küresel Ortam ve Bölgeler|Uluslararası Örgütler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Uluslararası Örgütler"
+      }
+    ],
+    "AYT|Coğrafya-1|Çevre ve Toplum|Çevre Sorunları ve Türleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Çevre Sorunları ve Türleri"
+      }
+    ],
+    "AYT|Coğrafya-1|Çevre ve Toplum|Doğal Kaynaklar, Madenler ve Enerji Kaynakları Kulla- nımının Çevresel Etkileri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Doğal Kaynaklar, Madenler ve Enerji Kaynakları Kulla-\nnımının Çevresel Etkileri"
+      }
+    ],
+    "AYT|Coğrafya-1|Çevre ve Toplum|Arazi Kullanımı, Küresel Çevre Sorunları ve Geri Dö - nüşüm": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Arazi Kullanımı, Küresel Çevre Sorunları ve Geri Dö -\nnüşüm"
+      }
+    ],
+    "AYT|Coğrafya-1|Doğa ve Gelecek|Ekstrem Doğa Olayları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Ekstrem Doğa Olayları"
+      }
+    ],
+    "AYT|Coğrafya-1|Doğa ve Gelecek|Doğa Olaylarının Geleceği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Doğa Olaylarının Geleceği"
+      }
+    ],
+    "AYT|Coğrafya-1|Doğa ve Gelecek|Geçmişten Geleceğe Şehir ve Ekonomi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Geçmişten Geleceğe Şehir ve Ekonomi"
+      }
+    ],
+    "AYT|Coğrafya-1|Doğa ve Gelecek|Geleceğin Dünyası": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Geleceğin Dünyası"
+      }
+    ],
+    "AYT|Coğrafya-1|Türkiye Ekonomisi ve Bölgesel Kalkınma|Türkiye’nin İşlevsel Bölgeleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’nin İşlevsel Bölgeleri"
+      }
+    ],
+    "AYT|Coğrafya-1|Türkiye Ekonomisi ve Bölgesel Kalkınma|Türkiye’nin Bölgesel Kalkınma Projeleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye’nin Bölgesel Kalkınma Projeleri"
+      }
+    ],
+    "AYT|Coğrafya-1|Türkiye Ekonomisi ve Bölgesel Kalkınma|Hizmet Sektörü ve Ulaşım": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Hizmet Sektörü ve Ulaşım"
+      }
+    ],
+    "AYT|Coğrafya-1|Türkiye Ekonomisi ve Bölgesel Kalkınma|Dünyada ve Türkiye’de Ticaret": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Dünyada ve Türkiye’de Ticaret"
+      }
+    ],
+    "AYT|Coğrafya-1|Türkiye Ekonomisi ve Bölgesel Kalkınma|Türkiye Turizmi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Türkiye Turizmii"
+      }
+    ],
+    "AYT|Coğrafya-1|Jeopolitik ve Küresel İlişkiler|Ülkelerin Konumunun Etkileri ve Türkiye’nin Jeopolitik Konumu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Ülkelerin Konumunun Etkileri ve Türkiye’nin Jeopolitik \nKonumu"
+      }
+    ],
+    "AYT|Coğrafya-1|Jeopolitik ve Küresel İlişkiler|Ülkelerin Gelişmişliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Ülkelerin Gelişmişliği"
+      }
+    ],
+    "AYT|Coğrafya-1|Jeopolitik ve Küresel İlişkiler|Enerji Nakil Hatları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Enerji Nakil Hatları"
+      }
+    ],
+    "AYT|Coğrafya-1|Jeopolitik ve Küresel İlişkiler|Çatışma Bölgeleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Çatışma Bölgeleri"
+      }
+    ],
+    "AYT|Coğrafya-1|Çevre Politikaları|Doğal Çevrenin Sınırlılığı, Çevresel Örgüt ve Anlaş - malar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+        "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0",
+        "tocPage": 9,
+        "sourceTitle": "Doğal Çevrenin Sınırlılığı, Çevresel Örgüt ve Anlaş -\nmalar"
+      }
+    ]
+  }
+}

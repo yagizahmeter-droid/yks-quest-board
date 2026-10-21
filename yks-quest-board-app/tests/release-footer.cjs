@@ -40,10 +40,10 @@ async function verify(browser,url){
   await page.evaluate(()=>{document.getElementById('homePage').style.minHeight='';scrollTo(0,0);});pass('Scrolling does not move the viewport footer');
   await button.click();await page.locator('#releaseHistoryDialog').waitFor();assert.equal(await footer.isVisible(),false);
   const dates=await page.locator('#releaseHistoryDialog time').evaluateAll(nodes=>nodes.map(el=>[el.dateTime,el.textContent]));
-  assert.deepEqual(dates,[['2026-10-18','18 Ekim 2026'],['2026-10-16','16 Ekim 2026'],['2026-10-16','16 Ekim 2026'],['2026-10-14','14 Ekim 2026'],['2026-10-14','14 Ekim 2026'],['2026-10-10','10 Ekim 2026']]);
-  assert.equal(await page.locator('#releaseHistoryDialog section').count(),6);
-  assert.equal(await page.locator('#releaseHistoryDialog section').first().locator('h4').count(),5);
-  assert.equal(await button.textContent(),'v1.1.2');
+  const releases=require('../release-history.js');assert.deepEqual(dates,releases.releases.map(r=>[r.date,releases.formatDate(r.date)]));
+  assert.equal(await page.locator('#releaseHistoryDialog section').count(),releases.releases.length);
+  assert.equal(await page.locator('#releaseHistoryDialog section').first().locator('h4').count(),releases.releases[0].sections.length);
+  assert.equal(await button.textContent(),'v'+require('../package.json').version);
   assert.equal(await page.locator('#releaseHistoryDialog section').filter({hasText:'Coming Soon'}).count(),0);
   await page.keyboard.press('Escape');await footer.waitFor({state:'visible'});await button.focus();await page.keyboard.press('Enter');await page.locator('#releaseHistoryDialog').waitFor();
   await page.goBack();await page.locator('#releaseHistoryDialog').waitFor({state:'hidden'});await footer.waitFor({state:'visible'});

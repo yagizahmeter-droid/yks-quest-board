@@ -1,0 +1,364 @@
+{
+  "exam": "AYT",
+  "lesson": "Türk Dili ve Edebiyatı",
+  "topics": {
+    "AYT|Türk Dili ve Edebiyatı|Giriş ve Şiir Bilgisi|Edebiyata Giriş": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Edebiyata Giriş"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Giriş ve Şiir Bilgisi|Şiir Bilgisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Şiir Bilgisi 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Şiir Bilgisi 2"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Giriş ve Şiir Bilgisi|Edebî Sanatlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Edebî Sanatlar"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Geleneksel Türk Edebiyatı|İslamiyet Öncesi Türk Şiiri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "İslamiyet Öncesi Türk Şiiri"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Geleneksel Türk Edebiyatı|Geçiş Dönemi Türk Şiiri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Geçiş Dönemi Türk Şiiri"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Geleneksel Türk Edebiyatı|Halk Şiiri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Halk Şiiri 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Halk Şiiri 2"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Halk Şiiri 3"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Geleneksel Türk Edebiyatı|Divan Şiiri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Divan Şiiri 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Divan Şiiri 2"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Divan Şiiri 3"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Tanzimat Dönemi Türk Şiiri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Tanzimat Dönemi Türk Şiiri"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Servetifünun Dönemi Türk Şiiri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Servetifünun Dönemi Türk Şiiri"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Fecriati Dönemi Türk Şiiri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Fecriati Dönemi Türk Şiiri"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Millî Edebiyat Dönemi Türk Şiiri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Millî Edebiyat Dönemi Türk Şiiri"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Cumhuriyet Dönemi Türk Şiiri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Şiiri 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Şiiri 2"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Şiiri 3"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Şiiri 4"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Şiiri 5"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Şiiri 6"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Şiiri 7"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Şiiri 8"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Şiiri 9"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Edebî Türler|Hikâye Türleri ve Hikâyenin Yapı Unsurları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Hikâye Türleri ve Hikâyenin Yapı Unsurları"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Geleneksel Türk Edebiyatı|Tanzimat Dönemi’ne Kadar Halk Hikâyeleri ve Mesneviler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Tanzimat Dönemi’ne Kadar Halk Hikâyeleri ve Mesneviler"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Tanzimat ve Servetifünun Dönemi Türk Hikâyesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Tanzimat ve Servetifünun Dönemi Türk Hikâyesi"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Millî Edebiyat Dönemi Türk Hikâyesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Millî Edebiyat Dönemi Türk Hikâyesi"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Cumhuriyet Dönemi Türk Hikâyesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Hikâyesi 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Hikâyesi 2"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Edebî Türler|Roman Türü ve Yapı Unsurları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Roman Türü ve Yapı Unsurları"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Tanzimat Dönemi Türk Romanı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Tanzimat Dönemi Türk Romanı"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Servetifünun Dönemi Türk Romanı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Servetifünun Dönemi Türk Romanı"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Millî Edebiyat Dönemi Türk Romanı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Millî Edebiyat Dönemi Türk Romanı"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Cumhuriyet Dönemi Roman": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Roman 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Cumhuriyet Dönemi Roman 2"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Dünya Edebiyatında Roman": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 9,
+        "sourceTitle": "Dünya Edebiyatında Roman"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Edebî Türler|Tiyatro Türü ve Yapı Unsurları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Tiyatro Türü ve Yapı Unsurları"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Geleneksel Türk Edebiyatı|Geleneksel Türk Tiyatrosu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Geleneksel Türk Tiyatrosu"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Tanzimat, Servetifünun, Millî Edebiyat Dönemi Türk Tiyatrosu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Tanzimat, Servetifünun, Millî Edebiyat Dönemi Türk Tiyatrosu"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Modern Türk Edebiyatı|Cumhuriyet Dönemi Türk Tiyatrosu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Tiyatrosu 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Cumhuriyet Dönemi Türk Tiyatrosu 2"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Edebî Türler|Masal/Fabl": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Masal/Fabl"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Edebî Türler|Destan/Efsane": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Destan/Efsane"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Edebî Türler|Öğretici Metinler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Öğretici Metinler 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Öğretici Metinler 2"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Geleneksel Türk Edebiyatı|Divan Edebiyatı Nesir Türleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Divan Edebiyatı Nesir Türleri"
+      }
+    ],
+    "AYT|Türk Dili ve Edebiyatı|Edebî Akımlar|Edebi Akımlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+        "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090",
+        "tocPage": 10,
+        "sourceTitle": "Edebi Akımlar"
+      }
+    ]
+  }
+}

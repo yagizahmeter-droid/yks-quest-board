@@ -24,14 +24,14 @@ async function main(){let server,browser;const errors=[],remote=[],ledger=new Ma
   const state=()=>page.evaluate(()=>structuredClone(window.DersStudy.session));
   const nav=route=>page.evaluate(route=>window.DersUI.navigate(route),route);
   const control=async name=>{assert.equal(await page.locator('#focusMiniPause').getAttribute('aria-label'),name);assert.equal(await page.locator('#focusMiniPause').getAttribute('title'),name);assert.equal(await page.locator('#focusMiniPause svg '+(name==='Duraklat'?'rect':'polygon')).count(),name==='Duraklat'?2:1);};
-  const resetState=async()=>{const s=await state();assert.equal(s.status,'paused');assert.equal(s.phase,'work');assert.equal(s.cycle,1);assert.equal(s.remainingMs,120000);assert.equal(s.activeSince,null);assert.equal(await page.locator('#miniClock').textContent(),'00:02:00');await control('Devam et');};
+  const resetState=async()=>{const s=await state();assert.equal(s.status,'paused');assert.equal(s.phase,'work');assert.equal(s.cycle,1);assert.equal(s.remainingMs,120000);assert.equal(s.activeSince,null);assert.equal(await page.locator('#miniClock').textContent(),'00:02:00');await control('Devam Et');};
   await nav('focus');await page.fill('#workMinutes','2');await page.fill('#breakMinutes','1');await page.locator('#focusRepeat').check();await page.locator('#focusAuto').check();await page.locator('#focusSound').uncheck();await page.click('#focusStart');await nav('home');await control('Duraklat');
-  await page.clock.fastForward(10000);await page.click('#focusMiniPause');await control('Devam et');const paused=await state();assert.equal(paused.status,'paused');
+  await page.clock.fastForward(10000);await page.click('#focusMiniPause');await control('Devam Et');const paused=await state();assert.equal(paused.status,'paused');
   await page.click('#focusMiniPause');await control('Duraklat');await page.clock.fastForward(5000);await page.click('#focusMiniPause');
   const id=(await state()).id;await page.click('#focusMiniReset');await resetState();assert.equal((await state()).id,id);assert.equal((await state()).segments.length,2);
   await page.evaluate(()=>window.DersStudy.flush());assert.equal(ledger.size,2);
   await page.reload();await page.waitForFunction(()=>window.DersStudy?.loaded);await nav('home');await resetState();
-  await nav('program');await control('Devam et');assert.ok(await page.locator('#focusMini').isVisible());await page.click('#focusMiniOpen');assert.ok(await page.locator('#focusResume').isVisible());assert.equal(await page.locator('#focusClock').textContent(),'00:02:00');
+  await nav('program');await control('Devam Et');assert.ok(await page.locator('#focusMini').isVisible());await page.click('#focusMiniOpen');assert.ok(await page.locator('#focusResume').isVisible());assert.equal(await page.locator('#focusClock').textContent(),'00:02:00');
   await page.click('#focusResume');await nav('home');await control('Duraklat');await context.setOffline(true);await page.clock.fastForward(7000);await page.click('#focusMiniReset');await resetState();assert.equal(await page.evaluate(()=>window.DersStudy.pending),1);
   const pending=await page.evaluate(()=>window.DersStudy.segments());await page.click('#focusMiniReset');assert.deepEqual(await page.evaluate(()=>window.DersStudy.segments()),pending);
   loseReply=true;await context.setOffline(false);await page.evaluate(()=>window.DersStudy.flush());await page.evaluate(()=>window.DersStudy.flush());await page.waitForFunction(()=>window.DersStudy.pending===0);assert.equal(ledger.size,3);assert.ok(saves>=4);

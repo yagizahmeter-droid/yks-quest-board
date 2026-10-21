@@ -1,0 +1,350 @@
+{
+  "exam": "AYT",
+  "lesson": "Kimya",
+  "topics": {
+    "AYT|Kimya|Modern Atom Teorisi|Atomun Kuantum Modeli": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Atomun Kuantum Modeli"
+      }
+    ],
+    "AYT|Kimya|Modern Atom Teorisi|Periyodik Sistem ve Elektron Dizilimleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Periyodik Sistem ve Elektron Dizilimleri"
+      }
+    ],
+    "AYT|Kimya|Modern Atom Teorisi|Periyodik Özellikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Periyodik Özellikler"
+      }
+    ],
+    "AYT|Kimya|Modern Atom Teorisi|Elementleri Tanıyalım": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Elementleri Tanıyalım"
+      }
+    ],
+    "AYT|Kimya|Modern Atom Teorisi|Yükseltgenme Basamakları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Yükseltgenme Basamakları"
+      }
+    ],
+    "AYT|Kimya|Gazlar|Gazların Özellikleri ve Gaz Yasaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Gazların Özellikleri ve Gaz Yasaları"
+      }
+    ],
+    "AYT|Kimya|Gazlar|İdeal Gaz Yasası": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "İdeal Gaz Yasası"
+      }
+    ],
+    "AYT|Kimya|Gazlar|Gazlarda Kinetik Teori - Gaz Karışımları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Gazlarda Kinetik Teori - Gaz Karışımları"
+      }
+    ],
+    "AYT|Kimya|Gazlar|Gerçek Gazlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Gerçek Gazlar"
+      }
+    ],
+    "AYT|Kimya|Sıvı Çözeltiler ve Çözünürlük|Çözücü - Çözünen Etkileşimleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Çözücü - Çözünen Etkileşimleri"
+      }
+    ],
+    "AYT|Kimya|Sıvı Çözeltiler ve Çözünürlük|Derişim Birimleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Derişim Birimleri"
+      }
+    ],
+    "AYT|Kimya|Sıvı Çözeltiler ve Çözünürlük|Koligatif Özellikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Koligatif Özellikler"
+      }
+    ],
+    "AYT|Kimya|Sıvı Çözeltiler ve Çözünürlük|Çözünürlük ve Çözünürlüğe Etki Eden Faktörler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Çözünürlük ve Çözünürlüğe Etki Eden Faktörler"
+      }
+    ],
+    "AYT|Kimya|Kimyasal Tepkimelerde Enerji|Tepkimelerde Isı Değişimi - Oluşum Entalpisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Tepkimelerde Isı Değişimi - Oluşum Entalpisi"
+      }
+    ],
+    "AYT|Kimya|Kimyasal Tepkimelerde Enerji|Bağ Enerjileri - Tepkime Isılarının Toplanabilirliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Bağ Enerjileri - Tepkime Isılarının Toplanabilirliği"
+      }
+    ],
+    "AYT|Kimya|Kimyasal Tepkimelerde Hız|Tepkime Hızları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Tepkime Hızları"
+      }
+    ],
+    "AYT|Kimya|Kimyasal Tepkimelerde Hız|Tepkime Hızını Etkileyen Faktörler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Tepkime Hızını Etkileyen Faktörler"
+      }
+    ],
+    "AYT|Kimya|Kimyasal Tepkimelerde Denge|Kimyasal Denge - Dengeyi Etkileyen Faktörler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Kimyasal Denge - Dengeyi Etkileyen Faktörler"
+      }
+    ],
+    "AYT|Kimya|Kimyasal Tepkimelerde Denge|Sulu Çözelti Dengeleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Sulu Çözelti Dengeleri"
+      }
+    ],
+    "AYT|Kimya|Kimyasal Tepkimelerde Denge|Tampon Çözeltiler - Tuzlar - Titrasyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Tampon Çözeltiler - Tuzlar - Titrasyon"
+      }
+    ],
+    "AYT|Kimya|Kimyasal Tepkimelerde Denge|Çözünme - Çökelme Tepkimeleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Çözünme - Çökelme Tepkimeleri"
+      }
+    ],
+    "AYT|Kimya|Kimya ve Elektrik|İndirgenme - Yükseltgenme Tepkimelerinde Elektrik Akımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "İndirgenme - Yükseltgenme Tepkimelerinde Elektrik Akımı"
+      }
+    ],
+    "AYT|Kimya|Kimya ve Elektrik|Elektrotlar, Elektrolit Ve Yarı Hücreler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Elektrotlar, Elektrolit Ve Yarı Hücreler"
+      }
+    ],
+    "AYT|Kimya|Kimya ve Elektrik|Elektrot Potansiyelleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Elektrot Potansiyelleri"
+      }
+    ],
+    "AYT|Kimya|Kimya ve Elektrik|Kimyasallardan Elektrik Üretimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Kimyasallardan Elektrik Üretimi"
+      }
+    ],
+    "AYT|Kimya|Kimya ve Elektrik|Elektroliz": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Elektroliz"
+      }
+    ],
+    "AYT|Kimya|Kimya ve Elektrik|Korozyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Korozyon"
+      }
+    ],
+    "AYT|Kimya|Karbon Kimyasına Giriş|Anorganik ve Organik Bileşikler - Basit Formül ve Molekül Formülü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Anorganik ve Organik Bileşikler - Basit Formül ve Molekül Formülü"
+      }
+    ],
+    "AYT|Kimya|Karbon Kimyasına Giriş|Doğada Karbon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Doğada Karbon"
+      }
+    ],
+    "AYT|Kimya|Karbon Kimyasına Giriş|Lewis Formülleri - Hibritleşme - Molekül Geometrileri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Lewis Formülleri - Hibritleşme - Molekül Geometrileri"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Hidrokarbonlar ve Fonksiyonel Gruplar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Hidrokarbonlar ve Fonksiyonel Gruplar"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Alkanlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Alkanlar"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Alkenler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Alkenler"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Alkinler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Alkinler"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Aromatik Hidrokarbonlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Aromatik Hidrokarbonlar"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Alkoller": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Alkoller"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Eterler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Eterler"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Aldehitler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 9,
+        "sourceTitle": "Aldehitler"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Ketonlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 10,
+        "sourceTitle": "Ketonlar"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Karboksilik Asitler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 10,
+        "sourceTitle": "Karboksilik Asitler"
+      }
+    ],
+    "AYT|Kimya|Organik Kimya|Esterler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 10,
+        "sourceTitle": "Esterler"
+      }
+    ],
+    "AYT|Kimya|Enerji Kaynakları ve Bilimsel Gelişmeler|Fosil Yakıtlar - Alternatif Enerji Kaynakları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 10,
+        "sourceTitle": "Fosil Yakıtlar - Alternatif Enerji Kaynakları"
+      }
+    ],
+    "AYT|Kimya|Enerji Kaynakları ve Bilimsel Gelişmeler|Sürdürülebilirlik - Nanoteknoloji": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+        "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8",
+        "tocPage": 10,
+        "sourceTitle": "Sürdürülebilirlik - Nanoteknoloji"
+      }
+    ]
+  }
+}

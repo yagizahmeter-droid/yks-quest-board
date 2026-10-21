@@ -14,6 +14,6 @@ if(process.env.VERCEL_ENV==='production' || process.argv.includes('--production'
 }
 fs.mkdirSync(out,{recursive:true});
 const assets=['index.html','config.js','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','ui.js','theme.js','ui.css','appearance.js','appearance.css','assets','service-worker.js','manifest.webmanifest','icons','vendor'];
-assets.push('admin.js','admin.css','admin-preview.js','history-groups.js','focus-core.js','study.js','learning-ui.js','v113.css');
+assets.push('admin.js','admin.css','admin-preview.js','history-groups.js','focus-core.js','study.js','learning-ui.js','v113.css','v114.css');
 for(const asset of assets) fs.cpSync(path.join(root,asset),path.join(out,asset),{recursive:true});
 console.log('Static D.E.R.S. assets prepared in dist; no account exports or tests included.');

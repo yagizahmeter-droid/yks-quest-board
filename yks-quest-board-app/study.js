@@ -31,8 +31,8 @@
  function tick(){
   own();if(!session)return;
   const next=core.tick(session,Date.now());
-  if(JSON.stringify(next)!==JSON.stringify(session)){const events=next.events;next.events=[];try{commit(next);if(events.length)sound(events.at(-1));}catch(e){status=e.message;session=core.act(session,'pause',Date.now());} }
-  emit();
+  if(JSON.stringify(next)!==JSON.stringify(session)){const events=next.events;next.events=[];try{commit(next);if(events.length)sound(events.at(-1));}catch(e){status=e.message;session=core.act(session,'pause',Date.now());}emit();}
+  else document.dispatchEvent(new CustomEvent('ders:study-tick'));
  }
  async function refresh(){
   const uid=owner;if(!uid||!navigator.onLine)return;

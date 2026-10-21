@@ -28,14 +28,14 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     const guest = await newPage(390,'teacher');
     assert.equal(await guest.locator('#accountPage').isVisible(),true);assert.equal(await guest.locator('#teacherPage').isVisible(),false);
     assert.equal(await guest.locator('#teacherPanel [data-action="student"]').count(),0);pass('Direct private route requires sign-in');
-    await guest.click('#toggleNavigation'); await guest.getByRole('radio',{name:'Koyu tema'}).check();
+    await guest.click('#toggleNavigation'); await guest.getByRole('radio',{name:'Koyu Tema'}).check();
     assert.equal(await guest.evaluate(()=>document.documentElement.dataset.theme),'dark');
     await guest.reload();assert.equal(await guest.evaluate(()=>document.documentElement.dataset.theme),'dark');pass('Dark preference survives reload without a light flash');
-    await guest.click('#toggleNavigation');await guest.getByRole('radio',{name:'Sistem teması'}).check();
+    await guest.click('#toggleNavigation');await guest.getByRole('radio',{name:'Sistem Teması'}).check();
     assert.equal(await guest.evaluate(()=>document.documentElement.dataset.theme),'light');
     await guest.emulateMedia({colorScheme:'dark'});await guest.waitForFunction(()=>document.documentElement.dataset.theme==='dark');
     await guest.emulateMedia({colorScheme:'light'});await guest.waitForFunction(()=>document.documentElement.dataset.theme==='light');pass('System theme follows device changes');
-    await guest.getByRole('radio',{name:'Açık tema'}).check();await guest.click('#closeNavigation');
+    await guest.getByRole('radio',{name:'Açık Tema'}).check();await guest.click('#closeNavigation');
     await guest.waitForFunction(()=>!document.body.classList.contains('drawer-open'));
     await guest.fill('#authEmail',users[1].email);await guest.fill('#authPassword','invalid-password');await guest.click('#signInButton');
     await guest.locator('#syncStatus').getByText('İşlem tamamlanamadı. Bilgilerini kontrol edip tekrar dene.',{exact:true}).waitFor();pass('Authentication errors use understandable Turkish messages');
@@ -104,7 +104,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
         if(questWidth<=150){await student.screenshot({path:path.join(root,'test-results',`floating-quest-width-${width}.png`),fullPage:true});console.log('QUEST WIDTH',JSON.stringify(await student.evaluate(()=>({route:location.hash,state:history.state,programHidden:document.querySelector('#programPage').hidden,quest:document.querySelector('.quest-main')?.outerHTML,boardWidth:document.querySelector('#board').getBoundingClientRect().width}))));}
         assert.ok(questWidth>150,`${width}/${theme} quest text width ${questWidth}`);
         await student.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));await student.locator('.app-version').waitFor();const version = await student.locator('.app-version').evaluate(el=>{const box=el.getBoundingClientRect();return {text:el.textContent,left:box.left,right:box.right,top:box.top,bottom:box.bottom,pointerEvents:getComputedStyle(el).pointerEvents};});
-        assert.equal(version.text,'v1.1.2 · Önizleme');assert.notEqual(version.pointerEvents,'none');
+        assert.equal(version.text,'v'+require('../package.json').version);assert.notEqual(version.pointerEvents,'none');
         assert.ok(version.left>=0 && version.right<=width && version.top>=0 && version.bottom<=900,`${width}/${theme} version bounds`);
         for (const selector of ['#pageTitle','.app-version']) {
         const contrast = await student.locator(selector).evaluate(el=>{

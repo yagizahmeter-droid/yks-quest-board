@@ -1,0 +1,398 @@
+{
+  "exam": "TYT",
+  "lesson": "Din Kültürü ve Ahlak Bilgisi",
+  "topics": {
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Bilgi ve İnanç|İslam’da Bilgi Kaynakları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam’da Bilgi Kaynakları"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Bilgi ve İnanç|İslam İnancında İmanın Mahiyeti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam İnancında İmanın Mahiyeti"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Bilgi ve İnanç|Kur’an’dan Mesajlar: İsra Suresi 36. Ayet ve Mülk Suresi 23. Ayet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Kur’an’dan Mesajlar: İsra Suresi 36. Ayet ve Mülk Suresi 23. Ayet"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve İslam|Dinin Tanımı ve Kaynağı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Dinin Tanımı ve Kaynağı"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve İslam|İnsanın Doğası ve Din": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İnsanın Doğası ve Din"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve İslam|İman ve İslam İlişkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İman ve İslam İlişkisi"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve İslam|İslam İnanç Esaslarının Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam İnanç Esaslarının Özellikleri"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve İslam|Kur’an’dan Mesajlar: Nisa Suresi 136. Ayet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Kur’an’dan Mesajlar: Nisa Suresi 136. Ayet"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam ve İbadet|İslam’da İbadet ve Kapsamı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam’da İbadet ve Kapsamı"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam ve İbadet|İslam’da İbadetin Amacı ve Önemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam’da İbadetin Amacı ve Önemi"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam ve İbadet|İslam’da İbadet Yükümlülüğü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam’da İbadet Yükümlülüğü"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam ve İbadet|İslam’da İbadetlerde Temel İlkeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam’da İbadetlerde Temel İlkeler"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam ve İbadet|İslam’da İbadet Ahlak İlişkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam’da İbadet Ahlak İlişkisi"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam ve İbadet|Kur’an’dan Mesajlar: Bakara Suresi 177. Ayet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Kur’an’dan Mesajlar: Bakara Suresi 177. Ayet"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Gençlik ve Değerler|Değerler Ve Değerlerin Kaynağı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Değerler Ve Değerlerin Kaynağı"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Gençlik ve Değerler|Gençlerin Kişilik Gelişiminde Değerlerin Yeri Ve Önemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Gençlerin Kişilik Gelişiminde Değerlerin Yeri Ve Önemi"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Gençlik ve Değerler|Temel Değerler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Temel Değerler"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Gençlik ve Değerler|Kur’an’dan Mesajlar: İsra Suresi 23-29. Ayetler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Kur’an’dan Mesajlar: İsra Suresi 23-29. Ayetler"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam Medeniyeti|İslam Medeniyeti ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam Medeniyeti ve Özellikleri"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam Medeniyeti|İslam Medeniyetinin Farklı Coğrafyalardaki İzleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İslam Medeniyetinin Farklı Coğrafyalardaki İzleri"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam Medeniyeti|Kur’an’dan Mesajlar: Hucurat Suresi 13. Ayet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Kur’an’dan Mesajlar: Hucurat Suresi 13. Ayet"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Allah İnsan İlişkisi|Allah İnancı ve İnsan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Allah İnancı ve İnsan"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Allah İnsan İlişkisi|Allah’ın Varlığı ve Birliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Allah’ın Varlığı ve Birliği"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Allah İnsan İlişkisi|Allah’ın İsim ve Sıfatları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Allah’ın İsim ve Sıfatları"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Allah İnsan İlişkisi|Kur’an-ı Kerim’de İnsan ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Kur’an-ı Kerim’de İnsan ve Özellikleri"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Allah İnsan İlişkisi|İnsanın Allah ile İrtibatı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "İnsanın Allah ile İrtibatı"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Allah İnsan İlişkisi|Kur’an’dan Mesajlar: Rum Suresi 18-27. Ayetler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Kur’an’dan Mesajlar: Rum Suresi 18-27. Ayetler"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Hz. Muhammed ve Gençlik|Kur’an-ı Kerim’de Gençler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Kur’an-ı Kerim’de Gençler"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Hz. Muhammed ve Gençlik|Bir Genç Olarak Hz. Muhammed": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Bir Genç Olarak Hz. Muhammed"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Hz. Muhammed ve Gençlik|Hz. Muhammed ve Gençler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Hz. Muhammed ve Gençler"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Hz. Muhammed ve Gençlik|Bazı Genç Sahabiler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Bazı Genç Sahabiler"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Hz. Muhammed ve Gençlik|Kur’an’dan Mesajlar: Al-i İmran Suresi 159. Ayet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Kur’an’dan Mesajlar: Al-i İmran Suresi 159. Ayet"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve Hayat|Din ve Aile": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Din ve Aile"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve Hayat|Din, Kültür ve Sanat": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Din, Kültür ve Sanat"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve Hayat|Din ve Çevre": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Din ve Çevre"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve Hayat|Din ve Sosyal Değişim": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Din ve Sosyal Değişim"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve Hayat|Din ve Ekonomi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Din ve Ekonomi"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve Hayat|Din ve Sosyal Adalet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 9,
+        "sourceTitle": "Din ve Sosyal Adalet"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Din ve Hayat|Kur’an’dan Mesajlar Al-i İmran Suresi 103-105. Ayetler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "Kur’an’dan Mesajlar Al-i İmran Suresi 103-105. Ayetler"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Ahlaki Tutum ve Davranışlar|İslam Ahlakının Konusu ve Gayesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "İslam Ahlakının Konusu ve Gayesi"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Ahlaki Tutum ve Davranışlar|Ahlak ve Terbiye İlişkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "Ahlak ve Terbiye İlişkisi"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Ahlaki Tutum ve Davranışlar|İslam Ahlakında Yerilen Bazı Davranışlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "İslam Ahlakında Yerilen Bazı Davranışlar"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Ahlaki Tutum ve Davranışlar|Tutum Ve Davranışlarda Ölçülü Olmak": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "Tutum Ve Davranışlarda Ölçülü Olmak"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|Ahlaki Tutum ve Davranışlar|Kur’an’dan Mesajlar: Hucurat Suresi 11-12. Ayetler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "Kur’an’dan Mesajlar: Hucurat Suresi 11-12. Ayetler"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam Düşüncesinde Yorumlar|Dinî Yorum Farklılıklarının Sebepleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "Dinî Yorum Farklılıklarının Sebepleri"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam Düşüncesinde Yorumlar|Dinî Yorumlarla İlgili Bazı Kavramlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "Dinî Yorumlarla İlgili Bazı Kavramlar"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam Düşüncesinde Yorumlar|İslam Düşüncesinde İtikadi Ve Siyasi Yorumlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "İslam Düşüncesinde İtikadi Ve Siyasi Yorumlar"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam Düşüncesinde Yorumlar|İslam Düşüncesınde Fıkhi Yorumlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "İslam Düşüncesınde Fıkhi Yorumlar"
+      }
+    ],
+    "TYT|Din Kültürü ve Ahlak Bilgisi|İslam Düşüncesinde Yorumlar|Kur’an’dan Mesajlar: Nisa Suresi 59. Ayet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+        "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d",
+        "tocPage": 10,
+        "sourceTitle": "Kur’an’dan Mesajlar: Nisa Suresi 59. Ayet"
+      }
+    ]
+  }
+}

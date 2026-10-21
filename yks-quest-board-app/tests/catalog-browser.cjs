@@ -14,14 +14,14 @@ module.exports=async({root,browser,apiUrl,siteUrl,users,action,ids})=>{
     await f('detail').fill('50 soru ve analiz');await f('xp').fill('235');await choose('repeat_kind','weekly');await f('repeat_target').fill('7');
     await choose('topic_category','Problemler');await choose('topic','Yaş Problemleri');
     await choose('topic_category','Geometri');assert.equal(await f('topic').inputValue(),'');assert.equal(await f('topic').locator('option[value="Yaş Problemleri"]').count(),0);
-    await choose('topic','Katı Cisimler (Prizma, Piramit, Silindir, Koni, Küre)');
+    await choose('topic','Dik Prizmalar');
     assert.equal(await f('detail').inputValue(),'50 soru ve analiz');assert.equal(await f('xp').inputValue(),'235');assert.equal(await f('repeat_target').inputValue(),'7');
     pass('Category filters subtopics; changing it preserves description, XP and repeats');
     await choose('exam_type','AYT');assert.equal(await f('category').inputValue(),'');assert.equal(await f('topic_category').inputValue(),'');assert.equal(await f('topic').inputValue(),'');
     await choose('category','Biyoloji');await choose('topic_category','İnsan Fizyolojisi');await choose('topic','Sinir Sistemi');
     await choose('category','Matematik');assert.equal(await f('topic_category').inputValue(),'');assert.equal(await f('topic').inputValue(),'');
-    const search=async(key,text,value)=>{const control=f(key).locator('..');await control.locator('.select-trigger').click();await control.locator('.select-search').fill(text);await control.locator('.select-search').press('ArrowDown');await control.locator('.select-search').press('Enter');assert.equal(await f(key).inputValue(),value);};
-    await search('topic_category','Analiz','Analiz (LTI)');await search('topic','Türev','Türev (Türev Alma Kuralları, Teğet-Normal, Ekstremum Noktalar)');
+    const search=async(key,text,value)=>{const control=f(key).locator('..');await control.locator('.select-trigger').click();await control.locator('.select-search').fill(text);await control.locator('.select-search').press('Home');await control.locator('.select-search').press('Enter');assert.equal(await f(key).inputValue(),value);};
+    await search('topic_category','Analiz','Analiz (LTI)');await search('topic','Türev','Türev');
     pass('Exam/lesson reset dependencies; category and subtopic support search and keyboard');
     assert.equal(await f('xp').inputValue(),'235');assert.equal(await f('repeat_kind').inputValue(),'weekly');assert.equal(await f('repeat_target').inputValue(),'7');
     await choose('topic','__category');assert.equal(await p.locator('#assignmentDraft [data-index="0"] [data-role="derived-title"]').innerText(),'Analiz (LTI)');assert.equal(await f('title').count(),0);await f('detail').fill('Açıklama korunmalı');
@@ -29,7 +29,7 @@ module.exports=async({root,browser,apiUrl,siteUrl,users,action,ids})=>{
     pass('General scope derives category title without a manual name field and survives draft re-render');
     await choose('exam_type','KPSS');await choose('category','Tarih');await choose('topic_category','Genel Konular');await choose('topic','Osmanlı Tarihi');
     assert.equal(await f('topic').locator('option[value="Milli Mücadele Dönemi"]').count(),0);pass('KPSS remains separate and selectable');
-    await choose('exam_type','TYT');await choose('category','Türkçe');await choose('topic_category','Dil Bilgisi');await choose('topic','Sözcük Türleri (İsim, Sıfat, Zamir, Zarf, Edat, Bağlaç, Ünlem)');
+    await choose('exam_type','TYT');await choose('category','Türkçe');await choose('topic_category','Dil Bilgisi');await choose('topic','İsim ve Sıfat Tamlamaları');
     for(const width of [360,390,430,1280]) for(const theme of ['light','dark']) {
       await p.setViewportSize({width,height:900});await p.evaluate(theme=>{window.DersTheme.setStyle('glass');window.DersTheme.set(theme);},theme);
       const control=f('topic').locator('..');await control.locator('.select-trigger').click();

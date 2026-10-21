@@ -1,0 +1,1940 @@
+{
+  "reviewedOn": "2026-10-21",
+  "sources": [
+    {
+      "exam": "AYT",
+      "lesson": "Psikoloji",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/4c2491dd-9c84-4d7f-a7f3-b1134714f752/pdf.pdf",
+      "sha256": "60dd5f01a4524ef22f8af21a0a7d2025b84945e7679b773e22e1b481fbbfee0d"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+      "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1b753f4d-804c-4e8d-b269-6a93a1c21d07/pdf.pdf",
+      "sha256": "82fc6e90c0b125aba78ca8fc8ddd94ff2e1f631e778ed73750849dd0661b4bf0"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+      "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/49a3f4e9-3570-430b-8b6c-22da583b80ba/pdf.pdf",
+      "sha256": "7d482b12dca966ccec525b32ddf385ff6fa94d876990aa3002a57b870dc492e8"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/88e3ec93-e586-4130-9506-26fc1dd22066/pdf.pdf",
+      "sha256": "e098015aebf9ae8ec553d122152d868103ed4f3c7416eab6d841a2617ddb1484"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Mantık",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d0299509-d81a-486f-9a0a-5817ef918606/pdf.pdf",
+      "sha256": "37dcd00641dfb37b319911fdec0ce6784b4897e2bae122507b86ebc0bd7a16d4"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Sosyoloji",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d26d6314-04d8-4960-8ccd-07c5f377cd94/pdf.pdf",
+      "sha256": "58857fcf2649dd93ec2e4faf50a0e22178838cdcbee10a09bda0bcde2706a053"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/6c16f207-8db7-43c1-991e-5fc578996c7e/pdf.pdf",
+      "sha256": "d71a39a262e58baaf52f58e5360bb8deac06e40f4751ae0781ff042380d29bc0"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0695d8c2-f7a7-4416-a6e0-447bda6c69c5/pdf.pdf",
+      "sha256": "dd3fe23ad9fefb3993b7464b182d3c19470c2252b9f5ddef8a9ced54317b5090"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/b8de8162-3e5c-49ad-b9d0-09849059b0b5/pdf.pdf",
+      "sha256": "f9d9ea197586d128ab832af77988f5f8eb6b1ad3b5c1724f038d53f70f745476"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/0aae1570-62dd-4a05-ac0d-16933e2b320b/pdf.pdf",
+      "sha256": "0df06ce03c229c94e9e6e30ce8c7c677c9c4ec3ec28253086cdd44afefe98da8"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+      "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/e731758a-66ff-4442-87e0-d484df9ea508/pdf.pdf",
+      "sha256": "a9da1015a556e3bbfb49699c17256ca8a240e9f5cad1144b1bd5cf140265f200"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+      "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/557b845b-b29e-42e5-b4d6-b871cbee8664/pdf.pdf",
+      "sha256": "167ae6624ce83d913f59b240771a1b26c431dd712476a9cea735305bac09b77d"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Tarih",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/f39eedeb-dcab-46ed-8b18-adb2a20e32b5/pdf.pdf",
+      "sha256": "cacc95f39b77700cef14ed6685b9e482af3bc7d6fbcffbbe485b9933f73a2c5f"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Felsefe",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/c90402bd-3be8-4051-a379-5ab0adc158da/pdf.pdf",
+      "sha256": "10302360ca5b7665ff14f2988e54ec89d23c4000f856ebb230e4f4a3280ec7e9"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Biyoloji",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+      "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Coğrafya",
+      "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/5d4fe80d-5452-4b51-b5bf-02e513272aa4/pdf.pdf",
+      "sha256": "856b00b864260d069e6793709cc272c7f447bf71fbfbf2556bc755b4ba3752c3"
+    }
+  ],
+  "topicFiles": [
+    "catalog-v114/tyt-01.json",
+    "catalog-v114/tyt-02.json",
+    "catalog-v114/tyt-03.json",
+    "catalog-v114/tyt-04.json",
+    "catalog-v114/tyt-05.json",
+    "catalog-v114/tyt-06.json",
+    "catalog-v114/tyt-07.json",
+    "catalog-v114/tyt-08.json",
+    "catalog-v114/tyt-09.json",
+    "catalog-v114/ayt-01.json",
+    "catalog-v114/ayt-02.json",
+    "catalog-v114/ayt-03.json",
+    "catalog-v114/ayt-04.json",
+    "catalog-v114/ayt-05.json",
+    "catalog-v114/ayt-06.json",
+    "catalog-v114/ayt-07.json",
+    "catalog-v114/ayt-08.json",
+    "catalog-v114/ayt-09.json",
+    "catalog-v114/ayt-10.json",
+    "catalog-v114/ayt-11.json"
+  ],
+  "legacy": [
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Anlam Bilgisi",
+      "oldTitle": "Sözcükte Anlam",
+      "newCategory": "Anlam Bilgisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Anlam Bilgisi",
+      "oldTitle": "Cümlede Anlam",
+      "newCategory": "Anlam Bilgisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Anlam Bilgisi",
+      "oldTitle": "Paragrafta Anlam",
+      "newCategory": "Anlam Bilgisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Anlam Bilgisi",
+      "oldTitle": "Paragrafta Yapı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Anlam Bilgisi",
+      "oldTitle": "Paragrafta Ana ve Yardımcı Düşünce",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Dil Bilgisi",
+      "oldTitle": "Ses Bilgisi",
+      "newCategory": "Dil Bilgisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Dil Bilgisi",
+      "oldTitle": "Sözcükte Yapı (Kök-Ek)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Dil Bilgisi",
+      "oldTitle": "Sözcük Türleri (İsim, Sıfat, Zamir, Zarf, Edat, Bağlaç, Ünlem)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Dil Bilgisi",
+      "oldTitle": "Fiiller ve Fiilimsiler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Dil Bilgisi",
+      "oldTitle": "Cümle Ögeleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Dil Bilgisi",
+      "oldTitle": "Cümle Türleri",
+      "newCategory": "Dil Bilgisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Dil Bilgisi",
+      "oldTitle": "Anlatım Bozuklukları",
+      "newCategory": "Dil Bilgisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Yazım & Noktalama",
+      "oldTitle": "Yazım Kuralları",
+      "newCategory": "Yazım ve Noktalama",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Türkçe",
+      "oldCategory": "Yazım & Noktalama",
+      "oldTitle": "Noktalama İşaretleri",
+      "newCategory": "Yazım ve Noktalama",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Temel Kavramlar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Sayı Basamakları",
+      "newCategory": "Temel Matematik",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Bölme ve Bölünebilme",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "EBOB-EKOK",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Rasyonel Sayılar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Basit Eşitsizlikler",
+      "newCategory": "Temel Matematik",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Mutlak Değer",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Üslü Sayılar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Köklü Sayılar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Çarpanlara Ayırma",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Oran-Orantı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Temel Matematik",
+      "oldTitle": "Denklem Çözme",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Problemler",
+      "oldTitle": "Sayı Problemleri",
+      "newCategory": "Problemler",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Problemler",
+      "oldTitle": "Kesir Problemleri",
+      "newCategory": "Problemler",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Problemler",
+      "oldTitle": "Yaş Problemleri",
+      "newCategory": "Problemler",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Problemler",
+      "oldTitle": "Hareket Problemleri",
+      "newCategory": "Problemler",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Problemler",
+      "oldTitle": "Yüzde-Kâr-Zarar Problemleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Problemler",
+      "oldTitle": "Karışım Problemleri",
+      "newCategory": "Problemler",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Problemler",
+      "oldTitle": "Grafik ve Tablo Problemleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Mantık & Veri",
+      "oldTitle": "Kümeler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Mantık & Veri",
+      "oldTitle": "Mantık",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Mantık & Veri",
+      "oldTitle": "Permütasyon",
+      "newCategory": "Sayma ve Olasılık",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Mantık & Veri",
+      "oldTitle": "Kombinasyon",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Mantık & Veri",
+      "oldTitle": "Binom",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Mantık & Veri",
+      "oldTitle": "Olasılık",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Mantık & Veri",
+      "oldTitle": "Veri ve İstatistik",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Geometri",
+      "oldTitle": "Doğruda ve Üçgende Açılar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Geometri",
+      "oldTitle": "Özel Üçgenler (Dik, İkizkenar, Eşkenar)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Geometri",
+      "oldTitle": "Üçgende Alan ve Benzerlik",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Geometri",
+      "oldTitle": "Çokgenler ve Dörtgenler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Geometri",
+      "oldTitle": "Çember ve Daire",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Matematik",
+      "oldCategory": "Geometri",
+      "oldTitle": "Katı Cisimler (Prizma, Piramit, Silindir, Koni, Küre)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Madde ve Hareket",
+      "oldTitle": "Fizik Bilimine Giriş",
+      "newCategory": "Fizik Bilimine Giriş",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Madde ve Hareket",
+      "oldTitle": "Madde ve Özellikleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Madde ve Hareket",
+      "oldTitle": "Hareket ve Kuvvet",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Madde ve Hareket",
+      "oldTitle": "İş-Güç-Enerji",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Enerji ve Madde",
+      "oldTitle": "Isı ve Sıcaklık",
+      "newCategory": "Isı ve Sıcaklık",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Enerji ve Madde",
+      "oldTitle": "Basınç ve Kaldırma Kuvveti",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Elektrik ve Dalgalar",
+      "oldTitle": "Elektrostatik",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Elektrik ve Dalgalar",
+      "oldTitle": "Elektrik ve Magnetizma",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Elektrik ve Dalgalar",
+      "oldTitle": "Dalgalar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Fizik",
+      "oldCategory": "Elektrik ve Dalgalar",
+      "oldTitle": "Optik",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Temel Kimya",
+      "oldTitle": "Kimya Bilimi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Temel Kimya",
+      "oldTitle": "Atom ve Periyodik Sistem",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Temel Kimya",
+      "oldTitle": "Kimyasal Türler Arası Etkileşimler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Maddenin Halleri & Hesaplamalar",
+      "oldTitle": "Maddenin Halleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Maddenin Halleri & Hesaplamalar",
+      "oldTitle": "Kimyanın Temel Kanunları ve Mol Hesabı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Maddenin Halleri & Hesaplamalar",
+      "oldTitle": "Karışımlar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Uygulamalı Kimya",
+      "oldTitle": "Asitler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Uygulamalı Kimya",
+      "oldTitle": "Bazlar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Uygulamalı Kimya",
+      "oldTitle": "Tuzlar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Uygulamalı Kimya",
+      "oldTitle": "Doğa ve Kimya",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Kimya",
+      "oldCategory": "Uygulamalı Kimya",
+      "oldTitle": "Kimya Her Yerde",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Hücre ve Organizma",
+      "oldTitle": "Yaşam Bilimi Biyoloji",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Hücre ve Organizma",
+      "oldTitle": "Hücre ve Organeller",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Hücre ve Organizma",
+      "oldTitle": "Canlıların Sınıflandırılması",
+      "newCategory": "Sınıflandırma",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Kalıtım ve Çevre",
+      "oldTitle": "Hücre Bölünmeleri (Mitoz-Mayoz)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Kalıtım ve Çevre",
+      "oldTitle": "Üreme Çeşitleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Kalıtım ve Çevre",
+      "oldTitle": "Kalıtım",
+      "newCategory": "Kalıtım",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Kalıtım ve Çevre",
+      "oldTitle": "Ekosistem Ekolojisi ve Güncel Çevre Sorunları",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Tarih",
+      "oldCategory": "İlk ve Orta Çağlar",
+      "oldTitle": "Tarih ve Zaman",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Tarih",
+      "oldCategory": "İlk ve Orta Çağlar",
+      "oldTitle": "İnsanlığın İlk Dönemleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Tarih",
+      "oldCategory": "İlk ve Orta Çağlar",
+      "oldTitle": "Orta Çağ’da Dünya",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Tarih",
+      "oldCategory": "İlk ve Orta Çağlar",
+      "oldTitle": "İlk ve Orta Çağlarda Türk Dünyası",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Tarih",
+      "oldCategory": "İlk ve Orta Çağlar",
+      "oldTitle": "İslam Medeniyeti",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Tarih",
+      "oldCategory": "Osmanlı & İnkılap",
+      "oldTitle": "Beylikten Devlete Osmanlı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Tarih",
+      "oldCategory": "Osmanlı & İnkılap",
+      "oldTitle": "Türk İnkılabı ve Atatürkçülük",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Tarih",
+      "oldCategory": "Osmanlı & İnkılap",
+      "oldTitle": "Milli Mücadele Dönemi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Coğrafya",
+      "oldCategory": "Fiziki Coğrafya",
+      "oldTitle": "Doğa ve İnsan",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Coğrafya",
+      "oldCategory": "Fiziki Coğrafya",
+      "oldTitle": "Dünya'nın Şekli ve Hareketleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Coğrafya",
+      "oldCategory": "Fiziki Coğrafya",
+      "oldTitle": "Harita Bilgisi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Coğrafya",
+      "oldCategory": "Fiziki Coğrafya",
+      "oldTitle": "İklim Bilgisi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Coğrafya",
+      "oldCategory": "Fiziki Coğrafya",
+      "oldTitle": "İç ve Dış Kuvvetler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Coğrafya",
+      "oldCategory": "Beşeri Coğrafya",
+      "oldTitle": "Nüfus ve Yerleşme",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Coğrafya",
+      "oldCategory": "Beşeri Coğrafya",
+      "oldTitle": "Türkiye'nin Coğrafi Konumu ve Özellikleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Coğrafya",
+      "oldCategory": "Beşeri Coğrafya",
+      "oldTitle": "Doğal Afetler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Felsefe",
+      "oldCategory": "Felsefi Alanlar",
+      "oldTitle": "Felsefeyi Tanıma",
+      "newCategory": "Felsefi Alanlar",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Felsefe",
+      "oldCategory": "Felsefi Alanlar",
+      "oldTitle": "Bilgi Felsefesi",
+      "newCategory": "Felsefi Alanlar",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Felsefe",
+      "oldCategory": "Felsefi Alanlar",
+      "oldTitle": "Varlık Felsefesi",
+      "newCategory": "Felsefi Alanlar",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Felsefe",
+      "oldCategory": "Felsefi Alanlar",
+      "oldTitle": "Ahlak Felsefesi",
+      "newCategory": "Felsefi Alanlar",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Felsefe",
+      "oldCategory": "Felsefi Alanlar",
+      "oldTitle": "Sanat Felsefesi",
+      "newCategory": "Felsefi Alanlar",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Felsefe",
+      "oldCategory": "Felsefi Alanlar",
+      "oldTitle": "Din Felsefesi",
+      "newCategory": "Felsefi Alanlar",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Felsefe",
+      "oldCategory": "Felsefi Alanlar",
+      "oldTitle": "Siyaset Felsefesi",
+      "newCategory": "Felsefi Alanlar",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Felsefe",
+      "oldCategory": "Felsefi Alanlar",
+      "oldTitle": "Bilim Felsefesi",
+      "newCategory": "Felsefi Alanlar",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İnanç ve İbadet",
+      "oldTitle": "Bilgi ve İnanç",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İnanç ve İbadet",
+      "oldTitle": "İbadetler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İnanç ve İbadet",
+      "oldTitle": "Kur'an ve Yorumu",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İnanç ve İbadet",
+      "oldTitle": "Hz. Muhammed (s.a.v.)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "TYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İnanç ve İbadet",
+      "oldTitle": "Ahlak ve Değerler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Cebir",
+      "oldTitle": "Fonksiyonlar (Grafikler ve Dönüşümler)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Cebir",
+      "oldTitle": "Polinomlar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Cebir",
+      "oldTitle": "İkinci Dereceden Denklemler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Cebir",
+      "oldTitle": "Karmaşık Sayılar",
+      "newCategory": "İkinci Dereceden Denklemler",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Cebir",
+      "oldTitle": "Parabol",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Cebir",
+      "oldTitle": "Eşitsizlik Sistemleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "Trigonometri & Diziler",
+      "oldTitle": "Trigonometri (Toplam-Fark, Yarım Açı, Denklemler)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "Trigonometri & Diziler",
+      "oldTitle": "Logaritma",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "Trigonometri & Diziler",
+      "oldTitle": "Diziler ve Seriler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "Analiz (LTI)",
+      "oldTitle": "Limit ve Süreklilik",
+      "newCategory": "Analiz (LTI)",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "Analiz (LTI)",
+      "oldTitle": "Türev (Türev Alma Kuralları, Teğet-Normal, Ekstremum Noktalar)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "Analiz (LTI)",
+      "oldTitle": "İntegral (Belirsiz ve Belirli İntegral, Alan Hesabı)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Geometri",
+      "oldTitle": "Noktanın ve Doğrunun Analitiği",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Geometri",
+      "oldTitle": "Dönüşüm Geometrisi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Geometri",
+      "oldTitle": "Çemberin Analitik İncelenmesi",
+      "newCategory": "İleri Geometri",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Matematik",
+      "oldCategory": "İleri Geometri",
+      "oldTitle": "Katı Cisimler (İleri Düzey)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Mekanik",
+      "oldTitle": "Vektörler",
+      "newCategory": "Mekanik",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Mekanik",
+      "oldTitle": "Tork ve Denge",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Mekanik",
+      "oldTitle": "Kütle Merkezi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Mekanik",
+      "oldTitle": "Basit Makineler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Mekanik",
+      "oldTitle": "Sabit İvmeli Hareket",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Mekanik",
+      "oldTitle": "İtme ve Çizgisel Momentum",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Mekanik",
+      "oldTitle": "İş-Güç-Enerji",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Elektromanyetizma & Hareket",
+      "oldTitle": "Elektriksel Alan ve Potansiyel",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Elektromanyetizma & Hareket",
+      "oldTitle": "Düzgün Çembersel Hareket",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Elektromanyetizma & Hareket",
+      "oldTitle": "Basit Harmonik Hareket",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Elektromanyetizma & Hareket",
+      "oldTitle": "Dalga Mekaniği",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Modern Fizik",
+      "oldTitle": "Atom Fiziğine Giriş",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Modern Fizik",
+      "oldTitle": "Radyoaktivite",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Fizik",
+      "oldCategory": "Modern Fizik",
+      "oldTitle": "Modern Fizik ve Teknolojideki Uygulamaları",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Fizikokimya",
+      "oldTitle": "Modern Atom Teorisi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Fizikokimya",
+      "oldTitle": "Gazlar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Fizikokimya",
+      "oldTitle": "Sıvı Çözeltiler ve Derişim",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Fizikokimya",
+      "oldTitle": "Tepkimelerde Enerji",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Fizikokimya",
+      "oldTitle": "Tepkimelerde Hız",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Kimyasal Denge & Elektrokimya",
+      "oldTitle": "Kimyasal Denge",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Kimyasal Denge & Elektrokimya",
+      "oldTitle": "Asit-Baz Dengesi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Kimyasal Denge & Elektrokimya",
+      "oldTitle": "Çözünürlük Dengesi (KÇÇ)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Kimyasal Denge & Elektrokimya",
+      "oldTitle": "Kimya ve Elektrik (Elektrokimya)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Organik Kimya",
+      "oldTitle": "Karbon Kimyasına Giriş",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Organik Kimya",
+      "oldTitle": "Hidrokarbonlar (Alkan, Alken, Alkin, Aritmetik)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Kimya",
+      "oldCategory": "Organik Kimya",
+      "oldTitle": "Fonksiyonel Gruplar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "İnsan Fizyolojisi",
+      "oldTitle": "Sinir Sistemi",
+      "newCategory": "İnsan Fizyolojisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "İnsan Fizyolojisi",
+      "oldTitle": "Duyu Organları",
+      "newCategory": "İnsan Fizyolojisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "İnsan Fizyolojisi",
+      "oldTitle": "Destek-Hareket Sistemi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "İnsan Fizyolojisi",
+      "oldTitle": "Sindirim Sistemi",
+      "newCategory": "İnsan Fizyolojisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "İnsan Fizyolojisi",
+      "oldTitle": "Dolaşım-Bağışıklık Sistemleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "İnsan Fizyolojisi",
+      "oldTitle": "Solunum Sistemi",
+      "newCategory": "İnsan Fizyolojisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "İnsan Fizyolojisi",
+      "oldTitle": "Boşaltım Sistemi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "İnsan Fizyolojisi",
+      "oldTitle": "Üreme Sistemi",
+      "newCategory": "İnsan Fizyolojisi",
+      "status": "retained",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Genetik & Bitki Biyolojisi",
+      "oldTitle": "Komünite/Popülasyon Ekolojisi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Genetik & Bitki Biyolojisi",
+      "oldTitle": "Nükleik Asitler (DNA/RNA)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Genetik & Bitki Biyolojisi",
+      "oldTitle": "Protein Sentezi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Genetik & Bitki Biyolojisi",
+      "oldTitle": "Canlılarda Enerji Dönüşümleri (Fotosentez, Kemosentez, Solunum)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Biyoloji",
+      "oldCategory": "Genetik & Bitki Biyolojisi",
+      "oldTitle": "Bitki Biyolojisi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Giriş & Şiir Bilgisi",
+      "oldTitle": "Metinlerin Sınıflandırılması",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Giriş & Şiir Bilgisi",
+      "oldTitle": "Şiir Bilgisi",
+      "newCategory": "Giriş ve Şiir Bilgisi",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Giriş & Şiir Bilgisi",
+      "oldTitle": "Edebi Sanatlar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Giriş & Şiir Bilgisi",
+      "oldTitle": "Şiir Türleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Geleneksel Türk Edebiyatı",
+      "oldTitle": "İslamiyet Öncesi Türk Edebiyatı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Geleneksel Türk Edebiyatı",
+      "oldTitle": "Geçiş Dönemi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Geleneksel Türk Edebiyatı",
+      "oldTitle": "Halk Edebiyatı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Geleneksel Türk Edebiyatı",
+      "oldTitle": "Divan Edebiyatı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Modern Türk Edebiyatı",
+      "oldTitle": "Tanzimat Edebiyatı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Modern Türk Edebiyatı",
+      "oldTitle": "Servet-i Fünun",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Modern Türk Edebiyatı",
+      "oldTitle": "Fecr-i Ati",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Modern Türk Edebiyatı",
+      "oldTitle": "Milli Edebiyat",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Modern Türk Edebiyatı",
+      "oldTitle": "Cumhuriyet Dönemi Edebiyatı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Türk Dili ve Edebiyatı",
+      "oldCategory": "Modern Türk Edebiyatı",
+      "oldTitle": "Edebi Akımlar",
+      "newCategory": "Edebî Akımlar",
+      "status": "regrouped",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-1",
+      "oldCategory": "Türk & Dünya Tarihi",
+      "oldTitle": "Türk-İslam Tarihi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-1",
+      "oldCategory": "Türk & Dünya Tarihi",
+      "oldTitle": "Osmanlı Tarihi (Kuruluş-Dağılma)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-1",
+      "oldCategory": "Türk & Dünya Tarihi",
+      "oldTitle": "20. Yüzyıl Başlarında Osmanlı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-1",
+      "oldCategory": "Türk & Dünya Tarihi",
+      "oldTitle": "I. Dünya Savaşı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-1",
+      "oldCategory": "Türk & Dünya Tarihi",
+      "oldTitle": "İnkılap Tarihi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya-1",
+      "oldCategory": "Mekânsal Sistemler",
+      "oldTitle": "Ekosistem ve Biyoçeşitlilik",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya-1",
+      "oldCategory": "Mekânsal Sistemler",
+      "oldTitle": "Şehirler ve Etki Alanları",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya-1",
+      "oldCategory": "Mekânsal Sistemler",
+      "oldTitle": "Türkiye'de Ekonomi Politikaları",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya-1",
+      "oldCategory": "Mekânsal Sistemler",
+      "oldTitle": "Globalleşen Dünya",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-2",
+      "oldCategory": "Geniş Tarih Müfredatı",
+      "oldTitle": "Tarih Bilimi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-2",
+      "oldCategory": "Geniş Tarih Müfredatı",
+      "oldTitle": "İlk Çağ Uygarlıkları",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-2",
+      "oldCategory": "Geniş Tarih Müfredatı",
+      "oldTitle": "Orta/Yeni Çağ Avrupa Tarihi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-2",
+      "oldCategory": "Geniş Tarih Müfredatı",
+      "oldTitle": "II. Dünya Savaşı Dönemi ve Sonrası",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Tarih-2",
+      "oldCategory": "Geniş Tarih Müfredatı",
+      "oldTitle": "Çağdaş Türk ve Dünya Tarihi",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya-2",
+      "oldCategory": "Çevre ve Kalkınma",
+      "oldTitle": "Doğal Kaynaklar ve Kullanımı",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya-2",
+      "oldCategory": "Çevre ve Kalkınma",
+      "oldTitle": "Türkiye'nin Bölgesel Kalkınma Projeleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya-2",
+      "oldCategory": "Çevre ve Kalkınma",
+      "oldTitle": "Küresel Örgütler",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya-2",
+      "oldCategory": "Çevre ve Kalkınma",
+      "oldTitle": "Sanayileşme Süreci",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Coğrafya-2",
+      "oldCategory": "Çevre ve Kalkınma",
+      "oldTitle": "Sürdürülebilirlik",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Felsefe Grubu",
+      "oldCategory": "Psikoloji, Sosyoloji, Mantık",
+      "oldTitle": "Mantık (Kavramlar, Önermeler, Sembolik Mantık)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Felsefe Grubu",
+      "oldCategory": "Psikoloji, Sosyoloji, Mantık",
+      "oldTitle": "Psikoloji (Öğrenme, Bellek, Düşünme)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Felsefe Grubu",
+      "oldCategory": "Psikoloji, Sosyoloji, Mantık",
+      "oldTitle": "Sosyoloji (Toplumsal Yapı, Kültür, Değişme)",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İslam Düşüncesi",
+      "oldTitle": "Dünya ve Ahiret",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İslam Düşüncesi",
+      "oldTitle": "Kur'an'da Kavramlar",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İslam Düşüncesi",
+      "oldTitle": "İnanç Meseleleri",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İslam Düşüncesi",
+      "oldTitle": "İslam ve Bilim",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    },
+    {
+      "exam": "AYT",
+      "lesson": "Din Kültürü ve Ahlak Bilgisi",
+      "oldCategory": "İslam Düşüncesi",
+      "oldTitle": "Anadolu'da İslam Medeniyeti",
+      "newCategory": null,
+      "status": "legacy_only",
+      "policy": "Existing stored records and draft titles are never rewritten"
+    }
+  ]
+}

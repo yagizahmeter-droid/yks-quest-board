@@ -1,7 +1,7 @@
 {
   "name": "D.E.R.S.",
   "short_name": "D.E.R.S.",
-  "description": "Dijital Eğitim ve Rutin Sistemi",
+  "description": "D.E.R.S.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

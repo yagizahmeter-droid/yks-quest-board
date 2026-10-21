@@ -1,0 +1,422 @@
+{
+  "exam": "TYT",
+  "lesson": "Fizik",
+  "topics": {
+    "TYT|Fizik|Fizik Bilimine Giriş|Fizik Bilimine Giriş": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Fizik Bilimine Giriş"
+      }
+    ],
+    "TYT|Fizik|Madde ve Özellikleri|Madde": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Madde"
+      }
+    ],
+    "TYT|Fizik|Madde ve Özellikleri|Özkütle": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Özkütle"
+      }
+    ],
+    "TYT|Fizik|Madde ve Özellikleri|Dayanıklılık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Dayanıklılık"
+      }
+    ],
+    "TYT|Fizik|Madde ve Özellikleri|Adezyon, Kohezyon, Yüzey Gerilim ve Kılcallık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Adezyon, Kohezyon, Yüzey Gerilim ve Kılcallık"
+      }
+    ],
+    "TYT|Fizik|Hareket ve Kuvvet|Hareket Kavramları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Hareket Kavramları"
+      }
+    ],
+    "TYT|Fizik|Hareket ve Kuvvet|İvme Kavramı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "İvme Kavramı"
+      }
+    ],
+    "TYT|Fizik|Hareket ve Kuvvet|Kuvvet Kavramı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Kuvvet Kavramı"
+      }
+    ],
+    "TYT|Fizik|Hareket ve Kuvvet|Newton’ın Hareket Yasaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Newton’ın Hareket Yasaları"
+      }
+    ],
+    "TYT|Fizik|Hareket ve Kuvvet|Sürtünme Kuvveti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Sürtünme Kuvveti"
+      }
+    ],
+    "TYT|Fizik|İş, Güç ve Enerji|İş, Enerji ve Güç Kavramları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "İş, Enerji ve Güç Kavramları"
+      }
+    ],
+    "TYT|Fizik|İş, Güç ve Enerji|Enerji Çeşitleri ve Mekanik Enerji": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Enerji Çeşitleri ve Mekanik Enerji"
+      }
+    ],
+    "TYT|Fizik|İş, Güç ve Enerji|Enerji Korunumu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Enerji Korunumu"
+      }
+    ],
+    "TYT|Fizik|İş, Güç ve Enerji|Verim ve Enerji Kaynakları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Verim ve Enerji Kaynakları"
+      }
+    ],
+    "TYT|Fizik|Isı ve Sıcaklık|Isı ve Sıcaklık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Isı ve Sıcaklık"
+      }
+    ],
+    "TYT|Fizik|Isı ve Sıcaklık|Isı Alış Verişi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Isı Alış Verişi"
+      }
+    ],
+    "TYT|Fizik|Isı ve Sıcaklık|Hâl Değişimi ve Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Hâl Değişimi ve Çeşitleri"
+      }
+    ],
+    "TYT|Fizik|Isı ve Sıcaklık|Isıl Denge": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Isıl Denge"
+      }
+    ],
+    "TYT|Fizik|Isı ve Sıcaklık|Enerji Yayılma Yolları ve Enerji İletim Hızı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Enerji Yayılma Yolları ve Enerji İletim Hızı"
+      }
+    ],
+    "TYT|Fizik|Isı ve Sıcaklık|Genleşme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Genleşme"
+      }
+    ],
+    "TYT|Fizik|Elektrostatik|Elektrik Yüklerinin Özellikleri ve Elektrikle Yüklenme Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Elektrik Yüklerinin Özellikleri ve Elektrikle Yüklenme Çeşitleri"
+      }
+    ],
+    "TYT|Fizik|Elektrostatik|İletken ve Yalıtkanlarda Yük Dağılımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "İletken ve Yalıtkanlarda Yük Dağılımı"
+      }
+    ],
+    "TYT|Fizik|Elektrostatik|Elektriksel Kuvvet ve Elektrik Alan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Elektriksel Kuvvet ve Elektrik Alan"
+      }
+    ],
+    "TYT|Fizik|Elektrik ve Manyetizma|Elektrik Akımı ve Direnç": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Elektrik Akımı ve Direnç"
+      }
+    ],
+    "TYT|Fizik|Elektrik ve Manyetizma|Ohm Yasası ve Dirençlerin Bağlanması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Ohm Yasası ve Dirençlerin Bağlanması"
+      }
+    ],
+    "TYT|Fizik|Elektrik ve Manyetizma|Üreteçler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Üreteçler"
+      }
+    ],
+    "TYT|Fizik|Elektrik ve Manyetizma|Elektrik Enerjisi, Elektriksel Güç ve Lamba Parlaklıkları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Elektrik Enerjisi, Elektriksel Güç ve Lamba Parlaklıkları"
+      }
+    ],
+    "TYT|Fizik|Elektrik ve Manyetizma|Mıknatıs ve Manyetik Alan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Mıknatıs ve Manyetik Alan"
+      }
+    ],
+    "TYT|Fizik|Elektrik ve Manyetizma|Akım ve Manyetik Alan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Akım ve Manyetik Alan"
+      }
+    ],
+    "TYT|Fizik|Basınç ve Kaldırma Kuvveti|Basınç Kavramı, Katılarda Basınç ve Basınç Kuvveti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Basınç Kavramı, Katılarda Basınç ve Basınç Kuvveti"
+      }
+    ],
+    "TYT|Fizik|Basınç ve Kaldırma Kuvveti|Durgun Sıvılarda Basınç ve Basınç Kuvveti, Pascal Prensibi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Durgun Sıvılarda Basınç ve Basınç Kuvveti, Pascal Prensibi"
+      }
+    ],
+    "TYT|Fizik|Basınç ve Kaldırma Kuvveti|Gaz Basıncı, Atmosfer Basıncı ve Basınç Ölçen Aletler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Gaz Basıncı, Atmosfer Basıncı ve Basınç Ölçen Aletler"
+      }
+    ],
+    "TYT|Fizik|Basınç ve Kaldırma Kuvveti|Akışkan Basıncı (Bernoulli İlkesi)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Akışkan Basıncı (Bernoulli İlkesi)"
+      }
+    ],
+    "TYT|Fizik|Basınç ve Kaldırma Kuvveti|Kaldırma Kuvveti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Kaldırma Kuvveti"
+      }
+    ],
+    "TYT|Fizik|Dalgalar|Dalgalarda Temel Kavramlar ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Dalgalarda Temel Kavramlar ve Özellikleri"
+      }
+    ],
+    "TYT|Fizik|Dalgalar|Yay Dalgalarının Hızı ve Yansıması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Yay Dalgalarının Hızı ve Yansıması"
+      }
+    ],
+    "TYT|Fizik|Dalgalar|Yay Dalgalarının Farklı Ortamlara Geçişi ve Yay Dalgalarının Girişimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Yay Dalgalarının Farklı Ortamlara Geçişi ve Yay Dalgalarının Girişimi"
+      }
+    ],
+    "TYT|Fizik|Dalgalar|Su Dalgalarının Özellikleri ve Yansıması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 9,
+        "sourceTitle": "Su Dalgalarının Özellikleri ve Yansıması"
+      }
+    ],
+    "TYT|Fizik|Dalgalar|Su Dalgalarının Hızı ve Kırılması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Su Dalgalarının Hızı ve Kırılması"
+      }
+    ],
+    "TYT|Fizik|Dalgalar|Ses Dalgaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Ses Dalgaları"
+      }
+    ],
+    "TYT|Fizik|Dalgalar|Deprem Dalgaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Deprem Dalgaları"
+      }
+    ],
+    "TYT|Fizik|Optik|Işık, Işık Şiddeti, Işık Akısı ve Aydınlanma Şiddeti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Işık, Işık Şiddeti, Işık Akısı ve Aydınlanma Şiddeti"
+      }
+    ],
+    "TYT|Fizik|Optik|Gölge": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Gölge"
+      }
+    ],
+    "TYT|Fizik|Optik|Işığın Yansıması ve Düzlem Aynalar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Işığın Yansıması ve Düzlem Aynalar"
+      }
+    ],
+    "TYT|Fizik|Optik|Küresel Aynaların Özellikleri ve Küresel Aynalarda Özel Işınlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Küresel Aynaların Özellikleri ve Küresel Aynalarda Özel Işınlar"
+      }
+    ],
+    "TYT|Fizik|Optik|Küresel Aynalarda Görüntü Oluşumu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Küresel Aynalarda Görüntü Oluşumu"
+      }
+    ],
+    "TYT|Fizik|Optik|Işığın Kırılması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Işığın Kırılması"
+      }
+    ],
+    "TYT|Fizik|Optik|Tam Yansıma, Sınır Açısı ve Görünür Uzaklık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Tam Yansıma, Sınır Açısı ve Görünür Uzaklık"
+      }
+    ],
+    "TYT|Fizik|Optik|Merceklerin Özellikleri ve Merceklerde Özel Işınlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Merceklerin Özellikleri ve Merceklerde Özel Işınlar"
+      }
+    ],
+    "TYT|Fizik|Optik|Merceklerde Görüntü Oluşumu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Merceklerde Görüntü Oluşumu"
+      }
+    ],
+    "TYT|Fizik|Optik|Işık Prizmaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Işık Prizmaları"
+      }
+    ],
+    "TYT|Fizik|Optik|Renk": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/a9ec5005-1c27-40c1-a956-945e59380bfc/pdf.pdf",
+        "sha256": "599b65802f6477bd07b39068b4919f632fbbd667001d33b1c5a8b9caa888963c",
+        "tocPage": 10,
+        "sourceTitle": "Renk"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1196 @@
+{
+  "exam": "AYT",
+  "lesson": "Biyoloji",
+  "topics": {
+    "AYT|Biyoloji|İnsan Fizyolojisi|Sinir Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sinir Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Endokrin Sistem": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Endokrin Sistem"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Duyu Organları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Duyu Organları"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|İskelet Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "İskelet Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kas Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kas Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Sindirim Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sindirim Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kan Dolaşımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kan Dolaşımı"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Lenf Dolaşımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Lenf Dolaşımı"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Lenf Dolaşımı, Dolaşım Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Bağışıklık Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Bağışıklık Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Solunum Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Solunum Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Üriner Sistem": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Üriner Sistem"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Üreme Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Üreme Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Embriyonik Gelişim": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Embriyonik Gelişim"
+      }
+    ],
+    "AYT|Biyoloji|Ekoloji|Komünite Ekolojisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Komünite Ekolojisi"
+      }
+    ],
+    "AYT|Biyoloji|Ekoloji|Popülasyon Ekolojisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Popülasyon Ekolojisi"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Nükleik Asitler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Nükleik Asitler"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Genetik Şifre ve Protein Sentezi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Genetik Şifre ve Protein Sentezi"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Genetik Mühendisliği ve Biyoteknoloji": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Genetik Mühendisliği ve Biyoteknoloji"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Canlılık ve Enerji": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Canlılık ve Enerji"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Fotosentez": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Fotosentez"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Kemosentez": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Kemosentez"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Kemosentez"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Hücresel Solunum": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Hücresel Solunum"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Fermantasyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Fermantasyon"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Fermantasyon"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Bitkisel Dokular": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Bitkisel Dokular"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Bitkisel Organlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Bitkisel Organlar"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Bitki Hormonları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Bitki Hormonları"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Bitkilerde Hareket": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Bitkilerde Hareket"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Bitkilerde Madde Taşınması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Bitkilerde Madde Taşınması"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Bitkilerde Eşeyli Üreme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Bitkilerde Eşeyli Üreme"
+      }
+    ],
+    "AYT|Biyoloji|Canlılar ve Çevre|Canlılar ve Çevre": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Canlılar ve Çevre"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Canlılar ve Çevre"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Sinir Doku": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sinir Doku"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|İmpuls Oluşumu ve Etkileri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "İmpuls Oluşumu ve Etkileri"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Sinir Sisteminin Bölümleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sinir Sisteminin Bölümleri, Merkezi Sinir Sistemi-Ön Beyin"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Merkezi Sinir Sistemi-Ön Beyin": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sinir Sisteminin Bölümleri, Merkezi Sinir Sistemi-Ön Beyin"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Merkezi Sinir Sistemi-Orta Beyin": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Merkezi Sinir Sistemi-Orta Beyin, Arka Beyin, Omurilik"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Arka Beyin": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Merkezi Sinir Sistemi-Orta Beyin, Arka Beyin, Omurilik"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Omurilik": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Merkezi Sinir Sistemi-Orta Beyin, Arka Beyin, Omurilik"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Çevresel Sinir Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Çevresel Sinir Sistemi, Sinir Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Sinir Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Çevresel Sinir Sistemi, Sinir Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Salgı Bezleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Salgı Bezleri, Hormonların Genel Özellikleri ve Etkileri, Epifiz Bezi, Hipofiz Bezi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Hormonların Genel Özellikleri ve Etkileri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Salgı Bezleri, Hormonların Genel Özellikleri ve Etkileri, Epifiz Bezi, Hipofiz Bezi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Epifiz Bezi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Salgı Bezleri, Hormonların Genel Özellikleri ve Etkileri, Epifiz Bezi, Hipofiz Bezi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Hipofiz Bezi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Salgı Bezleri, Hormonların Genel Özellikleri ve Etkileri, Epifiz Bezi, Hipofiz Bezi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Tiroit Bezi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Tiroit Bezi, Paratiroit Bezi, Timüs Bezi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Paratiroit Bezi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Tiroit Bezi, Paratiroit Bezi, Timüs Bezi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Timüs Bezi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Tiroit Bezi, Paratiroit Bezi, Timüs Bezi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Böbrek Üstü Bezleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Böbrek Üstü Bezleri, Pankreas, Eşeysel Bezler"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Pankreas": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Böbrek Üstü Bezleri, Pankreas, Eşeysel Bezler"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sindirime Yardımcı Yapı ve Organlar-Tükürük Bezleri, Karaciğer, Pankreas"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Eşeysel Bezler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Böbrek Üstü Bezleri, Pankreas, Eşeysel Bezler"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Duyu Reseptörleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Duyu Reseptörleri, Deri, Burun, Dil"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Deri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Duyu Reseptörleri, Deri, Burun, Dil"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Burun": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Duyu Reseptörleri, Deri, Burun, Dil"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Dil": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Duyu Reseptörleri, Deri, Burun, Dil"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kulak": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kulak"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Göz": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Göz"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Destek ve Hareket Sisteminin Genel Yapısı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Destek ve Hareket Sisteminin Genel Yapısı, Kemik Doku ve Kemik Çeşitleri"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kemik Doku ve Kemik Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Destek ve Hareket Sisteminin Genel Yapısı, Kemik Doku ve Kemik Çeşitleri"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kıkırdak Doku ve Kıkırdak Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kıkırdak Doku ve Kıkırdak Çeşitleri, Eklemler"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Eklemler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kıkırdak Doku ve Kıkırdak Çeşitleri, Eklemler"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kas Doku ve Kas Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kas Doku ve Kas Çeşitleri"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|İskelet Kasının Kasılma Mekanizması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "İskelet Kasının Kasılma Mekanizması, Kasılmanın Kontrolü, Enerji Metabolizması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kasılmanın Kontrolü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "İskelet Kasının Kasılma Mekanizması, Kasılmanın Kontrolü, Enerji Metabolizması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Enerji Metabolizması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "İskelet Kasının Kasılma Mekanizması, Kasılmanın Kontrolü, Enerji Metabolizması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kas-İskelet İlişkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kas-İskelet İlişkisi, Destek ve Hareket Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Destek ve Hareket Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kas-İskelet İlişkisi, Destek ve Hareket Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Sindirim Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sindirim Çeşitleri, Sindirim Sisteminin Genel Yapısı, Ağız, Yutak, Yemek Borusu"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Sindirim Sisteminin Genel Yapısı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sindirim Çeşitleri, Sindirim Sisteminin Genel Yapısı, Ağız, Yutak, Yemek Borusu"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Ağız": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sindirim Çeşitleri, Sindirim Sisteminin Genel Yapısı, Ağız, Yutak, Yemek Borusu"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Yutak": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sindirim Çeşitleri, Sindirim Sisteminin Genel Yapısı, Ağız, Yutak, Yemek Borusu"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Yemek Borusu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sindirim Çeşitleri, Sindirim Sisteminin Genel Yapısı, Ağız, Yutak, Yemek Borusu"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Mide": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Mide, İnce Bağırsak, Kalınbağırsak"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|İnce Bağırsak": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Mide, İnce Bağırsak, Kalınbağırsak"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kalınbağırsak": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Mide, İnce Bağırsak, Kalınbağırsak"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Sindirime Yardımcı Yapı ve Organlar-Tükürük Bezleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sindirime Yardımcı Yapı ve Organlar-Tükürük Bezleri, Karaciğer, Pankreas"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Karaciğer": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Sindirime Yardımcı Yapı ve Organlar-Tükürük Bezleri, Karaciğer, Pankreas"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Besinlerin Sindirimi ve Emilimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Besinlerin Sindirimi ve Emilimi, Sindirim Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Sindirim Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Besinlerin Sindirimi ve Emilimi, Sindirim Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Dolaşım Sisteminin Genel Yapısı ve Görevleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Dolaşım Sisteminin Genel Yapısı ve Görevleri, Kalbin Yapısı"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kalbin Yapısı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Dolaşım Sisteminin Genel Yapısı ve Görevleri, Kalbin Yapısı"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kanın Kalpteki Hareketi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kanın Kalpteki Hareketi, Kalp Ritminin Kontrolü, Kanın Vücuttaki Dolaşımı"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kalp Ritminin Kontrolü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kanın Kalpteki Hareketi, Kalp Ritminin Kontrolü, Kanın Vücuttaki Dolaşımı"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kanın Vücuttaki Dolaşımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kanın Kalpteki Hareketi, Kalp Ritminin Kontrolü, Kanın Vücuttaki Dolaşımı"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kan Damarları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kan Damarları, Kılcal Damarlar ve Doku Sıvısı Arasındaki Madde Alışverişi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kılcal Damarlar ve Doku Sıvısı Arasındaki Madde Alışverişi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kan Damarları, Kılcal Damarlar ve Doku Sıvısı Arasındaki Madde Alışverişi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kan Doku": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kan Doku"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Dolaşım Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Lenf Dolaşımı, Dolaşım Sistemi Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Bağışıklık Sisteminin Genel Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Bağışıklık Sisteminin Genel Özellikleri, Doğal Bağışıklık"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Doğal Bağışıklık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Bağışıklık Sisteminin Genel Özellikleri, Doğal Bağışıklık"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Kazanılmış Bağışıklık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Kazanılmış Bağışıklık"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Solunum Sisteminin Organları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Solunum Sisteminin Organları, Soluk Alıp Verme Mekanizması ve Kontrolü"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Soluk Alıp Verme Mekanizması ve Kontrolü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Solunum Sisteminin Organları, Soluk Alıp Verme Mekanizması ve Kontrolü"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Solunum Gazlarının Taşınması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Solunum Gazlarının Taşınması, Solunum Sistemi Hastalıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Solunum Sistemi Hastalıkları ve Sağlıklı Yapısının Korunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Solunum Gazlarının Taşınması, Solunum Sistemi Hastalıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Üriner Sisteminin Genel Yapısı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Üriner Sisteminin Genel Yapısı, Görevleri ve Organları"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Görevleri ve Organları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Üriner Sisteminin Genel Yapısı, Görevleri ve Organları"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Nefronun Yapısı ve İdrar Oluşumu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Nefronun Yapısı ve İdrar Oluşumu"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Homeostaside Böbreklerin Rolü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Homeostaside Böbreklerin Rolü, Üriner Sistem Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Üriner Sistem Rahatsızlıkları ve Sağlıklı Yapısının Korunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Homeostaside Böbreklerin Rolü, Üriner Sistem Rahatsızlıkları ve Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Üreme Sisteminin Genel Yapısı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Üreme Sisteminin Genel Yapısı, Erkek Üreme Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Erkek Üreme Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Üreme Sisteminin Genel Yapısı, Erkek Üreme Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Dişi Üreme Sistemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Dişi Üreme Sistemi"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Menstrual Döngü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Menstrual Döngü"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Döllenme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Döllenme, Üreme Sisteminin Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Üreme Sisteminin Sağlıklı Yapısının Korunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Döllenme, Üreme Sisteminin Sağlıklı Yapısının Korunması"
+      }
+    ],
+    "AYT|Biyoloji|İnsan Fizyolojisi|Embriyonik Gelişim Süreci": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Embriyonik Gelişim Süreci"
+      }
+    ],
+    "AYT|Biyoloji|Ekoloji|Komünitenin Yapısına Etki Eden Faktörler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Komünitenin Yapısına Etki Eden Faktörler, Komünitede Rekabet, Av-Avcı İlişkisi"
+      }
+    ],
+    "AYT|Biyoloji|Ekoloji|Komünitede Rekabet": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Komünitenin Yapısına Etki Eden Faktörler, Komünitede Rekabet, Av-Avcı İlişkisi"
+      }
+    ],
+    "AYT|Biyoloji|Ekoloji|Av-Avcı İlişkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Komünitenin Yapısına Etki Eden Faktörler, Komünitede Rekabet, Av-Avcı İlişkisi"
+      }
+    ],
+    "AYT|Biyoloji|Ekoloji|Komünitede Simbiyotik İlişkiler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Komünitede Simbiyotik İlişkiler, Komünitelerdeki Süksesyon"
+      }
+    ],
+    "AYT|Biyoloji|Ekoloji|Komünitelerdeki Süksesyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Komünitede Simbiyotik İlişkiler, Komünitelerdeki Süksesyon"
+      }
+    ],
+    "AYT|Biyoloji|Ekoloji|Popülasyon Dinamiğine Etki Eden Faktörler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 9,
+        "sourceTitle": "Popülasyon Dinamiğine Etki Eden Faktörler"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Nükleik Asitlerin Keşif Süreci": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Nükleik Asitlerin Keşif Süreci, Nükleotitlerin Yapısı . 149 Nükleik Asitlerin Çeşitleri ve Görevleri, Genetik Materyalin Organizasyonu"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Nükleotitlerin Yapısı . 149 Nükleik Asitlerin Çeşitleri ve Görevleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Nükleik Asitlerin Keşif Süreci, Nükleotitlerin Yapısı . 149 Nükleik Asitlerin Çeşitleri ve Görevleri, Genetik Materyalin Organizasyonu"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Genetik Materyalin Organizasyonu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Nükleik Asitlerin Keşif Süreci, Nükleotitlerin Yapısı . 149 Nükleik Asitlerin Çeşitleri ve Görevleri, Genetik Materyalin Organizasyonu"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|DNA’ nın Kendini Eşlemesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "DNA’ nın Kendini Eşlemesi"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Genetik Şifre ve Protein Sentezinde Genetik Bilgi Akışı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Genetik Şifre ve Protein Sentezinde Genetik Bilgi Akışı"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Protein Sentezinin Mekanizması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Protein Sentezinin Mekanizması"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Genetik Mühendisliği-Biyoteknoloji Kavramları ve Uygulamaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Genetik Mühendisliği-Biyoteknoloji Kavramları ve Uygulamaları"
+      }
+    ],
+    "AYT|Biyoloji|Genden Proteine|Genetik Mühendisliği ve Biyoteknoloji Uygulamalarının İnsan Hayatına Etkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Genetik Mühendisliği ve Biyoteknoloji Uygulamalarının İnsan Hayatına Etkisi"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|ATP Molekülü ve Fosforilasyon Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "ATP Molekülü ve Fosforilasyon Çeşitleri"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Fotosentezin Canlılar Açısından Önemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Fotosentezin Canlılar Açısından Önemi, Fotosentezde Rol Oynayan Ögeler"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Fotosentezde Rol Oynayan Ögeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Fotosentezin Canlılar Açısından Önemi, Fotosentezde Rol Oynayan Ögeler"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Fotosentez Reaksiyonları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Fotosentez Reaksiyonları"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Fotosentez Hızını Etkileyen Faktörler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Fotosentez Hızını Etkileyen Faktörler"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Hücresel Solunumun Önemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Hücresel Solunumun Önemi, Oksijenli Solunumun Genel Özellikleri ve Mitokondri"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Oksijenli Solunumun Genel Özellikleri ve Mitokondri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Hücresel Solunumun Önemi, Oksijenli Solunumun Genel Özellikleri ve Mitokondri"
+      }
+    ],
+    "AYT|Biyoloji|Canlılarda Enerji Dönüşümleri|Oksijenli Solunumun Evreleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Oksijenli Solunumun Evreleri"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Meristem Doku": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Meristem Doku"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Temel Doku": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Temel Doku"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|İletim Doku": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "İletim Doku"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Örtü Doku": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Örtü Doku"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Kök": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Kök"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Gövde": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Gövde"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Yaprak": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Yaprak"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Bitki Gelişiminde Hormonların Etkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Bitki Gelişiminde Hormonların Etkisi"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Bitki Hareketleri ve Fotoperiyodizm": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Bitki Hareketleri ve Fotoperiyodizm"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Köklerde Su ve Mineral Emilimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Köklerde Su ve Mineral Emilimi"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Ksilemde Su ve Minerallerin Taşınması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Ksilemde Su ve Minerallerin Taşınması"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Suyun Taşınmasında Stomaların Rolü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Suyun Taşınmasında Stomaların Rolü"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Floemde Fotosentez Ürünlerinin Taşınması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Floemde Fotosentez Ürünlerinin Taşınması"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Çiçeğin Kısımları ve Görevleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Çiçeğin Kısımları ve Görevleri"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Tozlaşma": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Tozlaşma, Döllenme, Tohum ve Meyve Oluşumu 235 Tohum Çimlenmesi, Dormansi ve Çimlenme Arasındaki İlişki"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Bitkilerde Döllenme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Tozlaşma, Döllenme, Tohum ve Meyve Oluşumu 235 Tohum Çimlenmesi, Dormansi ve Çimlenme Arasındaki İlişki"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Tohum ve Meyve Oluşumu 235 Tohum Çimlenmesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Tozlaşma, Döllenme, Tohum ve Meyve Oluşumu 235 Tohum Çimlenmesi, Dormansi ve Çimlenme Arasındaki İlişki"
+      }
+    ],
+    "AYT|Biyoloji|Bitki Biyolojisi|Dormansi ve Çimlenme Arasındaki İlişki": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d6c21287-9ee9-4b19-8037-2667a9f4dca8/pdf.pdf",
+        "sha256": "7471557281a7b162e5a92dc8eb62e7575228d882bb5363ad9c38b5945a9dde18",
+        "tocPage": 10,
+        "sourceTitle": "Tozlaşma, Döllenme, Tohum ve Meyve Oluşumu 235 Tohum Çimlenmesi, Dormansi ve Çimlenme Arasındaki İlişki"
+      }
+    ]
+  }
+}

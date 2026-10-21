@@ -1,0 +1,1026 @@
+{
+  "exam": "TYT",
+  "lesson": "Matematik",
+  "topics": {
+    "TYT|Matematik|Temel Matematik|Sayı Kümeleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Sayı Kümeleri"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Temel İşlemler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Temel İşlemler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Tek ve Çift Sayılar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Tek ve Çift Sayılar"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Pozitif ve Negatif Sayılar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Pozitif ve Negatif Sayılar"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Ardışık Sayılar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Ardışık Sayılar"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Sayı Basamakları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Sayı Basamakları"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Asal ve Aralarında Asal Sayılar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Asal ve Aralarında Asal Sayılar"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Tam Sayılarda Kalanlı Bölme İşlemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Tam Sayılarda Kalanlı Bölme İşlemi"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Bölünebilme Kuralları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Bölünebilme Kuralları 1"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Bölünebilme Kuralları 2"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Asal Çarpanlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Asal Çarpanlar"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Ebob-Ekok Kavramları ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Ebob-Ekok Kavramları ve Özellikleri"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Ebob Ekok Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Ebob Ekok Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Periyodik Problemler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Periyodik Problemler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Rasyonel Sayılarda İşlemler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Rasyonel Sayılarda İşlemler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Ondalıklı ve Devirli Ondalıklı Sayılar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Ondalıklı ve Devirli Ondalıklı Sayılar"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Gerçek Sayılar Kümesinde Aralık Kavramı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Gerçek Sayılar Kümesinde Aralık Kavramı"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Birinci Dereceden Bir Bilinmeyenli Denklemler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Birinci Dereceden Bir Bilinmeyenli Denklemler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Basit Eşitsizlikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Basit Eşitsizlikler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Birinci Dereceden İki Bilinmeyenli Denklemler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Birinci Dereceden İki Bilinmeyenli Denklemler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Birinci Dereceden İki Bilinmeyenli Eşitsizlikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Birinci Dereceden İki Bilinmeyenli Eşitsizlikler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Birinci Dereceden İki Bilinmeyenli Eşitsizlik Sistemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Birinci Dereceden İki Bilinmeyenli Eşitsizlik  \nSistemleri"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Mutlak Değer Kavramı ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Mutlak Değer Kavramı ve Özellikleri"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Mutlak Değerli Denklemler ve Eşitsizlikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Mutlak Değeri Denklemler ve Eşitsizlikler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Üslü İfadeler ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Üslü İfadeler ve Özellikleri"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Üslü İfade İçeren Denklemler ve Eşitsizlikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Üslü İfade İçeren Denklemler ve Eşitsizlikler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Köklü İfadeler ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Köklü İfadeler ve Özellikleri"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Köklü İfadeleri İçeren Denklemler ve Eşitsizlikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Köklü İfadeleri İçeren Denklemler ve Eşitsizlikler"
+      }
+    ],
+    "TYT|Matematik|Temel Matematik|Oran - Orantı Kavramı ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Oran - Orantı Kavramı ve Özellikleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Oran - Orantı Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Oran - Orantı Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Sayı Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Sayı Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Kesir Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Kesir Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Yaş Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Yaş Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|İşçi Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "İşçi Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Yüzde Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Yüzde Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Kâr – Zarar Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Kâr – Zarar Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Karışım Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Karışım Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Hareket Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Hareket Problemleri"
+      }
+    ],
+    "TYT|Matematik|Problemler|Rutin Olmayan Problemler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Rutin Olmayan Problemler"
+      }
+    ],
+    "TYT|Matematik|Mantık|Önermeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Önermeler"
+      }
+    ],
+    "TYT|Matematik|Mantık|Bileşik Önermeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Bileşik Önermeler"
+      }
+    ],
+    "TYT|Matematik|Mantık|Koşullu Önerme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Koşullu Önerme"
+      }
+    ],
+    "TYT|Matematik|Mantık|İki Yönlü Koşullu Önerme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "İki Yönlü Koşullu Önerme"
+      }
+    ],
+    "TYT|Matematik|Mantık|Niceleyiciler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Niceleyiciler"
+      }
+    ],
+    "TYT|Matematik|Mantık|Tanım, Aksiyom, Teorem ve İspat": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Tanım, Aksiyom, Teorem ve İspat"
+      }
+    ],
+    "TYT|Matematik|Kümeler|Kümelerde Temel Kavramlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Kümelerde Temel Kavramlar"
+      }
+    ],
+    "TYT|Matematik|Kümeler|Alt Küme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Alt Küme"
+      }
+    ],
+    "TYT|Matematik|Kümeler|Kümelerde Kesişim ve Birleşim İşlemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Kümelerde Kesişim ve Birleşim İşlemi"
+      }
+    ],
+    "TYT|Matematik|Kümeler|Kümelerde Fark ve Tümleme İşlemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Kümelerde Fark ve Tümleme İşlemleri"
+      }
+    ],
+    "TYT|Matematik|Kümeler|Küme Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Küme  Problemleri"
+      }
+    ],
+    "TYT|Matematik|Kümeler|Sıralı İkililer ve Kartezyen Çarpım": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Sıralı İkililer ve Kartezyen Çarpım"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Saymanın Temel İlkesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Saymanın Temel İlkesi"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Faktöriyel Kavramı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Faktöriyel Kavramı"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Permütasyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Permütasyon"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Tekrarlı Permütasyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Tekrarlı Permütasyon"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Kombinasyon Kavramı ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Kombinasyon Kavramı ve Özellikleri"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Kombinasyon Problemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Kombinasyon Problemleri"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Kombinasyon ve Geometri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Kombinasyon ve Geometri"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Binom Açılımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Binom Açılımı"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Olasılıkta Temel Kavramlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Olasılıkta Temel Kavramlar"
+      }
+    ],
+    "TYT|Matematik|Sayma ve Olasılık|Basit Olayların Olasılıkları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Basit Olayların Olasılıkları"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|Fonksiyon Kavramı ve Gösterimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Fonksiyon Kavramı ve Gösterimi"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|Fonksiyon Sorularında Dikkat Edilmesi Gerekenler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Fonksiyon Soruları Çözülürken"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|İçine, Örten, Birebir ve Eşit Fonksiyonlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "İçine, Örten, Birebir ve Eşit Fonksiyonlar"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|Birim ve Sabit Fonksiyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Birim ve Sabit Fonksiyon"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|Doğrusal ve Parçalı Fonksiyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 9,
+        "sourceTitle": "Doğrusal ve Parçalı Fonksiyon"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|Çift ve Tek Fonksiyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Çift ve Tek Fonksiyon"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|Fonksiyonlarda Dört İşlem": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Fonksiyonlarda Dört İşlem"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|Fonksiyon Grafiklerini Çizme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Fonksiyon Grafiklerini Çizme"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|İki Fonksiyonun Bileşkesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "İki Fonksiyonun Bileşkesi"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|Bir Fonksiyonun Tersi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Bir Fonksiyonun  Tersi"
+      }
+    ],
+    "TYT|Matematik|Fonksiyonlar|Fonksiyon Grafikleri ile İlgili Uygulamalar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Fonksiyon Grafikleri ile İlgili Uygulamalar"
+      }
+    ],
+    "TYT|Matematik|Polinomlar ve Çarpanlara Ayırma|Polinom Kavramı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Polinom Kavramı"
+      }
+    ],
+    "TYT|Matematik|Polinomlar ve Çarpanlara Ayırma|Polinomlarda Toplama, Çıkarma ve Çarpma İşlemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Polinomlarda Toplama, Çıkarma ve Çarpma  \nİşlemleri"
+      }
+    ],
+    "TYT|Matematik|Polinomlar ve Çarpanlara Ayırma|Polinomlarda Bölme İşlemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Polinomlarda Bölme İşlemi"
+      }
+    ],
+    "TYT|Matematik|Polinomlar ve Çarpanlara Ayırma|Polinomlarda Bölme İşlemi Yapmadan Kalan Bulma": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Polinomlarda Bölme İşlemi Yapmadan Kalan  \nBulma"
+      }
+    ],
+    "TYT|Matematik|Polinomlar ve Çarpanlara Ayırma|Ortak Çarpan Parantezine Alma": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Ortak Çarpan Parantezine Alma"
+      }
+    ],
+    "TYT|Matematik|Polinomlar ve Çarpanlara Ayırma|Tam Kare ve İki Kare Farkı Özdeşlikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Tam Kare ve İki Kare Farkı Özdeşlikler"
+      }
+    ],
+    "TYT|Matematik|Polinomlar ve Çarpanlara Ayırma|Tam Küp, İki Küp Farkı ve Toplamı Özdeşlikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Tam Küp, İki Küp Farkı ve Toplamı Özdeşlikler"
+      }
+    ],
+    "TYT|Matematik|Polinomlar ve Çarpanlara Ayırma|Üç Terimli İfadelerin Çarpanlara Ayrılması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üç Terimli İfadelerin Çarpanlara Ayrılması"
+      }
+    ],
+    "TYT|Matematik|Polinomlar ve Çarpanlara Ayırma|Rasyonel İfadelerin Sadeleştirilmesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Rasyonel İfadelerin Sadeleştirilmesi"
+      }
+    ],
+    "TYT|Matematik|İkinci Dereceden Denklemler|İkinci Dereceden Bir Bilinmeyenli Denklemler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "İkinci Dereceden Bir Bilinmeyenli Denklemler"
+      }
+    ],
+    "TYT|Matematik|İkinci Dereceden Denklemler|İkinci Dereceden Bir Bilinmeyenli Denklemlerin Çözüm Kümesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "İkinci Dereceden Bir Bilinmeyenli Denklemlerin Çözüm \nKümesi"
+      }
+    ],
+    "TYT|Matematik|İkinci Dereceden Denklemler|Diskriminant Kavramı ve Diskriminantın Kullanılması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Diskriminant Kavramı ve Diskriminantın  \nKullanılması"
+      }
+    ],
+    "TYT|Matematik|İkinci Dereceden Denklemler|Karmaşık Sayılar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Karmaşık Sayılar"
+      }
+    ],
+    "TYT|Matematik|İkinci Dereceden Denklemler|İkinci Dereceden Bir Bilinmeyenli Denklemlerde Kök Katsayı İlişkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "İkinci Dereceden Bir Bilinmeyenli Denklemlerde Kök \nKatsayı İlişkisi"
+      }
+    ],
+    "TYT|Matematik|Veri ve İstatistik|Veri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Veri"
+      }
+    ],
+    "TYT|Matematik|Veri ve İstatistik|Merkezi Yayılım Ölçüleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Merkezi Yayılım Ölçüleri"
+      }
+    ],
+    "TYT|Matematik|Veri ve İstatistik|Histogram": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Histogram"
+      }
+    ],
+    "TYT|Matematik|Veri ve İstatistik|Grafik Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Grafik Çeşitleri"
+      }
+    ],
+    "TYT|Matematik|Geometri|Açı Kavramı ve Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Açı Kavramı ve Çeşitleri"
+      }
+    ],
+    "TYT|Matematik|Geometri|Paralel İki Doğrunun Bir Kesenle Yaptığı Açılar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Paralel İki Doğrunun Bir Kesenle Yaptığı Açılar"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgende Açılar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgende Açılar"
+      }
+    ],
+    "TYT|Matematik|Geometri|İkizkenar ve Eşkenar Üçgende Açı Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "İkizkenar ve Eşkenar Üçgende Açı Özellikleri"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgende Açı Kenar Bağıntıları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgende Açı Kenar Bağıntıları"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgen Eşitsizliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgen Eşitsizliği"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgenlerde Eşlik": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgenlerde Eşlik"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgenlerde Benzerlik": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgenlerde Benzerlik"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgenlerde Temel Benzerlik": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgenlerde Temel Benzerlik"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgenlerde Benzerlik Uygulamaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgenlerde Benzerlik Uygulamaları"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgende Açıortay": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgende Açıortay"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgende Açıortay"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgende Kenarortay": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgende Kenarortay"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgende Yükseklik": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgende Yükseklik"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgende Kenar Orta Dikme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgende Kenar Orta Dikme"
+      }
+    ],
+    "TYT|Matematik|Geometri|Dik Üçgende Pisagor Teoremi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Dik Üçgende Pisagor Teoremi"
+      }
+    ],
+    "TYT|Matematik|Geometri|Öklid’in Çalışmaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Öklid’in Çalışmaları"
+      }
+    ],
+    "TYT|Matematik|Geometri|Trigonometrik Oranlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Trigonometrik Oranlar"
+      }
+    ],
+    "TYT|Matematik|Geometri|30°, 45°, 60° Nin Trigonometrik Oranları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "30°, 45°, 60° Nin Trigonometrik Oranları"
+      }
+    ],
+    "TYT|Matematik|Geometri|Birim Çember": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Birim Çember"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgende Alan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgende Alan"
+      }
+    ],
+    "TYT|Matematik|Geometri|Üçgende Alan Uygulamaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Üçgende Alan Uygulamaları"
+      }
+    ],
+    "TYT|Matematik|Geometri|Çokgenler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Çokgenler"
+      }
+    ],
+    "TYT|Matematik|Geometri|Dörtgenler ve Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Dörtgenler ve Özellikleri"
+      }
+    ],
+    "TYT|Matematik|Geometri|Özel Dörtgenler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Özel Dörtgenler"
+      }
+    ],
+    "TYT|Matematik|Geometri|Yamuğun Alanı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Yamuğun Alanı"
+      }
+    ],
+    "TYT|Matematik|Geometri|İkizkenar ve Dik Yamuk": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "İkizkenar ve Dik Yamuk"
+      }
+    ],
+    "TYT|Matematik|Geometri|Paralelkenarda Açı ve Uzunluk": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Paralelkenarda Açı ve Uzunluk"
+      }
+    ],
+    "TYT|Matematik|Geometri|Paralelkenarda Alan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Paralelkenarda Alan"
+      }
+    ],
+    "TYT|Matematik|Geometri|Eşkenar Dörtgen": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Eşkenar Dörtgen"
+      }
+    ],
+    "TYT|Matematik|Geometri|Dikdörtgende Açı ve Uzunluk": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Dikdörtgende Açı ve Uzunluk"
+      }
+    ],
+    "TYT|Matematik|Geometri|Dikdörtgende Alan": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Dikdörtgende Alan"
+      }
+    ],
+    "TYT|Matematik|Geometri|Kare": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Kare"
+      }
+    ],
+    "TYT|Matematik|Geometri|Deltoid": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Deltoid"
+      }
+    ],
+    "TYT|Matematik|Geometri|Dik Prizmalar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Dik Prizmalar"
+      }
+    ],
+    "TYT|Matematik|Geometri|Küp": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Küp"
+      }
+    ],
+    "TYT|Matematik|Geometri|Dik Piramit": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Dik Piramit"
+      }
+    ],
+    "TYT|Matematik|Geometri|Düzgün Dört Yüzlü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d648463f-11d3-42ce-a80c-acac3207f6c5/pdf.pdf",
+        "sha256": "df65e71ce0a483aeb27c4c7d3099df440736a2c2a0579fa0f3097bb1a7fed6b7",
+        "tocPage": 10,
+        "sourceTitle": "Düzgün Dört Yüzlü"
+      }
+    ]
+  }
+}

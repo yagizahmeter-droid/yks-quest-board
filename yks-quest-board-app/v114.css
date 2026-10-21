@@ -1,0 +1,48 @@
+/* Keep one page scroller; lists do not each need a composited glass layer. */
+:root[data-appearance="glass"] :is(.history-item,.teacher-item .history-item) { backdrop-filter:none;-webkit-backdrop-filter:none; }
+.sidebar,.ders-dialog,.modal { overscroll-behavior:contain; }
+.program-actions .button { white-space:nowrap; }
+.focus-shell { grid-template-rows:auto auto auto;align-content:start; }
+.focus-settings { margin:0 auto; }
+.focus-settings #focusError:empty { display:none; }
+.focus-face { align-self:start;padding:16px 0; }
+.focus-view:has(#focusSettings[hidden]) .focus-shell { grid-template-rows:auto 1fr; }
+.focus-view:has(#focusSettings[hidden]) .focus-face { grid-row:2;align-self:center; }
+.admin-dialog { scrollbar-gutter:stable; }
+.admin-toolbar>* { min-width:0;max-width:100%; }
+.admin-toolbar .button { white-space:normal; }
+.preview-natural { background:#dceadf; }
+.preview-natural>span { border-radius:28% 11% 24% 9%;background:#f0f7ed; }
+.preview-cloud { background:#b9def1; }
+.preview-cloud>span { border-radius:40%;background:#fff; }
+:root[data-appearance="natural"] { --panel:#f0f6ed;--panel-2:#e2ebde;--sidebar:#e7f0e3;--line:#96ae91;--text:#1b3024;--muted:#52664f;--vine:url('./assets/theme-vine.svg'); }
+:root[data-appearance="natural"][data-theme="dark"] { --panel:#223329;--panel-2:#2d4033;--sidebar:#1d2d23;--line:#637b5a;--text:#edf5e8;--muted:#c0cfb8; }
+:root[data-appearance="natural"] :is(.stat,.destination,.card,.account-surface) { position:relative;isolation:isolate;border-radius:34px 14px 31px 12px;border-color:var(--line);background:var(--panel); }
+:root[data-appearance="natural"] :is(.stat,.destination,.card,.account-surface)::after { content:'';position:absolute;z-index:1;right:0;top:0;width:74px;height:62px;background:var(--vine) right top / contain no-repeat;pointer-events:none;opacity:.8; }
+:root[data-appearance="natural"] :is(.stat,.destination,.card,.account-surface)>* { position:relative;z-index:2; }
+:root[data-appearance="natural"] .sidebar { border-radius:34px 18px 30px 15px; }
+:root[data-appearance="cloud"] { --panel:#f6fcff;--panel-2:#e8f4fc;--sidebar:#edf7fd;--line:#9fc9e1;--text:#203440;--muted:#4d6978;--cloud-image:url('./assets/theme-cloud-light.svg'); }
+:root[data-appearance="cloud"][data-theme="dark"] { --panel:#243640;--panel-2:#304651;--sidebar:#202f37;--line:#7398ac;--text:#edf8ff;--muted:#bed2df;--cloud-image:url('./assets/theme-cloud-dark.svg'); }
+/* Nine-slice preserves real cloud lobes on tall task cards, without clipping controls. */
+:root[data-appearance="cloud"] :is(.stat,.destination,.card,.account-surface) { border:32px solid transparent;border-image-source:var(--cloud-image);border-image-slice:48 36 fill;border-image-width:60px 30px;border-image-repeat:stretch;background:transparent;border-radius:0;box-shadow:none;padding:16px;overflow:visible; }
+:root[data-appearance="cloud"] .card { padding:0; }
+:root[data-appearance="cloud"] .sidebar { border-radius:44px 38px 46px 32px; }
+@media(max-width:720px){
+ .program-actions { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px; }
+ .program-actions #openWeekReport { grid-column:1 / -1; }
+ .program-actions .button { width:100%;padding:10px 8px;min-height:44px;font-size:12px; }
+ .focus-shell { min-height:0;gap:12px; }
+ .focus-settings { gap:10px; }
+ .focus-durations { gap:12px; }
+ .focus-settings .focus-options { gap:8px; }
+ .focus-behavior { grid-template-columns:repeat(2,minmax(0,1fr));gap:8px; }
+ .focus-behavior label { font-size:12px;line-height:1.4; }
+ .focus-audio { gap:8px; }
+ .focus-face { padding:10px 0 20px; }
+ .focus-view:has(#focusSettings[hidden]) .focus-shell { min-height:calc(100dvh - 32px); }
+ .admin-toolbar { display:grid;grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .admin-toolbar .segmented { grid-column:1 / -1;display:flex; }
+ .admin-toolbar .segmented .button { flex:1; }
+ :root[data-appearance="cloud"] :is(.stat,.destination,.account-surface) { padding:14px 10px;border-width:24px;border-image-width:48px 24px; }
+ :root[data-appearance="natural"] :is(.stat,.destination,.card,.account-surface)::after { width:48px;height:42px;opacity:.5; }
+}

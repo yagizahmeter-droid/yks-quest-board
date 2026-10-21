@@ -1,0 +1,778 @@
+{
+  "exam": "TYT",
+  "lesson": "Biyoloji",
+  "topics": {
+    "TYT|Biyoloji|Canlıların Yapısı|Canlıların Ortak Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Canlıların Ortak Özellikleri"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Canlıların Ortak Özellikleri"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Canlıların Yapısında Bulunan İnorganik Bileşikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Canlıların Yapısında Bulunan İnorganik Bileşikler"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Canlıların Yapısında Bulunan Organik Bileşikler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Canlıların Yapısında Bulunan Organik Bileşikler"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Hücresel Yapılar ve Görevleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücresel Yapılar ve Görevleri"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Hücre Zarından Madde Geçişleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Zarından Madde Geçişleri"
+      },
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Zarından Madde Geçişleri, Basit Difüzyon, Kolaylaştırılmış Difüzyon"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Canlıların Sınıflandırılması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Canlıların Sınıflandırılması"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Canlı Âlemleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Canlı Âlemleri"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Hücre Döngüsü ve Mitoz": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Hücre Döngüsü ve Mitoz"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Eşeysiz Üreme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Eşeysiz Üreme"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Mayoz": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Mayoz"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Eşeyli Üreme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Eşeyli Üreme"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Kalıtım": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Kalıtım"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Genetik Varyasyonlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Genetik Varyasyonlar"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Ekosistem Ekolojisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Ekosistem Ekolojisi"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Güncel Çevre Sorunları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Güncel Çevre Sorunları"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Doğal Kaynakların Sürdürülebilirliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Doğal Kaynakların Sürdürülebilirliği"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Biyolojik Çeşitliliğin Korunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Biyolojik Çeşitliliğin Korunması"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|İnorganik Bileşiklerin Genel Özellikleri ve Canlılar İçin Önemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "İnorganik Bileşiklerin Genel Özellikleri ve Canlılar İçin Önemi"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Organik Bileşiklerin Genel Özellikleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Organik Bileşiklerin Genel Özellikleri, Karbonhidratlar"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Karbonhidratlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Organik Bileşiklerin Genel Özellikleri, Karbonhidratlar"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Lipitler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Lipitler"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Proteinler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Proteinler"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Enzimler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Enzimler"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Vitaminler ve Hormonlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Vitaminler ve Hormonlar"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Nükleik Asitler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Nükleik Asitler"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|ATP (Adenozin trifosfat)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "ATP (Adenozin trifosfat)"
+      }
+    ],
+    "TYT|Biyoloji|Canlıların Yapısı|Sağlıklı Beslenme": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Sağlıklı Beslenme"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Hücre Teorisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Teorisi, Prokaryot ve Ökaryot Hücre Yapısı"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Prokaryot ve Ökaryot Hücre Yapısı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Teorisi, Prokaryot ve Ökaryot Hücre Yapısı"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Hücre Zarı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Zarı, Hücre Duvarı, Sitoplazma, Çekirdek"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Hücre Duvarı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Zarı, Hücre Duvarı, Sitoplazma, Çekirdek"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Sitoplazma": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Zarı, Hücre Duvarı, Sitoplazma, Çekirdek"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Çekirdek": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Zarı, Hücre Duvarı, Sitoplazma, Çekirdek"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Ribozom": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Ribozom, Endoplazmik Retikulum, Golgi Aygıtı, Lizozom, Koful"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Endoplazmik Retikulum": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Ribozom, Endoplazmik Retikulum, Golgi Aygıtı, Lizozom, Koful"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Golgi Aygıtı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Ribozom, Endoplazmik Retikulum, Golgi Aygıtı, Lizozom, Koful"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Lizozom": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Ribozom, Endoplazmik Retikulum, Golgi Aygıtı, Lizozom, Koful"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Koful": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Ribozom, Endoplazmik Retikulum, Golgi Aygıtı, Lizozom, Koful"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Peroksizom": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Peroksizom, Sentrozom, Hücre İskeleti"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Sentrozom": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Peroksizom, Sentrozom, Hücre İskeleti"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Hücre İskeleti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Peroksizom, Sentrozom, Hücre İskeleti"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Mitokondri ve Plastitler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Mitokondri ve Plastitler"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Basit Difüzyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Zarından Madde Geçişleri, Basit Difüzyon, Kolaylaştırılmış Difüzyon"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Kolaylaştırılmış Difüzyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hücre Zarından Madde Geçişleri, Basit Difüzyon, Kolaylaştırılmış Difüzyon"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Osmoz": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Osmoz"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Aktif Taşıma": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Aktif Taşıma"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Endositoz": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Endositoz, Ekzositoz"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Ekzositoz": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Endositoz, Ekzositoz"
+      }
+    ],
+    "TYT|Biyoloji|Hücre|Bilimsel Yöntem ve Basamakları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Bilimsel Yöntem ve Basamakları"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Canlıların Sınıflandırılmasının Amacı ve Önemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Canlıların Sınıflandırılmasının Amacı ve Önemi, Sınıflandırılmada Kullanılan Kategoriler"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Sınıflandırılmada Kullanılan Kategoriler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Canlıların Sınıflandırılmasının Amacı ve Önemi, Sınıflandırılmada Kullanılan Kategoriler"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Bakteriler Âlemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Bakteriler Âlemi, Arkeler Âlemi"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Arkeler Âlemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Bakteriler Âlemi, Arkeler Âlemi"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Protista Âlemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Protista Âlemi"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Bitkiler Âlemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Bitkiler Âlemi"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Mantarlar Âlemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Mantarlar Âlemi"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Hayvanlar Âlemi-Omurgasız Hayvanlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hayvanlar Âlemi-Omurgasız Hayvanlar"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Hayvanlar Âlemi-Omurgalı Hayvanlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Hayvanlar Âlemi-Omurgalı Hayvanlar"
+      }
+    ],
+    "TYT|Biyoloji|Sınıflandırma|Virüsler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 9,
+        "sourceTitle": "Virüsler"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Hücre Bölünmesinin Gerekliliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Hücre Bölünmesinin Gerekliliği, Hücre Döngüsü ve İnterfaz"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Hücre Döngüsü ve İnterfaz": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Hücre Bölünmesinin Gerekliliği, Hücre Döngüsü ve İnterfaz"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Mitozun Genel Özellikleri ve Evreleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Mitozun Genel Özellikleri ve Evreleri"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Hücre Döngüsünün Kontrolü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Hücre Döngüsünün Kontrolü"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Eşeysiz Üremenin Genel Özellikleri ve Çeşitleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Eşeysiz Üremenin Genel Özellikleri ve Çeşitleri"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Mayozun Genel Özellikleri ve Evreleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Mayozun Genel Özellikleri ve Evreleri"
+      }
+    ],
+    "TYT|Biyoloji|Hücre Bölünmeleri ve Üreme|Eşeyli Üremenin Genel Özellikleri ve Örnekleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Eşeyli Üremenin Genel Özellikleri ve Örnekleri"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Kalıtımla İlgili Kavramlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Kalıtımla İlgili Kavramlar, Olasılık İlkeleri ve Gamet Çeşitlerinin Bulunması"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Olasılık İlkeleri ve Gamet Çeşitlerinin Bulunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Kalıtımla İlgili Kavramlar, Olasılık İlkeleri ve Gamet Çeşitlerinin Bulunması"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Mendel İlkeleri ve Çaprazlamalar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Mendel İlkeleri ve Çaprazlamalar"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Eş Baskınlık": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Eş Baskınlık, Çok Alellilik, Kan Gruplarının Kalıtımı"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Çok Alellilik": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Eş Baskınlık, Çok Alellilik, Kan Gruplarının Kalıtımı"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Kan Gruplarının Kalıtımı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Eş Baskınlık, Çok Alellilik, Kan Gruplarının Kalıtımı"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Eşeye Bağlı Kalıtım": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Eşeye Bağlı Kalıtım, Akraba Evliliği"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Akraba Evliliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Eşeye Bağlı Kalıtım, Akraba Evliliği"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Soyağacı Analizi ve Örnekleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Soyağacı Analizi ve Örnekleri"
+      }
+    ],
+    "TYT|Biyoloji|Kalıtım|Genetik Varyasyonların Kaynakları ve Biyolojik Çeşitlilik": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Genetik Varyasyonların Kaynakları ve Biyolojik Çeşitlilik"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Ekolojik Kavramlar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Ekolojik Kavramlar, Ekosistemin Canlı ve Cansız Bileşenleri"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Ekosistemin Canlı ve Cansız Bileşenleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Ekolojik Kavramlar, Ekosistemin Canlı ve Cansız Bileşenleri"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Canlılardaki Beslenme Şekilleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Canlılardaki Beslenme Şekilleri"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Ekosistemde Madde ve Enerji Akışı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Ekosistemde Madde ve Enerji Akışı"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Madde Döngüleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Madde Döngüleri"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Güncel Çevre Sorunlarının Sebepleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Güncel Çevre Sorunlarının Sebepleri , Hava Kirliliği, Asit Yağmurları, Küresel İklim Değişikliği"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Hava Kirliliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Güncel Çevre Sorunlarının Sebepleri , Hava Kirliliği, Asit Yağmurları, Küresel İklim Değişikliği"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Asit Yağmurları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Güncel Çevre Sorunlarının Sebepleri , Hava Kirliliği, Asit Yağmurları, Küresel İklim Değişikliği"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Küresel İklim Değişikliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Güncel Çevre Sorunlarının Sebepleri , Hava Kirliliği, Asit Yağmurları, Küresel İklim Değişikliği"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Su Kirliliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Su Kirliliği, Toprak Kirliliği, Radyoaktif Kirlilik, Ses Kirliliği"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Toprak Kirliliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Su Kirliliği, Toprak Kirliliği, Radyoaktif Kirlilik, Ses Kirliliği"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Radyoaktif Kirlilik": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Su Kirliliği, Toprak Kirliliği, Radyoaktif Kirlilik, Ses Kirliliği"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Ses Kirliliği": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Su Kirliliği, Toprak Kirliliği, Radyoaktif Kirlilik, Ses Kirliliği"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Erozyon": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Erozyon, Doğal Hayat Alanlarının Tahribi ve Orman Yangınları, Biyolojik Çeşitliliğin Azalması"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Doğal Hayat Alanlarının Tahribi ve Orman Yangınları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Erozyon, Doğal Hayat Alanlarının Tahribi ve Orman Yangınları, Biyolojik Çeşitliliğin Azalması"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Biyolojik Çeşitliliğin Azalması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Erozyon, Doğal Hayat Alanlarının Tahribi ve Orman Yangınları, Biyolojik Çeşitliliğin Azalması"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Çevre Sorunlarının Ortaya Çıkmasında Bireylerin Rolü ve Çözüm Önerileri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Çevre Sorunlarının Ortaya Çıkmasında Bireylerin Rolü ve Çözüm Önerileri"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Doğal Kaynakların Sürdürülebilirliğinin Önemi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Doğal Kaynakların Sürdürülebilirliğinin Önemi"
+      }
+    ],
+    "TYT|Biyoloji|Ekoloji ve Çevre|Biyolojik Çeşitliliğin Yaşam İçin Önemi ve Korunması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/1c8f1307-bba1-4917-b4df-4d8574a7a746/pdf.pdf",
+        "sha256": "581afc9165223a2dfef0bb09131ab8494ddf324a38b857d545c4bf03108b42de",
+        "tocPage": 10,
+        "sourceTitle": "Biyolojik Çeşitliliğin Yaşam İçin Önemi ve Korunması"
+      }
+    ]
+  }
+}

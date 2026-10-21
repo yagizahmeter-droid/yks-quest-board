@@ -6,32 +6,32 @@
   const dialog = document.createElement('dialog');
   dialog.className = 'ders-dialog admin-dialog'; dialog.id = 'adminDialog';
   dialog.setAttribute('aria-labelledby', 'adminTitle');
-  dialog.innerHTML = `<header class="admin-heading"><h2 id="adminTitle">Yönetici paneli</h2><button type="button" class="icon-button" id="adminClose" aria-label="Yönetici panelini kapat" title="Kapat"><i data-lucide="x"></i></button></header>
+  dialog.innerHTML = `<header class="admin-heading"><h2 id="adminTitle">Yönetici Paneli</h2><button type="button" class="icon-button" id="adminClose" aria-label="Yönetici panelini kapat" title="Kapat"><i data-lucide="x"></i></button></header>
     <p class="admin-status" id="adminStatus" role="status"></p>
     <div class="admin-toolbar"><div class="segmented" role="group" aria-label="Rol önizleme">
     <button type="button" class="button" data-preview-role="student"><i data-lucide="circle-user-round"></i>Öğrenci</button>
     <button type="button" class="button" data-preview-role="teacher"><i data-lucide="graduation-cap"></i>Öğretmen</button></div>
-    <button type="button" class="button" id="adminReturn" hidden><i data-lucide="arrow-left"></i>Admin paneline dön</button>
-    <button type="button" class="button" id="adminReset" hidden><i data-lucide="rotate-ccw"></i>Örnek verileri sıfırla</button></div>
+    <button type="button" class="button" id="adminReturn" hidden><i data-lucide="arrow-left"></i>Admin Paneline Dön</button>
+    <button type="button" class="button" id="adminReset" hidden><i data-lucide="rotate-ccw"></i>Örnek Verileri Sıfırla</button></div>
     <div id="adminPreview" hidden></div>
-    <section id="adminNotesSection"><h3>Test notlarım</h3>
+    <section id="adminNotesSection"><h3>Test Notlarım</h3>
     <form id="adminNoteForm" class="admin-note-form">
-      <div class="admin-note-fields"><label class="field">Not türü<select class="select" id="adminNoteKind"><option value="bug">Hata</option><option value="suggestion">Öneri</option><option value="test">Test</option></select></label>
-      <label class="field">İlgili görünüm<select class="select" id="adminNoteContext"><option value="student">Öğrenci</option><option value="teacher">Öğretmen</option><option value="appearance">Görünüm</option></select></label></div>
+      <div class="admin-note-fields"><label class="field">Not Türü<select class="select" id="adminNoteKind"><option value="bug">Hata</option><option value="suggestion">Öneri</option><option value="test">Test</option></select></label>
+      <label class="field">İlgili Görünüm<select class="select" id="adminNoteContext"><option value="student">Öğrenci</option><option value="teacher">Öğretmen</option><option value="appearance">Görünüm</option></select></label></div>
       <label class="field">Ekran<input class="input" id="adminNoteScreen" maxlength="120" value="Programım" required></label>
       <label class="field">Not<textarea class="textarea" id="adminNoteBody" maxlength="4000" required rows="4"></textarea></label>
-      <div><button class="button primary" type="submit" id="adminSaveNote"><i data-lucide="check"></i>Notu kaydet</button></div>
+      <div><button class="button primary" type="submit" id="adminSaveNote"><i data-lucide="check"></i>Notu Kaydet</button></div>
       <p id="adminNoteStatus" role="status" class="admin-status"></p>
     </form><ul class="admin-notes" id="adminNoteList"></ul>
-    <h3>İşlem geçmişim</h3><ul class="admin-notes" id="adminEventList"></ul></section>`;
+    <h3>İşlem Geçmişim</h3><ul class="admin-notes" id="adminEventList"></ul></section>`;
   document.body.append(dialog);
   const $ = id => dialog.querySelector('#' + id);
   let currentRole = null;
   const publicAssets = new Map();
   const appBase = new URL('./',location.href);
   const scripts = ['theme.js','sync.js','vendor/lucide.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','focus-core.js','study.js','learning-ui.js','teacher-drafts.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
-  const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css','v113.css'];
-  const assetPaths = new Map([...scripts,...styles,'admin-preview.js','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg'].map(name=>[new URL(name,appBase).pathname,name]));
+  const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css','v113.css','v114.css'];
+  const assetPaths = new Map([...scripts,...styles,'admin-preview.js','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','assets/theme-vine.svg','assets/theme-cloud-light.svg','assets/theme-cloud-dark.svg'].map(name=>[new URL(name,appBase).pathname,name]));
   const failure = (code,details = {}) => Object.assign(new Error(code),{code,...details});
   let cancelFrame = null;
   function ownedAsset(value) {
@@ -152,7 +152,7 @@
   }
   async function open() {
     if (!await authorize()) { board.toast('Yönetici yetkisi doğrulanamadı.'); return; }
-    if (document.body.classList.contains('drawer-open')) document.getElementById('closeNavigation').click();
+    window.DersUI.closeNavigationForModal();
     $('adminStatus').textContent = 'Rol önizlemeleri örnek veriler kullanır. Test notlarını yalnızca sen görebilirsin.';
     dialog.showModal(); window.DersUI.openModal('admin', dialog, close);
     window.DersUI.clearDirty(dialog); $('adminClose').focus();
@@ -204,6 +204,7 @@
       // The opaque sandbox has no Vercel cookie. Inline only public static assets
       // fetched by the parent; never pass authentication or account state into it.
       const [light,dark] = await Promise.all([asset('./assets/background-light.webp',true),asset('./assets/background-dark.webp',true)]);
+      const decorations=await Promise.all(['theme-vine.svg','theme-cloud-light.svg','theme-cloud-dark.svg'].map(async name=>[name,await asset('./assets/'+name,true)]));
       await Promise.all([...doc.querySelectorAll('script[src]')].map(async script => {
         const source = await asset(script.getAttribute('src'));
         script.removeAttribute('src'); script.textContent = source.replace(/<[/]script/gi,'<' + String.fromCharCode(92) + '/script');
@@ -211,6 +212,7 @@
       await Promise.all([...doc.querySelectorAll('link[rel="stylesheet"]')].map(async link => {
         const style = doc.createElement('style');
         style.textContent = (await asset(link.getAttribute('href'))).split('./assets/background-light.webp').join(light).split('./assets/background-dark.webp').join(dark);
+        for(const [name,data] of decorations)style.textContent=style.textContent.split('./assets/'+name).join(data);
         link.replaceWith(style);
       }));
       doc.querySelectorAll('script:not([src])').forEach(script => {

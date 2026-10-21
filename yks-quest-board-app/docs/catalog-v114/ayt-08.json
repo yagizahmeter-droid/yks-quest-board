@@ -1,0 +1,590 @@
+{
+  "exam": "AYT",
+  "lesson": "Tarih-2",
+  "topics": {
+    "AYT|Tarih-2|Tarih ve Zaman|İnsanlığın Hafızası Tarih": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "İnsanlığın Hafızası Tarih"
+      }
+    ],
+    "AYT|Tarih-2|Tarih ve Zaman|Zamanın Taksimi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Zamanın Taksimi"
+      }
+    ],
+    "AYT|Tarih-2|İnsanlığın İlk Dönemleri|İnsanlığın İlk İzleri - Yazının İcadı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "İnsanlığın İlk İzleri - Yazının İcadı"
+      }
+    ],
+    "AYT|Tarih-2|İnsanlığın İlk Dönemleri|İlk Çağ’da Başlıca Medeniyet Havzaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "İlk Çağ’da Başlıca Medeniyet Havzaları"
+      }
+    ],
+    "AYT|Tarih-2|İnsanlığın İlk Dönemleri|İnsan ve Göç": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "İnsan ve Göç"
+      }
+    ],
+    "AYT|Tarih-2|İnsanlığın İlk Dönemleri|Kabileden Devlete": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Kabileden Devlete"
+      }
+    ],
+    "AYT|Tarih-2|İnsanlığın İlk Dönemleri|Kanunlar Doğuyor": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Kanunlar Doğuyor"
+      }
+    ],
+    "AYT|Tarih-2|Orta Çağ Dünyası|Orta Çağ’da Siyasi Yapılar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Orta Çağ’da Siyasi Yapılar"
+      }
+    ],
+    "AYT|Tarih-2|Orta Çağ Dünyası|Tarımdan Ticarete Ekonomi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Tarımdan Ticarete Ekonomi"
+      }
+    ],
+    "AYT|Tarih-2|Orta Çağ Dünyası|Orta Çağ’da Ordu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Orta Çağ’da Ordu"
+      }
+    ],
+    "AYT|Tarih-2|Orta Çağ Dünyası|Kanunlar Gelişiyor": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Kanunlar Gelişiyor"
+      }
+    ],
+    "AYT|Tarih-2|İlk Türk Devletleri|Avrasya’da İlk Türk İzleri-Coğrafya ile Oluşan Yaşam Tarzı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Avrasya’da İlk Türk İzleri-Coğrafya ile Oluşan Yaşam Tarzı"
+      }
+    ],
+    "AYT|Tarih-2|İlk Türk Devletleri|Boylardan Devlete-I": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Boylardan Devlete-I"
+      }
+    ],
+    "AYT|Tarih-2|İlk Türk Devletleri|Boylardan Devlete-II": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Boylardan Devlete-II"
+      }
+    ],
+    "AYT|Tarih-2|İlk Türk Devletleri|Kavimler Göçü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Kavimler Göçü"
+      }
+    ],
+    "AYT|Tarih-2|İslam Medeniyeti|İslamiyet’in Doğduğu Dönemde Dünya - İslamiyet Yayılıyor": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "İslamiyet’in Doğduğu Dönemde Dünya - İslamiyet Yayılıyor"
+      }
+    ],
+    "AYT|Tarih-2|İslam Medeniyeti|Emeviler (661-750)": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Emeviler (661-750)"
+      }
+    ],
+    "AYT|Tarih-2|İslam Medeniyeti|Abbasi Devleti ve Türkler - Bilim Medeniyeti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Abbasi Devleti ve Türkler - Bilim Medeniyeti"
+      }
+    ],
+    "AYT|Tarih-2|Türk İslam Devletleri|Türklerin İslamiyet’i Kabulü": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Türklerin İslamiyet’i Kabulü"
+      }
+    ],
+    "AYT|Tarih-2|Türk İslam Devletleri|İslamiyet’in Türk Devlet ve Toplum Yapısına Etkisi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "İslamiyet’in Türk Devlet ve Toplum Yapısına Etkisi"
+      }
+    ],
+    "AYT|Tarih-2|Türk İslam Devletleri|Büyük Selçuklu Devleti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Büyük Selçuklu Devleti"
+      }
+    ],
+    "AYT|Tarih-2|Anadolu Tarihi|Türklerin Anadolu’ya Yerleşme Süreci Anadolu’ya Türk Göçleri ve Bu Göçlerin Sosyokültürel Etkileri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Türklerin Anadolu’ya Yerleşme Süreci Anadolu’ya Türk Göçleri ve Bu Göçlerin Sosyokültürel Etkileri"
+      }
+    ],
+    "AYT|Tarih-2|Anadolu Tarihi|Anadolu’nun İlk Siyasi Teşekkülleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Anadolu’nun İlk Siyasi Teşekkülleri"
+      }
+    ],
+    "AYT|Tarih-2|Anadolu Tarihi|Hilal ve Haç Mücadelesi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Hilal ve Haç Mücadelesi"
+      }
+    ],
+    "AYT|Tarih-2|Anadolu Tarihi|Moğol İstilası ve Anadolu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Moğol İstilası ve Anadolu"
+      }
+    ],
+    "AYT|Tarih-2|Beylikten Devlete Osmanlı|Osmanlı Beyliği’nin Kuruluşu ve İlk Fetihleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Osmanlı Beyliği’nin Kuruluşu ve İlk Fetihleri"
+      }
+    ],
+    "AYT|Tarih-2|Beylikten Devlete Osmanlı|Osmanlı Devleti’nin Rumeli’deki İskân ve İstimâlet Politikası": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Osmanlı Devleti’nin Rumeli’deki İskân ve İstimâlet Politikası"
+      }
+    ],
+    "AYT|Tarih-2|Beylikten Devlete Osmanlı|Anadolu’da Türk Siyasi Birliğini Sağlama Çabaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Anadolu’da Türk Siyasi Birliğini Sağlama Çabaları"
+      }
+    ],
+    "AYT|Tarih-2|Beylikten Devlete Osmanlı|Devletleşme Sürecinde Savaşçılar ve Askerler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Devletleşme Sürecinde Savaşçılar ve Askerler"
+      }
+    ],
+    "AYT|Tarih-2|Beylikten Devlete Osmanlı|Anadolu’nun Mutasavvıfları-Yönetici Sınıf-Sosyal ve Kültürel Faaliyetler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Anadolu’nun Mutasavvıfları-Yönetici Sınıf-Sosyal ve Kültürel Faaliyetler"
+      }
+    ],
+    "AYT|Tarih-2|Dünya Gücü Osmanlı|İstanbul’un Fethi ve Fethin Sonuçları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "İstanbul’un Fethi ve Fethin Sonuçları"
+      }
+    ],
+    "AYT|Tarih-2|Dünya Gücü Osmanlı|Türk İslam Dünyasında Birliği Sağlama Çabaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Türk İslam Dünyasında Birliği Sağlama Çabaları"
+      }
+    ],
+    "AYT|Tarih-2|Dünya Gücü Osmanlı|Dünyanın Muhteşem Gücü Osmanlı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Dünyanın Muhteşem Gücü Osmanlı"
+      }
+    ],
+    "AYT|Tarih-2|Dünya Gücü Osmanlı|Stratejik Siyaset ve Dünya Gücü Olan Osmanlı Devleti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Stratejik Siyaset ve Dünya Gücü Olan Osmanlı Devleti"
+      }
+    ],
+    "AYT|Tarih-2|Osmanlı Kültür ve Medeniyeti|Saray ve Şehir Kültürü - Gelenekler Işığında Devlet İdaresi": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Saray ve Şehir Kültürü - Gelenekler Işığında Devlet İdaresi"
+      }
+    ],
+    "AYT|Tarih-2|Osmanlı Kültür ve Medeniyeti|Osmanlı Devleti’nde Millet Sistemi - Fethettiği Yerlerdeki Kültürel Değişim": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Osmanlı Devleti’nde Millet Sistemi - Fethettiği Yerlerdeki Kültürel Değişim"
+      }
+    ],
+    "AYT|Tarih-2|Osmanlı Kültür ve Medeniyeti|Osmanlı Toprak Sistemi - Lonca Teşkilatı - Vakıflar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Osmanlı Toprak Sistemi - Lonca Teşkilatı - Vakıflar"
+      }
+    ],
+    "AYT|Tarih-2|Değişen Dünya ve Osmanlı|Uzun Savaşlardan Diplomasiye": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 9,
+        "sourceTitle": "Uzun Savaşlardan Diplomasiye"
+      }
+    ],
+    "AYT|Tarih-2|Değişen Dünya ve Osmanlı|Okyanusların Önem Kazanması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Okyanusların Önem Kazanması"
+      }
+    ],
+    "AYT|Tarih-2|Değişen Dünya ve Osmanlı|Fetihlerden Savunmaya": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Fetihlerden Savunmaya"
+      }
+    ],
+    "AYT|Tarih-2|Değişen Dünya ve Osmanlı|Avrupa’da Değişim Çağı": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Avrupa’da Değişim Çağı"
+      }
+    ],
+    "AYT|Tarih-2|Değişen Dünya ve Osmanlı|Osmanlı Devleti’nde Değişim": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Osmanlı Devleti’nde Değişim"
+      }
+    ],
+    "AYT|Tarih-2|Değişen Dünya ve Osmanlı|Osmanlı Devleti’nde İsyanlar ve Düzeni Koruma Çalışmaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Osmanlı Devleti’nde İsyanlar ve Düzeni Koruma Çalışmaları"
+      }
+    ],
+    "AYT|Tarih-2|Değişim Çağında Avrupa ve Osmanlı|İhtilaller Çağı - Sömürgeciliğin Küresel Etkileri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "İhtilaller Çağı - Sömürgeciliğin Küresel Etkileri"
+      }
+    ],
+    "AYT|Tarih-2|Değişim Çağında Avrupa ve Osmanlı|Osmanlı Devleti’nde Modern Orduya Geçiş": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Osmanlı Devleti’nde Modern Orduya Geçiş"
+      }
+    ],
+    "AYT|Tarih-2|Değişim Çağında Avrupa ve Osmanlı|XIX. Yüzyılda Sosyal Hayattaki Değişimler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "XIX. Yüzyılda Sosyal Hayattaki Değişimler"
+      }
+    ],
+    "AYT|Tarih-2|Değişim Çağında Avrupa ve Osmanlı|Osmanlı Devleti’ne Yönelik Tehditler-I": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Osmanlı Devleti’ne Yönelik Tehditler-I"
+      }
+    ],
+    "AYT|Tarih-2|Değişim Çağında Avrupa ve Osmanlı|Osmanlı Devleti’nde Demokratikleşme Hareketleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Osmanlı Devleti’nde Demokratikleşme Hareketleri"
+      }
+    ],
+    "AYT|Tarih-2|Değişim Çağında Avrupa ve Osmanlı|Osmanlı Devleti’nde Darbeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Osmanlı Devleti’nde Darbeler"
+      }
+    ],
+    "AYT|Tarih-2|Değişim Çağında Avrupa ve Osmanlı|Osmanlı Devleti’ne Yönelik Tehditler-II": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Osmanlı Devleti’ne Yönelik Tehditler-II"
+      }
+    ],
+    "AYT|Tarih-2|Değişim Çağında Avrupa ve Osmanlı|Osmanlıda Sanayileşme Çabaları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Osmanlıda Sanayileşme Çabaları"
+      }
+    ],
+    "AYT|Tarih-2|Değişim Çağında Avrupa ve Osmanlı|XIX ve XX. Yüzyılda Osmanlı Nüfusu - Metropoller Salgınlar ve Kamuoyu": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "XIX ve XX. Yüzyılda Osmanlı Nüfusu - Metropoller Salgınlar ve Kamuoyu"
+      }
+    ],
+    "AYT|Tarih-2|20. Yüzyıl Başlarında Osmanlı|Mustafa Kemal’in Lider Olarak Yetişmesinde Etkili Koşullar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Mustafa Kemal’in Lider Olarak Yetişmesinde Etkili Koşullar"
+      }
+    ],
+    "AYT|Tarih-2|20. Yüzyıl Başlarında Osmanlı|20. Yüzyıl Başlarında Osmanlı Devleti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "20. Yüzyıl Başlarında Osmanlı Devleti"
+      }
+    ],
+    "AYT|Tarih-2|20. Yüzyıl Başlarında Osmanlı|I. Dünya Savaşı Sürecinde Osmanlı Devleti": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "I. Dünya Savaşı Sürecinde Osmanlı Devleti"
+      }
+    ],
+    "AYT|Tarih-2|20. Yüzyıl Başlarında Osmanlı|I. Dünya Savaşı’nın Sonuçları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "I. Dünya Savaşı’nın Sonuçları"
+      }
+    ],
+    "AYT|Tarih-2|Millî Mücadele|Millî Mücadele’ye Hazırlık Dönemi-I": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Millî Mücadele’ye Hazırlık Dönemi-I"
+      }
+    ],
+    "AYT|Tarih-2|Millî Mücadele|Millî Mücadele’ye Hazırlık Dönemi-II": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Millî Mücadele’ye Hazırlık Dönemi-II"
+      }
+    ],
+    "AYT|Tarih-2|Millî Mücadele|Büyük Millet Meclisi’nin Açılması - Sevr Antlaşması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Büyük Millet Meclisi’nin Açılması - Sevr Antlaşması"
+      }
+    ],
+    "AYT|Tarih-2|Millî Mücadele|Doğu, Güney ve Batı Cepheleri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Doğu, Güney ve Batı Cepheleri"
+      }
+    ],
+    "AYT|Tarih-2|Millî Mücadele|Millî Mücadele’nin Sona Ermesi ve Lozan Barış Antlaşması": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Millî Mücadele’nin Sona Ermesi ve Lozan Barış Antlaşması"
+      }
+    ],
+    "AYT|Tarih-2|Türk İnkılabı ve Atatürkçülük|Atatürk İlkeleri-Siyasi ve Hukuk Alanındaki Gelişmeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Atatürk İlkeleri-Siyasi ve Hukuk Alanındaki Gelişmeler"
+      }
+    ],
+    "AYT|Tarih-2|Türk İnkılabı ve Atatürkçülük|Atatürk Dönemi’nde Yapılan İnkılaplar": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Atatürk Dönemi’nde Yapılan İnkılaplar"
+      }
+    ],
+    "AYT|Tarih-2|Türk İnkılabı ve Atatürkçülük|Atatürk Dönemi İç Politikadaki Gelişmeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Atatürk Dönemi İç Politikadaki Gelişmeler"
+      }
+    ],
+    "AYT|Tarih-2|İki Savaş Arası Dönem|İki Dünya Savaşı Arasındaki Dönemde Dünya": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "İki Dünya Savaşı Arasındaki Dönemde Dünya"
+      }
+    ],
+    "AYT|Tarih-2|İki Savaş Arası Dönem|Atatürk Dönemi Türk Dış Politikası": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Atatürk Dönemi Türk Dış Politikası"
+      }
+    ],
+    "AYT|Tarih-2|İkinci Dünya Savaşı ve Sonrası|II. Dünya Savaşı Sürecinde Türkiye ve Savaşın Sonuçları": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "II. Dünya Savaşı Sürecinde Türkiye ve Savaşın Sonuçları"
+      }
+    ],
+    "AYT|Tarih-2|İkinci Dünya Savaşı ve Sonrası|II. Dünya Savaşı Sonrası Gelişmeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "II. Dünya Savaşı Sonrası Gelişmeler"
+      }
+    ],
+    "AYT|Tarih-2|Çağdaş Türk ve Dünya Tarihi|1960 Sonrasında Türk Dış Politikası": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "1960 Sonrasında Türk Dış Politikası"
+      }
+    ],
+    "AYT|Tarih-2|Çağdaş Türk ve Dünya Tarihi|1960 Sonrası Dünyadaki Yaşanan Siyasi Gelişmeler": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "1960 Sonrası Dünyadaki Yaşanan Siyasi Gelişmeler"
+      }
+    ],
+    "AYT|Tarih-2|Çağdaş Türk ve Dünya Tarihi|Türkiye’deki Siyasi, Ekonomik, Sosyokültürel Hayat": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "Türkiye’deki Siyasi, Ekonomik, Sosyokültürel Hayat"
+      }
+    ],
+    "AYT|Tarih-2|Çağdaş Türk ve Dünya Tarihi|1990 Sonrasında Türkiye": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "1990 Sonrasında Türkiye"
+      }
+    ],
+    "AYT|Tarih-2|Çağdaş Türk ve Dünya Tarihi|1990 Sonrasında Meydana Gelen Siyasi Gelişmelerin Türkiye’ye Etkileri": [
+      {
+        "url": "https://ogm-large-cdn.eba.gov.tr/materyal/Etkilesimlikitap/d3ef6180-88bf-4b82-b14b-a5ffacfeff5d/pdf.pdf",
+        "sha256": "f1b0995fe41a492892e0b071d3e7650384f45f558590b7f592fd79c2aad23c39",
+        "tocPage": 10,
+        "sourceTitle": "1990 Sonrasında Meydana Gelen Siyasi Gelişmelerin Türkiye’ye Etkileri"
+      }
+    ]
+  }
+}

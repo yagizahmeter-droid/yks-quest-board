@@ -30,18 +30,23 @@ async function run(){
   process.env.PORT='0';server=require('../scripts/server.cjs');if(!server.listening)await new Promise(resolve=>server.once('listening',resolve));
   const url=process.env.DERS_PREVIEW_URL || 'http://127.0.0.1:'+server.address().port;
   browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
-  const context=await browser.newContext({serviceWorkers:'block'}),p=await context.newPage(),errors=[];
+  const context=await browser.newContext({serviceWorkers:'block',viewport:{width:390,height:844},hasTouch:true}),p=await context.newPage(),errors=[];
+  await context.route('**/config.js',r=>r.fulfill({contentType:'text/javascript',body:'window.YKS_CONFIG='+JSON.stringify({supabaseUrl:config.url,supabaseAnonKey:config.key})}));
+  await context.route('**/jswgagzbetwviamiwcck.supabase.co/**',r=>r.abort());
   p.on('pageerror',error=>errors.push(error.message));await p.goto(url+'/#/account');
   assert.equal(await p.evaluate(()=>YKS_CONFIG.supabaseUrl),config.url);
-  await p.fill('#authEmail',config.users[0].email);await p.fill('#authPassword',config.users[0].password);await p.click('#signInButton');
-  await p.locator('#adminButton').waitFor({state:'visible'});await p.click('#adminButton');
+  await p.fill('#authEmail',config.users[0].email);await p.locator('#authEmail').focus();await p.keyboard.press('Tab');assert.equal(await p.locator('#authPassword').evaluate(el=>el===document.activeElement),true);await p.fill('#authPassword',config.users[0].password);await p.locator('#authPassword').press('Enter');
+  await p.waitForFunction(()=>window.DersBoard.user);await p.click('#toggleNavigation');await p.locator('#adminButton').waitFor({state:'visible'});await p.click('#adminButton');await p.waitForTimeout(350);assert.equal(await p.locator('#adminDialog').evaluate(el=>el.open),true);
   await p.locator('#adminNoteList').getByText('v1.1.2 sentetik test notu',{exact:true}).first().waitFor();
   await require('./pointer-select.cjs')(p,'#adminNoteKind','test');
   await p.fill('#adminNoteScreen','Gerçek test tarayıcısı');await p.fill('#adminNoteBody','Gerçek staging UI kaydı');await p.click('#adminSaveNote');
   await p.getByText('Not kaydedildi.',{exact:true}).waitFor();
-  await p.click('[data-preview-role="student"]');const frame=await(await p.locator('.admin-frame').elementHandle()).contentFrame();
+  await p.click('[data-preview-role="student"]');await p.frameLocator('.admin-frame').locator('#programPage').waitFor({state:'visible'});const frame=await(await p.locator('.admin-frame').elementHandle()).contentFrame();
   await frame.waitForFunction(()=>document.readyState==='complete'&&window.DersBoard?.user&&window.DersUI);
   assert.equal(await frame.evaluate(()=>DersBoard.user.email),'student@example.invalid');
+  await p.click('[data-preview-role="teacher"]');await p.frameLocator('.admin-frame').locator('#teacherPanel [data-action="student"]').waitFor();const teacherFrame=await(await p.locator('.admin-frame').elementHandle()).contentFrame();
+  assert.equal(await teacherFrame.evaluate(()=>DersBoard.user.email),'teacher@example.invalid');
+  await p.screenshot({path:path.join(root,'test-results/v114-staging-admin-mobile.png')});
   await p.click('#adminReturn');await p.locator('.admin-frame').waitFor({state:'detached'});
   await p.click('#adminClose');await p.evaluate(()=>DersBoard.client.auth.signOut());await p.waitForFunction(()=>!DersBoard.user);
   assert.deepEqual(errors,[]);pass('Real browser login → admin → note save → sample preview → return → logout');
@@ -50,4 +55,4 @@ async function run(){
   fs.writeFileSync(path.join(root,'test-results/v112-staging.json'),JSON.stringify({checks,errors,project:'hswipswqulolcwqvcjvi'},null,2));
  }finally{if(browser)await browser.close();if(server)await new Promise(resolve=>server.close(resolve));for(const client of clients)await client.auth.signOut();}
 }
-run().catch(error=>{console.error(error.message);process.exitCode=1;});
+run().catch(error=>{console.error(error);process.exitCode=1;});

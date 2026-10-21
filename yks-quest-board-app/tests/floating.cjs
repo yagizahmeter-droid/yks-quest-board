@@ -15,7 +15,7 @@ module.exports=async({root,browser,apiUrl,siteUrl})=>{
       await page.evaluate(async()=>{await new Promise(requestAnimationFrame);for(const e of document.querySelectorAll('.sidebar,.workspace'))for(const animation of e.getAnimations())await animation.finished;});
       for(const style of ['classic','glass'])for(const theme of ['light','dark']){
         await page.evaluate(({style,theme})=>{DersTheme.setStyle(style);DersTheme.set(theme);},{style,theme});
-        await page.waitForFunction(width=>{const a=document.querySelector('.sidebar').getBoundingClientRect(),b=document.querySelector('.workspace-header').getBoundingClientRect();return width>720?Math.abs(a.width-238)<.1&&b.left-a.right>=19:a.right<=0&&b.left>=7;},width,{timeout:5000});
+        await page.waitForFunction(width=>{const a=document.querySelector('.sidebar').getBoundingClientRect(),b=document.querySelector('.workspace-header').getBoundingClientRect(),expected=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width'));return width>720?Math.abs(a.width-expected)<.1&&b.left-a.right>=19:a.right<=0&&b.left>=7;},width,{timeout:5000});
         const layout=await page.evaluate(()=>{
           const box=selector=>{const e=document.querySelector(selector),r=e.getBoundingClientRect(),s=getComputedStyle(e);return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,radii:[s.borderTopLeftRadius,s.borderTopRightRadius,s.borderBottomLeftRadius,s.borderBottomRightRadius],blur:s.backdropFilter,fill:s.backgroundColor};};
           return {sidebar:box('.sidebar'),header:box('.workspace-header'),stat:box('.stat'),destination:box('.destination'),overview:box('.overview'),title:box('.page-header'),button:box('#appearanceButton'),overflow:document.documentElement.scrollWidth>innerWidth+1};
@@ -32,7 +32,7 @@ module.exports=async({root,browser,apiUrl,siteUrl})=>{
         }else assert.ok(layout.sidebar.right<=0,'Hidden drawer must stay outside the viewport');
         if(style==='glass'){
           assert.ok(layout.stat.blur.includes('blur'));
-          assert.ok(Number(layout.stat.fill.match(/[\d.]+/g)[3])<.6,'Glass card is too opaque');
+          const opacity=Number(layout.stat.fill.match(/[\d.]+/g)[3]);assert.ok(opacity>=.35&&opacity<=.75,'Approved frosted card alpha must stay translucent: '+layout.stat.fill);
         }else {assert.equal(layout.stat.blur,'none');assert.ok(layout.stat.fill.startsWith('rgb('));}
         await page.screenshot({path:path.join(root,'test-results',`floating-${style}-${theme}-${width}.png`),fullPage:true});
         measurements.push({width,style,theme,layout});

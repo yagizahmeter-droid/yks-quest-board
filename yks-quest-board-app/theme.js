@@ -2,7 +2,7 @@
   const palettes = {
     green: { name: 'Yeşil', light: '#267b5e', dark: '#80c4a2' },
     blue: { name: 'Mavi', light: '#216a9a', dark: '#86c7f4' },
-    red: { name: 'Kırmızı', light: '#b33648', dark: '#ff9eae' },
+    red: { name: 'Kırmızı', light: '#c62828', dark: '#ff453a' },
     purple: { name: 'Mor', light: '#7852a0', dark: '#c3a5ef' },
     orange: { name: 'Turuncu', light: '#965400', dark: '#ffc17f' },
     pink: { name: 'Pembe', light: '#a63777', dark: '#f2a2cf' },
@@ -19,7 +19,7 @@
   function read(key, fallback) { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } }
   function load() {
     choice = read(keys.choice, 'system'); if (!['light','dark','system'].includes(choice)) choice = 'system';
-    style = read(keys.style, 'classic'); if (!['classic','glass'].includes(style)) style = 'classic';
+    style = read(keys.style, 'classic'); if (!['classic','glass','natural','cloud'].includes(style)) style = 'classic';
     accent = read(keys.accent, 'green'); if (!palettes[accent]) accent = 'green';
     monochrome = read(keys.monochrome, 'false') === 'true';
   }
@@ -37,7 +37,7 @@
   function save(key, value) { try { localStorage.setItem(keys[key], String(value)); } catch {} apply(); }
   window.DersTheme = {
     set(value) { if (!['light','dark','system'].includes(value)) return; choice = value; save('choice', value); },
-    setStyle(value) { if (!['classic','glass'].includes(value)) return; style = value; save('style', value); },
+    setStyle(value) { if (!['classic','glass','natural','cloud'].includes(value)) return; style = value; save('style', value); },
     setAccent(value) { if (!palettes[value]) return; accent = value; save('accent', value); },
     setMonochrome(value) { monochrome = Boolean(value); save('monochrome', monochrome); },
     reset() { choice = 'system'; style = 'classic'; accent = 'green'; monochrome = false; for (const key of Object.values(keys)) { try { localStorage.removeItem(key); } catch {} } apply(); },

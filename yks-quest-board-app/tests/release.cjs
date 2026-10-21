@@ -7,9 +7,11 @@ const configSource=fs.readFileSync(path.join(root,'config.js'),'utf8');
 const liveFixture=`window.YKS_CONFIG = { supabaseUrl: '${liveUrl}', supabaseAnonKey: 'sb_publishable_ejzua9mwzTFTn6hsUtm-gQ_FqFKmrwF' };\n`;
 const releaseConfig=configSource.includes(liveUrl)?configSource:liveFixture;
 let checks=0;
+const current=require('../package.json').version;
+const publicAssets=['config.js','index.html','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','admin.js','admin.css','admin-preview.js','history-groups.js','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','ui.js','theme.js','ui.css','appearance.js','appearance.css','assets','service-worker.js','manifest.webmanifest','icons','vendor','focus-core.js','study.js','learning-ui.js','v113.css','v114.css'];
 function pass(message){checks++;console.log('PASS release',message);}
 try {
-  for(const asset of ['config.js','index.html','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','admin.js','admin.css','admin-preview.js','history-groups.js','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','ui.js','theme.js','ui.css','appearance.js','appearance.css','assets','service-worker.js','manifest.webmanifest','icons','vendor','scripts'])
+  for(const asset of [...publicAssets,'scripts'])
     fs.cpSync(path.join(root,asset),path.join(fixture,asset),{recursive:true});
   const fixtureConfig=path.join(fixture,'config.js');
   const run=(env={},flags=[])=>spawnSync(process.execPath,['-r',path.join(fixture,'scripts/windows-realpath.cjs'),path.join(fixture,'scripts/build.cjs'),...flags],{
@@ -23,15 +25,16 @@ try {
   assert.equal(/hswipswqulolcwqvcjvi|sb_secret_|service_role/.test(builtConfig),false);
   pass('Production artifact contains the exact live public configuration');
   assert.ok(fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8').includes('class="app-version"'));
-  assert.deepEqual(fs.readdirSync(path.join(fixture,'dist')).sort(),['config.js','icons','index.html','manifest.webmanifest','service-worker.js','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','admin.js','admin.css','admin-preview.js','history-groups.js','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','theme.js','ui.css','ui.js','appearance.js','appearance.css','assets','vendor'].sort());
+  assert.deepEqual(fs.readdirSync(path.join(fixture,'dist')).sort(),publicAssets.slice().sort());
   const html=fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8');
-  assert.ok(html.includes('aria-label="Sürüm geçmişini aç">v1.1.2</button>'));
-  assert.ok(!html.includes('v1.1.2 · Önizleme'));
+  assert.ok(html.includes('aria-label="Sürüm geçmişini aç">v'+current+'</button>'));
+  assert.ok(!html.includes('v'+current+' · Önizleme'));
   const releases=require('../release-history.js').releases;
-  assert.equal(releases[0].version,'1.1.2');assert.equal(releases[0].date,'2026-10-18');assert.equal(releases[0].sections.length,5);
-  assert.equal(releases.filter(r=>r.version==='1.1.2').length,1);
-  assert.ok(fs.readFileSync(path.join(fixture,'dist/service-worker.js'),'utf8').includes('ders-pwa-v1-1-2-release-r1'));
-  pass('Release includes only public assets, v1.1.2 identity, dated sectioned notes and its PWA cache');
+  assert.equal(releases[0].version,current);assert.equal(releases[0].date,'2026-10-21');assert.equal(releases[0].sections.length,6);
+  assert.equal(releases.filter(r=>r.version===current).length,1);
+  assert.ok(fs.readFileSync(path.join(fixture,'dist/service-worker.js'),'utf8').includes('ders-pwa-v'+current.replaceAll('.','-')+'-release-r1'));
+  for(const asset of ['theme-vine.svg','theme-cloud-light.svg','theme-cloud-dark.svg'])assert.ok(fs.existsSync(path.join(fixture,'dist/assets',asset)));
+  pass('Release includes only public assets, current identity, dated sectioned notes and its PWA cache');
   fs.writeFileSync(fixtureConfig,releaseConfig.replace(liveUrl,'https://hswipswqulolcwqvcjvi.supabase.co'));
   result=run();assert.notEqual(result.status,0);assert.ok(result.stderr.includes('existing live Supabase project'));
   pass('Vercel production environment rejects staging configuration');

@@ -19,7 +19,7 @@
     fill(group, [['','Kategori seç'], ...groups.map(g => [g,g])], group.value);
     group.disabled = !groups.length;
     const topics = entry ? catalog.topics(exam.value, entry.lesson, group.value) : [];
-    fill(topic, [['','Alt konu seç'], ...topics.map(t => [t,t]), ['__manual','Özel konu']], topic.value || '__manual');
+    fill(topic, [['','Alt konu seç'], ...topics.map(t => [t,t]), ['__manual','Özel Konu']], topic.value || '__manual');
     topic.disabled = !entry;
     window.DersSelect?.refresh();
   }
