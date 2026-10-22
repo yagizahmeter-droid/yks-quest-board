@@ -2,6 +2,18 @@
  const compare=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(y[i]||0)-(x[i]||0);if(d)return d;}return 0;};
  const formatDate=date=>new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
  const releases=[
+  {version:'1.1.4.1',name:'Usability & Bugfix Patch',date:'2026-10-22',dateKind:'release',sections:[
+   {title:'Kişisel Program Adı',items:['Kabul edilen öğretmen programına yalnızca öğrencinin hesabında görünen ad verme ve orijinal ada dönme; cihazlar arası senkronizasyon.']},
+   {title:'Program Tarihleri',items:['Öğretmen formundaki yinelenen serbest tarih alanı kaldırıldı; program aralığı başlangıç ve bitiş seçicilerinden oluşturulur. Eski kayıtlar korunur.']},
+   {title:'Açılır Menü Yerleşimi',items:['Arama kutusu kaydırılan seçenek listesinden ayrıldı; ilk seçenekle çakışması giderildi.']},
+   {title:'Menü Kaydırma',items:['Liste ve kaydırma çubuğu etkileşimi, etiketin gizli seçiciyi tetiklemesinden ayrıldı; fare, klavye ve dokunmatik kullanım korundu.']},
+   {title:'Ferah Bulut Kartları',items:['Cloud UI silüetinin gerçek yerleşim alanı, içerik payları ve kart aralıkları büyütüldü; uzun görevler ve eylemler için alan açıldı.']},
+   {title:'Tutarlı Vurgu Renkleri',items:['Tema yüzeyleri korunarak yerel seçim kontrolleri de seçilen vurgu rengine bağlandı; Natural UI orman yeşili kimliğini korur.']},
+   {title:'Hizalı Ders Kartları',items:['Programım dersleri satır bazlı Grid ile hizalanır; kısa kartlar uzatılmaz, mobilde tek sütun ve bulutlara özel boşluklar korunur.']},
+   {title:'Konu Adı Değişiklik Talebi',items:['Öğrenci gerekçesiyle konu adı önerebilir; öğretmen onayı yalnızca ilgili görevi günceller. Sonuç mevcut bildirim merkezinde gösterilir; katalog değişmez.']},
+   {title:'Haftalara Göre Görev Seçimi',items:['Odak Modu görevleri kapalı açılan hafta gruplarında gösterilir; yalnızca tamamlanmamış görevler listelenir. Hafta, ders ve görev araması ile Serbest Çalışma korunur.']},
+   {title:'Sade Çalışma Ekranı',items:['Aktif çalışmada yalnızca büyük saat ve Duraklat kontrolü; duraklatınca diğer kontrollerin yumuşak geçişle görünmesi. Süre ve görev kimlikleri korunur.']}
+  ]},
   {version:'1.1.4',name:'Catalog & Usability Update',date:'2026-10-21',dateKind:'release',sections:[
    {title:'TYT–AYT Konu Kataloğu',items:['MEBİ kaynaklarına bağlı konu doğrulaması, eksik başlıklar ve yanlış konu eşleşmelerinin onarılması.','Felsefe alanlarının ayrılması; öğrenci ve öğretmende aynı katalog. KPSS ve eski görev kayıtları korunur.']},
    {title:'Mobil Yönetici Paneli',items:['Mobil menüden yönetici paneline geçişte pencerenin kapanmasına neden olan geri dönüş çakışması düzeltildi.','Güvenli öğrenci / öğretmen önizlemeleri ve mobil panel kontrolleri korundu.']},

@@ -139,7 +139,7 @@ svg.lucide { width: 19px; height: 19px; flex-shrink: 0; stroke-width: 1.8; }
 .subject-nav { margin-bottom: 10px; padding: 2px 2px 12px; }
 .tab { min-height: 44px; border-radius: var(--radius-control); background: var(--panel); color: var(--muted); font-size: 12px; }
 .tab[aria-pressed="true"] { background: var(--selection-surface); color: var(--accent); border-color: var(--accent); }
-.board { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 18px; }
+.board { display: grid; grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 18px; }
 .card { border-radius: var(--radius-card); box-shadow: var(--shadow); }
 .card-head { padding: 16px; gap: 12px; }
 .subject-title h2 { font-size: 14px; }

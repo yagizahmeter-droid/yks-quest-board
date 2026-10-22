@@ -51,6 +51,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
       return;
     }
     if(process.env.V111_ONLY==='1'){const opts={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./stability-browser.cjs')(opts);await require('./v111-browser.cjs')(opts);return;}
+    if(process.env.V1141_ONLY==='1'){await require('./v1141-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;}
     const errors=[];
     async function pageFor(index,width=1280){
       const context=await browser.newContext({viewport:{width,height:900},serviceWorkers:'block'});
@@ -71,7 +72,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await fresh.locator('#teacherPanel').getByText('New Student · Öğrenci',{exact:true}).waitFor();
     assert.equal(await fresh.locator('#roleSelect').isDisabled(),true);await fresh.evaluate(()=>window.DersUI.navigate('program'));assert.equal(await fresh.locator('#addProgramButton').isVisible(),true);assert.equal(await fresh.locator('#editModeButton').isVisible(),false);console.log('PASS New account starts empty and role is set once');
     await t.locator('#teacherPanel [data-action="student"]').click();
-    await t.fill('#assignmentName','Browser Program');await t.fill('#assignmentRange','21-28 Ekim');
+    await t.fill('#assignmentName','Browser Program');await t.fill('#assignmentStart','2026-10-21');await t.fill('#assignmentEnd','2026-10-27');
     await pointerSelect(t,'#assignmentDraft [data-key="category"]','Fizik');await pointerSelect(t,'#assignmentDraft [data-key="topic_category"]','Basınç ve Kaldırma Kuvveti');await pointerSelect(t,'#assignmentDraft [data-key="topic"]','Kaldırma Kuvveti');
     await t.locator('#assignmentDraft [data-key="detail"]').fill('50 soru ve analiz');await t.locator('#assignmentDraft [data-key="xp"]').fill('200');
     await t.getByRole('button',{name:'Programı Gönder',exact:true}).click();
@@ -127,7 +128,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
     const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
     await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),{timeout:20000});
-    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-4-release-r1');return (await cache.keys()).map(r=>r.url);});
+    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-1-4-1-release-r1');return (await cache.keys()).map(r=>r.url);});
     assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
     for(const asset of ['appearance.js','appearance.css','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','personal-catalog.js'])assert.ok(cached.some(url=>url.endsWith('/'+asset)));
     await pwa.evaluate(()=>{window.DersTheme.setStyle('glass');window.DersTheme.setAccent('red');});
@@ -143,5 +144,6 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await require('./dropdown-layers.cjs')({root,browser,siteUrl:`http://127.0.0.1:${site.address().port}`});
     await require('./personal-catalog.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
     await require('./teacher-general-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
+    await require('./v1141-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
   }finally{if(browser)await browser.close();await new Promise(resolve=>api.close(resolve));await new Promise(resolve=>site.close(resolve));}
 };

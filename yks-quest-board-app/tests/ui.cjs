@@ -132,7 +132,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     const link=(await action(ids[0],'overview')).connections.find(c=>c.status==='pending');await action(ids[0],'respond_connection',{id:link.id,status:'approved'});
     const teacher = await newPage();await login(teacher,0);await go(teacher,'teacher');
     await teacher.locator('#teacherPanel [data-action="student"]').click();
-    await teacher.fill('#assignmentName','Retained draft');await teacher.fill('#assignmentRange','14-21 Ekim');await pointerSelect(teacher,'#assignmentDraft [data-key="category"]','Matematik');await pointerSelect(teacher,'#assignmentDraft [data-key="topic_category"]','Problemler');await pointerSelect(teacher,'#assignmentDraft [data-key="topic"]','__category');
+    await teacher.fill('#assignmentName','Retained draft');await teacher.fill('#assignmentStart','2026-10-21');await teacher.fill('#assignmentEnd','2026-10-27');await pointerSelect(teacher,'#assignmentDraft [data-key="category"]','Matematik');await pointerSelect(teacher,'#assignmentDraft [data-key="topic_category"]','Problemler');await pointerSelect(teacher,'#assignmentDraft [data-key="topic"]','__category');
     const assigned=(await action(ids[1],'overview')).assignments.find(a=>a.status==='accepted').quests[0];
     await action(ids[1],'request_change',{quest_id:assigned.id,changes:{title:assigned.title,detail:'Pending UI change · 30 soru ve analiz',xp:100}});
     await teacher.evaluate(()=>window.DersTeacher.refresh());

@@ -24,9 +24,29 @@
 :root[data-appearance="cloud"] { --panel:#f6fcff;--panel-2:#e8f4fc;--sidebar:#edf7fd;--line:#9fc9e1;--text:#203440;--muted:#4d6978;--cloud-image:url('./assets/theme-cloud-light.svg'); }
 :root[data-appearance="cloud"][data-theme="dark"] { --panel:#243640;--panel-2:#304651;--sidebar:#202f37;--line:#7398ac;--text:#edf8ff;--muted:#bed2df;--cloud-image:url('./assets/theme-cloud-dark.svg'); }
 /* Nine-slice preserves real cloud lobes on tall task cards, without clipping controls. */
-:root[data-appearance="cloud"] :is(.stat,.destination,.card,.account-surface) { border:32px solid transparent;border-image-source:var(--cloud-image);border-image-slice:48 36 fill;border-image-width:60px 30px;border-image-repeat:stretch;background:transparent;border-radius:0;box-shadow:none;padding:16px;overflow:visible; }
-:root[data-appearance="cloud"] .card { padding:0; }
+:root[data-appearance="cloud"] :is(.stat,.destination,.card,.account-surface) { border:60px solid transparent;border-inline-width:30px;border-image-source:var(--cloud-image);border-image-slice:48 36 fill;border-image-width:1;border-image-repeat:stretch;background:transparent;border-radius:0;box-shadow:none;padding:16px;overflow:visible; }
+:root[data-appearance="cloud"] .board { gap:28px 24px; }
+:root[data-appearance="cloud"] .card { padding:12px; }
+:root[data-appearance="cloud"] .card :is(.card-head,.quest) { padding-inline:8px; }
 :root[data-appearance="cloud"] .sidebar { border-radius:44px 38px 46px 32px; }
+.select-week-heading { display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;padding:12px;border:0;background:var(--panel-2);color:var(--text);text-align:left;font:inherit;cursor:pointer; }
+.select-week-heading>span { min-width:0;overflow-wrap:anywhere; }
+.select-week-heading svg { width:18px;height:18px;flex:none;color:var(--accent); }
+.select-week-heading.option-active { outline:2px solid var(--accent);outline-offset:-2px; }
+.select-options [role="treeitem"]:not(.select-week-heading) { min-height:44px;padding:12px;cursor:pointer;overflow-wrap:anywhere; }
+.select-options .select-week-task { padding-left:24px; }
+.select-options [role="treeitem"][aria-selected="true"] { color:var(--accent);font-weight:600; }
+.select-options [role="treeitem"]:hover { background:var(--selection-surface); }
+.focus-secondary { display:flex;justify-content:center;flex-wrap:wrap;gap:12px; }
+.focus-shell[data-active="true"] { min-height:calc(100dvh - 32px);grid-template-rows:auto 1fr;gap:0; }
+.focus-shell[data-active="true"]:has(#focusSettings:not([hidden])) { grid-template-rows:auto auto 1fr;gap:16px; }
+.focus-shell[data-active="true"] .focus-face { grid-row:auto;align-self:center;position:relative;padding:0 0 52px; }
+.focus-shell[data-active="true"] :is(#focusPhase,#focusInfo) { display:none; }
+.focus-shell[data-active="true"] #focusControls { position:relative;min-height:52px; }
+.focus-shell[data-active="true"] .focus-secondary { position:absolute;top:64px;left:0;right:0;transition:opacity .16s ease,transform .16s ease,visibility 0s; }
+.focus-shell[data-active="true"] #focusStatus { position:absolute;top:calc(100% + 24px);left:0;right:0;margin:0; }
+.focus-shell[data-session-state="running"] :is(.focus-secondary,#focusStatus) { opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-6px);transition:opacity .16s ease,transform .16s ease,visibility 0s .16s; }
+@media(prefers-reduced-motion:reduce){.focus-shell .focus-secondary,.focus-shell #focusStatus{transition:none;transform:none;}}
 @media(max-width:720px){
  .program-actions { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px; }
  .program-actions #openWeekReport { grid-column:1 / -1; }
@@ -43,6 +63,6 @@
  .admin-toolbar { display:grid;grid-template-columns:repeat(2,minmax(0,1fr)); }
  .admin-toolbar .segmented { grid-column:1 / -1;display:flex; }
  .admin-toolbar .segmented .button { flex:1; }
- :root[data-appearance="cloud"] :is(.stat,.destination,.account-surface) { padding:14px 10px;border-width:24px;border-image-width:48px 24px; }
+ :root[data-appearance="cloud"] :is(.stat,.destination,.card,.account-surface) { padding:14px 10px;border-width:48px 20px; }
  :root[data-appearance="natural"] :is(.stat,.destination,.card,.account-surface)::after { width:48px;height:42px;opacity:.5; }
 }

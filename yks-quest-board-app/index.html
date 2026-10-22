@@ -851,6 +851,7 @@
       <div class="program-toolbar">
       <div class="week-tools">
         <select id="weekSelect" class="select" aria-label="Hafta seç"></select>
+        <button id="renameAssignedWeekButton" class="button" type="button" hidden><i data-lucide="pencil"></i>Yeniden Adlandır</button>
         <button id="editModeButton" class="button" type="button">Düzenle</button>
         <button id="newWeekButton" class="button primary" type="button"><i data-lucide="plus"></i>Yeni Hafta</button>
       </div>
@@ -933,7 +934,7 @@
     </section>
   </main>
   </div>
-  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.1.4</button></footer>
+  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.1.4.1</button></footer>
 
   <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
     <section class="modal">
@@ -990,6 +991,14 @@
     </section>
   </div>
 
+  <dialog id="assignedWeekNameDialog" class="ders-dialog appearance-dialog" aria-labelledby="assignedWeekNameTitle">
+    <header class="appearance-heading"><h2 id="assignedWeekNameTitle">Programı Yeniden Adlandır</h2><button id="closeAssignedWeekName" type="button" class="icon-button" aria-label="Kapat" title="Kapat"><i data-lucide="x"></i></button></header>
+    <p id="assignedWeekOriginalName" class="sync-status"></p>
+    <form id="assignedWeekNameForm">
+      <label class="field">Görünen Ad<input id="assignedWeekCustomTitle" class="input" type="text" maxlength="120" autocomplete="off"></label>
+      <div class="signed-in-actions"><button class="button primary" type="submit">Kaydet</button><button id="resetAssignedWeekName" class="button" type="button">Orijinal Ada Dön</button></div>
+    </form>
+  </dialog>
   <dialog id="appearanceDialog" class="ders-dialog appearance-dialog" aria-labelledby="appearanceTitle" data-auto-save>
     <header class="appearance-heading"><h2 id="appearanceTitle">Görünüm</h2><button id="closeAppearance" class="icon-button" type="button" aria-label="Görünüm ayarlarını kapat" title="Kapat"><i data-lucide="x"></i></button></header>
     <fieldset class="appearance-field"><legend>Arayüz Stili</legend><div class="style-options">
@@ -1311,6 +1320,20 @@
       return state.weeks.find((week) => week.id === state.activeWeekId&&!week.archived) || state.weeks.find(week=>!week.archived);
     }
 
+    function assignedWeek(week) {
+      return Boolean(week?.id?.startsWith('teacher-week-') && week.quests?.some(q=>q.lockedForStudent && q.assignedQuestId));
+    }
+    function weekTitle(week) {
+      return assignedWeek(week) && typeof week.customTitle === 'string' && week.customTitle.trim() && week.customTitle.length <= 120 ? week.customTitle.trim() : week.name;
+    }
+    function renameAssignedWeek(id, title) {
+      const week=state.weeks.find(w=>w.id===id);
+      if(!currentUser || state.profile.role!=='student' || !assignedWeek(week) || week.archived || typeof title!=='string' || title.trim().length>120)return false;
+      // The canonical name and teacher assignment stay untouched; owner-only JSON sync carries this display preference.
+      if(!saveDraftChange(()=>{if(title.trim() && title.trim()!==week.name)week.customTitle=title.trim();else delete week.customTitle;}))return false;
+      render();return true;
+    }
+
     function getCategories() {
       state.categories = normalizeCategories(state.categories, state.weeks);
       return state.categories;
@@ -1396,6 +1419,9 @@
 
     async function switchAccount(user) {
       if ((currentUser?.id || null) === (user?.id || null)) return;
+      if(nameDialog.open)closeWeekName(true);
+      document.getElementById('assignedWeekCustomTitle').value='';
+      document.getElementById('assignedWeekOriginalName').textContent='';
       authGeneration += 1;
       clearTimeout(syncTimer);
       currentUser = user;
@@ -1517,8 +1543,8 @@
     function render() {
       const week = activeWeek();
       if (!week) return;
-      els.weekSubtitle.textContent = week.range || week.name || "D.E.R.S.";
-      document.title = `D.E.R.S. - ${week.range || week.name}`;
+      els.weekSubtitle.textContent = week.customTitle ? weekTitle(week) : week.range || week.name || "D.E.R.S.";
+      document.title = `D.E.R.S. - ${week.customTitle ? weekTitle(week) : week.range || week.name}`;
       document.body.classList.toggle("edit-mode", editMode);
       els.editModeButton.classList.toggle("is-active", editMode);
       els.editModeButton.textContent = editMode ? "Düzenleme açık" : "Düzenleme modu";
@@ -1542,10 +1568,11 @@
       state.weeks.filter(week=>!week.archived).forEach((week) => {
         const option = document.createElement("option");
         option.value = week.id;
-        option.textContent = week.name;
+        option.textContent = weekTitle(week);
         option.selected = week.id === state.activeWeekId;
         els.weekSelect.append(option);
       });
+      document.getElementById('renameAssignedWeekButton').hidden=!(currentUser && state.profile.role==='student' && assignedWeek(activeWeek()));
     }
 
     function renderSubjectNav(week) {
@@ -1941,7 +1968,7 @@
       const date = els.historyDateFilter.value;
       const weekId = els.historyWeekFilter.value;
       const categoryId = els.historyCategoryFilter.value;
-      els.historyWeekFilter.innerHTML = `<option value="">Tüm haftalar</option>${state.weeks.map((week) => `<option value="${escapeHtml(week.id)}">${escapeHtml(week.name)}</option>`).join("")}`;
+      els.historyWeekFilter.innerHTML = `<option value="">Tüm haftalar</option>${state.weeks.map((week) => `<option value="${escapeHtml(week.id)}">${escapeHtml(weekTitle(week))}</option>`).join("")}`;
       els.historyCategoryFilter.innerHTML = `<option value="">Tüm kategoriler</option>${categories.map((category) => `<option value="${escapeHtml(category.id)}">${escapeHtml(category.name)}</option>`).join("")}`;
       els.historyWeekFilter.value = weekId;
       els.historyCategoryFilter.value = categoryId;
@@ -1953,7 +1980,7 @@
       els.historyList.innerHTML = records.length ? "" : `<div class="empty-state"><i data-lucide="history"></i><h2>Henüz Çalışma Kaydı Yok</h2><p>Seçili filtrelerde tamamlanan çalışma bulunmuyor.</p></div>`;
       for (const week of window.DersHistory.group(records.slice(0,80),state.weeks)) {
         const group = document.createElement("details"); group.className = "history-week-group"; group.open = true;
-        const summary = document.createElement("summary"); summary.textContent = week.name; group.append(summary);
+        const summary = document.createElement("summary"); summary.textContent = weekTitle(week); group.append(summary);
         for (const day of week.days) {
           const section = document.createElement("section"), heading = document.createElement("h3");
           heading.className = "history-day-label";
@@ -2380,10 +2407,26 @@
       });
     }
 
+    const nameDialog=document.getElementById('assignedWeekNameDialog');
+    function closeWeekName(saved=false) {
+      if(!saved && !window.DersUI?.canLeave(nameDialog))return;
+      window.DersUI?.clearDirty(nameDialog);nameDialog.close();window.DersUI?.modalClosed('assigned-week-name');
+      document.getElementById('renameAssignedWeekButton').focus({preventScroll:true});
+    }
+    document.getElementById('renameAssignedWeekButton').onclick=()=>{
+      const week=activeWeek();nameDialog.dataset.weekId=week.id;
+      document.getElementById('assignedWeekOriginalName').textContent='Öğretmenin Program Adı: '+week.name;
+      document.getElementById('assignedWeekCustomTitle').value=weekTitle(week);
+      nameDialog.showModal();window.DersUI?.openModal('assigned-week-name',nameDialog,()=>closeWeekName());window.DersUI?.clearDirty(nameDialog);
+    };
+    document.getElementById('assignedWeekNameForm').onsubmit=e=>{e.preventDefault();if(renameAssignedWeek(nameDialog.dataset.weekId,document.getElementById('assignedWeekCustomTitle').value)){closeWeekName(true);showToast('Programın görünen adı güncellendi');}};
+    document.getElementById('resetAssignedWeekName').onclick=()=>{if(renameAssignedWeek(nameDialog.dataset.weekId,''))closeWeekName(true);};
+    document.getElementById('closeAssignedWeekName').onclick=()=>closeWeekName();
+    nameDialog.oncancel=e=>{e.preventDefault();closeWeekName();};
     window.DersBoard = {
       get client() { return supabaseClient; }, get user() { return currentUser; }, get state() { return state; },
       get authReady() { return authReady; },
-      week: activeWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud, render,
+      week: activeWeek, weekTitle, renameAssignedWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud, render,
       setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; window.DersUI?.refresh(); },
       editQuest(id, weekId, changes) {
         const q = state.weeks.find(w => w.id === weekId)?.quests.find(q => q.id === id);

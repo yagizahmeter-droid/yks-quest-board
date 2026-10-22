@@ -52,6 +52,8 @@ body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-even
 .quest.done .check { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 :root .stat svg, :root .destination > svg:first-child, .xp, .invite-result { color: var(--accent); }
 :focus-visible { outline-color: var(--accent); }
+/* Native controls follow the selected accent without recoloring theme surfaces. */
+input[type="checkbox"], input[type="radio"], progress, meter { accent-color: var(--accent); }
 :root[data-monochrome="true"] { --gold: var(--accent); --green: var(--accent); --blue: var(--accent); --purple: var(--accent); --cyan: var(--accent); --orange: var(--accent); --red: var(--muted); }
 :root[data-monochrome="true"] .subject-dot { background: var(--muted) !important; }
 :root[data-monochrome="true"] .subject-title h2 { color: var(--text) !important; }

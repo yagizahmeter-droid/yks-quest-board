@@ -152,7 +152,7 @@
     $('subjectNav').hidden = !hasProgram;
     $('editModeButton').hidden = !hasProgram && !document.body.classList.contains('edit-mode');
     $('editModeButton').innerHTML = `<i data-lucide="${document.body.classList.contains('edit-mode') ? 'check' : 'pencil'}"></i>${document.body.classList.contains('edit-mode') ? 'Bitir' : 'Düzenle'}`;
-    $('homeWeekLabel').textContent = week.range || week.name;
+    $('homeWeekLabel').textContent = week.customTitle ? board.weekTitle(week) : week.range || week.name;
     $('homeProgramSummary').textContent = week.quests.length ? `${week.quests.filter(q => !q.done).length} bekleyen görev` : 'Henüz program yok';
     $('homeHistorySummary').textContent = s.studyHistory.length ? `${s.studyHistory.length} çalışma kaydı` : 'Henüz kayıt yok';
     $('guestNavigation').hidden = Boolean(uid); $('memberNavigation').hidden = !uid; $('accountProfile').hidden = !uid;

@@ -93,7 +93,8 @@
     }
     for (const r of overview.requests) {
       const proposal = r.requested_changes;
-      panel.insertAdjacentHTML('beforeend', row(`${r.name} · ${r.title}`, `${labels[r.status]} · Öneri: ${proposal.title} — ${proposal.detail} · ${proposal.xp} XP`,
+      const detail=proposal.type==='topic_title' ? `${r.status==='approved'?'Kabul Edildi':r.status==='rejected'?'Reddedildi':'Beklemede'} · Mevcut: ${proposal.current_title} · Önerilen: ${proposal.title}${proposal.reason?' · Gerekçe: '+proposal.reason:''}` : `${labels[r.status]} · Öneri: ${proposal.title} — ${proposal.detail} · ${proposal.xp} XP`;
+      panel.insertAdjacentHTML('beforeend', row(`${r.name} · ${r.title}`, detail,
         teacher && r.status === 'pending' ? button('Değişikliği Onayla', 'change-approve', r.id) + button('Reddet', 'change-reject', r.id) : ''));
     }
   }
@@ -155,7 +156,7 @@
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
   function rememberComposer() {
     const form = document.getElementById('assignmentForm'); if (!form || !shownStudent) return;
-    const entry = { id:composer.id, quests:structuredClone(draft), name:document.getElementById('assignmentName').value, range:document.getElementById('assignmentRange').value, start:document.getElementById('assignmentStart').value, end:document.getElementById('assignmentEnd').value };
+    const entry = { id:composer.id, quests:structuredClone(draft), name:document.getElementById('assignmentName').value, range:composer.range || '', start:document.getElementById('assignmentStart').value, end:document.getElementById('assignmentEnd').value };
     window.DersTeacherDrafts.save(owner,shownStudent,entry); drafts.set(shownStudent,entry); return entry;
   }
   function programForm() {
@@ -163,7 +164,8 @@
     const book = window.DersTeacherDrafts.load(owner,shownStudent);
     composer = structuredClone(drafts.get(shownStudent) || book.entries.find(d=>d.id===book.active) || { id:crypto.randomUUID(), quests:[freshQuest()], name:'',range:'',start:day,end:new Date(Date.parse(day+'T12:00:00Z')+6*86400000).toISOString().slice(0,10) });
     draft = structuredClone(composer.quests);
-    document.getElementById('studentWorkspace').innerHTML = `<form id="assignmentForm" class="program-composer"><input type="hidden" id="assignmentStudent" value="${esc(shownStudent)}"><div class="modal-grid">${input('Hafta Adı','assignmentName','text',composer.name)}${input('Tarih Aralığı','assignmentRange','text',composer.range)}</div><div class="modal-grid">${input('Günlük Görev Başlangıcı','assignmentStart','date',composer.start)}${input('Günlük Görev Bitişi','assignmentEnd','date',composer.end)}</div><div id="assignmentDraft"></div><p id="assignmentError" role="alert"></p><div class="signed-in-actions">${button('<i data-lucide="plus"></i>Görev Ekle','draft-add')}${button('<i data-lucide="copy"></i>Bu Haftayı Kopyala','draft-copy')}<button class="button primary" type="submit"><i data-lucide="send"></i>Programı Gönder</button></div></form>`;
+    document.getElementById('studentWorkspace').innerHTML = `<form id="assignmentForm" class="program-composer"><input type="hidden" id="assignmentStudent" value="${esc(shownStudent)}">${input('Hafta Adı','assignmentName','text',composer.name)}<div class="modal-grid">${input('Günlük Görev Başlangıcı','assignmentStart','date',composer.start)}${input('Günlük Görev Bitişi','assignmentEnd','date',composer.end)}</div><div id="assignmentDraft"></div><p id="assignmentError" role="alert"></p><div class="signed-in-actions">${button('<i data-lucide="plus"></i>Görev Ekle','draft-add')}${button('<i data-lucide="copy"></i>Bu Haftayı Kopyala','draft-copy')}<button class="button primary" type="submit"><i data-lucide="send"></i>Programı Gönder</button></div></form>`;
+    for(const id of ['assignmentStart','assignmentEnd'])document.getElementById(id).required=true;
     const templates = overview.assignments.filter(a => a.student_id === shownStudent && ['accepted','pending'].includes(a.status));
     document.getElementById('assignmentDraft').insertAdjacentHTML('beforebegin', `<div class="modal-grid"><label class="field">Taslak<select class="select" id="assignmentDraftSelect" data-ui-transient="true">${[...book.entries.filter(d=>d.id!==composer.id),composer].map(d=>`<option value="${esc(d.id)}" ${d.id===composer.id?'selected':''}>${esc(d.name || 'Adsız taslak')}</option>`).join('')}</select></label>${button('<i data-lucide="trash-2"></i>Taslağı Sil','draft-remove')}</div><label class="field">Kopyalanacak Hafta<select class="select" id="assignmentTemplate" data-ui-transient="true"><option value="current">Açık taslak</option><option value="own">Kişisel haftam · ${esc(window.DersBoard.week().name)}</option>${templates.map(a => `<option value="${esc(a.id)}">${esc(a.week_name)} · ${labels[a.status]}</option>`).join('')}</select></label>`);
     document.getElementById('assignmentDraftSelect').onchange = event => { rememberComposer();const selected=window.DersTeacherDrafts.load(owner,shownStudent).entries.find(d=>d.id===event.target.value);if(selected){drafts.set(shownStudent,selected);programForm();} };
@@ -214,13 +216,19 @@
     select.onchange = draw; draw();
   }
   function editQuest(q, w, change = false) {
-    if (!showDialog(change ? 'Değişiklik İste' : 'Görev Düzenle', `<form id="questEditForm">${input('Görev Adı','editTitle','text',q.title)}${input('Açıklama','editDetail','text',q.detail)}${input('XP','editXp','number',q.xp)}<p id="editError" role="alert"></p><button class="button primary" type="submit">${change ? 'İsteği Gönder' : 'Kaydet'}</button></form>`)) return;
+    const titleChanges=change && overview?.capabilities?.topicTitleChanges;
+    if (!showDialog(change ? 'Değişiklik İste' : 'Görev Düzenle', `<form id="questEditForm">${titleChanges?'<label class="field">Değişiklik Türü<select class="select" id="editChangeType"><option value="details">Görev Bilgileri</option><option value="topic_title">Konu Adı</option></select></label><p id="editCurrentTitle" class="sync-status" hidden></p>':''}${input('Görev Adı','editTitle','text',q.title)}${input('Açıklama','editDetail','text',q.detail)}${input('XP','editXp','number',q.xp)}${titleChanges?'<label class="field" id="editReasonField" hidden>Gerekçe (isteğe bağlı)<textarea id="editReason" class="textarea" rows="3" maxlength="2000"></textarea></label>':''}<p id="editError" role="alert"></p><button class="button primary" type="submit">${change ? 'İsteği Gönder' : 'Kaydet'}</button></form>`)) return;
     if (q.lockedForStudent && q.topicScope) dialog.querySelector('#editTitle').readOnly = true;
+    dialog.querySelector('#editTitle').maxLength=200;
+    if(titleChanges){
+      dialog.querySelector('#editCurrentTitle').textContent='Mevcut Konu Adı: '+q.title;
+      dialog.querySelector('#editChangeType').onchange=e=>{const title=e.target.value==='topic_title';dialog.querySelector('#editTitle').readOnly=!title&&Boolean(q.lockedForStudent&&q.topicScope);dialog.querySelector('#editTitle').closest('label').firstChild.textContent=title?'Önerilen Konu Adı':'Görev Adı';dialog.querySelector('#editTitle').value=q.title;dialog.querySelector('#editCurrentTitle').hidden=!title;dialog.querySelector('#editReasonField').hidden=!title;for(const id of ['editDetail','editXp'])dialog.querySelector('#'+id).closest('label').hidden=title;};
+    }
     dialog.querySelector('#questEditForm').onsubmit = async event => {
       event.preventDefault(); const changes = { title: dialog.querySelector('#editTitle').value.trim(), detail: dialog.querySelector('#editDetail').value.trim(), xp: Number(dialog.querySelector('#editXp').value) };
       if (!changes.title || !Number.isInteger(changes.xp) || changes.xp < 5 || changes.xp > 10000) { dialog.querySelector('#editError').textContent = 'Görev adı ve 5–10000 XP gerekli.'; return; }
       try {
-        if (change) await rpc('request_change', { quest_id: q.assignedQuestId, changes });
+        if (change) await rpc('request_change', { quest_id: q.assignedQuestId, changes:dialog.querySelector('#editChangeType')?.value==='topic_title'?{type:'topic_title',title:changes.title,reason:dialog.querySelector('#editReason').value.trim()}:changes });
         else window.DersBoard.editQuest(q.id, w.id, changes);
         closeDialog(true); await refresh(); window.DersBoard.toast(change ? 'Değişiklik isteği gönderildi' : 'Görev güncellendi');
       } catch (error) { const output = dialog.querySelector('#editError'); if (output) output.textContent = error.message; else window.DersBoard.toast(error.message); }
@@ -262,9 +270,11 @@
         if (draft.some(q => q.topic_scope) && !overview.capabilities?.topicCatalog) throw new Error('Konu alanlarını kaydetmek için sunucu güncellemesi gerekli. Program gönderilmedi.');
         if (draft.some(q => q.repeat_kind !== 'none') && !overview.capabilities?.repeatQuests) throw new Error('Tekrarlı görevler için sunucu güncellemesi gerekli. Program gönderilmedi.');
         const start = document.getElementById('assignmentStart').value, end = document.getElementById('assignmentEnd').value;
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(start)||!/^\d{4}-\d{2}-\d{2}$/.test(end)||end<start)throw new Error('Geçerli başlangıç ve bitiş tarihlerini seç.');
         const quests = draft.map(q => {const first=q.starts_on||start,last=q.ends_on||end,target=q.repeat_kind==='daily'?Math.round((Date.parse(last+'T12:00:00Z')-Date.parse(first+'T12:00:00Z'))/86400000)+1:q.repeat_kind==='weekly'?q.repeat_target:1;return { exam_type:q.exam_type, category:q.category, title:q.title.trim(), detail:q.detail.trim(), xp:q.xp, repeat_kind:q.repeat_kind, repeat_target:target, ...(q.topic_scope ? {topic_category:q.topic_category,topic_name:q.topic_name,topic_scope:q.topic_scope} : {}), ...(q.repeat_kind==='daily' ? {starts_on:first,ends_on:last} : {}) };});
         if (!document.getElementById('assignmentName').value.trim() || !quests.length || quests.some(q => !window.DersCurriculum.supports(q.exam_type,q.category) || !q.title || !Number.isInteger(q.xp) || q.xp<5 || q.xp>10000 || !Number.isInteger(q.repeat_target) || q.repeat_target<1 || q.repeat_target>100 || (q.repeat_kind==='daily' && q.repeat_target>31))) throw new Error('Hafta adı, ders, konu, geçerli XP ve tekrar hedefi gerekli. Günlük aralık 1–31 gün olabilir.');
-        await rpc('assign_program', { student_id: shownStudent, week_name: document.getElementById('assignmentName').value.trim(), week_range: document.getElementById('assignmentRange').value.trim(), quests });
+        const range = [start,end].map(day=>day.split('-').reverse().join('.')).join(' – ');
+        await rpc('assign_program', { student_id: shownStudent, week_name: document.getElementById('assignmentName').value.trim(), week_range: range, quests });
         sendAfter=Date.now()+500;
         window.DersUI?.clearDirty(document.getElementById('assignmentForm'));
         window.DersUI?.clearDirty(dialog); window.DersTeacherDrafts.remove(owner,shownStudent,composer.id);drafts.delete(shownStudent); programForm(); snapshot = '';
