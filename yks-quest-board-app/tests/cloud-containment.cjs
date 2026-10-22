@@ -21,6 +21,13 @@ const root = path.resolve(__dirname, '..');
     await page.goto(process.env.DERS_CLOUD_URL || `http://127.0.0.1:${server.address().port}/`);
     await page.waitForFunction(() => window.DersBoard?.user && window.DersStudy?.loaded);
     await page.evaluate(async () => {
+      await document.fonts.ready;
+      await Promise.all(['dark', 'light'].map(async theme => {
+        const image = new Image(); image.src = './assets/theme-cloud-' + theme + '.svg';
+        await image.decode();
+      }));
+    });
+    await page.evaluate(async () => {
       const state = DersBoard.state, week = DersBoard.week();
       state.categories = ['Turkce', 'Fizik'].map((name, i) => ({ id: 'cloud-' + i, name, color: '#63d6d6', sortOrder: i }));
       week.quests = state.categories.flatMap((category, i) => Array.from({ length: i ? 5 : 2 }, (_, j) => ({
