@@ -23,7 +23,7 @@
 :root[data-appearance="natural"] .sidebar { border-radius:34px 18px 30px 15px; }
 :root[data-appearance="cloud"] { --panel:#f6fcff;--panel-2:#e8f4fc;--sidebar:#edf7fd;--line:#9fc9e1;--text:#203440;--muted:#4d6978;--cloud-image:url('./assets/theme-cloud-light.svg'); }
 :root[data-appearance="cloud"][data-theme="dark"] { --panel:#243640;--panel-2:#304651;--sidebar:#202f37;--line:#7398ac;--text:#edf8ff;--muted:#bed2df;--cloud-image:url('./assets/theme-cloud-dark.svg'); }
-/* Nine-slice preserves real cloud lobes on tall task cards, without clipping controls. */
+/* Nine-slice uses the SVGs' explicit 240x160 source size to keep the center fully painted. */
 :root[data-appearance="cloud"] :is(.stat,.destination,.card,.account-surface) { border:60px solid transparent;border-inline-width:30px;border-image-source:var(--cloud-image);border-image-slice:48 36 fill;border-image-width:1;border-image-repeat:stretch;background:transparent;border-radius:0;box-shadow:none;padding:16px;overflow:visible; }
 :root[data-appearance="cloud"] .board { gap:28px 24px; }
 :root[data-appearance="cloud"] .card { padding:12px; }
