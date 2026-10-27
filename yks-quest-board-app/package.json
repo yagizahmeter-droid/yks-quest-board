@@ -1,6 +1,6 @@
 {
   "name": "ders",
-  "version": "1.1.4.1",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "start": "node scripts/server.cjs",
@@ -9,6 +9,7 @@
     "test": "node tests/integration.cjs",
     "test:curriculum": "node tests/curriculum.cjs",
     "test:staging": "node tests/staging.cjs",
+    "test:exams": "node tests/exams.cjs",
     "deploy:vercel": "vercel",
     "deploy:netlify": "netlify deploy --prod --dir ."
   },

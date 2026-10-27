@@ -4,6 +4,7 @@ const types = { '.html':'text/html; charset=utf-8','.js':'text/javascript; chars
 const server = http.createServer((req, res) => {
   let requested; try { requested = decodeURIComponent(req.url.split('?')[0]); } catch { res.writeHead(400).end(); return; }
   const asset = requested === '/' ? '/index.html' : requested;
+  if(['/exams-core.js','/exams.js','/exams.css'].includes(asset)){res.setHeader('Content-Type',types[path.extname(asset)]);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}
   if(['/focus-core.js','/study.js','/learning-ui.js','/v113.css','/v114.css','/assets/theme-vine.svg','/assets/theme-cloud-light.svg','/assets/theme-cloud-dark.svg'].includes(asset)){res.setHeader('Content-Type',types[path.extname(asset)]);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}
   if(/^\/icons\/ders-(?:v3\.svg|(?:16|32|192|512|apple|maskable)-v3\.png)$/.test(asset)){res.setHeader('Content-Type',types[path.extname(asset)]);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}
   if(['/admin.js','/admin.css','/admin-preview.js','/history-groups.js','/program-import.js','/backgrounds.js','/release-history.js','/v111.css'].includes(asset)){res.setHeader('Content-Type',types[path.extname(asset)]);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}

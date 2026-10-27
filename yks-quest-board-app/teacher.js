@@ -188,11 +188,12 @@
   async function studentTab(action,week,quest) {
     const wrap = document.getElementById('studentWorkspace'); if (!wrap || !shownStudent || !window.DersUI?.canLeave(wrap)) return;
     wrap.dataset.request=crypto.randomUUID();
+    window.DersExams?.unmount(wrap);
     rememberComposer(); window.DersUI?.clearDirty(wrap);
     const token = ++viewToken, uid = owner, id = shownStudent;
     dialog.querySelectorAll('[role="tab"]').forEach(b => { const selected = b.dataset.action === action; b.tabIndex = selected ? 0 : -1; b.setAttribute('aria-selected',String(selected)); b.classList.toggle('is-active',selected); if(selected)wrap.setAttribute('aria-labelledby',b.id); });
     if (action === 'student-program') { programForm(); return; }
-    if (action === 'student-results') { wrap.innerHTML = '<div class="empty-state"><i data-lucide="chart-no-axes-combined"></i><h3>Coming Soon — Yakında!</h3></div>'; return; }
+    if (action === 'student-results') { await window.DersExams.mount(wrap,id); return; }
     if (action === 'student-report') { await window.DersLearningUI.report(wrap,id,week,quest);return; }
     wrap.innerHTML = '<p role="status">İlerleme yükleniyor…</p>';
     const data = await rpc('student_board',{student_id:id});

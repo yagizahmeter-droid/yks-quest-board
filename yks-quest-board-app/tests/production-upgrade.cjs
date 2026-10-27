@@ -1,11 +1,11 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require('playwright');
-const root=path.resolve(__dirname,'..'),out=path.join(root,'test-results'),signal=path.join(out,'production-v1141-ready.json');
+const root=path.resolve(__dirname,'..'),out=path.join(root,'test-results'),signal=path.join(out,'production-v120-ready.json');
 async function waitForInstalledShell(page){
  // Await cache probes explicitly so a Promise cannot be mistaken for a ready shell.
  const deadline=Date.now()+30000;
  while(Date.now()<deadline){
-  const ready=await page.evaluate(async()=>{const registration=await navigator.serviceWorker.getRegistration();if(!registration||registration.installing||registration.waiting||registration.active?.state!=='activated'||navigator.serviceWorker.controller!==registration.active)return false;const keys=await caches.keys();if(!keys.includes('ders-pwa-v1-1-4-1-release-r1'))return false;const cache=await caches.open('ders-pwa-v1-1-4-1-release-r1'),html=await cache.match(location.origin+'/');return Boolean(html&&(await html.text()).includes('learning-ui.js')&&await cache.match(location.origin+'/focus-core.js')&&await cache.match(location.origin+'/study.js')&&await cache.match(location.origin+'/learning-ui.js'));});
+  const ready=await page.evaluate(async()=>{const registration=await navigator.serviceWorker.getRegistration();if(!registration||registration.installing||registration.waiting||registration.active?.state!=='activated'||navigator.serviceWorker.controller!==registration.active)return false;const keys=await caches.keys();if(!keys.includes('ders-pwa-v1-2-0-release-r1'))return false;const cache=await caches.open('ders-pwa-v1-2-0-release-r1'),html=await cache.match(location.origin+'/');return Boolean(html&&(await html.text()).includes('learning-ui.js')&&await cache.match(location.origin+'/focus-core.js')&&await cache.match(location.origin+'/study.js')&&await cache.match(location.origin+'/learning-ui.js'));});
   if(ready)return;await new Promise(resolve=>setTimeout(resolve,100));
  }
  throw Error('New service worker and release shell did not finish activating');
@@ -26,23 +26,23 @@ async function waitForInstalledShell(page){
   // Keep the old service worker and guest browser alive until deployment has been verified READY.
   const deadline=Date.now()+15*60*1000;
   while(!verifyNow&&!fs.existsSync(signal)){if(Date.now()>deadline)throw Error('Release signal timed out');await new Promise(resolve=>setTimeout(resolve,500));}
-  if(!verifyNow){const release=JSON.parse(fs.readFileSync(signal,'utf8'));assert.equal(release.version,'1.1.4.1');}
+  if(!verifyNow){const release=JSON.parse(fs.readFileSync(signal,'utf8'));assert.equal(release.version,'1.2.0');}
   await page.reload();await page.waitForFunction(()=>window.DersReleases&&DersBoard.authReady);
   await page.evaluate(async()=>{const registration=await navigator.serviceWorker.getRegistration();await registration.update();});
   await waitForInstalledShell(page);
   assert.equal(await page.evaluate(()=>localStorage.getItem('ders-release-probe')),marker);
   assert.equal(await page.evaluate(()=>YKS_CONFIG.supabaseUrl),'https://jswgagzbetwviamiwcck.supabase.co');
-  assert.equal(await page.locator('.app-version').textContent(),'v1.1.4.1');
+  assert.equal(await page.locator('.app-version').textContent(),'v1.2.0');
   const manifest=await page.evaluate(()=>fetch('./manifest.webmanifest').then(r=>r.json()));
   for(const icon of manifest.icons){const size=await page.evaluate(src=>new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve([image.naturalWidth,image.naturalHeight]);image.onerror=reject;image.src=src;}),icon.src);if(icon.type==='image/png')assert.equal(size.join('x'),icon.sizes);}
   await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));await page.locator('.app-footer').waitFor();
-  await page.locator('#versionHistoryButton').click();assert.match(await page.locator('#releaseHistoryDialog h3').first().textContent(),/^v1\.1\.4\.1 /);assert.equal(await page.locator('#releaseHistoryDialog time').first().getAttribute('datetime'),'2026-10-22');assert.equal(await page.locator('#releaseHistoryDialog section').first().locator('h4').count(),10);await page.keyboard.press('Escape');
-  await page.screenshot({path:path.join(out,'production-v1141-mobile.png')});
-  await page.setViewportSize({width:1280,height:900});await page.screenshot({path:path.join(out,'production-v1141-desktop.png')});
-  await context.setOffline(true);await page.reload();await page.waitForFunction(()=>window.DersReleases);assert.equal(await page.locator('.app-version').textContent(),'v1.1.4.1');
-  await page.locator('#versionHistoryButton').click();await page.locator('#releaseHistoryDialog').waitFor();assert.equal(await page.locator('#releaseHistoryDialog section').count(),9);
+  await page.locator('#versionHistoryButton').click();assert.match(await page.locator('#releaseHistoryDialog h3').first().textContent(),/^v1\.2\.0 /);assert.equal(await page.locator('#releaseHistoryDialog time').first().getAttribute('datetime'),'2026-10-28');assert.equal(await page.locator('#releaseHistoryDialog section').first().locator('h4').count(),4);await page.keyboard.press('Escape');
+  await page.screenshot({path:path.join(out,'production-v120-mobile.png')});
+  await page.setViewportSize({width:1280,height:900});await page.screenshot({path:path.join(out,'production-v120-desktop.png')});
+  await context.setOffline(true);await page.reload();await page.waitForFunction(()=>window.DersReleases);assert.equal(await page.locator('.app-version').textContent(),'v1.2.0');
+  await page.locator('#versionHistoryButton').click();await page.locator('#releaseHistoryDialog').waitFor();assert.equal(await page.locator('#releaseHistoryDialog section').count(),10);
   assert.deepEqual(errors,[]);assert.equal(databaseRequests,0);
-  const result={passed:true,version:'1.1.4.1',previousVersion:before.version,pwaUpgrade:!before.cacheKeys.includes('ders-pwa-v1-1-4-1-release-r1'),installedShell:true,offline:true,manifestIcons:true,releaseHistory:true,localStoragePreserved:true,databaseRequests,realUserWrites:false};
+  const result={passed:true,version:'1.2.0',previousVersion:before.version,pwaUpgrade:!before.cacheKeys.includes('ders-pwa-v1-2-0-release-r1'),installedShell:true,offline:true,manifestIcons:true,releaseHistory:true,localStoragePreserved:true,databaseRequests,realUserWrites:false};
   fs.writeFileSync(path.join(out,'production-upgrade-result.json'),JSON.stringify(result,null,2));console.log('RESULT',JSON.stringify(result));
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

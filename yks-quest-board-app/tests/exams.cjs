@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict'),core=require('../exams-core.js');
+let checks=0;const pass=name=>{checks++;console.log('PASS exams',name);};
+const make=(type='TYT')=>({id:'11111111-1111-4111-8111-111111111111',name:'Deneme',exam_type:type,exam_date:'2026-10-27',publisher:'',note:'',groups:core.catalog[type].map(g=>({id:g.id,mode:type==='TYT'?'total':'detail'})),results:{},created_at:'2026-10-27T12:00:00Z'});
+let r=make();r.results.turkish={correct:30,wrong:8,blank:2};assert.equal(core.validate(r).totalNet,28);pass('30 correct, 8 wrong, 2 blank = 28 net');
+for(const [correct,wrong,blank,net] of [[0,4,36,-1],[0,0,40,0],[40,0,0,40],[30,1,9,29.75]]){r.results.turkish={correct,wrong,blank};assert.equal(core.validate(r).totalNet,net);}pass('Negative nets, zero nets and quarter points');
+for(const value of [-1,.5,41,true,'3']){r.results.turkish={correct:value,wrong:0,blank:null};assert.throws(()=>core.validate(r));}pass('No negative, decimal, oversized or coerced question counts');
+for(const counts of [{correct:30,wrong:8,blank:3},{correct:30,wrong:8,blank:1}]){r.results.turkish=counts;assert.throws(()=>core.validate(r));}pass('All filled counts must total exactly the maximum');
+r.results.turkish={correct:30,wrong:8,blank:null};assert.equal(core.validate(r).totalNet,28);assert.equal(core.validate(r).complete,false);assert.equal(core.validate(r).tests.find(t=>t.id==='math').net,null);pass('Partial and unentered tests never become zero');
+r.results.turkish={correct:0,wrong:null,blank:null};assert.equal(core.validate(r).totalNet,null);pass('A missing wrong count is distinct from zero');
+r.results={};assert.throws(()=>core.validate(r));r.results={turkish:{correct:0,wrong:0,blank:40}};assert.equal(core.validate(r).totalNet,0);
+r.groups.find(g=>g.id==='social').mode='detail';r.results.social={correct:20,wrong:0,blank:0};assert.throws(()=>core.validate(r));pass('Main test and subtests cannot double count');
+for(const type of ['TYT','AYT']){r=make(type);for(const t of core.tests(type,r.groups))r.results[t.id]={correct:t.max,wrong:0,blank:0};assert.equal(core.validate(r).totalNet,type==='TYT'?120:160);assert.equal(core.validate(r).complete,true);}pass('Full TYT 120 and all-four-test AYT 160 limits');
+r=make('AYT');r.groups=[{id:'math',mode:'detail'},{id:'science',mode:'detail'}];for(const t of core.tests('AYT',r.groups))r.results[t.id]={correct:t.max,wrong:0,blank:0};assert.equal(core.validate(r).totalNet,80);pass('Selected AYT tests only; no extra geometry questions');
+for(const date of ['2026-02-30','27-10-2026',''])assert.throws(()=>core.validate({...r,exam_date:date}));pass('Real date validation and Istanbul formatting');
+const full={...r,created_at:'2026-10-27T12:00:00Z'},other={...r,id:'22222222-2222-4222-8222-222222222222',created_at:'2026-10-27T13:00:00Z',results:{math:{correct:20,wrong:0,blank:20},physics:{correct:14,wrong:0,blank:0},chemistry:{correct:13,wrong:0,blank:0},biology:{correct:13,wrong:0,blank:0}}};
+assert.equal(core.stats([other,full]).last.id,other.id);assert.equal(core.stats([other,full]).average,70);assert.equal(core.stats([other,full]).change,-20);pass('Same-day ordering and complete comparable averages');
+assert.equal(core.stats([{...other,results:{math:{correct:1,wrong:0,blank:null}}},full]).average,80);assert.equal(core.stats([]).average,null);assert.equal(core.stats([full]).change,null);assert.throws(()=>core.stats([full,{...full,groups:[{id:'math',mode:'detail'}],results:{math:{correct:40,wrong:0,blank:0}}}]));pass('No misleading partial, insufficient or mixed-scope comparisons');
+console.log('RESULT',checks,'exam calculation checks passed');

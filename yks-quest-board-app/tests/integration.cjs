@@ -145,6 +145,7 @@ async function main() {
     await require('./teacher-topics.cjs')({admin,action,asUser,board,check,denied});
     await require('./admin-security.cjs')({root,admin,asUser,check,denied,ids});
     await require('./v1141-security.cjs')({root,admin,asUser,action,board,check,denied});
+    await require('./exams-db.cjs')({root,admin,asUser,action,check,denied});
     if(process.env.SKIP_BROWSER!=='1') await require('./browser.cjs')({root,deps,action,asUser,admin,ids,personal});
     console.log(`RESULT: ${checks} database/security/sync checks passed`);
   } catch(error) { console.error('TEST FAILURE',error); throw error; }

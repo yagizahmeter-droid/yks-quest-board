@@ -782,6 +782,7 @@
   <link rel="stylesheet" href="./admin.css">
   <link rel="stylesheet" href="./v113.css">
   <link rel="stylesheet" href="./v114.css">
+  <link rel="stylesheet" href="./exams.css">
   <script src="./vendor/lucide.js"></script>
 </head>
 <body>
@@ -794,6 +795,7 @@
     <nav class="main-nav">
       <a href="#/home" data-route="home" title="Ana Sayfa"><i data-lucide="layout-dashboard"></i><span>Ana Sayfa</span></a>
       <a href="#/program" data-route="program" title="Programım"><i data-lucide="notebook-tabs"></i><span>Programım</span></a>
+      <a href="#/exams" data-route="exams" title="Denemelerim"><i data-lucide="chart-no-axes-combined"></i><span>Denemelerim</span></a>
       <a href="#/teacher" data-route="teacher" title="Öğretmen"><i data-lucide="graduation-cap"></i><span>Öğretmen</span><b class="notification-count" data-teacher-count hidden></b></a>
       <a href="#/history" data-route="history" title="Çalışma Geçmişi"><i data-lucide="history"></i><span>Çalışma Geçmişi</span></a>
       <a href="#/focus" data-route="focus" title="Odak Modu"><i data-lucide="timer"></i><span>Odak Modu</span></a>
@@ -847,6 +849,7 @@
       <section id="dailyStudySummary" class="daily-study" aria-label="Günlük Çalışma Özeti"></section>
     </section>
     <section id="focusPage" class="page-view" data-page="focus" hidden></section>
+    <section id="examsPage" class="page-view" data-page="exams" aria-label="Denemelerim" hidden></section>
     <section id="programPage" class="page-view" data-page="program" hidden>
       <div class="program-toolbar">
       <div class="week-tools">
@@ -934,7 +937,7 @@
     </section>
   </main>
   </div>
-  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.1.4.1</button></footer>
+  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.2.0</button></footer>
 
   <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
     <section class="modal">
@@ -2447,5 +2450,7 @@
   <script src="./release-history.js"></script>
   <script src="./admin.js"></script>
   <script src="./learning-ui.js"></script>
+  <script src="./exams-core.js"></script>
+  <script src="./exams.js"></script>
 </body>
 </html>

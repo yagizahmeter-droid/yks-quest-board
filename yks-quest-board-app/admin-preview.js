@@ -37,6 +37,7 @@
   let connections = [{id:'preview-connection',student_id:student,teacher_id:teacher,status:'approved',name:role==='teacher'?'Örnek Öğrenci':'Örnek Öğretmen'}];
   let assignments = [{id:'preview-assignment',student_id:student,teacher_id:teacher,name:role==='teacher'?'Örnek Öğrenci':'Örnek Öğretmen',week_name:'Örnek öğretmen programı',week_range:'Test haftası',status:'pending',quests:[{id:'preview-offer',category_name:'Matematik',title:'Problemler',detail:'40 soru ve analiz',xp:100,exam_type:'TYT',repeat_kind:'none'}]}];
   let requests = [];
+  let exams = [];
   const result = data => ({data:clone(data),error:null});
   const learning={segments:[],reviews:[],messages:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}};
   function learn(action,p){
@@ -54,6 +55,14 @@
     return {state,version,updated_at:now(),xpBreakdown:{total:tasks.reduce((n,q)=>n+earned(q),0),personal:tasks.filter(q=>!q.lockedForStudent).reduce((n,q)=>n+earned(q),0),competitive:tasks.filter(q=>q.lockedForStudent).reduce((n,q)=>n+earned(q),0)}};
   }
   async function rpc(name,{p_action:action,p_payload:p={}}={}) {
+    if(name==='ders_exams'){
+      if(action==='list')return result(exams.filter(e=>e.user_id===(p.student_id||id)));
+      if(role!=='student')return {data:null,error:{message:'Öğretmen görünümünde denemeler salt okunurdur.'}};
+      if(action==='delete'){exams=exams.filter(e=>e.id!==p.id);return result({deleted:true});}
+      if(action==='save'){
+        try{const score=window.DersExamsCore.validate(p),old=exams.find(e=>e.id===p.id),saved={...clone(p),user_id:id,total_net:score.totalNet,maximum:score.maximum,is_partial:!score.complete,revision:(old?.revision||0)+1,created_at:old?.created_at||now(),updated_at:now()};exams=exams.filter(e=>e.id!==p.id);exams.push(saved);return result(saved);}catch(e){return {data:null,error:{message:e.message}};}
+      }
+    }
     if(name==='ders_learning')return learn(action,p);
     if(name!=='ders_action') return {data:null,error:{message:'Örnek görünümde bu işlem kullanılamaz.'}};
     if(action==='overview') return result({profile,connections,assignments,requests,server_now:now(),capabilities:{topicCatalog:true,repeatQuests:true,withdrawProgram:true}});

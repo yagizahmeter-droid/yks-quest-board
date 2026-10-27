@@ -2,6 +2,12 @@
  const compare=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(y[i]||0)-(x[i]||0);if(d)return d;}return 0;};
  const formatDate=date=>new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
  const releases=[
+  {version:'1.2.0',name:'Deneme Takip Sistemi',date:'2026-10-28',dateKind:'release',sections:[
+   {title:'TYT ve AYT Denemeleri',items:['Doğru, yanlış ve boş girişleri; anlık net hesabı; TYT alt dersleri ve AYT seçili testleri.','Kısmi kayıtlar, aynı gün birden fazla deneme, düzenleme ve onaylı silme.']},
+   {title:'Gelişim ve İstatistikler',items:['Sınav ve test kapsamına göre ayrı net grafikleri, ders analizi, en yüksek net ve tam kayıt ortalamaları.','Kısmi kayıtlar ve eksik netler ayrı işaretlenir; farklı test kapsamları birbirine karıştırılmaz.']},
+   {title:'Öğretmen Görünümü',items:['Deneme Sonuçları sekmesinde yalnızca bağlı öğrencilerin netleri ve gelişimi; salt okunur erişim.']},
+   {title:'Güvenli Hesap Kayıtları',items:['Hesaba bağlı sonuçlar, sunucuda hesaplama ve RLS ile sahiplik kontrolü.','Yinelenen kayıtlara ve farklı cihazlardaki düzenleme çakışmalarına karşı koruma; mevcut XP ve görev kayıtları korunur.']}
+  ]},
   {version:'1.1.4.1',name:'Usability & Bugfix Patch',date:'2026-10-22',dateKind:'release',sections:[
    {title:'Kişisel Program Adı',items:['Kabul edilen öğretmen programına yalnızca öğrencinin hesabında görünen ad verme ve orijinal ada dönme; cihazlar arası senkronizasyon.']},
    {title:'Program Tarihleri',items:['Öğretmen formundaki yinelenen serbest tarih alanı kaldırıldı; program aralığı başlangıç ve bitiş seçicilerinden oluşturulur. Eski kayıtlar korunur.']},

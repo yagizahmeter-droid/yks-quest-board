@@ -1,7 +1,7 @@
 (() => {
-  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus'];
-  const titles = { home: 'Genel Bakış', program: 'Programım', teacher: 'Öğretmen', history: 'Çalışma Geçmişi', account: 'Hesabım', 'account/signup': 'Kayıt Ol',focus:'Odak Modu' };
-  const privateRoutes = new Set(['program', 'teacher', 'history','focus']);
+  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus', 'exams'];
+  const titles = { home: 'Genel Bakış', program: 'Programım', teacher: 'Öğretmen', history: 'Çalışma Geçmişi', account: 'Hesabım', 'account/signup': 'Kayıt Ol',focus:'Odak Modu',exams:'Denemelerim' };
+  const privateRoutes = new Set(['program', 'teacher', 'history','focus','exams']);
   const $ = id => document.getElementById(id);
   const mobile = matchMedia('(max-width: 720px)');
   const overlays = new Map();
