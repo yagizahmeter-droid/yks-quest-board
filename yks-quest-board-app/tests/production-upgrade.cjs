@@ -36,11 +36,11 @@ async function waitForInstalledShell(page){
   const manifest=await page.evaluate(()=>fetch('./manifest.webmanifest').then(r=>r.json()));
   for(const icon of manifest.icons){const size=await page.evaluate(src=>new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve([image.naturalWidth,image.naturalHeight]);image.onerror=reject;image.src=src;}),icon.src);if(icon.type==='image/png')assert.equal(size.join('x'),icon.sizes);}
   await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));await page.locator('.app-footer').waitFor();
-  await page.locator('#versionHistoryButton').click();assert.match(await page.locator('#releaseHistoryDialog h3').first().textContent(),/^v1\.2\.0 /);assert.equal(await page.locator('#releaseHistoryDialog time').first().getAttribute('datetime'),'2026-10-28');assert.equal(await page.locator('#releaseHistoryDialog section').first().locator('h4').count(),4);await page.keyboard.press('Escape');
+  await page.locator('#versionHistoryButton').click();assert.match(await page.locator('#releaseHistoryDialog h3').first().textContent(),/^v1\.2\.1 /);assert.equal(await page.locator('#releaseHistoryDialog time').first().getAttribute('datetime'),'2026-10-28');assert.equal(await page.locator('#releaseHistoryDialog section').first().locator('h4').count(),6);await page.keyboard.press('Escape');
   await page.screenshot({path:path.join(out,'production-v121-mobile.png')});
   await page.setViewportSize({width:1280,height:900});await page.screenshot({path:path.join(out,'production-v121-desktop.png')});
   await context.setOffline(true);await page.reload();await page.waitForFunction(()=>window.DersReleases);assert.equal(await page.locator('.app-version').textContent(),'v1.2.1');
-  await page.locator('#versionHistoryButton').click();await page.locator('#releaseHistoryDialog').waitFor();assert.equal(await page.locator('#releaseHistoryDialog section').count(),10);
+  await page.locator('#versionHistoryButton').click();await page.locator('#releaseHistoryDialog').waitFor();assert.equal(await page.locator('#releaseHistoryDialog section').count(),11);
   assert.deepEqual(errors,[]);assert.equal(databaseRequests,0);
   const result={passed:true,version:'1.2.1',previousVersion:before.version,pwaUpgrade:!before.cacheKeys.includes('ders-pwa-v1-2-1-release-r1'),installedShell:true,offline:true,manifestIcons:true,releaseHistory:true,localStoragePreserved:true,databaseRequests,realUserWrites:false};
   fs.writeFileSync(path.join(out,'production-upgrade-result.json'),JSON.stringify(result,null,2));console.log('RESULT',JSON.stringify(result));

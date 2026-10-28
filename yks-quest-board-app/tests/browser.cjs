@@ -35,6 +35,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
         const rows=(await asUser(uid,'select * from public.quest_board_states where user_id=$1',[uid])).rows;
         res.end(JSON.stringify(rows[0]||null));return;
       }
+      if(url.pathname==='/rest/v1/study_segments') {res.end(JSON.stringify((await asUser(uid,'select started_at,ended_at from public.study_segments where user_id=$1',[uid])).rows));return;}
       res.writeHead(404).end('{}');
     }catch(error){res.writeHead(400).end(JSON.stringify({message:error.message,code:error.code||'fixture_error'}));}
   });
