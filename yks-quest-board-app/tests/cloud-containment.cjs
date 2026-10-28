@@ -58,7 +58,7 @@ const root = path.resolve(__dirname, '..');
           return { fill, boxes };
         });
         // Inspect the painted cloud, not just the rectangular CSS border box.
-        const chrome = await page.addStyleTag({ content: '.sidebar,.workspace-header,.app-footer { visibility:hidden !important; }' });
+        const chrome = await page.addStyleTag({ content: '.sidebar,.workspace-header,.app-footer,.skip-link { visibility:hidden !important; }' });
         await card.evaluate(card => { for (const child of card.children) child.style.visibility = 'hidden'; });
         const png = await card.screenshot();
         await card.evaluate(card => { for (const child of card.children) child.style.removeProperty('visibility'); });

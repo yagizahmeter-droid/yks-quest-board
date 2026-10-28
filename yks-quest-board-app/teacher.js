@@ -38,6 +38,11 @@
       window.DersQuests.setServerTime(data.server_now);
       if (shownStudent && !overview.connections.some(c => c.student_id === shownStudent && c.status === 'approved')) { const id = shownStudent; closeDialog(true); drafts.delete(id); }
       render();
+      if(dialog.open && dialog.querySelector('[data-action="student-progress"][aria-selected="true"]')) {
+        const id=shownStudent,token=viewToken,selected=document.getElementById('studentWeek')?.value;
+        const progress=await rpc('student_board',{student_id:id});
+        if(uid===owner&&id===shownStudent&&token===viewToken&&dialog.open)studentView(progress,id,selected);
+      }
     } catch (error) {
       if (owner !== uid) return;
       if (!overview) {
@@ -87,16 +92,18 @@
     }
     if (!connections.some(c => c.status === 'approved' || c.status === 'pending')) panel.insertAdjacentHTML('beforeend', '<p class="sync-status">Henüz öğretmen-öğrenci bağlantısı yok.</p>');
     for (const a of overview.assignments) {
-      const detail = `${a.name} · ${a.week_range || a.week_name} · ${labels[a.status]} · ${a.quests?.length || 0} görev`;
-      const controls = (!teacher && a.status === 'pending' ? button('Programı Kontrol Et', 'review', a.id) : button('Görevleri Gör', 'review', a.id)) + (teacher && a.status === 'pending' ? button('İsteği Geri Çek', 'withdraw', a.id) : '');
+      const detail = `${a.name} · ${a.week_range || a.week_name} · ${a.archived_at?'Atama kaldırıldı':labels[a.status]} · ${a.quests?.length || 0} görev`;
+      const controls = (!teacher && a.status === 'pending' ? button('Programı Kontrol Et', 'review', a.id) : button('Görevleri Gör', 'review', a.id)) + (teacher && a.status === 'pending' ? button('İsteği Geri Çek', 'withdraw', a.id) : teacher && a.status==='accepted'&&!a.archived_at&&overview.capabilities?.manageAssignments?button('Atamayı Kaldır','remove-assignment',a.id):'');
       panel.insertAdjacentHTML('beforeend', row(a.week_name, detail, controls));
     }
-    for (const r of overview.requests) {
+    for (const r of overview.requests.filter(r=>r.status==='pending')) {
       const proposal = r.requested_changes;
       const detail=proposal.type==='topic_title' ? `${r.status==='approved'?'Kabul Edildi':r.status==='rejected'?'Reddedildi':'Beklemede'} · Mevcut: ${proposal.current_title} · Önerilen: ${proposal.title}${proposal.reason?' · Gerekçe: '+proposal.reason:''}` : `${labels[r.status]} · Öneri: ${proposal.title} — ${proposal.detail} · ${proposal.xp} XP`;
       panel.insertAdjacentHTML('beforeend', row(`${r.name} · ${r.title}`, detail,
         teacher && r.status === 'pending' ? button('Değişikliği Onayla', 'change-approve', r.id) + button('Reddet', 'change-reject', r.id) : ''));
     }
+    const resolved=overview.request_history||overview.requests.filter(r=>r.status!=='pending');
+    if(resolved.length)panel.insertAdjacentHTML('beforeend','<details class="resolved-requests"><summary>Sonuçlanan Değişiklik İstekleri ('+resolved.length+')</summary>'+resolved.map(r=>row(r.title,labels[r.status])).join('')+'</details>');
   }
   function renderDraft() {
     const wrap = document.getElementById('assignmentDraft'); if (!wrap) return;
@@ -176,7 +183,7 @@
   }
   function openStudent(id) {
     const c = overview.connections.find(c => c.student_id === id && c.status === 'approved');
-    if (!c || !showDialog(c.name, `<div class="segmented student-tabs" role="tablist" aria-label="Öğrenci Yönetimi">${[['Program Hazırla','student-program'],['Öğrenci Karnesi','student-report'],['İlerlemeyi Gör','student-progress'],['Deneme Sonuçları','student-results']].map(([label,action]) => button(label,action,'',`role="tab" aria-selected="${action==='student-program'}"`)).join('')}</div><div id="studentWorkspace" role="tabpanel"></div><div class="student-disconnect">${button('Bağlantıyı Kaldır','disconnect',c.id)}</div>`)) return;
+    if (!c || !showDialog(c.name, `<div class="segmented student-tabs" role="tablist" aria-label="Öğrenci Yönetimi">${[['Program Hazırla','student-program'],['Öğrenci Karnesi','student-report'],['İlerlemeyi Gör','student-progress'],['Çalışma Geçmişi','student-history'],['Deneme Sonuçları','student-results']].map(([label,action]) => button(label,action,'',`role="tab" aria-selected="${action==='student-program'}"`)).join('')}</div><div id="studentWorkspace" role="tabpanel"></div><div class="student-disconnect">${button('Bağlantıyı Kaldır','disconnect',c.id)}</div>`)) return;
     shownStudent = id;
     const tabs = [...dialog.querySelectorAll('[role="tab"]')];
     tabs.forEach((tab, i) => { tab.id = 'student-tab-'+i; tab.tabIndex = i===0 ? 0 : -1; tab.setAttribute('aria-controls','studentWorkspace'); tab.onkeydown = event => {
@@ -188,12 +195,13 @@
   async function studentTab(action,week,quest) {
     const wrap = document.getElementById('studentWorkspace'); if (!wrap || !shownStudent || !window.DersUI?.canLeave(wrap)) return;
     wrap.dataset.request=crypto.randomUUID();
-    window.DersExams?.unmount(wrap);
+    window.DersExams?.unmount(wrap);window.DersExperience?.unmount(wrap);
     rememberComposer(); window.DersUI?.clearDirty(wrap);
     const token = ++viewToken, uid = owner, id = shownStudent;
     dialog.querySelectorAll('[role="tab"]').forEach(b => { const selected = b.dataset.action === action; b.tabIndex = selected ? 0 : -1; b.setAttribute('aria-selected',String(selected)); b.classList.toggle('is-active',selected); if(selected)wrap.setAttribute('aria-labelledby',b.id); });
     if (action === 'student-program') { programForm(); return; }
     if (action === 'student-results') { await window.DersExams.mount(wrap,id); return; }
+    if (action === 'student-history') { await window.DersExperience.history(wrap,id);return; }
     if (action === 'student-report') { await window.DersLearningUI.report(wrap,id,week,quest);return; }
     wrap.innerHTML = '<p role="status">İlerleme yükleniyor…</p>';
     const data = await rpc('student_board',{student_id:id});
@@ -202,19 +210,20 @@
   }
   function review(a) {
     const quests = a.quests || [];
-    showDialog(a.week_name, `<p>${esc(a.week_range)} · ${labels[a.status]}</p>${quests.map(q => row(`${q.exam_type ? q.exam_type + ' · ' : ''}${q.category_name} · ${q.title}`, `${q.detail} · ${q.xp} XP${q.repeat_kind === 'weekly' ? ' / tekrar · '+q.repeat_target+' tekrar' : q.repeat_kind === 'daily' ? ' / gün · '+q.starts_on+' – '+q.ends_on : ''}`)).join('')}
+    showDialog(a.week_name, `<p>${esc(a.week_range)} · ${a.archived_at?'Atama kaldırıldı':labels[a.status]}</p>${quests.map(q => row(`${q.exam_type ? q.exam_type + ' · ' : ''}${q.category_name} · ${q.title}`, `${q.archived_at?'Atama kaldırıldı · ':''}${q.detail} · ${q.xp} XP${q.repeat_kind === 'weekly' ? ' / tekrar · '+q.repeat_target+' tekrar' : q.repeat_kind === 'daily' ? ' / gün · '+q.starts_on+' – '+q.ends_on : ''}`,overview.profile.role==='teacher'&&a.status==='accepted'&&!a.archived_at&&!q.archived_at&&overview.capabilities?.manageAssignments?button('Görevi Kaldır','remove-assigned-quest',q.id):'')).join('')}
       <div class="signed-in-actions">${overview.profile.role === 'student' && a.status === 'pending' ? button('Programı Kabul Et', 'program-accept', a.id) + button('Programı Reddet', 'program-reject', a.id) : ''}</div>`);
   }
-  function studentView(data, id) {
-    const s = data.state || { weeks: [], studyHistory: [] };
+  function studentView(data, id, selected) {
+    const s = data.state ? {...data.state,studyHistory:window.DersStudy.visibleHistory(data.state.studyHistory,data.hidden_history||[])} : { weeks: [], studyHistory: [] };
     document.getElementById('studentWorkspace').innerHTML = '<div id="studentSummary"></div>'; studentData = s;
     const wrap = dialog.querySelector('#studentSummary');
     const all = s.weeks.flatMap(w => w.quests || []); const xp = all.reduce((n,q) => n+window.DersQuests.earned(q),0);
-    wrap.innerHTML = `<strong>${xp} XP · ${all.filter(q => q.done).length}/${all.length} görev</strong><label class="field">Hafta<select id="studentWeek" class="select" data-ui-transient="true">${s.weeks.map(w => `<option value="${esc(w.id)}">${esc(w.range || w.name)}${w.archived ? ' · Arşiv' : ''}</option>`).join('')}</select></label><div id="studentQuests"></div><h3>Çalışma Geçmişi</h3>${(s.studyHistory || []).slice(-60).reverse().map(h => row(`${h.categoryName} · ${h.title}`, `${h.detail} · ${h.xp} XP · ${h.occurrenceDate || new Date(h.completedAt).toLocaleDateString('tr-TR', { timeZone: 'Europe/Istanbul' })} · ${new Date(h.completedAt).toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul', hour: '2-digit', minute: '2-digit' })}`)).join('')}`;
+    wrap.innerHTML = `<strong>${xp} XP · ${all.filter(window.DersQuests.isDone).length}/${all.length} görev</strong><label class="field">Hafta<select id="studentWeek" class="select" data-ui-transient="true">${s.weeks.map(w => `<option value="${esc(w.id)}">${esc([w.name,w.range].filter(Boolean).join(' · '))}${w.archived ? ' · Arşiv' : ''}</option>`).join('')}</select></label><div id="studentQuests"></div><h3>Çalışma Geçmişi</h3>${(s.studyHistory || []).slice(-60).reverse().map(h => row(`${h.categoryName} · ${h.title}`, `${h.detail} · ${h.xp} XP · ${h.occurrenceDate || new Date(h.completedAt).toLocaleDateString('tr-TR', { timeZone: 'Europe/Istanbul' })} · ${new Date(h.completedAt).toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul', hour: '2-digit', minute: '2-digit' })}`)).join('')}`;
     if (data.xpBreakdown) { const p = document.createElement('p'); p.className = 'sync-status'; p.textContent = `Rekabet ${data.xpBreakdown.competitive} XP · Kişisel ${data.xpBreakdown.personal} XP`; wrap.prepend(p); }
     const select = wrap.querySelector('#studentWeek');
     const draw = () => { const w = s.weeks.find(w => w.id === select.value); wrap.querySelector('#studentQuests').innerHTML = (w?.quests || []).map(q => row(q.title, `${q.detail} · ${window.DersQuests.describe(q)} · ${window.DersQuests.earned(q)} XP kazanıldı${window.DersQuests.recurring(q) ? ' · '+window.DersQuests.completions(q).map(e => e.date).join(', ') : ''}`)).join(''); };
-    select.onchange = draw; draw();
+    if(selected&&s.weeks.some(w=>w.id===selected))select.value=selected;
+    select.onchange = draw; draw();window.DersSelect?.refresh();
   }
   function editQuest(q, w, change = false) {
     const titleChanges=change && overview?.capabilities?.topicTitleChanges;
@@ -280,6 +289,7 @@
         window.DersUI?.clearDirty(document.getElementById('assignmentForm'));
         window.DersUI?.clearDirty(dialog); window.DersTeacherDrafts.remove(owner,shownStudent,composer.id);drafts.delete(shownStudent); programForm(); snapshot = '';
       } else if (action === 'review') { review(overview.assignments.find(a => a.id === id)); return; }
+      else if (action === 'remove-assignment'||action==='remove-assigned-quest') { if(!await window.DersExperience.archive(action==='remove-assignment'?'archive_assignment':'archive_assigned_quest',id))return;closeDialog(true); }
       else if (action === 'withdraw') { if (!overview.capabilities?.withdrawProgram) throw new Error('İsteği geri çekmek için sunucu güncellemesi gerekli.'); if (!confirm('Öğrencinin henüz kabul etmediği bu program isteği geri çekilsin mi?')) return; await rpc('withdraw_assignment',{id}); }
       else if (action === 'program-accept' || action === 'program-reject') {
         await window.DersBoard.flush(); await rpc('respond_assignment', { id,status:action.endsWith('accept') ? 'accepted' : 'rejected' });

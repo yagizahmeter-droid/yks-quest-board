@@ -783,6 +783,7 @@
   <link rel="stylesheet" href="./v113.css">
   <link rel="stylesheet" href="./v114.css">
   <link rel="stylesheet" href="./exams.css">
+  <link rel="stylesheet" href="./v121.css">
   <script src="./vendor/lucide.js"></script>
 </head>
 <body>
@@ -917,7 +918,8 @@
         <select id="historyCategoryFilter" class="select" aria-label="Kategori filtresi"></select>
       </div>
       <div id="historyList" class="history-list"></div>
-      <div id="completedHistory" class="history-list" hidden></div>
+      <div id="studyDurationHistory" class="study-duration-history"></div>
+        <div id="completedHistory" class="history-list" hidden></div>
     </section>
     <section id="accountPage" class="page-view" data-page="account" hidden>
     <section class="account-surface sync-card" aria-label="Hesap ve senkronizasyon">
@@ -937,7 +939,7 @@
     </section>
   </main>
   </div>
-  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.2.0</button></footer>
+  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.2.1</button></footer>
 
   <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
     <section class="modal">
@@ -1007,8 +1009,8 @@
     <fieldset class="appearance-field"><legend>Arayüz Stili</legend><div class="style-options">
       <label class="style-option"><input type="radio" name="appearanceStyle" value="classic"><span class="style-preview preview-classic" aria-hidden="true"><span></span><span></span><span></span></span><strong>Klasik</strong></label>
       <label class="style-option"><input type="radio" name="appearanceStyle" value="glass"><span class="style-preview preview-glass" aria-hidden="true"><span></span><span></span><span></span></span><strong>Saydam</strong></label>
-      <label class="style-option"><input type="radio" name="appearanceStyle" value="natural"><span class="style-preview preview-natural" aria-hidden="true"><span></span><span></span><span></span></span><strong>Natural UI</strong></label>
-      <label class="style-option"><input type="radio" name="appearanceStyle" value="cloud"><span class="style-preview preview-cloud" aria-hidden="true"><span></span><span></span><span></span></span><strong>Cloud UI</strong></label>
+      <label class="style-option"><input type="radio" name="appearanceStyle" value="natural"><span class="style-preview preview-natural" aria-hidden="true"><span></span><span></span><span></span></span><strong>Natural</strong></label>
+      <label class="style-option"><input type="radio" name="appearanceStyle" value="cloud"><span class="style-preview preview-cloud" aria-hidden="true"><span></span><span></span><span></span></span><strong>Cloud</strong></label>
     </div></fieldset>
     <fieldset class="appearance-field"><legend>Tema</legend><div class="appearance-theme-options">
       <label><input type="radio" name="appearanceTheme" value="light"><i data-lucide="sun"></i>Açık</label>
@@ -1227,7 +1229,7 @@
       next.weeks = next.weeks.map((week, weekIndex) => ({
         sortOrder: weekIndex,
         ...week,
-        quests: (week.quests || []).map((quest, questIndex) => ({
+        quests: (week.quests || []).map((quest, questIndex) => window.DersQuests.normalize({
           source: quest.source || quest.sourceDay || "Manuel",
           sortOrder: quest.sortOrder ?? questIndex,
           categoryId: quest.categoryId || quest.subject || next.categories[0]?.id || "genel",
@@ -1237,6 +1239,11 @@
           ...quest
         }))
       }));
+      const rewards=new Map();
+      next.weeks.filter(w=>!w.archived).forEach(w=>w.quests.filter(q=>!q.lockedForStudent&&!q.archived&&window.DersQuests.recurring(q)).forEach(q=>{
+        const events=window.DersQuests.completions(q);events.forEach((e,i)=>{if(e.historyId)rewards.set(e.historyId,window.DersQuests.isDone(q)&&i===events.length-1?q.xp:0);});
+      }));
+      next.studyHistory=next.studyHistory.map(h=>rewards.has(h.id)?{...h,xp:rewards.get(h.id)}:h);
       return next;
     }
 
@@ -1516,9 +1523,10 @@
           if (data.conflict) { remote = data; continue; }
           verifiedXp = data.xpBreakdown || verifiedXp;
           const changed = revision !== startRevision;
-          state = changed ? normalizeState(window.DersSync.mergeState(localSnapshot, state, candidate)) : candidate;
+          const accepted=normalizeState(data.state||candidate);
+          state = changed ? normalizeState(window.DersSync.mergeState(localSnapshot, state, accepted)) : accepted;
           localStorage.setItem(boardStorageKey(), JSON.stringify(state));
-          setLocalMeta({ version: data.version, baseState: candidate, pending: changed, updatedAt: Date.now() });
+          setLocalMeta({ version: data.version, baseState: accepted, pending: changed, updatedAt: Date.now() });
           render(); updateAuthUi();
           if (changed) scheduleSync();
           return;
@@ -1534,9 +1542,9 @@
 
     function getStats(quests) {
       const total = quests.length;
-      const done = quests.filter((quest) => quest.done).length;
+      const done = quests.filter((quest) => window.DersQuests.isDone(quest)).length;
       const earnedXp = quests.reduce((sum, quest) => sum + window.DersQuests.earned(quest), 0);
-      const possibleXp = quests.reduce((sum, quest) => {const p=window.DersQuests.progress(quest);return sum+window.DersQuests.earned(quest)+(p.target-p.count)*quest.xp;},0);
+      const possibleXp = quests.reduce((sum, quest) => sum+window.DersQuests.possible(quest),0);
       const units=quests.reduce((n,q)=>n+window.DersQuests.progress(q).count,0),targets=quests.reduce((n,q)=>n+window.DersQuests.progress(q).target,0);
       const percent = targets ? Math.round((units / targets) * 100) : 0;
       const level = Math.max(1, Math.floor(earnedXp / 500) + 1);
@@ -1579,6 +1587,7 @@
     }
 
     function renderSubjectNav(week) {
+      week={...week,quests:week.quests.filter(window.DersQuests.active)};
       els.subjectNav.innerHTML = "";
       const categories = getCategories();
       const navItems = [
@@ -1588,14 +1597,14 @@
           order: category.sortOrder,
           quests: week.quests.filter((quest) => (quest.categoryId || quest.subject) === category.id)
         })),
-        { id: COMPLETED_TAB_ID, name: "Tamamlananlar", color: "#72d18b", order: state.completedTabOrder ?? 999, quests: week.quests.filter((quest) => quest.done) }
+        { id: COMPLETED_TAB_ID, name: "Tamamlananlar", color: "#72d18b", order: state.completedTabOrder ?? 999, quests: week.quests.filter((quest) => window.DersQuests.isDone(quest)) }
       ].sort((a, b) => a.order - b.order);
 
       navItems.forEach((subject) => {
         const quests = subject.quests;
         if (subject.id !== "all" && subject.id !== COMPLETED_TAB_ID && quests.length === 0 && !editMode) return;
 
-        const completed = quests.filter((quest) => quest.done).length;
+        const completed = quests.filter((quest) => window.DersQuests.isDone(quest)).length;
         const button = document.createElement("button");
         button.className = "tab";
         button.type = "button";
@@ -1648,7 +1657,7 @@
     }
 
     function renderStats(week) {
-      const stats = getStats(week.quests);
+      const stats = getStats(week.quests.filter(window.DersQuests.active));
       const accountStats = getStats(state.weeks.flatMap(item => item.quests));
       const left = stats.total - stats.done;
       els.totalXp.textContent = `${accountStats.earnedXp} XP`;
@@ -1666,10 +1675,11 @@
     }
 
     function renderBoard(week) {
+      week={...week,quests:week.quests.filter(window.DersQuests.active)};
       els.board.innerHTML = "";
       const categories = getCategories();
       if (activeSubject === COMPLETED_TAB_ID) {
-        const completed = week.quests.filter((quest) => quest.done);
+        const completed = week.quests.filter((quest) => window.DersQuests.isDone(quest));
         const completedByCategory = categories
           .map((category) => ({ category, quests: completed.filter((quest) => (quest.categoryId || quest.subject) === category.id) }))
           .filter((group) => group.quests.length);
@@ -1735,14 +1745,14 @@
     function createQuestButton(quest, subject, index, completedView = false) {
       const button = document.createElement("div");
       const sourceLabel = quest.lockedForStudent ? 'Öğretmen atadı' : /\d+\s*Ekim/i.test(quest.sourceDay || "") ? "Haftalık havuz" : (quest.sourceDay || "Haftalık havuz");
-      button.className = `quest${quest.done ? " done" : ""}`;
+      button.className = `quest${window.DersQuests.isDone(quest) ? " done" : ""}`;
       button.style.setProperty("--subject-color", subject.color);
       button.setAttribute("role", "button");
       button.setAttribute("tabindex", "0");
-      button.setAttribute("aria-pressed", String(quest.done));
+      button.setAttribute("aria-pressed", String(window.DersQuests.isDone(quest)));
       button.setAttribute("aria-label", `${subject.name}: ${quest.title}, ${quest.detail}, ${quest.xp} XP`);
       button.innerHTML = `
-        <span class="check" aria-hidden="true">${quest.done ? "✓" : ""}</span>
+        <span class="check" aria-hidden="true">${window.DersQuests.isDone(quest) ? "✓" : ""}</span>
         <span class="quest-main">
           <span class="quest-title">${escapeHtml(quest.title)}</span>
           <span class="quest-meta">
@@ -1822,7 +1832,7 @@
     function toggleQuest(id) {
       const week = activeWeek();
       const quest = week.quests.find((item) => item.id === id);
-      if (!quest) return;
+      if (!quest||quest.archived) return;
       if(window.DersQuests.recurring(quest)){window.DersQuests.complete(quest);return;}
       const beforeLevel = getStats(state.weeks.flatMap(item => item.quests)).level;
       quest.done = !quest.done;
@@ -1975,7 +1985,7 @@
       els.historyCategoryFilter.innerHTML = `<option value="">Tüm kategoriler</option>${categories.map((category) => `<option value="${escapeHtml(category.id)}">${escapeHtml(category.name)}</option>`).join("")}`;
       els.historyWeekFilter.value = weekId;
       els.historyCategoryFilter.value = categoryId;
-      const records = (state.studyHistory || [])
+      const records = (window.DersStudy?.visibleHistory(state.studyHistory) || state.studyHistory || [])
         .filter((record) => !date || window.DersHistory.dayKey(record) === date)
         .filter((record) => !weekId || record.weekId === weekId)
         .filter((record) => !categoryId || record.categoryId === categoryId)
@@ -1997,6 +2007,12 @@
           <span class="text-muted">${escapeHtml(record.detail)} · +${record.xp} XP · ${new Date(record.completedAt).toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" })}</span>
           <span class="chip">${escapeHtml(record.weekName || record.weekId)} · ${escapeHtml(record.source === 'teacher_assigned' ? 'Öğretmen atadı' : record.source || "Manuel")}</span>
         `;
+            if(currentUser&&state.profile?.role==='student'){
+              const controls=document.createElement('div');controls.className='signed-in-actions';
+              for(const [label,scope] of [['Kaydı Kaldır',{scope:'completion',record_id:record.id,week_id:record.weekId}],['Görev Geçmişini Temizle',{scope:'quest',quest_id:record.questId,week_id:record.weekId}]]){
+                const b=document.createElement('button');b.className='button';b.type='button';b.textContent=label;b.onclick=()=>window.DersExperience.cleanup(scope).catch(e=>showToast(e.message));controls.append(b);
+              }item.append(controls);
+            }
             section.append(item);
           });
           group.append(section);
@@ -2430,6 +2446,14 @@
       get client() { return supabaseClient; }, get user() { return currentUser; }, get state() { return state; },
       get authReady() { return authReady; },
       week: activeWeek, weekTitle, renameAssignedWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud, render,
+      completePersonalRepeat(id){
+        const week=activeWeek(),q=week.quests.find(q=>q.id===id);
+        if(!q||q.lockedForStudent||!window.DersQuests.recurring(q)||window.DersQuests.progress(q).blocked)return;
+        const event={id:crypto.randomUUID(),date:window.DersQuests.today(),completedAt:new Date().toISOString()};
+        q.completions=[...window.DersQuests.completions(q),event];q.done=window.DersQuests.isDone(q);
+        const record=addHistoryRecord(q,week);record.xp=q.done?q.xp:0;event.historyId=record.id;
+        q.completionId=q.done?record.id:null;saveState();render();showToast(window.DersQuests.describe(q));
+      },
       setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; window.DersUI?.refresh(); },
       editQuest(id, weekId, changes) {
         const q = state.weeks.find(w => w.id === weekId)?.quests.find(q => q.id === id);
@@ -2452,5 +2476,6 @@
   <script src="./learning-ui.js"></script>
   <script src="./exams-core.js"></script>
   <script src="./exams.js"></script>
+  <script src="./experience.js"></script>
 </body>
 </html>

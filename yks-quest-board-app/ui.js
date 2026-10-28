@@ -153,8 +153,9 @@
     $('editModeButton').hidden = !hasProgram && !document.body.classList.contains('edit-mode');
     $('editModeButton').innerHTML = `<i data-lucide="${document.body.classList.contains('edit-mode') ? 'check' : 'pencil'}"></i>${document.body.classList.contains('edit-mode') ? 'Bitir' : 'Düzenle'}`;
     $('homeWeekLabel').textContent = week.customTitle ? board.weekTitle(week) : week.range || week.name;
-    $('homeProgramSummary').textContent = week.quests.length ? `${week.quests.filter(q => !q.done).length} bekleyen görev` : 'Henüz program yok';
-    $('homeHistorySummary').textContent = s.studyHistory.length ? `${s.studyHistory.length} çalışma kaydı` : 'Henüz kayıt yok';
+    $('homeProgramSummary').textContent = week.quests.length ? `${week.quests.filter(q => window.DersQuests.active(q)&&!window.DersQuests.isDone(q)).length} bekleyen görev` : 'Henüz program yok';
+    const historyCount=(window.DersStudy?.visibleHistory(s.studyHistory)||s.studyHistory).length;
+    $('homeHistorySummary').textContent = historyCount ? `${historyCount} çalışma kaydı` : 'Henüz kayıt yok';
     $('guestNavigation').hidden = Boolean(uid); $('memberNavigation').hidden = !uid; $('accountProfile').hidden = !uid;
     const name = s.profile?.displayName || board.user?.email?.split('@')[0] || 'Hesabım';
     const initials = name.trim().split(/\s+/).slice(0,2).map(n => n[0]).join('').toLocaleUpperCase('tr-TR');
@@ -176,7 +177,7 @@
     const s = window.DersBoard.state, esc = window.DersBoard.escape;
     const weekFilter = $('historyWeekFilter').value, categoryFilter = $('historyCategoryFilter').value, dateFilter = $('historyDateFilter').value;
     const groups = s.weeks.filter(w => !weekFilter || w.id === weekFilter).map(w => ({ week: w, quests: w.quests.filter(q => {
-      if (!q.done || (categoryFilter && (q.categoryId || q.subject) !== categoryFilter)) return false;
+      if (!window.DersQuests.isDone(q) || (categoryFilter && (q.categoryId || q.subject) !== categoryFilter)) return false;
       if (!dateFilter) return true;
       if (window.DersQuests.recurring(q)) return window.DersQuests.completions(q).some(e => e.date === dateFilter);
       const h = s.studyHistory.find(h => h.id === q.completionId);

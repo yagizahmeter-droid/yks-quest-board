@@ -3,7 +3,7 @@
  let owner=null,session=null,queue=[],data={segments:[],reviews:[],teachers:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}},syncing=null,loaded=false,status='',audio=null;
  const key=()=> 'ders-learning.v113:'+owner;
  const emit=()=>document.dispatchEvent(new CustomEvent('ders:study'));
- function persist(){if(!owner)return;localStorage.setItem(key(),JSON.stringify({session,queue,segments:data.segments}));}
+ function persist(){if(!owner)return;localStorage.setItem(key(),JSON.stringify({session,queue,segments:data.segments,hidden_history:data.hidden_history||[]}));}
  async function rpc(action,payload={}){
   const uid=board.user?.id;if(!uid||!navigator.onLine)throw Error('Giriş ve internet bağlantısı gerekli.');
   const r=await board.client.rpc('ders_learning',{p_action:action,p_payload:{...payload,request_user_id:uid}});
@@ -13,7 +13,7 @@
   const uid=board.user?.id||null;if(uid===owner)return;
   if(owner&&session&&session.status==='running')try{commit(core.act(session,'pause',Date.now()));}catch(e){board.toast(e.message);}
   owner=uid;session=null;queue=[];loaded=false;status='';data={segments:[],reviews:[],teachers:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}};
-  if(uid)try{const saved=JSON.parse(localStorage.getItem(key())||'{}');session=saved.session||null;queue=saved.queue||[];data.segments=saved.segments||[];}catch{status='Cihazdaki odak kaydı okunamadı; depolama kaydı korunuyor.';}
+  if(uid)try{const saved=JSON.parse(localStorage.getItem(key())||'{}');session=saved.session||null;queue=saved.queue||[];data.segments=saved.segments||[];data.hidden_history=saved.hidden_history||[];}catch{status='Cihazdaki odak kaydı okunamadı; depolama kaydı korunuyor.';}
   emit();if(uid)refresh();
  }
  function commit(next){
@@ -44,8 +44,8 @@
   syncing=(async()=>{try{await rpc('save_segments',{segments:batch});if(uid!==owner)return;const ids=new Set(batch.map(s=>s.id));queue=queue.filter(s=>!ids.has(s.id));const existing=new Set(data.segments.map(s=>s.id));data.segments.push(...batch.filter(s=>!existing.has(s.id)));status='';persist();emit();}catch(e){if(uid===owner){status='Süreler cihazda korunuyor: '+e.message;emit();}}finally{syncing=null;}})();
   return syncing;
  }
- const api={rpc,refresh,flush,get soundReady(){return audio?.state==='running';},get session(){return session;},get data(){return data;},get loaded(){return loaded;},get status(){return status;},get pending(){return queue.length;},
-  segments(){const m=new Map();for(const s of [...data.segments,...queue])m.set(s.id,s);return [...m.values()];},
+ const api={rpc,refresh,flush,visibleHistory(history,hidden=data.hidden_history||[]){const ids=new Set(hidden.filter(h=>h.kind==='completion').map(h=>h.id));return (history||[]).filter(h=>!ids.has(h.id));},get soundReady(){return audio?.state==='running';},get session(){return session;},get data(){return data;},get loaded(){return loaded;},get status(){return status;},get pending(){return queue.length;},
+  segments(){const ids=new Set((data.hidden_history||[]).filter(h=>h.kind==='segment').map(h=>h.id)),m=new Map();for(const s of [...data.segments,...queue])if(!ids.has(s.id))m.set(s.id,s);return [...m.values()];},
   start(settings){own();if(!owner)throw Error('Önce hesabına giriş yap.');if(session&&!['ended','completed'].includes(session.status))throw Error('Önce açık oturumu bitir.');unlock();const next=core.create(settings,Date.now(),crypto.randomUUID());commit(next);emit();},
   act(action){unlock();const next=core.act(session,action,Date.now());const events=next?.events||[];if(next)next.events=[];commit(next);if(events.length)sound(events.at(-1));emit();},
   setSound(value,tone){if(session){commit({...session,settings:{...session.settings,sound:value,tone}});emit();}unlock();}

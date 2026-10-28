@@ -22,6 +22,12 @@
     if (remote.lockedForStudent) {
       for (const key of ['title', 'detail', 'xp', 'categoryId', 'subject', 'source', 'sourceDay', 'lockedForStudent', 'assignedQuestId', 'assignedByTeacherId','examType','topicCategory','topicName','topicScope']) result[key] = remote[key];
       if(remote.repeat){for(const key of ['repeat','completions','done','completionId','examType'])result[key]=remote[key];}
+      for(const key of ['archived','teacherArchived'])if(key in remote)result[key]=remote[key];else delete result[key];
+    }else if(result.repeat&&['weekly','daily'].includes(result.repeat.kind)){
+      const map=new Map([...(remote.completions||[]),...(local.completions||[])].map(e=>[e.id,e]));
+      const dates=new Set();
+      result.completions=[...map.values()].filter(e=>result.repeat.kind!=='daily'||e.date&&!dates.has(e.date)&&dates.add(e.date)).sort((a,b)=>String(a.completedAt||'').localeCompare(String(b.completedAt||''))||a.id.localeCompare(b.id)).slice(0,Number(result.repeat.target));
+      result.done=result.completions.length>=Number(result.repeat.target);result.completionId=result.done?result.completions.at(-1)?.historyId||result.completionId:null;
     }
     return result;
   }
@@ -33,7 +39,7 @@
     }));
     result.studyHistory = entities(base.studyHistory, local.studyHistory, remote.studyHistory,(b,l,r)=>r.repeatKind?r:fields(b,l,r));
     const completed = new Set(result.weeks.flatMap(w => w.quests.filter(q => q.done).map(q => q.completionId)).filter(Boolean));
-    result.weeks.flatMap(w=>w.quests).forEach(q=>(q.completions||[]).forEach(e=>completed.add('repeat-event-'+e.id)));
+    result.weeks.flatMap(w=>w.quests).forEach(q=>(q.completions||[]).forEach(e=>completed.add(e.historyId||'repeat-event-'+e.id)));
     result.studyHistory = result.studyHistory.filter(h => completed.has(h.id));
     return result;
   }

@@ -2,9 +2,18 @@
   const key=id=>'ders-repeat-pending.v1:'+id;
   let draining=false,clockOffset=0,lastDay='';const recentClicks=new Map();
   function today(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Istanbul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(Date.now()+clockOffset));}
-  function recurring(q){return q?.lockedForStudent&&['weekly','daily'].includes(q.repeat?.kind);}
+  function recurring(q){return ['weekly','daily'].includes(q?.repeat?.kind)&&Number.isInteger(Number(q.repeat.target))&&Number(q.repeat.target)>0;}
+  function isDone(q){return recurring(q)?completions(q).length>=Number(q.repeat.target):Boolean(q?.done);}
+  function active(q){return !q.archived;}
   function completions(q){const seen=new Set();return (q.completions||[]).filter(e=>{if(!e.id||seen.has(e.id))return false;seen.add(e.id);return true;});}
-  function earned(q){return recurring(q)?completions(q).reduce((n,e)=>n+Number(e.xp||0),0):q.done?Number(q.xp||0):0;}
+  function earned(q){return recurring(q)&&q.lockedForStudent?completions(q).reduce((n,e)=>n+Number(e.xp||0),0):isDone(q)?Number(q.xp||0):0;}
+  function possible(q){const p=progress(q);return recurring(q)&&q.lockedForStudent?earned(q)+(p.target-p.count)*q.xp:Number(q.xp||0);}
+  function normalize(q){
+    if(!recurring(q)||q.lockedForStudent)return q;
+    const dates=new Set();
+    const events=completions(q).filter(e=>q.repeat.kind!=='daily'||e.date&&!dates.has(e.date)&&dates.add(e.date)).sort((a,b)=>String(a.completedAt||'').localeCompare(String(b.completedAt||''))||a.id.localeCompare(b.id)).slice(0,Number(q.repeat.target));
+    return {...q,completions:events,done:events.length>=Number(q.repeat.target),completionId:events.length>=Number(q.repeat.target)?events.at(-1)?.historyId||q.completionId:null};
+  }
   function queue(id=root.DersBoard?.user?.id){if(!id)return [];try{const value=JSON.parse(localStorage.getItem(key(id)));return Array.isArray(value)?value:[];}catch{return [];}}
   function save(id,items){localStorage.setItem(key(id),JSON.stringify(items));}
   function progress(q){
@@ -15,9 +24,11 @@
     const pendingToday=pending.some(o=>!daily||o.expected_date===day);
     const outside=daily&&(day<q.repeat.startDate||day>q.repeat.endDate);
     return {count:events.length,target,pending:pending.length,daily,todayDone,outside,
-      blocked:outside||(daily?(todayDone||pendingToday):pending.length>0||events.length>=target)};
+      blocked:Boolean(q.archived)||events.length>=target||outside||(daily?(todayDone||pendingToday):pending.length>0)};
   }
   function describe(q){const p=progress(q);if(!recurring(q))return q.done?'Tamamlandı':'Bekliyor';
+    if(q.archived)return `${p.count}/${p.target} · Atama kaldırıldı`;
+    if(isDone(q))return `${p.count}/${p.target} — Tamamlandı`;
     if(p.outside)return `${p.count}/${p.target} · Bu tarih aralığında aktif değil`;
     if(p.todayDone)return `${p.count}/${p.target} · Bugün tamamlandı! Yarın tekrar gel.`;
     return `${p.count}/${p.target}${p.pending?' · '+p.pending+' onay bekliyor':''} · ${p.daily?'Günlük':'Haftalık tekrar'}`;
@@ -47,6 +58,7 @@
   }
   function complete(q){const id=root.DersBoard?.user?.id;if(!id||!recurring(q)||progress(q).blocked)return;
     const stamp=performance.now(),clickKey=id+':'+q.id;if(stamp-(recentClicks.get(clickKey)||-Infinity)<400)return;recentClicks.set(clickKey,stamp);
+    if(!q.lockedForStudent){root.DersBoard.completePersonalRepeat(q.id);return;}
     const op={quest_id:q.assignedQuestId,request_id:crypto.randomUUID()};
     if(q.repeat.kind==='daily')op.expected_date=today();
     try { save(id,[...queue(id),op]);render();drain(); }
@@ -58,7 +70,7 @@
     if(error)throw error;if(data?.error)throw new Error(data.error);await b.flush();
   }
   function setServerTime(value){const n=Date.parse(value);if(Number.isFinite(n))clockOffset=n-Date.now();}
-  root.DersQuests={today,recurring,completions,earned,progress,describe,complete,drain,archiveWeek,setServerTime};
+  root.DersQuests={today,recurring,isDone,active,completions,earned,possible,normalize,progress,describe,complete,drain,archiveWeek,setServerTime};
   if(typeof module!=='undefined')module.exports=root.DersQuests;
   if(typeof window!=='undefined'){
     window.addEventListener('online',drain);

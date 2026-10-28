@@ -2,7 +2,7 @@ const fs = require('node:fs'), path = require('node:path'), vm = require('node:v
 const root = path.resolve(__dirname, '..');
 const files=['ui.js','theme.js','appearance.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','sync.js','service-worker.js'];
 files.push('admin.js','admin-preview.js','history-groups.js','focus-core.js','study.js','learning-ui.js');
-files.push('exams-core.js','exams.js');
+files.push('exams-core.js','exams.js','experience.js');
 for (const file of files) new vm.Script(fs.readFileSync(path.join(root,file),'utf8'), { filename:file });
 const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
 for (const match of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)) if (match[1].trim()) new vm.Script(match[1], { filename:'index.html inline script' });

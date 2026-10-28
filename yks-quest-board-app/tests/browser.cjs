@@ -29,6 +29,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
       }
       if(url.pathname==='/rest/v1/rpc/ders_action') {res.end(JSON.stringify(await action(uid,body.p_action,body.p_payload)));return;}
       if(url.pathname==='/rest/v1/rpc/ders_learning') {res.end(JSON.stringify((await asUser(uid,'select public.ders_learning($1,$2) r',[body.p_action,body.p_payload||{}])).rows[0].r));return;}
+      if(url.pathname==='/rest/v1/rpc/ders_control') {res.end(JSON.stringify((await asUser(uid,'select public.ders_control($1,$2) r',[body.p_action,body.p_payload||{}])).rows[0].r));return;}
       if(url.pathname==='/rest/v1/rpc/ders_exams') {res.end(JSON.stringify((await asUser(uid,'select public.ders_exams($1,$2) r',[body.p_action,body.p_payload||{}])).rows[0].r));return;}
       if(url.pathname==='/rest/v1/quest_board_states') {
         const rows=(await asUser(uid,'select * from public.quest_board_states where user_id=$1',[uid])).rows;
@@ -53,6 +54,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     }
     if(process.env.V111_ONLY==='1'){const opts={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./stability-browser.cjs')(opts);await require('./v111-browser.cjs')(opts);return;}
     if(process.env.V1141_ONLY==='1'){await require('./v1141-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;}
+    if(process.env.V121_ONLY==='1'){const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./v121-browser.cjs')(options);if(process.env.V121_EXAMS==='1')await require('./exams-browser.cjs')(options);return;}
     if(process.env.V120_ONLY==='1'){await require('./exams-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids,asUser});return;}
     const errors=[];
     async function pageFor(index,width=1280){
@@ -130,7 +132,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
     const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
     await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),{timeout:20000});
-    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-2-0-release-r1');return (await cache.keys()).map(r=>r.url);});
+    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-2-1-release-r1');return (await cache.keys()).map(r=>r.url);});
     assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
     for(const asset of ['appearance.js','appearance.css','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','personal-catalog.js'])assert.ok(cached.some(url=>url.endsWith('/'+asset)));
     await pwa.evaluate(()=>{window.DersTheme.setStyle('glass');window.DersTheme.setAccent('red');});

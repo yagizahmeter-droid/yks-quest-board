@@ -2,6 +2,14 @@
  const compare=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(y[i]||0)-(x[i]||0);if(d)return d;}return 0;};
  const formatDate=date=>new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
  const releases=[
+  {version:'1.2.1',name:'Experience & Theme Update',date:'2026-10-28',dateKind:'release',sections:[
+   {title:'Güvenilir Tekrar İlerlemesi',items:['Haftalık tekrarlar tek tamamlama kaynağıyla 1/3, 2/3, 3/3 — Tamamlandı olarak öğrenci ve öğretmene yansır.','Tamamlananlar, sayaçlar ve cihazlar arası eşitleme tutarlı; yinelenen işlemler XP üretmez. Eski durumlar kayıt defterinden güvenli biçimde onarılabilir.']},
+   {title:'Öğretmen Atama Yönetimi',items:['Bekleyen program isteğini geri çekme; kabul edilmiş programı veya tek görevi açıklamalı onayla kaldırma.','Arşivlenen atamalarda önceki çalışmalar ve kazanılmış XP korunur; öğrenciye bildirim gider, yalnızca gönderen yetkili öğretmen işlem yapabilir.']},
+   {title:'Temiz İstek Listesi',items:['Sonuçlanan değişiklik istekleri aktif listeden ve bekleyen sayacından çıkar; denetim geçmişinde korunur.']},
+   {title:'Kontrollü Çalışma Geçmişi',items:['Kendi çalışma kaydını, bir görevin veya bir haftanın geçmişini kayıt sayısı ve onayla listelerden kaldırma; görev, program ve kazanılmış XP korunur.','Öğretmende Pazartesi–Pazar takvimi, hafta/gün seçimi, net süre ve oturumlar; yalnızca bağlı öğrenciye erişim.']},
+   {title:'Günlük Çalışma Özeti',items:['Tarih seçimi korunan bağımsız panel; net süre, tamamlanan görevler ve en çok çalışılan ders için düzenli mobil/masaüstü yerleşimi.']},
+   {title:'Natural ve Cloud',items:['Natural için kâğıt, adaçayı, kömür ve toprak tonlarıyla farklılaşan katmanlar; sade, hareketsiz botanik detaylar.','Cloud için kompakt, hafif bulut kenarları ve güvenli içerik alanı; hizalı ders kartları. Görünen adlar Natural ve Cloud oldu; kayıtlı tercihler korunur.']}
+  ]},
   {version:'1.2.0',name:'Deneme Takip Sistemi',date:'2026-10-28',dateKind:'release',sections:[
    {title:'TYT ve AYT Denemeleri',items:['Doğru, yanlış ve boş girişleri; anlık net hesabı; TYT alt dersleri ve AYT seçili testleri.','Kısmi kayıtlar, aynı gün birden fazla deneme, düzenleme ve onaylı silme.']},
    {title:'Gelişim ve İstatistikler',items:['Sınav ve test kapsamına göre ayrı net grafikleri, ders analizi, en yüksek net ve tam kayıt ortalamaları.','Kısmi kayıtlar ve eksik netler ayrı işaretlenir; farklı test kapsamları birbirine karıştırılmaz.']},
