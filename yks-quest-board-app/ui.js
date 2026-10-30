@@ -1,7 +1,8 @@
 (() => {
-  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus', 'exams'];
+  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus', 'exams','classes'];
   const titles = { home: 'Genel Bakış', program: 'Programım', teacher: 'Öğretmen', history: 'Çalışma Geçmişi', account: 'Hesabım', 'account/signup': 'Kayıt Ol',focus:'Odak Modu',exams:'Denemelerim' };
-  const privateRoutes = new Set(['program', 'teacher', 'history','focus','exams']);
+  titles.classes='Sınıflar';
+  const privateRoutes = new Set(['program', 'teacher', 'history','focus','exams','classes']);
   const $ = id => document.getElementById(id);
   const mobile = matchMedia('(max-width: 720px)');
   const overlays = new Map();
@@ -166,7 +167,7 @@
     const status = $('syncStatus').textContent;
     $('navigationSync').dataset.status = uid ? (/eşitlendi/i.test(status) ? 'synced' : 'pending') : 'signed-out';
     $('navigationSync').querySelector('small').textContent = uid ? (/eşitlendi/i.test(status) ? 'Bulutla eşitlendi' : navigator.onLine ? 'Eşitleme bekliyor' : 'Çevrimdışı') : 'Oturum kapalı';
-    const count = teacherInfo ? teacherInfo.connections.filter(c => c.status === 'pending').length + teacherInfo.requests.filter(r => r.status === 'pending').length + (teacherInfo.profile?.role === 'student' ? teacherInfo.assignments.filter(a => a.status === 'pending').length : 0) : 0;
+    const count = teacherInfo ? teacherInfo.profile?.role==='teacher' ? teacherInfo.connections.filter(c=>c.status==='pending').length+teacherInfo.requests.filter(r=>r.status==='pending').length : teacherInfo.assignments.filter(a=>a.status==='pending').length : 0;
     document.querySelectorAll('[data-teacher-count]').forEach(el => { el.hidden = !count; el.textContent = count; el.setAttribute('aria-label', `${count} bekleyen işlem`); });
     $('homeTeacherSummary').textContent = !uid ? 'Bağlantılar ve talepler' : count ? `${count} bekleyen işlem` : teacherInfo?.connections.some(c => c.status === 'approved') ? `${teacherInfo.connections.filter(c => c.status === 'approved').length} aktif bağlantı` : 'Henüz bağlantı yok';
     draw();

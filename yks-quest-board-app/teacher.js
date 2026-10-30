@@ -7,7 +7,7 @@
   let viewToken = 0;
   const drafts = new Map();
   let shownStudent = null, studentData = null;
-  let composer = null, sendAfter=0;
+  let composer = null, sendAfter=0, classComposer=null, requestsTab='pending';
   const esc = value => window.DersBoard.escape(String(value ?? ''));
   const labels = { pending: 'Onay bekliyor', approved: 'Onaylandı', rejected: 'Reddedildi', revoked: 'Bağlantı kaldırıldı', accepted: 'Kabul edildi', withdrawn: 'Geri çekildi' };
   const button = (text, action, id = '', extra = '') => `<button class="button" type="button" data-action="${action}" data-id="${esc(id)}" ${extra}>${text}</button>`;
@@ -16,7 +16,7 @@
   function resetOwner(uid) {
     if (owner === uid) return;
     overview = null; snapshot = ''; closeDialog(true); owner = uid;
-    composer = null; draft = [freshQuest()]; drafts.clear();
+    composer = null; classComposer=null;requestsTab='pending';draft = [freshQuest()]; drafts.clear();
   }
   async function rpc(action, payload = {}) {
     if (!window.DersBoard.user || !navigator.onLine) throw new Error('Bu işlem için internet bağlantısı ve giriş gerekli.');
@@ -36,7 +36,7 @@
       if (owner !== uid) return;
       overview = data;
       window.DersQuests.setServerTime(data.server_now);
-      if (shownStudent && !overview.connections.some(c => c.student_id === shownStudent && c.status === 'approved')) { const id = shownStudent; closeDialog(true); drafts.delete(id); }
+      if (shownStudent && !classComposer && !overview.connections.some(c => c.student_id === shownStudent && c.status === 'approved')) { const id = shownStudent; closeDialog(true); drafts.delete(id); }
       render();
       if(dialog.open && dialog.querySelector('[data-action="student-progress"][aria-selected="true"]')) {
         const id=shownStudent,token=viewToken,selected=document.getElementById('studentWeek')?.value;
@@ -96,15 +96,21 @@
       const controls = (!teacher && a.status === 'pending' ? button('Programı Kontrol Et', 'review', a.id) : button('Görevleri Gör', 'review', a.id)) + (teacher && a.status === 'pending' ? button('İsteği Geri Çek', 'withdraw', a.id) : teacher && a.status==='accepted'&&!a.archived_at&&overview.capabilities?.manageAssignments?button('Atamayı Kaldır','remove-assignment',a.id):'');
       panel.insertAdjacentHTML('beforeend', row(a.week_name, detail, controls));
     }
-    for (const r of overview.requests.filter(r=>r.status==='pending')) {
+    for (const r of teacher ? overview.requests.filter(r=>r.status==='pending') : []) {
       const proposal = r.requested_changes;
       const detail=proposal.type==='topic_title' ? `${r.status==='approved'?'Kabul Edildi':r.status==='rejected'?'Reddedildi':'Beklemede'} · Mevcut: ${proposal.current_title} · Önerilen: ${proposal.title}${proposal.reason?' · Gerekçe: '+proposal.reason:''}` : `${labels[r.status]} · Öneri: ${proposal.title} — ${proposal.detail} · ${proposal.xp} XP`;
       panel.insertAdjacentHTML('beforeend', row(`${r.name} · ${r.title}`, detail,
         teacher && r.status === 'pending' ? button('Değişikliği Onayla', 'change-approve', r.id) + button('Reddet', 'change-reject', r.id) : ''));
     }
     const resolved=overview.request_history||overview.requests.filter(r=>r.status!=='pending');
-    if(resolved.length)panel.insertAdjacentHTML('beforeend','<details class="resolved-requests"><summary>Sonuçlanan Değişiklik İstekleri ('+resolved.length+')</summary>'+resolved.map(r=>row(r.title,labels[r.status])).join('')+'</details>');
+    if(teacher&&resolved.length)panel.insertAdjacentHTML('beforeend','<details class="resolved-requests"><summary>Sonuçlanan Değişiklik İstekleri ('+resolved.length+')</summary>'+resolved.map(requestCard).join('')+'</details>');
+    if(!teacher){
+      const all=[...overview.requests,...resolved].sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+      panel.insertAdjacentHTML('beforeend','<section class="change-requests" aria-labelledby="myRequestsTitle"><h3 id="myRequestsTitle">Değişiklik Taleplerim</h3><div class="request-tabs" role="tablist" aria-label="Talep durumu">'+[['pending','Bekleyen'],['approved','Kabul Edilen'],['rejected','Reddedilen']].map(([s,l])=>'<button class="button '+(s===requestsTab?'is-active':'')+'" type="button" role="tab" aria-selected="'+(s===requestsTab)+'" data-request-tab="'+s+'">'+l+' ('+all.filter(r=>r.status===s).length+')</button>').join('')+'</div><div class="request-list" role="tabpanel">'+(all.filter(r=>r.status===requestsTab).map(requestCard).join('')||'<p class="sync-status">'+({pending:'Bekleyen değişiklik talebin yok.',approved:'Henüz kabul edilen değişiklik talebin yok.',rejected:'Reddedilen değişiklik talebin yok.'}[requestsTab])+'</p>')+'</div></section>');
+      panel.querySelectorAll('[data-request-tab]').forEach((b,i,buttons)=>{b.onclick=()=>{requestsTab=b.dataset.requestTab;render(true);};b.onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[n].click();panel.querySelectorAll('[data-request-tab]')[n].focus();}};});
+    }
   }
+  function requestCard(r){const p=r.requested_changes||{},date=v=>v?new Date(v).toLocaleString('tr-TR',{timeZone:'Europe/Istanbul'}):'—';return '<article class="teacher-item request-card" data-request-id="'+esc(r.id)+'" data-status="'+esc(r.status)+'"><strong>'+esc(p.type==='topic_title'?'Konu Adı Değişikliği':'Görev Değişikliği')+'</strong><dl>'+[['Öğretmen',r.teacher_name||overview.assignments.find(a=>a.id===r.assignment_id)?.name||'Öğretmen'],['Program',r.week_name||'Geçmiş program'],['Ders',r.category_name||'Belirtilmemiş'],['Mevcut',p.current_title||r.title],['İstenen',p.title],['Ayrıntı',p.type==='topic_title'?'':p.detail],['XP',p.type==='topic_title'?'':p.xp],['Gerekçe',p.reason],['Gönderilme',date(r.created_at)],['Durum',{pending:'Beklemede',approved:'Kabul Edildi',rejected:'Reddedildi'}[r.status]],['Sonuçlanma',r.resolved_at?date(r.resolved_at):'']].filter(([,v])=>v!==''&&v!=null).map(([k,v])=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>').join('')+'</dl></article>';}
   function renderDraft() {
     const wrap = document.getElementById('assignmentDraft'); if (!wrap) return;
     const options = (values, selected, placeholder) => `<option value="">${placeholder}</option>${values.map(v => `<option value="${esc(v)}" ${v === selected ? 'selected' : ''}>${esc(v)}</option>`).join('')}`;
@@ -149,12 +155,12 @@
     if (!force && busy) { window.DersBoard.toast('İşlem sürüyor. Biraz bekle.'); return false; }
     if (!force && window.DersUI && !window.DersUI.canLeave(dialog)) return false;
     try{rememberComposer();}catch(error){if(!force){window.DersBoard.toast(error.message);return false;}}
-    viewToken++; dialog.close(); dialog.replaceChildren(); shownStudent = null; studentData = null;
+    viewToken++; dialog.close(); dialog.replaceChildren(); shownStudent = null; studentData = null;classComposer=null;
     window.DersUI?.clearDirty(dialog); window.DersUI?.modalClosed('teacher-dialog', nextRoute); return true;
   }
   function showDialog(title, body) {
     if (dialog.open && window.DersUI && !window.DersUI.canLeave(dialog)) return false;
-    viewToken++; rememberComposer(); dialog.close(); shownStudent = null; studentData = null; window.DersUI?.clearDirty(dialog);
+    viewToken++; rememberComposer(); dialog.close(); shownStudent = null; studentData = null;classComposer=null;window.DersUI?.clearDirty(dialog);
     dialog.innerHTML = `<div class="modal-head"><h2>${esc(title)}</h2><button class="icon-button" type="button" id="dismissDialog" aria-label="Kapat" title="Kapat"><i data-lucide="x"></i></button></div><div class="modal-body">${body}</div>`;
     dialog.querySelector('#dismissDialog').onclick = () => closeDialog(); dialog.showModal();
     window.DersUI?.openModal('teacher-dialog', dialog, closeDialog);
@@ -163,7 +169,7 @@
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
   function rememberComposer() {
     const form = document.getElementById('assignmentForm'); if (!form || !shownStudent) return;
-    const entry = { id:composer.id, quests:structuredClone(draft), name:document.getElementById('assignmentName').value, range:composer.range || '', start:document.getElementById('assignmentStart').value, end:document.getElementById('assignmentEnd').value };
+    const entry = { id:composer.id, quests:structuredClone(draft), name:document.getElementById('assignmentName').value, range:composer.range || '', start:document.getElementById('assignmentStart').value, end:document.getElementById('assignmentEnd').value,...(classComposer?{selectedStudents:[...form.querySelectorAll('[data-class-recipient]:checked')].map(x=>x.value)}:{}) };
     window.DersTeacherDrafts.save(owner,shownStudent,entry); drafts.set(shownStudent,entry); return entry;
   }
   function programForm() {
@@ -173,6 +179,7 @@
     draft = structuredClone(composer.quests);
     document.getElementById('studentWorkspace').innerHTML = `<form id="assignmentForm" class="program-composer"><input type="hidden" id="assignmentStudent" value="${esc(shownStudent)}">${input('Hafta Adı','assignmentName','text',composer.name)}<div class="modal-grid">${input('Günlük Görev Başlangıcı','assignmentStart','date',composer.start)}${input('Günlük Görev Bitişi','assignmentEnd','date',composer.end)}</div><div id="assignmentDraft"></div><p id="assignmentError" role="alert"></p><div class="signed-in-actions">${button('<i data-lucide="plus"></i>Görev Ekle','draft-add')}${button('<i data-lucide="copy"></i>Bu Haftayı Kopyala','draft-copy')}<button class="button primary" type="submit"><i data-lucide="send"></i>Programı Gönder</button></div></form>`;
     for(const id of ['assignmentStart','assignmentEnd'])document.getElementById(id).required=true;
+    if(classComposer){const chosen=composer.selectedStudents||classComposer.members.map(m=>m.student_id);document.getElementById('assignmentForm').insertAdjacentHTML('afterbegin','<fieldset class="class-recipient-picker"><legend>Programın Gönderileceği Öğrenciler</legend>'+classComposer.members.map(m=>'<label><input type="checkbox" data-class-recipient value="'+esc(m.student_id)+'" '+(chosen.includes(m.student_id)?'checked':'')+'>'+esc(m.name)+'</label>').join('')+'</fieldset>');document.querySelector('#assignmentForm [type="submit"]').lastChild.textContent='Sınıfa Gönder';}
     const templates = overview.assignments.filter(a => a.student_id === shownStudent && ['accepted','pending'].includes(a.status));
     document.getElementById('assignmentDraft').insertAdjacentHTML('beforebegin', `<div class="modal-grid"><label class="field">Taslak<select class="select" id="assignmentDraftSelect" data-ui-transient="true">${[...book.entries.filter(d=>d.id!==composer.id),composer].map(d=>`<option value="${esc(d.id)}" ${d.id===composer.id?'selected':''}>${esc(d.name || 'Adsız taslak')}</option>`).join('')}</select></label>${button('<i data-lucide="trash-2"></i>Taslağı Sil','draft-remove')}</div><label class="field">Kopyalanacak Hafta<select class="select" id="assignmentTemplate" data-ui-transient="true"><option value="current">Açık taslak</option><option value="own">Kişisel haftam · ${esc(window.DersBoard.week().name)}</option>${templates.map(a => `<option value="${esc(a.id)}">${esc(a.week_name)} · ${labels[a.status]}</option>`).join('')}</select></label>`);
     document.getElementById('assignmentDraftSelect').onchange = event => { rememberComposer();const selected=window.DersTeacherDrafts.load(owner,shownStudent).entries.find(d=>d.id===event.target.value);if(selected){drafts.set(shownStudent,selected);programForm();} };
@@ -284,10 +291,12 @@
         const quests = draft.map(q => {const first=q.starts_on||start,last=q.ends_on||end,repeat=window.DersQuests.repeatSettings({kind:q.repeat_kind,target:q.repeat_target,startDate:first,endDate:last});return { exam_type:q.exam_type, category:q.category, title:q.title.trim(), detail:q.detail.trim(), xp:q.xp, repeat_kind:repeat.kind, repeat_target:repeat.target, ...(q.topic_scope ? {topic_category:q.topic_category,topic_name:q.topic_name,topic_scope:q.topic_scope} : {}), ...(repeat.kind==='daily' ? {starts_on:repeat.startDate,ends_on:repeat.endDate} : {}) };});
         if (!document.getElementById('assignmentName').value.trim() || !quests.length || quests.some(q => !window.DersCurriculum.supports(q.exam_type,q.category) || !q.title || !Number.isInteger(q.xp) || q.xp<5 || q.xp>10000 || !Number.isInteger(q.repeat_target) || q.repeat_target<1 || q.repeat_target>100 || (q.repeat_kind==='daily' && q.repeat_target>31))) throw new Error('Hafta adı, ders, konu, geçerli XP ve tekrar hedefi gerekli. Günlük aralık 1–31 gün olabilir.');
         const range = [start,end].map(day=>day.split('-').reverse().join('.')).join(' – ');
-        await rpc('assign_program', { student_id: shownStudent, week_name: document.getElementById('assignmentName').value.trim(), week_range: range, quests });
+        const classSend=Boolean(classComposer);
+        if(classSend)await window.DersClasses.sendProgram({id:composer.id,class_id:classComposer.id,student_ids:[...document.querySelectorAll('[data-class-recipient]:checked')].map(x=>x.value),week_name:document.getElementById('assignmentName').value.trim(),starts_on:start,ends_on:end,quests});
+        else await rpc('assign_program', { student_id: shownStudent, week_name: document.getElementById('assignmentName').value.trim(), week_range: range, quests });
         sendAfter=Date.now()+500;
         window.DersUI?.clearDirty(document.getElementById('assignmentForm'));
-        window.DersUI?.clearDirty(dialog); window.DersTeacherDrafts.remove(owner,shownStudent,composer.id);drafts.delete(shownStudent); programForm(); snapshot = '';
+        window.DersUI?.clearDirty(dialog); window.DersTeacherDrafts.remove(owner,shownStudent,composer.id);drafts.delete(shownStudent);if(classSend)closeDialog(true);else programForm();snapshot = '';
       } else if (action === 'review') { review(overview.assignments.find(a => a.id === id)); return; }
       else if (action === 'remove-assignment'||action==='remove-assigned-quest') { if(!await window.DersExperience.archive(action==='remove-assignment'?'archive_assignment':'archive_assigned_quest',id))return;closeDialog(true); }
       else if (action === 'withdraw') { if (!overview.capabilities?.withdrawProgram) throw new Error('İsteği geri çekmek için sunucu güncellemesi gerekli.'); if (!confirm('Öğrencinin henüz kabul etmediği bu program isteği geri çekilsin mi?')) return; await rpc('withdraw_assignment',{id}); }
@@ -302,6 +311,8 @@
   function onAction(event) { const target = event.target.closest('[data-action]'); if (target) { event.preventDefault(); run(target.dataset.action,target.dataset.id); } }
   panel.addEventListener('click', onAction); dialog.addEventListener('click', onAction);
   window.DersTeacher = { refresh, render, editQuest, requestChange: (q,w) => editQuest(q,w,true),
+    get info(){return overview;},
+    async openClassProgram(target){await refresh();if(overview?.profile.role!=='teacher')throw Error('Öğretmen hesabı gerekli.');if(!showDialog(target.name+' · Sınıfa Program Gönder','<div id="studentWorkspace"></div>'))return;shownStudent='class:'+target.id;classComposer=target;programForm();},
     async openReport(id,week,quest){await refresh();openStudent(id);if(shownStudent!==id)throw Error('Öğrenciye erişim yok.');await studentTab('student-report',week,quest);},
     async openAssignment(id){await refresh();const a=overview?.assignments.find(a=>a.id===id);if(!a)throw Error('Program bulunamadı veya erişim sona erdi.');review(a);}
   };
