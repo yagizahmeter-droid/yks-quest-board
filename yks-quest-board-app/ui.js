@@ -135,7 +135,7 @@
     if (uid !== seenUser) {
       const previous = seenUser; seenUser = uid; teacherInfo = null;
       if (previous !== undefined) {
-        ['manualDetail','categoryNameInput','weekNameInput','weekRangeInput','modalWeekName','modalWeekRange'].forEach(id => $(id).value = '');
+        ['manualDetail','weekNameInput','weekRangeInput','modalWeekName','modalWeekRange'].forEach(id => $(id).value = '');
         clearDirty(document.body);
         if (!uid) $('authEmail').value = '';
       }
@@ -224,7 +224,6 @@
   $('sidebar').inert = mobile.matches;
   $('pageBack').onclick = () => { if (current.depth > 0) history.back(); else navigate('home'); };
   $('addProgramButton').onclick = () => $('newWeekButton').click();
-  $('openCategoryEditor').onclick = () => { $('categoryEditor').open = true; $('categoryNameInput').focus(); $('categoryEditor').scrollIntoView({block:'nearest'}); };
   $('openQuestEditor').onclick = () => { $('questEditor').open = true; $('manualDetail').focus(); $('questEditor').scrollIntoView({block:'nearest'}); };
   document.querySelector('[data-go-teacher]').onclick = () => navigate('teacher');
   document.querySelector('[data-account-logout]').onclick = () => { if (canLeave(activeRoot())) $('signOutButton').click(); };

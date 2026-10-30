@@ -5,6 +5,24 @@
   const group = document.getElementById('manualTopicCategory');
   const topic = document.getElementById('manualTopic');
   const detail = document.getElementById('manualDetail');
+  const repeatKind=document.getElementById('manualRepeatKind'),repeatTarget=document.getElementById('manualRepeatTarget'),dailyStart=document.getElementById('manualDailyStart'),dailyEnd=document.getElementById('manualDailyEnd');
+  const repeatValues=()=>({kind:repeatKind.value,target:repeatTarget.value,startDate:dailyStart.value,endDate:dailyEnd.value});
+  function drawRepeat(){
+    const daily=repeatKind.value==='daily';document.querySelector('.personal-repeat-row').dataset.kind=repeatKind.value;
+    document.getElementById('manualWeeklyField').hidden=daily;repeatTarget.disabled=daily;
+    document.getElementById('manualDailyStartField').hidden=!daily;dailyStart.disabled=!daily;
+    document.getElementById('manualDailyEndField').hidden=!daily;dailyEnd.disabled=!daily;
+    let hint='Bu haftanın görev havuzunda, istediğin gün tamamlayabilirsin.';
+    if(daily)try{const r=window.DersQuests.repeatSettings(repeatValues());hint=r.target+' gün · Her gün bir kez tamamlanabilir. Kaçırılan günler kendiliğinden tamamlanmaz.';}catch(error){hint=error.message;}
+    document.getElementById('manualRepeatHint').textContent=hint;
+    document.getElementById('manualQuestError').textContent='';window.DersSelect?.refresh();
+  }
+  function resetRepeat(){
+    repeatKind.replaceChildren(...window.DersQuests.repeatKinds.filter(o=>o.value!=='none').map(o=>new Option(o.label,o.value)));
+    repeatKind.value='weekly';repeatTarget.value='5';dailyStart.value=window.DersQuests.today();dailyEnd.value=new Date(Date.parse(dailyStart.value+'T12:00:00Z')+6*86400000).toISOString().slice(0,10);drawRepeat();
+  }
+  for(const field of [repeatKind,repeatTarget,dailyStart,dailyEnd])field.addEventListener('input',drawRepeat);
+  repeatKind.addEventListener('change',drawRepeat);resetRepeat();
   let subjects = new Map(), categories = [], initialized = false;
   const key = text => text.normalize('NFC').trim().toLocaleLowerCase('tr-TR');
   const knownLessons = new Set(catalog.exams.flatMap(e => catalog.lessons(e)).map(key));
@@ -62,7 +80,10 @@
   });
   window.DersPersonalCatalog = {
     render, clearTopic,
-    useManual(id) { exam.value='unspecified';render(categories);lesson.value=id;drawTopics();document.getElementById('addQuestButton').disabled=!subjects.has(id);window.DersSelect?.refresh(); },
+    repeatSelection(){
+      try{return window.DersQuests.repeatSettings(repeatValues());}
+      catch(error){({kind:repeatKind,target:repeatTarget,startDate:dailyStart,endDate:dailyEnd}[error.field]||repeatKind).focus();throw error;}
+    },
     selection(description = '') {
       const entry = subjects.get(lesson.value);
       if (!entry) return null;
@@ -74,6 +95,7 @@
     reset() {
       initialized = false; subjects.clear(); exam.value = 'TYT'; lesson.value = ''; group.value = '';
       clearTopic(); document.getElementById('manualDetail').value = ''; document.getElementById('manualXp').value = '100';
+      resetRepeat();
     }
   };
 })();

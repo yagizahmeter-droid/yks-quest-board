@@ -72,24 +72,22 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
 
     const blank = await newPage();await login(blank,4);await go(blank,'program');
     assert.equal(await blank.locator('#addProgramButton').isVisible(),true);
-    await blank.click('#openCategoryEditor');await blank.fill('#categoryNameInput','Biyoloji');await blank.click('#addCategoryButton');
-    assert.equal(await blank.evaluate(()=>window.DersBoard.state.categories[0].name),'Biyoloji');
-    await blank.click('#openQuestEditor');await blank.fill('#manualDetail','Canlıların ortak özellikleri');await blank.click('#addQuestButton');
-    assert.equal(await blank.locator('#addProgramButton').isVisible(),false);assert.equal(await blank.locator('#editModeButton').isVisible(),true);pass('Empty account can add a lesson and quest, then shows Edit instead of Add Program');
+    assert.equal(await blank.locator('#openCategoryEditor,#categoryEditor').count(),0);
+    await blank.click('#openQuestEditor');const biology=await blank.locator('#manualSubject option').evaluateAll(es=>es.find(e=>e.label==='Biyoloji').value);await pointerSelect(blank,'#manualSubject',biology);await blank.fill('#manualDetail','Canlıların ortak özellikleri');await blank.fill('#manualRepeatTarget','1');await blank.click('#addQuestButton');
+    assert.equal(await blank.evaluate(()=>window.DersBoard.state.categories.some(c=>c.name==='Biyoloji')),true);assert.equal(await blank.locator('#addProgramButton').isVisible(),false);assert.equal(await blank.locator('#editModeButton').isVisible(),true);pass('Empty account selects a catalog lesson and adds a quest without a separate lesson editor');
 
     const student = await newPage();await login(student,1);await go(student,'program');
     assert.equal(await student.locator('#editModeButton').innerText(),'Düzenle');
     await student.click('#editModeButton');await student.click('#openQuestEditor');await student.fill('#manualDetail','UI task\n30 soru ve analiz');
-    await student.click('#addQuestButton');await student.locator('.quest-title').getByText('UI task',{exact:true}).waitFor();
+    await student.fill('#manualRepeatTarget','1');await student.click('#addQuestButton');await student.locator('.quest-title').getByText('UI task',{exact:true}).waitFor();
     await student.locator('.quest').filter({hasText:'UI task'}).locator('.check').click();await student.evaluate(()=>window.DersBoard.flush());
     await go(student,'home');assert.ok((await student.locator('#totalXp').innerText()).includes('680'));pass('Existing quest completion updates XP and home metrics');
     await go(student,'program');
     const longName = 'Çok uzun bir matematik dersi ve çalışma konusu '.repeat(4);
-    await student.click('#openCategoryEditor');await student.fill('#categoryNameInput',longName);await student.click('#addCategoryButton');
-    const longCategory = await student.evaluate(name=>window.DersBoard.state.categories.find(c=>c.name===name)?.id,longName.trim());
+    const original=await action(ids[1],'read_board'),longCategory='existing-long-category';original.state.categories.push({id:longCategory,name:longName.trim(),origin:'manual',color:'#63d6d6'});await action(ids[1],'sync_board',{expected_version:original.version,state:original.state});await student.evaluate(()=>DersBoard.flush());
     assert.ok(longCategory,'Long category name was not preserved');
-    await pointerSelect(student,'#manualSubject',longCategory);await student.fill('#manualDetail',longName);await student.click('#addQuestButton');
-    await student.click('#editModeButton');pass('Lesson and quest creation remain available with long names');
+    await pointerSelect(student,'#manualExam','unspecified');await pointerSelect(student,'#manualSubject',longCategory);await student.fill('#manualDetail',longName);await student.click('#addQuestButton');
+    await student.click('#editModeButton');pass('Existing long lesson names remain selectable after the lesson editor is removed');
     fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
     for (const width of [360,390,430,1280]) {
       await student.setViewportSize({width,height:900});

@@ -25,9 +25,8 @@
       for(const key of ['archived','teacherArchived'])if(key in remote)result[key]=remote[key];else delete result[key];
     }else if(result.repeat&&['weekly','daily'].includes(result.repeat.kind)){
       const map=new Map([...(remote.completions||[]),...(local.completions||[])].map(e=>[e.id,e]));
-      const dates=new Set();
-      result.completions=[...map.values()].filter(e=>result.repeat.kind!=='daily'||e.date&&!dates.has(e.date)&&dates.add(e.date)).sort((a,b)=>String(a.completedAt||'').localeCompare(String(b.completedAt||''))||a.id.localeCompare(b.id)).slice(0,Number(result.repeat.target));
-      result.done=result.completions.length>=Number(result.repeat.target);result.completionId=result.done?result.completions.at(-1)?.historyId||result.completionId:null;
+      const quests=root.DersQuests||(typeof require==='function'?require('./quest-system.js'):null);
+      Object.assign(result,quests.normalize({...result,completions:[...map.values()]}));
     }
     return result;
   }

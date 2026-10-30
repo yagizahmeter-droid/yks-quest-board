@@ -5,7 +5,11 @@ module.exports=async({root,browser,siteUrl,apiUrl,users,ids,action})=>{
   const contexts=[];
   async function login(width=1280){const ctx=await browser.newContext({viewport:{width,height:900},serviceWorkers:'block',hasTouch:true});contexts.push(ctx);await ctx.route('**/config.js',r=>r.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'${apiUrl}',supabaseAnonKey:'local-public-fixture'};`}));const p=await ctx.newPage();await p.goto(siteUrl+'/#/account');await p.fill('#authEmail',users[4].email);await p.fill('#authPassword','test-password');await p.click('#signInButton');await p.waitForFunction(()=>Boolean(window.DersBoard.user));await p.evaluate(()=>window.DersBoard.flush());await p.evaluate(()=>window.DersUI.navigate('program'));return p;}
   try{
+    const legacy=await action(ids[4],'read_board'),duplicateId='legacy-math-'+Date.now(),customId='legacy-reading-'+Date.now();
+    legacy.state.categories.push({id:duplicateId,name:'Matematik',origin:'manual',color:'#63d6d6'},{id:customId,name:'Kişisel okuma',origin:'manual',color:'#63d6d6'});
+    await action(ids[4],'sync_board',{expected_version:legacy.version,state:legacy.state});
     const p=await login(),phone=await login(390);await p.click('#openQuestEditor');
+    await p.fill('#manualRepeatTarget','1');assert.equal(await p.locator('#openCategoryEditor,#categoryEditor').count(),0);
     assert.equal(await p.locator('#manualTitle').count(),0);assert.equal(await p.locator('#questForm > .field input[type="text"]').count(),0);assert.equal(await p.locator('#questForm textarea').count(),1);assert.equal(await p.locator('#manualDetail').evaluate(el=>el===document.activeElement),true);pass('Student creation has only a description textarea, with no title field or hidden title input');
     const before=await p.evaluate(()=>structuredClone(window.DersBoard.state));
     const choose=(id,value)=>pointerSelect(p,'#'+id,value);
@@ -31,12 +35,10 @@ module.exports=async({root,browser,siteUrl,apiUrl,users,ids,action})=>{
     added=await p.evaluate(()=>window.DersBoard.week().quests.find(q=>q.title==='Özel matematik konusu'));assert.equal(added.topicCategory,undefined);assert.equal(added.detail,'Özel matematik konusu\nKonu anlatımı / soru çözümü');pass('Custom quest derives its title from the first line while preserving the full description');
     await choose('manualExam','KPSS');await lesson('Tarih');await choose('manualTopicCategory','Genel Konular');await choose('manualTopic','Osmanlı Tarihi');await p.click('#addQuestButton');
     added=await p.evaluate(()=>window.DersBoard.week().quests.find(q=>q.title==='Osmanlı Tarihi'));assert.equal(added.examType,'KPSS');pass('KPSS uses the same unchanged central catalog');
-    await p.click('#openCategoryEditor');await p.fill('#categoryNameInput','Matematik');await p.click('#addCategoryButton');
-    const duplicateId=await p.evaluate(()=>window.DersBoard.state.categories.filter(c=>c.name==='Matematik').at(-1).id);
     await choose('manualExam','TYT');assert.equal(await p.locator('#manualSubject option').evaluateAll(list=>list.filter(o=>o.label==='Matematik').length),1);
     assert.equal(await p.locator(`#manualSubject option[value="${duplicateId}"]`).count(),0);await choose('manualExam','unspecified');await choose('manualSubject',duplicateId);assert.equal(await p.locator('#manualTopicCategory').isDisabled(),true);await p.fill('#manualDetail','İkinci ders kaydı');await p.click('#addQuestButton');
     assert.equal(await p.evaluate(()=>window.DersBoard.week().quests.find(q=>q.detail==='İkinci ders kaydı').categoryId),duplicateId);pass('Existing duplicate lesson IDs remain selectable with distinct labels');
-    await p.click('#openCategoryEditor');await p.fill('#categoryNameInput','Kişisel okuma');await p.click('#addCategoryButton');const customId=await p.evaluate(()=>window.DersBoard.state.categories.find(c=>c.name==='Kişisel okuma').id);assert.equal(await p.inputValue('#manualExam'),'unspecified');
+    assert.equal(await p.inputValue('#manualExam'),'unspecified');
     await choose('manualSubject',customId);assert.equal(await p.locator('#manualTopicCategory').isDisabled(),true);await choose('manualTopic','__manual');await p.fill('#manualDetail','Kitap bölümü');
     await p.context().setOffline(true);await p.click('#addQuestButton');await p.context().setOffline(false);await p.evaluate(()=>window.DersBoard.flush());await phone.evaluate(()=>window.DersBoard.flush());await phone.waitForFunction(()=>window.DersBoard.state.weeks.some(w=>w.quests.some(q=>q.title==='Kitap bölümü')));pass('Custom lessons and offline personal quest creation synchronize to another device');
     const baseline=await action(ids[4],'read_board');await p.locator('.quest').filter({hasText:'Cumhuriyet Dönemi Türk Şiiri'}).locator('.check').click();await p.evaluate(()=>window.DersBoard.flush());const completed=await action(ids[4],'read_board');assert.equal(completed.xpBreakdown.personal,baseline.xpBreakdown.personal+235);assert.equal(completed.xpBreakdown.competitive,baseline.xpBreakdown.competitive);pass('Catalog task awards only personal XP, never teacher competitive XP');

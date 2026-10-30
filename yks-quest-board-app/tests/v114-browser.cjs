@@ -39,7 +39,7 @@ async function main(){let server,browser;const errors=[],remote=[];
   for(const width of [360,390,430,1440])for(const style of modes)for(const theme of ['light','dark']){
    await p.setViewportSize({width,height:900});await p.evaluate(({style,theme})=>{DersTheme.setStyle(style);DersTheme.set(theme);DersUI.navigate('program');},{style,theme});assert.equal(await p.locator('html').getAttribute('data-appearance'),style);
    assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
-   for(const id of ['openCategoryEditor','openQuestEditor','openWeekReport']){const b=p.locator('#'+id);const r=await b.boundingBox();assert.ok(r.width>=44&&r.height>=44);const lines=await b.evaluate(el=>el.scrollHeight/parseFloat(getComputedStyle(el).lineHeight));assert.ok(lines<=2.5,'Button text must not wrap excessively');}
+   for(const id of ['openQuestEditor','openWeekReport']){const b=p.locator('#'+id);const r=await b.boundingBox();assert.ok(r.width>=44&&r.height>=44);const lines=await b.evaluate(el=>el.scrollHeight/parseFloat(getComputedStyle(el).lineHeight));assert.ok(lines<=2.5,'Button text must not wrap excessively');}
    await p.mouse.move(width-25,450);await p.mouse.wheel(0,600);await p.waitForFunction(()=>scrollY>100);await p.evaluate(()=>scrollTo(0,0));
    if(width===390||width===1440){await p.evaluate(()=>DersUI.navigate('home'));await p.screenshot({path:path.join(root,'test-results',`v114-home-${width}-${style}-${theme}.png`)});}
    await p.evaluate(()=>DersUI.navigate('focus'));const a=await p.locator('#focusSettings').boundingBox(),clock=await p.locator('.focus-face').boundingBox();assert.ok(a.height<620);assert.ok(clock.y<a.y+a.height+80);

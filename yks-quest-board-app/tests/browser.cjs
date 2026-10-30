@@ -57,6 +57,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     if(process.env.V1141_ONLY==='1'){await require('./v1141-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;}
     if(process.env.V121_ONLY==='1'){const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./v121-browser.cjs')(options);if(process.env.V121_EXAMS==='1')await require('./exams-browser.cjs')(options);return;}
     if(process.env.V120_ONLY==='1'){await require('./exams-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids,asUser});return;}
+    if(process.env.PERSONAL_REPEAT_ONLY==='1'){const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./personal-repeat-browser.cjs')(options);await require('./v121-browser.cjs')(options);return;}
     const errors=[];
     async function pageFor(index,width=1280){
       const context=await browser.newContext({viewport:{width,height:900},serviceWorkers:'block'});
@@ -101,7 +102,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await s.getByRole('button',{name:/Tamamlananlar/}).click();assert.equal(await s.locator('.quest.done').count(),1);
     await s.evaluate(()=>window.DersUI.navigate('history'));assert.equal(await s.locator('#historyList .history-item').count(),2);await s.evaluate(()=>window.DersUI.navigate('program'));console.log('PASS Completed tab, independent weeks, global XP and history');
     await s.click('#newWeekButton');await s.fill('#modalWeekName','Empty browser week');await s.fill('#modalWeekRange','28 Ekim-4 Kasım');await s.click('#emptyWeekModalButton');
-    await s.click('#openQuestEditor');await s.fill('#manualDetail','Manual browser task\nKonu anlatımı / soru çözümü');await s.click('#addQuestButton');
+    await s.click('#openQuestEditor');await s.fill('#manualDetail','Manual browser task\nKonu anlatımı / soru çözümü');await s.fill('#manualRepeatTarget','1');await s.click('#addQuestButton');
     await s.locator('.quest-title').filter({hasText:'Manual browser task'}).waitFor();console.log('PASS New empty week and manual quest');
     await s.context().setOffline(true);await s.locator('.quest').filter({hasText:'Manual browser task'}).locator('.check').click();
     await s.context().setOffline(false);await s.evaluate(()=>window.DersBoard.flush());await phone.evaluate(()=>window.DersBoard.flush());
@@ -133,7 +134,8 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
     const pwaContext=await browser.newContext({viewport:{width:390,height:844}});const pwa=await pwaContext.newPage();
     await pwa.goto(`http://127.0.0.1:${site.address().port}`);await pwa.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),{timeout:20000});
-    const cached=await pwa.evaluate(async()=>{const cache=await caches.open('ders-pwa-v1-2-1-release-r1');return (await cache.keys()).map(r=>r.url);});
+    const currentCache=fs.readFileSync(path.join(root,'service-worker.js'),'utf8').match(/const CACHE_NAME = "([^"]+)"/)[1];
+    const cached=await pwa.evaluate(async name=>{const cache=await caches.open(name);return (await cache.keys()).map(r=>r.url);},currentCache);
     assert.ok(cached.some(url=>url.endsWith('/vendor/supabase.js')));assert.ok(cached.every(url=>new URL(url).origin===`http://127.0.0.1:${site.address().port}` && !/\/rest\//.test(url)));
     for(const asset of ['appearance.js','appearance.css','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','personal-catalog.js'])assert.ok(cached.some(url=>url.endsWith('/'+asset)));
     await pwa.evaluate(()=>{window.DersTheme.setStyle('glass');window.DersTheme.setAccent('red');});

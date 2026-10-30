@@ -5,7 +5,7 @@ async function waitForInstalledShell(page){
  // Await cache probes explicitly so a Promise cannot be mistaken for a ready shell.
  const deadline=Date.now()+30000;
  while(Date.now()<deadline){
-  const ready=await page.evaluate(async()=>{const registration=await navigator.serviceWorker.getRegistration();if(!registration||registration.installing||registration.waiting||registration.active?.state!=='activated'||navigator.serviceWorker.controller!==registration.active)return false;const keys=await caches.keys();if(!keys.includes('ders-pwa-v1-2-1-release-r1'))return false;const cache=await caches.open('ders-pwa-v1-2-1-release-r1'),html=await cache.match(location.origin+'/');return Boolean(html&&(await html.text()).includes('learning-ui.js')&&await cache.match(location.origin+'/focus-core.js')&&await cache.match(location.origin+'/study.js')&&await cache.match(location.origin+'/learning-ui.js'));});
+  const ready=await page.evaluate(async()=>{const registration=await navigator.serviceWorker.getRegistration();if(!registration||registration.installing||registration.waiting||registration.active?.state!=='activated'||navigator.serviceWorker.controller!==registration.active)return false;const keys=await caches.keys();if(!keys.includes('ders-pwa-v1-2-1-release-r2'))return false;const cache=await caches.open('ders-pwa-v1-2-1-release-r2'),html=await cache.match(location.origin+'/');return Boolean(html&&(await html.text()).includes('learning-ui.js')&&await cache.match(location.origin+'/focus-core.js')&&await cache.match(location.origin+'/study.js')&&await cache.match(location.origin+'/learning-ui.js'));});
   if(ready)return;await new Promise(resolve=>setTimeout(resolve,100));
  }
  throw Error('New service worker and release shell did not finish activating');
@@ -42,7 +42,7 @@ async function waitForInstalledShell(page){
   await context.setOffline(true);await page.reload();await page.waitForFunction(()=>window.DersReleases);assert.equal(await page.locator('.app-version').textContent(),'v1.2.1');
   await page.locator('#versionHistoryButton').click();await page.locator('#releaseHistoryDialog').waitFor();assert.equal(await page.locator('#releaseHistoryDialog section').count(),11);
   assert.deepEqual(errors,[]);assert.equal(databaseRequests,0);
-  const result={passed:true,version:'1.2.1',previousVersion:before.version,pwaUpgrade:!before.cacheKeys.includes('ders-pwa-v1-2-1-release-r1'),installedShell:true,offline:true,manifestIcons:true,releaseHistory:true,localStoragePreserved:true,databaseRequests,realUserWrites:false};
+  const result={passed:true,version:'1.2.1',previousVersion:before.version,pwaUpgrade:!before.cacheKeys.includes('ders-pwa-v1-2-1-release-r2'),installedShell:true,offline:true,manifestIcons:true,releaseHistory:true,localStoragePreserved:true,databaseRequests,realUserWrites:false};
   fs.writeFileSync(path.join(out,'production-upgrade-result.json'),JSON.stringify(result,null,2));console.log('RESULT',JSON.stringify(result));
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

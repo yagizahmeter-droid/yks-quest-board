@@ -1,0 +1,21 @@
+const assert=require('node:assert/strict'),q=require('../quest-system.js'),{mergeState}=require('../sync.js');
+assert.deepEqual(q.repeatKinds.map(o=>o.value),['none','weekly','daily']);
+assert.deepEqual(q.repeatSettings({kind:'weekly',target:'5'}),{kind:'weekly',target:5});
+for(const target of ['',0,-1,1.2,101,NaN,Infinity])assert.throws(()=>q.repeatSettings({kind:'weekly',target}));
+assert.deepEqual(q.repeatSettings({kind:'daily',startDate:'2028-02-28',endDate:'2028-03-01'}),{kind:'daily',target:3,startDate:'2028-02-28',endDate:'2028-03-01'});
+assert.equal(q.repeatSettings({kind:'daily',startDate:'2026-10-01',endDate:'2026-10-31'}).target,31);
+assert.equal(q.repeatSettings({kind:'daily',startDate:'2026-10-30',endDate:'2026-10-30'}).target,1);
+for(const [startDate,endDate]of [['','2026-10-30'],['2026-02-30','2026-03-01'],['2026-10-31','2026-10-30'],['2026-10-01','2026-11-01']])assert.throws(()=>q.repeatSettings({kind:'daily',startDate,endDate}));
+const original={id:'p',xp:125,done:false,lockedForStudent:false,repeat:{kind:'weekly',target:3},completions:[]};
+for(let n=0;n<=3;n++){const p={...original,completions:Array.from({length:n},(_,i)=>({id:'e'+i,historyId:'h'+i,date:'2026-10-30',completedAt:'2026-10-30T10:00:0'+i+'Z'}))};assert.equal(q.isDone(p),n===3);assert.equal(q.progress(p).count,n);assert.equal(q.earned(p),n===3?125:0);}
+const daily={...original,repeat:{kind:'daily',target:2,startDate:'2026-10-30',endDate:'2026-10-31'},completions:[{id:'later',date:'2026-10-30',completedAt:'2026-10-30T10:01:00Z'},{id:'earlier',date:'2026-10-30',completedAt:'2026-10-30T10:00:00Z'}]};
+assert.equal(q.isDone(daily),false);assert.equal(q.progress(daily).count,1);assert.equal(q.normalize(daily).completions[0].id,'earlier');
+const state=events=>({categories:[],weeks:[{id:'w',quests:[{...daily,completions:events}]}],studyHistory:[]});
+const a=state([daily.completions[0]]),b=state([daily.completions[1]]),base=state([]);
+assert.deepEqual(mergeState(base,a,b).weeks[0].quests[0],mergeState(base,b,a).weeks[0].quests[0]);
+q.setServerTime('2026-10-30T10:00:00Z');assert.equal(q.progress(daily).blocked,true);
+q.setServerTime('2026-10-31T10:00:00Z');assert.equal(q.progress(daily).blocked,false);
+const final={...daily,completions:[daily.completions[1],{id:'last',date:'2026-10-31',completedAt:'2026-10-31T10:00:00Z'}]};assert.equal(q.isDone(final),true);assert.equal(q.earned(final),125);assert.equal(q.progress(final).blocked,true);
+q.setServerTime('2026-11-01T10:00:00Z');assert.equal(q.progress({...daily,completions:[]}).outside,true);
+assert.equal(q.earned({done:true,xp:90}),90);assert.equal(q.isDone({done:false}),false);q.setServerTime('2026-10-30T21:01:00Z');assert.equal(q.today(q.timestamp()),'2026-10-31');q.setServerTime(new Date().toISOString());
+console.log('PASS shared settings, teacher-compatible date limits, weekly 0/3→3/3, daily separation/expiry, deterministic device merge and one personal XP reward');

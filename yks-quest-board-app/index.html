@@ -859,18 +859,12 @@
         <button id="editModeButton" class="button" type="button">Düzenle</button>
         <button id="newWeekButton" class="button primary" type="button"><i data-lucide="plus"></i>Yeni Hafta</button>
       </div>
-      <div class="program-actions"><button id="openCategoryEditor" class="button" type="button"><i data-lucide="folder-plus"></i>Yeni Ders Ekle</button><button id="openQuestEditor" class="button" type="button"><i data-lucide="list-plus"></i>Görev Ekle</button></div>
+      <div class="program-actions"><button id="openQuestEditor" class="button" type="button"><i data-lucide="list-plus"></i>Görev Ekle</button></div>
       </div>
       <div id="programEmpty" class="empty-state" hidden><i data-lucide="notebook-pen"></i><h2>Yeni Bir Başlangıç</h2><p>Bu haftanın programı henüz yok.</p><button id="addProgramButton" class="button primary" type="button"><i data-lucide="plus"></i>Program Ekle</button></div>
     <nav id="subjectNav" class="subject-nav" aria-label="Ders filtreleri"></nav>
     <section id="board" class="board" aria-live="polite"></section>
     <section class="controls-card" aria-label="Görev ve hafta yönetimi">
-      <details id="categoryEditor" class="inline-editor"><summary><i data-lucide="folder-plus"></i>Yeni Ders</summary><div id="categoryForm" class="controls-row" data-draft>
-        <label class="field">Ders Adı<input id="categoryNameInput" class="input" type="text" placeholder="Örn. Matematik"></label>
-        <label class="field">Renk
-        <input id="categoryColorInput" class="input" type="color" value="#5fb4ff" aria-label="Kategori rengi">
-        </label><button id="addCategoryButton" class="button primary" type="button">Dersi Ekle</button>
-      </div></details>
       <details id="questEditor" class="inline-editor"><summary><i data-lucide="list-plus"></i>Yeni Görev</summary><div id="questForm" class="quest-add-row" data-draft>
         <div class="personal-catalog-row">
         <label class="field">Sınav<select id="manualExam" class="select" aria-label="Kişisel görev sınavı"></select></label>
@@ -885,11 +879,20 @@
           Açıklama
           <textarea id="manualDetail" class="input" rows="3" placeholder="Örn. 40 soru ve analiz"></textarea>
         </label>
+        <div class="personal-repeat-row" aria-label="Görev tekrarı">
+          <label class="field">Tekrar Türü<select id="manualRepeatKind" class="select" aria-label="Kişisel tekrar türü"></select></label>
+          <label id="manualWeeklyField" class="field">Tekrar Hedefi<input id="manualRepeatTarget" class="input" type="number" min="1" max="100" step="1" value="5" required></label>
+          <label id="manualDailyStartField" class="field" hidden>Başlangıç Tarihi<input id="manualDailyStart" class="input" type="date" disabled required></label>
+          <label id="manualDailyEndField" class="field" hidden>Bitiş Tarihi<input id="manualDailyEnd" class="input" type="date" disabled required></label>
+          <p id="manualRepeatHint" class="sync-status" aria-live="polite"></p>
+        </div>
         <label class="field">
           XP
           <input id="manualXp" class="input" type="number" min="5" step="5" value="100">
+          <small>Hedef tamamlanınca bir kez kazanılır.</small>
         </label>
-        <button id="addQuestButton" class="button primary" type="button">Görev Ekle</button>
+        <button id="addQuestButton" class="button primary" type="button">Görevi Kaydet</button>
+        <p id="manualQuestError" class="form-error" role="alert"></p>
       </div></details>
       <details id="weekToolsEditor" class="inline-editor"><summary><i data-lucide="calendar-range"></i>Hafta İşlemleri</summary><div class="controls-row" data-draft>
         <label class="field">Yeni Hafta Adı<input id="weekNameInput" class="input" type="text" placeholder="Örn. 14-21 Ekim Haftası"></label>
@@ -1124,9 +1127,6 @@
       manualXp: document.getElementById("manualXp"),
       addQuestButton: document.getElementById("addQuestButton"),
       editModeButton: document.getElementById("editModeButton"),
-      categoryNameInput: document.getElementById("categoryNameInput"),
-      categoryColorInput: document.getElementById("categoryColorInput"),
-      addCategoryButton: document.getElementById("addCategoryButton"),
       roleSelect: document.getElementById("roleSelect"),
       teacherPanel: document.getElementById("teacherPanel"),
       historyDateFilter: document.getElementById("historyDateFilter"),
@@ -2238,29 +2238,6 @@
       render();
     });
 
-    els.addCategoryButton.addEventListener("click", () => {
-      const name = els.categoryNameInput.value.trim();
-      if (!name) {
-        els.categoryNameInput.focus();
-        return;
-      }
-      const id = `cat-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      const categoryOrder = getCategories().length * 10;
-      if(!saveDraftChange(()=>state.categories.push({
-        id,
-        key: id,
-        name,
-        origin: 'manual',
-        color: els.categoryColorInput.value || "#5fb4ff",
-        sortOrder: categoryOrder
-      })))return;
-      els.categoryNameInput.value = "";
-      window.DersUI?.clearDirty(document.getElementById('categoryForm'));
-      render();
-      showToast("Kategori eklendi");
-      window.DersPersonalCatalog.useManual(id);
-    });
-
     [els.historyDateFilter, els.historyWeekFilter, els.historyCategoryFilter].forEach((filter) => {
       filter.addEventListener("change", renderHistory);
     });
@@ -2324,6 +2301,9 @@
       const selection = window.DersPersonalCatalog.selection(els.manualDetail.value);
       if (!selection) { els.manualSubject.focus(); return; }
       if (!selection.title) { els.manualDetail.focus(); return; }
+      let repeat;
+      try { repeat=window.DersPersonalCatalog.repeatSelection(); }
+      catch(error) { document.getElementById('manualQuestError').textContent=error.message;return; }
       if(!saveDraftChange(()=>{
       const subjectId = selection.categoryId || ensureCategoryForHint({
         subject: `cat-${crypto.randomUUID()}`, categoryName: selection.lesson
@@ -2337,12 +2317,14 @@
       );
       if(selection.examType!=='unspecified')quest.examType = selection.examType;
       if (selection.topicCategory) quest.topicCategory = selection.topicCategory;
+      quest.repeat=repeat;quest.completions=[];
       quest.sortOrder = Math.max(-1, ...week.quests.filter(item => (item.categoryId || item.subject) === quest.categoryId).map(item => item.sortOrder || 0)) + 1;
       week.quests.push(quest);
       }))return;
       window.DersPersonalCatalog.clearTopic();
       els.manualDetail.value = "";
       els.manualXp.value = "100";
+      document.getElementById('manualQuestError').textContent='';
       window.DersUI?.clearDirty(document.getElementById('questForm'));
       render();
       showToast("Görev eklendi");
@@ -2449,10 +2431,13 @@
       completePersonalRepeat(id){
         const week=activeWeek(),q=week.quests.find(q=>q.id===id);
         if(!q||q.lockedForStudent||!window.DersQuests.recurring(q)||window.DersQuests.progress(q).blocked)return;
-        const event={id:crypto.randomUUID(),date:window.DersQuests.today(),completedAt:new Date().toISOString()};
-        q.completions=[...window.DersQuests.completions(q),event];q.done=window.DersQuests.isDone(q);
-        const record=addHistoryRecord(q,week);record.xp=q.done?q.xp:0;event.historyId=record.id;
-        q.completionId=q.done?record.id:null;saveState();render();showToast(window.DersQuests.describe(q));
+        if(!saveDraftChange(()=>{
+          const completedAt=window.DersQuests.timestamp(),event={id:crypto.randomUUID(),date:window.DersQuests.today(completedAt),completedAt};
+          q.completions=[...window.DersQuests.completions(q),event];q.done=window.DersQuests.isDone(q);
+          const record=addHistoryRecord(q,week);record.xp=q.done?q.xp:0;record.completedAt=completedAt;record.occurrenceDate=event.date;event.historyId=record.id;
+          q.completionId=q.done?record.id:null;
+        }))return;
+        render();showToast(window.DersQuests.describe(q));
       },
       setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; window.DersUI?.refresh(); },
       editQuest(id, weekId, changes) {

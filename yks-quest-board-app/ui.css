@@ -166,6 +166,17 @@ svg.lucide { width: 19px; height: 19px; flex-shrink: 0; stroke-width: 1.8; }
 .quest-add-row { grid-template-columns: minmax(0,1fr) 80px auto; align-items: end; }
 #manualDetail { resize: vertical; min-height: 90px; }
 .personal-catalog-row { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; grid-column: 1 / -1; min-width: 0; }
+#questForm { grid-template-columns:minmax(0,1fr) auto;gap:18px; }
+#questForm>.field:has(#manualDetail) { grid-column:1 / -1; }
+#questForm>.field:has(#manualXp) { width:min(260px,100%);min-width:0; }
+#questForm .field small { color:var(--muted);font-size:11px;line-height:1.5; }
+.personal-repeat-row { grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;min-width:0; }
+.personal-repeat-row[data-kind="daily"] { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.personal-repeat-row .field { min-width:0; }
+.personal-repeat-row input[type="date"] { min-width:0;max-width:100%; }
+#manualRepeatHint,#manualQuestError { grid-column:1 / -1;margin:0; }
+#manualQuestError { color:var(--red); }
+#manualQuestError:empty { display:none; }
 .teacher-card, .history-card { margin-top: 0; }
 .teacher-card > .card-head { border: 0; padding: 0 0 18px; }
 .teacher-panel { padding: 0; gap: 12px; }
@@ -285,6 +296,8 @@ body.nav-compact { --sidebar-width: 80px; }
   .program-actions .button { flex: 1; }
   .controls-row, #weekToolsEditor .controls-row, .quest-add-row, .history-filters, .modal-grid, .draft-row { grid-template-columns: 1fr; }
   .personal-catalog-row { grid-template-columns: 1fr; }
+  #questForm,.personal-repeat-row,.personal-repeat-row[data-kind="daily"] { grid-template-columns:minmax(0,1fr); }
+  #questForm>.field:has(#manualXp),#addQuestButton { width:100%; }
   .account-surface { padding: 22px; }
   .modal-backdrop { padding: 10px; }
   .modal, .ders-dialog { max-height: calc(100dvh - 20px); }
