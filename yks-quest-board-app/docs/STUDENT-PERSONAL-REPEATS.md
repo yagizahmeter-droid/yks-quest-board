@@ -6,6 +6,6 @@
 - Completion, blocked dates, labels, counts and final status reuse DersQuests. Personal records retain their existing one-time reward at final target; teacher per-occurrence XP and competitive attribution are unchanged. Every personal occurrence has a unique history ID and date.
 - Merge uses the same personal normalizer, sorting before deduplicating same-day events and capping the target. Concurrent final completions cannot create an extra reward or retained history event. Local storage failures roll back partial personal completions and keep the draft.
 - The existing owner-scoped JSON board format already stores repeat/completion metadata. No schema, migration, RLS, account or historical record rewrite is needed. Old normal tasks keep their behavior. Existing week reset continues to preserve repeating records, as before.
-- PWA shell revision r2 includes the changed UI without clearing user storage. This branch does not change the public version number or deploy production.
+- Released as v1.2.2 with PWA cache ders-pwa-v1-2-2-release-r1. The shell update preserves user storage; no database migration is required.
 
 Verification: tests/personal-repeat-core.cjs, tests/personal-repeat-browser.cjs and tests/personal-repeat-staging.cjs; existing database/teacher regression and release-build checks. Test writes use synthetic accounts in the isolated Supabase project only.

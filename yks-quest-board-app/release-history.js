@@ -2,6 +2,12 @@
  const compare=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(y[i]||0)-(x[i]||0);if(d)return d;}return 0;};
  const formatDate=date=>new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
  const releases=[
+  {version:'1.2.2',name:'Öğrenci Programım Güncellemesi',date:'2026-10-30',dateKind:'release',sections:[
+   {title:'Kişisel Tekrar Görevleri',items:['Öğrenci görev formuna Haftalık Tekrar ve Günlük Görev eklendi; öğretmenle ortak tekrar kuralları kullanılır.','Haftalık hedef ve günlük tarih aralığı seçilebilir; ilerleme, Tamamlananlar ve görev sayaçları birlikte güncellenir.']},
+   {title:'Sade Görev Ekleme',items:['Öğrencinin Yeni Ders Ekle düğmesi ve ayrı ders oluşturma formu kaldırıldı; mevcut dersler, filtreler ve görev grupları korundu.','Katalog veya mevcut derslerden konu seçimi, açıklama ve XP girişi; mobilde seçilen tekrar türüne uygun alanlar.']},
+   {title:'Güvenilir İlerleme ve XP',items:['Kişisel görev XP’si hedef tamamlandığında bir kez kazanılır; öğretmen görevleri ve Rekabet XP kuralları değişmez.','Cihazlar arası eşitlemede aynı günün tekrarı ve eşzamanlı tamamlamalar mükerrer XP oluşturmaz; kaydetme hatasında form ve ilerleme korunur.']},
+   {title:'Mevcut Kayıtlarla Uyum',items:['Mevcut görevler, çalışma geçmişi, hesaplar ve öğretmen bağlantıları korunur; veritabanı veya erişim kuralı değişikliği gerekmez.','Klasik, Saydam, Natural ve Cloud görünümleri ile mobil ve masaüstü görev formu doğrulandı.']}
+  ]},
   {version:'1.2.1',name:'Experience & Theme Update',date:'2026-10-28',dateKind:'release',sections:[
    {title:'Güvenilir Tekrar İlerlemesi',items:['Haftalık tekrarlar tek tamamlama kaynağıyla 1/3, 2/3, 3/3 — Tamamlandı olarak öğrenci ve öğretmene yansır.','Tamamlananlar, sayaçlar ve cihazlar arası eşitleme tutarlı; yinelenen işlemler XP üretmez. Eski durumlar kayıt defterinden güvenli biçimde onarılabilir.']},
    {title:'Öğretmen Atama Yönetimi',items:['Bekleyen program isteğini geri çekme; kabul edilmiş programı veya tek görevi açıklamalı onayla kaldırma.','Arşivlenen atamalarda önceki çalışmalar ve kazanılmış XP korunur; öğrenciye bildirim gider, yalnızca gönderen yetkili öğretmen işlem yapabilir.']},

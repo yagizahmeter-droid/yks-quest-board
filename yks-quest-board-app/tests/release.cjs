@@ -30,7 +30,7 @@ try {
   assert.ok(html.includes('aria-label="Sürüm geçmişini aç">v'+current+'</button>'));
   assert.ok(!html.includes('v'+current+' · Önizleme'));
   const releases=require('../release-history.js').releases;
-  assert.equal(releases[0].version,current);assert.equal(releases[0].date,'2026-10-28');assert.equal(releases[0].sections.length,6);
+  assert.equal(releases[0].version,current);assert.equal(releases[0].date,'2026-10-30');assert.equal(releases[0].sections.length,4);
   assert.equal(releases.filter(r=>r.version===current).length,1);
   assert.match(fs.readFileSync(path.join(fixture,'dist/service-worker.js'),'utf8'),new RegExp('ders-pwa-v'+current.replaceAll('.','-')+'-release-r\\d+'));
   for(const asset of ['theme-vine.svg','theme-cloud-light.svg','theme-cloud-dark.svg'])assert.ok(fs.existsSync(path.join(fixture,'dist/assets',asset)));
