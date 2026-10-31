@@ -1,7 +1,7 @@
 (() => {
  'use strict';
  const board=window.DersBoard,$=id=>document.getElementById(id),esc=v=>board.escape(String(v??'')),uuid=()=>crypto.randomUUID();
- const page=document.createElement('section');page.id='classesPage';page.className='page-view classes-page';page.dataset.page='classes';page.hidden=true;page.setAttribute('aria-label','Sınıflar');document.querySelector('.workspace').append(page);
+ const page=document.createElement('section');page.id='classesPage';page.className='page-view classes-page';page.dataset.page='classes';page.hidden=true;page.setAttribute('aria-label','Sınıflar');$('pageContent').append(page);
  const nav=document.createElement('a');nav.href='#/classes';nav.dataset.route='classes';nav.title='Sınıflar';nav.innerHTML='<i data-lucide="graduation-cap"></i><span>Sınıflar</span><b class="notification-count" id="classActionBadge" hidden></b>';document.querySelector('.main-nav').insertBefore(nav,document.querySelector('[data-route="teacher"]'));
  const dialog=document.createElement('dialog');dialog.id='classDialog';dialog.className='ders-dialog class-dialog';document.body.append(dialog);
  let owner=null,overview=null,detail=null,selected=null,tab='summary',period='week',week=monday(window.DersQuests.today()),busy=false,loading=null,message='',loadError='',snapshot='',filter={search:'',status:'active',completion:'all',activity:'all'},programWeek='all';

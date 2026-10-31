@@ -9,6 +9,7 @@ Durumlar: **Tamamlandı ve çalışıyor**, **Kodlandı ama bağlantısı eksik*
 - Gerçek öğretmen hesabında ayrı Sınıflar navigasyonu ve çalışan sınıf modülü vardı. Ancak Öğretmen sayfasından belirgin geçiş yoktu: **Kodlandı ama bağlantısı eksik**.
 - Yönetici önizlemesinin güvenli dosya listesinde `classes.js` ve `classes.css` yoktu; çerçeve bu dosyaları çıkarıyordu: **Kodlandı ama bağlantısı eksik**.
 - Önizlemenin örnek veri katmanında `ders_classes` işlemleri yoktu: **Hiç geliştirilmedi**. Gerçek Supabase çağrısına düşürmek yerine çerçeve belleğine ayrılmış örnek bağdaştırıcı eklendi.
+- Sınıf sayfası ana içerik kabının dışına eklenmişti; ana kabın minimum yüksekliği ilk ekranda boş alan bırakıyordu: **Kodlandı ama bağlantısı eksik**. Sayfa diğer görünümlerle aynı ana kaba taşındı; testler ilk ekranda görünürlüğü de denetler.
 - Sınıf özetinde sabit programların listesi ve istatistiklerde haftalık çalışma/ödev grupları eksikti: **Kısmen tamamlandı**.
 - Test Supabase'inde dört migration zaten kuruluydu. Production'da sınıf sistemi kurulmadı; production yayını yapılmadı.
 
