@@ -4,6 +4,7 @@ const files=['ui.js','theme.js','appearance.js','teacher.js','teacher-drafts.js'
 files.push('admin.js','admin-preview.js','history-groups.js','focus-core.js','study.js','learning-ui.js');
 files.push('exams-core.js','exams.js','experience.js');
 files.push('classes.js');
+files.push('admin-preview-classes.js');
 for (const file of files) new vm.Script(fs.readFileSync(path.join(root,file),'utf8'), { filename:file });
 const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
 for (const match of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)) if (match[1].trim()) new vm.Script(match[1], { filename:'index.html inline script' });

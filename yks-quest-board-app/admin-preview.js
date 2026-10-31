@@ -40,6 +40,8 @@
   let exams = [];
   const result = data => ({data:clone(data),error:null});
   const learning={segments:[],reviews:[],messages:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}};
+  function assignPreview(p,sid=student){const a={id:crypto.randomUUID(),student_id:sid,teacher_id:teacher,name:'Örnek Öğrenci',week_name:p.week_name,week_range:p.week_range||p.starts_on+' – '+p.ends_on,status:'pending',quests:p.quests.map(q=>({...q,id:crypto.randomUUID(),category_name:q.category,repeat_kind:q.repeat_kind||'none',repeat_target:q.repeat_target||1}))};assignments.push(a);return a;}
+  const classPreview=window.DersPreviewClasses({role,id,teacher,student,profile,now,result,learning,state:()=>state,connections:()=>connections,assignments:()=>assignments,assign:assignPreview});
   function learn(action,p){
     if(action==='overview'||action==='report')return result({...learning,state:action==='report'?state:null,teachers:[{id:teacher,name:'Örnek Öğretmen'}]});
     if(action==='save_segments'){for(const s of p.segments||[])if(!learning.segments.some(x=>x.id===s.id))learning.segments.push({...s,user_id:id,duration_ms:Date.parse(s.ended_at)-Date.parse(s.started_at),category_name:s.quest_id?'Matematik':'Serbest Çalışma'});return result({saved:true});}
@@ -51,10 +53,11 @@
     return {data:null,error:{message:'Bu işlem örnek görünümde kullanılamaz.'}};
   }
   function read() {
-    const tasks=state.weeks.flatMap(w=>w.quests), earned=q=>q.done?q.xp:0;
+    const tasks=state.weeks.flatMap(w=>w.quests), earned=q=>window.DersQuests?.earned(q)??(q.done?q.xp:0);
     return {state,version,updated_at:now(),xpBreakdown:{total:tasks.reduce((n,q)=>n+earned(q),0),personal:tasks.filter(q=>!q.lockedForStudent).reduce((n,q)=>n+earned(q),0),competitive:tasks.filter(q=>q.lockedForStudent).reduce((n,q)=>n+earned(q),0)}};
   }
   async function rpc(name,{p_action:action,p_payload:p={}}={}) {
+    if(name==='ders_classes')return classPreview.rpc(action,p);
     if(name==='ders_exams'){
       if(action==='list')return result(exams.filter(e=>e.user_id===(p.student_id||id)));
       if(role!=='student')return {data:null,error:{message:'Öğretmen görünümünde denemeler salt okunurdur.'}};
@@ -67,14 +70,15 @@
     if(name!=='ders_action') return {data:null,error:{message:'Örnek görünümde bu işlem kullanılamaz.'}};
     if(action==='overview') return result({profile,connections,assignments,requests,server_now:now(),capabilities:{topicCatalog:true,repeatQuests:true,withdrawProgram:true}});
     if(action==='read_board'||action==='student_board') return result(read());
-    if(action==='sync_board') { state=clone(p.state); version++; return result(read()); }
+    if(action==='sync_board') { state=clone(p.state); version++;classPreview.recordAssignments();return result(read()); }
     if(action==='create_invite') return result({code:'ORNEK-DAVET-KODU'});
-    if(action==='assign_program') {assignments.push({id:crypto.randomUUID(),student_id:student,teacher_id:teacher,name:'Örnek Öğrenci',week_name:p.week_name,week_range:p.week_range,status:'pending',quests:p.quests.map(q=>({...q,category_name:q.category}))});return result({});}
+    if(action==='assign_program') return result({assignment_id:assignPreview(p).id});
     if(action==='respond_assignment') {
       const a=assignments.find(a=>a.id===p.id);
-      if(a&&a.status==='pending'){a.status=p.status;if(p.status==='accepted'){const w={id:'preview-accepted-'+a.id,name:a.week_name,range:a.week_range,quests:a.quests.map((q,i)=>({id:a.id+'-'+i,title:q.title,detail:q.detail,xp:q.xp,done:false,categoryId:'preview-math',subject:'preview-math',source:'teacher_assigned',lockedForStudent:true,assignedQuestId:a.id+'-'+i,assignedByTeacherId:teacher}))};state.weeks.push(w);state.activeWeekId=w.id;version++;}}
+      if(a&&a.status==='pending'){a.status=p.status;if(p.status==='accepted'){const w={id:'teacher-week-'+a.id,name:a.week_name,range:a.week_range,quests:a.quests.map(q=>({id:'teacher-quest-'+q.id,title:q.title,detail:q.detail,xp:q.xp,done:false,categoryId:'preview-math',subject:'preview-math',source:'teacher_assigned',lockedForStudent:true,assignedQuestId:q.id,assignedByTeacherId:teacher,repeat:{kind:q.repeat_kind||'none',target:q.repeat_target||1,...(q.repeat_kind==='daily'?{startDate:q.starts_on,endDate:q.ends_on}:{})},completions:[]}))};state.weeks.push(w);state.activeWeekId=w.id;version++;}}
       return result({});
     }
+    if(action==='complete_repeat'){const q=state.weeks.flatMap(w=>w.quests).find(q=>q.assignedQuestId===p.quest_id),today=window.DersQuests.today();if(!q||!window.DersQuests.recurring(q))return {data:null,error:{message:'Örnek tekrar görevi bulunamadı.'}};q.completions ||= [];if(q.completions.some(e=>e.requestId===p.request_id)||q.done||q.repeat.kind==='daily'&&q.completions.some(e=>e.date===today))return result({status:'already_completed'});const event={id:crypto.randomUUID(),requestId:p.request_id,date:today,completedAt:now(),xp:q.xp};q.completions.push(event);q.done=window.DersQuests.isDone(q);version++;classPreview.recordAssignments();return result({status:'completed',xp:q.xp});}
     if(action==='request_change'){requests.push({id:crypto.randomUUID(),name:'Örnek Öğrenci',title:'Sayılar',status:'pending',requested_changes:p.changes});return result({});}
     if(action==='resolve_change'){const r=requests.find(r=>r.id===p.id);if(r)r.status=p.status;return result({});}
     if(action==='withdraw_assignment'){const a=assignments.find(a=>a.id===p.id);if(a)a.status='withdrawn';return result({});}

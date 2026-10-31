@@ -14,3 +14,5 @@
 .admin-notes time { color:var(--muted); font-size:12px; }
 .admin-dialog [hidden] { display:none !important; }
 @media(max-width:720px){.admin-dialog{padding:12px;}.admin-note-fields{grid-template-columns:1fr;}.admin-heading h2{font-size:18px;}.admin-toolbar{gap:8px;}.admin-frame{height:65dvh;}}
+/* Give the real app its mobile viewport instead of nesting it inside two gutters. */
+@media(max-width:720px){.admin-dialog:has(.admin-frame){width:100%;max-width:100%;padding:0;border:0;}.admin-dialog:has(.admin-frame)>:not(#adminPreview){margin-inline:12px;}.admin-dialog:has(.admin-frame)>.admin-heading{padding-top:12px;}.admin-frame{border-inline:0;border-radius:0;}}

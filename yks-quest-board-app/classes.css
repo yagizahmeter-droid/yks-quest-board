@@ -1,4 +1,6 @@
 .classes-page { min-width:0; }
+.teacher-classes-entry { display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px;border:1px solid var(--line);border-radius:18px;background:var(--panel);margin:14px 0 22px; }.teacher-classes-entry h3 { margin:0 0 8px; }.teacher-classes-entry p { margin:0;max-width:62ch;line-height:1.6; }.teacher-classes-entry .button { flex-shrink:0; }
+@media(max-width:720px){.teacher-classes-entry { flex-direction:column;align-items:stretch; }.teacher-classes-entry .button { width:100%;justify-content:center; }}
 .class-heading,.class-period,.class-tabs,.request-tabs { display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px; }
 .class-heading h2 { margin:14px 0 8px; }.class-heading p { margin:6px 0; }
 .class-period { justify-content:flex-start; }.class-period>.field { min-width:180px;max-width:100%; }

@@ -78,6 +78,7 @@
     const connections = overview.connections;
     const approved = connections.filter(c => c.status === 'approved');
     panel.innerHTML = `<div class="sync-head"><strong>${esc(overview.profile.display_name)} · ${teacher ? 'Öğretmen' : 'Öğrenci'}</strong>${button('Yenile', 'refresh')}</div>`;
+    panel.insertAdjacentHTML('beforeend', '<section class="teacher-classes-entry" aria-labelledby="teacherClassesTitle"><div><h3 id="teacherClassesTitle">Sınıflarım</h3><p class="sync-status">'+(teacher?'Sınıf oluştur, öğrenci davet et; toplu programları, ortak hedefleri ve sınıf ilerlemesini yönet.':'Sınıf davetlerini, görevlerini, ortak hedeflerini ve gizlilik tercihlerini buradan aç.')+'</p></div>'+button('<i data-lucide="graduation-cap"></i>Sınıflarım', 'classes', '', 'id="openTeacherClasses"')+'</section>');
     if (teacher) {
       panel.insertAdjacentHTML('beforeend', `<div class="teacher-tools">${button('Davet Kodu Oluştur', 'invite')}<output id="inviteResult" class="invite-result"></output></div>`);
     } else {
@@ -267,6 +268,7 @@
     window.DersTeacherDrafts.save(owner,shownStudent,copy);drafts.set(shownStudent,copy);programForm();window.DersBoard.toast('Bağımsız taslak oluşturuldu');
   }
   async function run(action, id) {
+    if(action==='classes'){if(!window.DersClasses){window.DersBoard.toast('Sınıf ekranı yüklenemedi. Sayfayı yenileyip tekrar dene.');return;}window.DersUI.navigate('classes');await window.DersClasses.refresh();return;}
     if(action==='send'&&Date.now()<sendAfter)return;
     if (busy) return; busy = true;
     try {

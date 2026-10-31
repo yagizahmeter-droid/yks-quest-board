@@ -1,6 +1,6 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require('playwright');
-const root=path.resolve(__dirname,'..'),out=path.join(root,'test-results'),version=require('../package.json').version,releases=require('../release-history.js').releases,release=releases.find(r=>r.version===version),cacheName='ders-pwa-v'+version.replaceAll('.','-')+'-release-r1',signal=path.join(out,'production-v'+version.replaceAll('.','')+'-ready.json');
+const root=path.resolve(__dirname,'..'),out=path.join(root,'test-results'),version=require('../package.json').version,releases=require('../release-history.js').releases,release=releases.find(r=>r.version===version),cacheName=fs.readFileSync(path.join(root,'service-worker.js'),'utf8').match(/const CACHE_NAME\s*=\s*['"]([^'"]+)/)[1],signal=path.join(out,'production-v'+version.replaceAll('.','')+'-ready.json');
 async function waitForInstalledShell(page){
  // Await cache probes explicitly so a Promise cannot be mistaken for a ready shell.
  const deadline=Date.now()+30000;

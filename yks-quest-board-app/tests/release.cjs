@@ -11,6 +11,7 @@ const current=require('../package.json').version;
 const publicAssets=['config.js','index.html','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','admin.js','admin.css','admin-preview.js','history-groups.js','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','ui.js','theme.js','ui.css','appearance.js','appearance.css','assets','service-worker.js','manifest.webmanifest','icons','vendor','focus-core.js','study.js','learning-ui.js','v113.css','v114.css','exams-core.js','exams.js','exams.css','experience.js','v121.css'];
 function pass(message){checks++;console.log('PASS release',message);}
 publicAssets.push('classes.js','classes.css');
+publicAssets.push('admin-preview-classes.js');
 try {
   for(const asset of [...publicAssets,'scripts'])
     fs.cpSync(path.join(root,asset),path.join(fixture,asset),{recursive:true});

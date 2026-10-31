@@ -1,6 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const pointerSelect=require('./pointer-select.cjs');
 module.exports=async({root,browser,apiUrl,siteUrl,users,key='fixture',password='test-password'})=>{
+ const testNote='Test türü önizleme düzeltmesi '+require('node:crypto').randomUUID();
  const fileContext=await browser.newContext({serviceWorkers:'block'});
  try{
   await fileContext.route('**/config.js',r=>r.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'${apiUrl}',supabaseAnonKey:'${key}'};`}));
@@ -87,9 +88,9 @@ module.exports=async({root,browser,apiUrl,siteUrl,users,key='fixture',password='
   await p.click('#adminReturn');await p.locator('.admin-frame').waitFor({state:'detached'});
   pass('Actual teacher composer opens, stays isolated and returns to admin');
   assert.deepEqual(await p.locator('#adminNoteKind option').allTextContents(),['Hata','Öneri','Test']);
-  await pointerSelect(p,'#adminNoteKind','test');await p.fill('#adminNoteBody','Test türü önizleme düzeltmesi');
+  await pointerSelect(p,'#adminNoteKind','test');await p.fill('#adminNoteBody',testNote);
   await p.click('#adminSaveNote');await p.getByText('Not kaydedildi.',{exact:true}).waitFor();
-  await p.locator('#adminNoteList').getByText('Test türü önizleme düzeltmesi',{exact:true}).waitFor();
+  await p.locator('#adminNoteList').getByText(testNote,{exact:true}).waitFor();
   assert.match(await p.locator('#adminNoteList').innerText(),/Test ·/);pass('Hata, Öneri and Test are selectable and Test persists through RLS');
   await p.click('#adminClose');await p.waitForTimeout(100);await p.reload();await p.locator('#adminButton').waitFor({state:'visible'});
   await p.click('#adminButton');broken=true;await p.click('[data-preview-role="student"]');
