@@ -1,4 +1,1 @@
-window.YKS_CONFIG = {
-  supabaseUrl: "https://jswgagzbetwviamiwcck.supabase.co",
-  supabaseAnonKey: "sb_publishable_ejzua9mwzTFTn6hsUtm-gQ_FqFKmrwF"
-};
+window.YKS_CONFIG = {"supabaseUrl":"https://hswipswqulolcwqvcjvi.supabase.co","supabaseAnonKey":"sb_publishable_SUhEXzZm34BY44c2fDxCNg_86p24-Pt"};
