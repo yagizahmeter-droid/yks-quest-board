@@ -30,7 +30,9 @@
   if(!results||typeof results!=='object'||Array.isArray(results)||Object.keys(results).some(id=>!expected.some(t=>t.id===id)))throw Error('Sonuçlar seçili testlerle uyuşmuyor.');
   let entered=0;
   const rows=expected.map(test=>{
-   const values=results[test.id]||{},counts=['correct','wrong','blank'].map(key=>values[key]??null);
+   const values=results[test.id]||{};
+   if(typeof values!=='object'||Array.isArray(values)||Object.keys(values).some(k=>!['correct','wrong','blank'].includes(k)))throw Error(test.label+': geçersiz soru bilgisi.');
+   const counts=['correct','wrong','blank'].map(key=>values[key]??null);
    if(counts.some(n=>n!==null&&(!Number.isInteger(n)||n<0||n>test.max)))throw Error(test.label+': soru sayıları 0–'+test.max+' arasında tam sayı olmalı.');
    const sum=counts.reduce((n,v)=>n+(v??0),0),filled=counts.filter(n=>n!==null).length;
    if(sum>test.max||filled===3&&sum!==test.max)throw Error(test.label+': doğru, yanlış ve boş toplamı '+test.max+' olmalı.');
@@ -46,17 +48,35 @@
   if((record.publisher||'').length>160||(record.note||'').length>2000)throw Error('Yayın adı en fazla 160, not en fazla 2000 karakter olabilir.');
   const result=evaluate(record);if(!result.entered)throw Error('En az bir test için soru adedi gir.');return result;
  }
- const order=rows=>[...rows].sort((a,b)=>a.exam_date.localeCompare(b.exam_date)||a.created_at.localeCompare(b.created_at)||a.id.localeCompare(b.id));
+ const order=rows=>[...rows].sort((a,b)=>String(a.exam_date).localeCompare(String(b.exam_date))||String(a.created_at||'').localeCompare(String(b.created_at||''))||String(a.id).localeCompare(String(b.id)));
  const scope=record=>record.exam_type+':'+record.groups.map(g=>g.id).sort().join('+');
+ function automaticCounts(test,values={}){
+  const counts={correct:values.correct??null,wrong:values.wrong??null,blank:values.blank??null};
+  for(const key of ['correct','wrong'])if(counts[key]!==null&&(!Number.isInteger(counts[key])||counts[key]<0||counts[key]>test.max))throw Error(test.label+': doğru ve yanlış 0–'+test.max+' arasında tam sayı olmalı.');
+  if((counts.correct??0)+(counts.wrong??0)>test.max)throw Error(test.label+': doğru + yanlış toplamı '+test.max+' soruyu aşamaz.');
+  // An absent test stays absent. Legacy partial counts remain unknown until edited.
+  if(counts.correct!==null&&counts.wrong!==null)counts.blank=test.max-counts.correct-counts.wrong;
+  return counts;
+ }
+ function prepare(record){
+  const results={...record.results};for(const test of tests(record.exam_type,record.groups))if(record.results?.[test.id])results[test.id]=automaticCounts(test,record.results[test.id]);
+  return {...record,results};
+ }
+ function series(rows,lesson=null,completeOnly=false){
+  return order(rows).flatMap(row=>{const score=evaluate(row);if(completeOnly&&!score.complete)return [];const test=lesson?score.tests.find(t=>t.id===lesson):null,value=lesson?test?.net:score.totalNet;
+   return typeof value==='number'&&Number.isFinite(value)?[{row,value,partial:!score.complete||Boolean(test&&!test.complete),maximum:lesson?test.max:score.maximum}]:[];
+  });
+ }
+ function lessonStats(rows,id){const points=series(rows,id),values=points.map(p=>p.value);return {count:values.length,average:values.length?values.reduce((n,v)=>n+v,0)/values.length:null,best:values.length?Math.max(...values):null,last:values.length?values.at(-1):null};}
  function stats(rows){
   const sorted=order(rows),comparable=sorted.filter(r=>evaluate(r).complete&&evaluate(r).totalNet!==null),values=comparable.map(r=>evaluate(r).totalNet);
-  if(new Set(comparable.map(scope)).size>1)throw Error('Farklı test kapsamları birlikte karşılaştırılamaz.');
+  if(new Set(sorted.map(scope)).size>1)throw Error('Farklı sınav veya test kapsamları birlikte karşılaştırılamaz.');
   const average=values=>values.length?values.reduce((n,v)=>n+v,0)/values.length:null;
-  return {count:sorted.length,completeCount:values.length,last:sorted.at(-1)||null,best:values.length?Math.max(...values):null,average:average(values),change:values.length>=2?values.at(-1)-values[0]:null,lastFive:average(values.slice(-5))};
+  return {count:sorted.length,completeCount:values.length,partialCount:sorted.length-values.length,last:sorted.at(-1)||null,best:values.length?Math.max(...values):null,average:average(values),change:values.length>=2?values.at(-1)-values[0]:null,lastFive:average(values.slice(-5))};
  }
  const format=value=>value===null||value===undefined?'—':new Intl.NumberFormat('tr-TR',{maximumFractionDigits:2}).format(value);
  const date=value=>new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/Istanbul'}).format(new Date(value+'T12:00:00Z'));
  const today=()=>new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'Europe/Istanbul'}).format(new Date());
- const api={catalog,tests,evaluate,validate,stats,scope,order,format,date,today};
+ const api={catalog,tests,evaluate,validate,automaticCounts,prepare,series,lessonStats,stats,scope,order,format,date,today};
  if(typeof module!=='undefined')module.exports=api;else root.DersExamsCore=api;
 })(typeof window==='undefined'?globalThis:window);

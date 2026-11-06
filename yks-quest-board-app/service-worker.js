@@ -1,4 +1,4 @@
-const CACHE_NAME = "ders-pwa-v1-3-0-release-r2";
+const CACHE_NAME = "ders-pwa-v1-3-1-release-r1";
 const APP_SHELL = [
   './classes.js','./classes.css',
   './admin-preview-classes.js',
