@@ -11,6 +11,27 @@
   const r=await board.client.rpc('ders_control',{p_action:action,p_payload:{...payload,request_user_id:uid}});
   if(uid!==board.user?.id)throw Error('Oturum değişti.');if(r.error)throw Error(r.error.message);return r.data;
  }
+ async function hiddenRpc(action,payload={}){
+  const uid=board.user?.id;if(!uid||!navigator.onLine)throw Error('Giriş ve internet bağlantısı gerekli.');
+  const result=await board.client.rpc('ders_history',{p_action:action,p_payload:{...payload,request_user_id:uid}});
+  if(uid!==board.user?.id)throw Error('Oturum değişti.');
+  if(result.error)throw Error(/PGRST202|does not exist/.test(result.error.message)?'Gizlenen kayıtları geri getirme henüz sunucuda hazır değil.':result.error.message);
+  return result.data;
+ }
+ async function hiddenHistory(){
+  const uid=board.user?.id;if(!uid||board.state.profile?.role!=='student')return;
+  const result=await hiddenRpc('list_hidden');if(uid!==board.user?.id)return;
+  if(dialog.open&&!close())return;
+  const records=result.records||[];
+  dialog.innerHTML='<header class="modal-head"><h2>Gizlenen Kayıtlar</h2><button type="button" class="icon-button" aria-label="Kapat"><i data-lucide="x"></i></button></header><div class="modal-body"><p>Bu kayıtlar silinmedi; çalışma geçmişi ve özetlerinden gizlendi. Geri getirmek görev durumunu veya kazanılmış XP\'yi değiştirmez.</p><form id="restoreHistoryForm">'+(records.length?records.map((r,i)=>'<label class="history-restore-item"><input type="checkbox" name="records" data-record-id="'+esc(r.id)+'" data-ui-transient="true" value="'+i+'"><span><strong>'+esc(r.label||(r.kind==='segment'?'Çalışma süresi':'Görev kaydı'))+'</strong><small>'+esc(r.week_name||'')+(r.hidden_at?' · Gizlenme: '+new Date(r.hidden_at).toLocaleString('tr-TR',{timeZone:'Europe/Istanbul'}):'')+'</small></span></label>').join(''):'<p class="sync-status">Gizlenen kayıt yok.</p>')+'<p>Bir seferde en fazla 100 kayıt geri getirilebilir.</p><p role="alert"></p><button class="button primary" type="submit" '+(!records.length?'disabled':'')+'><i data-lucide="rotate-ccw"></i>Seçilenleri Geri Getir</button></form></div>';
+  dialog.querySelector('.modal-head button').onclick=()=>close();dialog.showModal();window.DersUI.openModal('history-cleanup',dialog,close);window.DersUI.clearDirty(dialog);window.lucide.createIcons();
+  const form=$('restoreHistoryForm');form.onsubmit=async e=>{e.preventDefault();if(busy)return;const items=[...form.querySelectorAll('input:checked')].map(el=>records[Number(el.value)]).filter(Boolean).map(r=>({kind:r.kind,id:r.id})),error=form.querySelector('[role=alert]');
+   if(!items.length||items.length>100){error.textContent='Geri getirmek için 1–100 kayıt seç.';return;}
+   busy=true;form.querySelector('button').disabled=true;
+   try{const restored=await hiddenRpc('restore',{records:items});if(uid!==board.user?.id)return;await study.refresh();board.render();busy=false;close(true);board.toast((restored.count||0)+' geçmiş kaydı geri getirildi; XP değişmedi.');}
+   catch(e){if(uid===board.user?.id&&form.isConnected){error.textContent=e.message;form.querySelector('button').disabled=false;}}finally{busy=false;}
+  };
+ }
  function close(force=false){if(!force&&busy)return false;dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('history-cleanup');return true;}
  dialog.oncancel=e=>{e.preventDefault();close();};
  async function cleanup(scope={scope:'week',week_id:board.week().id}){
@@ -18,13 +39,13 @@
   const uid=board.user?.id;if(!uid)return board.toast('Önce hesabına giriş yap.');
   await study.flush();if(study.pending)throw Error('Önce bekleyen çalışma sürelerini eşitle.');
   const weeks=new Map(board.state.weeks.map(w=>[w.id,board.weekTitle(w)]));for(const h of board.state.studyHistory||[])if(h.weekId&&!weeks.has(h.weekId))weeks.set(h.weekId,h.weekName||'Eski hafta');
-  dialog.innerHTML='<header class="modal-head"><h2>Çalışma Geçmişini Temizle</h2><button class="icon-button" type="button" aria-label="Kapat" title="Kapat"><i data-lucide="x"></i></button></header><div class="modal-body"><label class="field">Hafta<select id="cleanupWeek" class="select" data-ui-transient="true">'+[...weeks].map(([id,name])=>'<option value="'+esc(id)+'">'+esc(name)+'</option>').join('')+'</select></label><p id="cleanupScope"></p><strong id="cleanupCount" role="status">Kayıt sayısı kontrol ediliyor…</strong><p>Görevler, programlar, tamamlanma durumları ve kazanılmış XP korunur. Seçilen geçmiş kayıtları listelerden ve çalışma özetlerinden kaldırılır.</p><p id="cleanupError" role="alert"></p><div class="signed-in-actions"><button id="confirmCleanup" class="button danger" type="button" disabled><i data-lucide="trash-2"></i>Geçmişten Kaldır</button><button id="cancelCleanup" class="button" type="button">Vazgeç</button></div></div>';
+  dialog.innerHTML='<header class="modal-head"><h2>Çalışma Geçmişini Temizle</h2><button class="icon-button" type="button" aria-label="Kapat" title="Kapat"><i data-lucide="x"></i></button></header><div class="modal-body"><label class="field">Hafta<select id="cleanupWeek" class="select" data-ui-transient="true">'+[...weeks].map(([id,name])=>'<option value="'+esc(id)+'">'+esc(name)+'</option>').join('')+'</select></label><p id="cleanupScope"></p><strong id="cleanupCount" role="status">Kayıt sayısı kontrol ediliyor…</strong><p>Görevler, programlar, tamamlanma durumları ve kazanılmış XP korunur. Bu işlem silme yapmaz: seçilen kayıtları listelerden ve çalışma özetlerinden gizler. Gizlenen Kayıtlar bölümünden geri getirebilirsin.</p><p id="cleanupError" role="alert"></p><div class="signed-in-actions"><button id="confirmCleanup" class="button danger" type="button" disabled><i data-lucide="trash-2"></i>Geçmişten Gizle</button><button id="cancelCleanup" class="button" type="button">Vazgeç</button></div></div>';
   dialog.querySelector('.modal-head button').onclick=()=>close();$('cancelCleanup').onclick=()=>close();
   const select=$('cleanupWeek');select.value=scope.week_id||board.week().id;select.disabled=scope.scope!=='week';$('cleanupScope').textContent=scope.scope==='quest'?'Seçili görevin çalışma kayıtları':scope.scope==='week'?'Seçili haftanın bütün çalışma kayıtları':'Seçili çalışma kaydı';
   dialog.showModal();window.DersUI.openModal('history-cleanup',dialog,close);window.DersUI.clearDirty(dialog);window.DersSelect?.refresh();window.lucide.createIcons();
   let preview=null,generation=0;
   const count=async()=>{const token=++generation;preview=null;$('confirmCleanup').disabled=true;try{if(scope.scope==='week')scope.week_id=select.value;const result=await rpc('preview_history_delete',scope);if(token!==generation||!dialog.open||uid!==board.user?.id)return;preview=result;$('cleanupCount').textContent=result.count+' kayıt etkilenecek';$('confirmCleanup').disabled=!result.count;$('cleanupError').textContent='';}catch(e){if(dialog.open&&uid===board.user?.id)$('cleanupError').textContent=e.message;}};
-  select.onchange=count;$('confirmCleanup').onclick=async()=>{if(busy||!preview)return;busy=true;$('confirmCleanup').disabled=true;try{await rpc('delete_history',{...scope,signature:preview.signature});if(uid!==board.user?.id)return;await study.refresh();await board.flush();board.render();busy=false;close(true);board.toast(preview.count+' geçmiş kaydı kaldırıldı; XP korundu.');}catch(e){if(dialog.open&&uid===board.user?.id){$('cleanupError').textContent=e.message;$('confirmCleanup').disabled=false;}}finally{busy=false;}};
+  select.onchange=count;$('confirmCleanup').onclick=async()=>{if(busy||!preview)return;busy=true;$('confirmCleanup').disabled=true;try{await rpc('delete_history',{...scope,signature:preview.signature});if(uid!==board.user?.id)return;await study.refresh();await board.flush();board.render();busy=false;close(true);board.toast(preview.count+' geçmiş kaydı gizlendi; XP korundu.');}catch(e){if(dialog.open&&uid===board.user?.id){$('cleanupError').textContent=e.message;$('confirmCleanup').disabled=false;}}finally{busy=false;}};
   await count();
  }
  async function archive(action,id){
@@ -36,7 +57,7 @@
   if(!host.isConnected||view.uid!==board.user?.id||views.get(host)!==view)return;
   const data=view.data,s=data.state||board.state,segments=data.segments||[],records=study.visibleHistory(s.studyHistory,data.hidden_history||[]);
   const starts=[...new Set([monday(day(Date.now())),view.week,...segments.flatMap(s=>[monday(day(s.started_at)),monday(day(s.ended_at))]),...records.map(h=>monday(day(h.completedAt))).filter(Boolean)])].filter(Boolean).sort().reverse();
-  const days=Array.from({length:7},(_,i)=>shift(view.week,i)),summaries=days.map(d=>core.summary(segments,records,d)),total=summaries.reduce((n,s)=>n+s.totalMs,0),own=view.sid===view.uid&&board.state.profile?.role==='student';
+  const days=Array.from({length:7},(_,i)=>shift(view.week,i)),summaries=days.map(d=>core.summary(segments,records,d,s.weeks)),total=summaries.reduce((n,s)=>n+s.totalMs,0),own=view.sid===view.uid&&board.state.profile?.role==='student';
   host.innerHTML='<div class="section-heading"><h3>Çalışma Oturumları</h3><button class="icon-button" data-calendar-refresh type="button" aria-label="Geçmişi yenile" title="Yenile"><i data-lucide="refresh-cw"></i></button></div><div class="history-calendar-toolbar"><button class="icon-button" type="button" data-week-step="-7" title="Önceki hafta" aria-label="Önceki hafta"><i data-lucide="arrow-left"></i></button><label class="field">Hafta<select class="select" data-calendar-week data-ui-transient="true">'+starts.map(d=>'<option value="'+d+'" '+(d===view.week?'selected':'')+'>'+date(d)+' – '+date(shift(d,6))+'</option>').join('')+'</select></label><button class="icon-button" type="button" data-week-step="7" title="Sonraki hafta" aria-label="Sonraki hafta"><i data-lucide="arrow-right"></i></button></div><p class="history-week-total">Haftalık toplam <strong>'+duration(total)+'</strong></p><div class="history-day-tabs" role="group" aria-label="Haftanın günleri"><button class="button '+(!view.selected?'is-active':'')+'" type="button" data-calendar-day="" aria-pressed="'+!view.selected+'">Tüm Hafta</button>'+days.map((d,i)=>'<button class="button '+(view.selected===d?'is-active':'')+'" type="button" data-calendar-day="'+d+'" aria-pressed="'+(view.selected===d)+'"><span>'+['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'][i]+'</span><small>'+d.slice(8)+'.'+d.slice(5,7)+'</small></button>').join('')+'</div><div class="history-calendar-days">'+days.filter(d=>!view.selected||d===view.selected).map(d=>{
    const summary=summaries[days.indexOf(d)],sessions=segments.filter(s=>clipped(s,d)>0),completed=records.filter(h=>day(h.completedAt)===d);
    return '<section class="history-calendar-day"><div class="daily-heading"><h4>'+date(d)+'</h4><span>'+duration(summary.totalMs)+' · '+summary.completed+' görev</span></div>'+(!sessions.length&&!completed.length?'<p class="sync-status">Bu gün çalışma kaydı yok.</p>':'')+sessions.map(entry=>{
@@ -61,16 +82,18 @@
   try{view.data=await study.rpc('report',{student_id:sid});renderHistory(host,view);}catch(e){if(host.isConnected&&views.get(host)===view&&uid===board.user?.id)host.textContent=e.message;}
  }
  const clean=document.createElement('button');clean.type='button';clean.id='cleanupWeekHistory';clean.className='button';clean.innerHTML='<i data-lucide="trash-2"></i>Hafta Geçmişini Temizle';clean.onclick=()=>cleanup({scope:'week',week_id:$('historyWeekFilter').value||board.week().id}).catch(e=>board.toast(e.message));$('historyPage').querySelector('.history-filters').after(clean);
+ const restore=document.createElement('button');restore.type='button';restore.id='restoreHistoryButton';restore.className='button';restore.innerHTML='<i data-lucide="rotate-ccw"></i>Gizlenen Kayıtlar';restore.onclick=()=>hiddenHistory().catch(e=>board.toast(e.message));clean.after(restore);
  function refresh(){
   const uid=board.user?.id||null;
   if(uid!==owner){owner=uid;close(true);for(const host of views.keys())if(host.isConnected)host.replaceChildren();views.clear();}
   clean.hidden=!uid||board.state.profile?.role!=='student';
+  restore.hidden=clean.hidden;
   if(window.DersUI.route==='history'&&uid)history($('studyDurationHistory'),uid);
   $('studyDurationHistory').hidden=$('historyList').hidden;
  }
  document.addEventListener('ders:route',refresh);document.addEventListener('ders:study',()=>{refresh();if(window.DersUI.route==='history')board.render();});
  document.addEventListener('ders:render',refresh);
  document.addEventListener('click',e=>{if(e.target.closest('[data-history-view]'))queueMicrotask(refresh);});
- window.DersExperience={rpc,cleanup,archive,history,unmount:host=>views.delete(host),monday,shift,clipped};
+ window.DersExperience={rpc,cleanup,archive,history,hiddenHistory,unmount:host=>views.delete(host),monday,shift,clipped};
  refresh();
 })();

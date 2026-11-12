@@ -1,5 +1,5 @@
 (() => {
- const study=window.DersStudy,core=window.DersFocusCore,board=window.DersBoard,$=id=>document.getElementById(id),esc=x=>board.escape(String(x??''));
+ const study=window.DersStudy,core=window.DersFocusCore,board=window.DersBoard,weekDates=window.DersWeekDates,$=id=>document.getElementById(id),esc=x=>board.escape(String(x??''));
  const icon=(name,label,id='')=>`<button type="button" class="icon-button" ${id?`id="${id}"`:''} title="${label}" aria-label="${label}"><i data-lucide="${name}"></i></button>`;
  const duration=ms=>{const seconds=Math.floor((ms||0)/1000),m=Math.floor(seconds/60);return m>=60?`${Math.floor(m/60)} sa ${m%60} dk`:m?`${m} dk ${seconds%60} sn`:`${seconds} sn`;};
  const text=(id,value)=>{const el=$(id);if(el.textContent!==value)el.textContent=value;};
@@ -31,9 +31,7 @@
   updateTasks();renderFocus();
  }
  function focusWeeks(){
-  const months=['ocak','şubat','mart','nisan','mayıs','haziran','temmuz','ağustos','eylül','ekim','kasım','aralık'];
-  const rank=(w,i)=>{const source=[w.startDate,w.start,w.range,w.name].filter(Boolean).join(' '),iso=source.match(/\b(20\d{2})-(\d{2})-(\d{2})\b/),numeric=source.match(/\b(\d{1,2})\.(\d{1,2})\.(20\d{2})\b/),named=source.toLocaleLowerCase('tr-TR').match(/(\d{1,2})(?:\s*[-–/]\s*\d{1,2})?\s+(ocak|şubat|mart|nisan|mayıs|haziran|temmuz|ağustos|eylül|ekim|kasım|aralık)(?:\s+(20\d{2}))?/);return iso?Date.UTC(+iso[1],+iso[2]-1,+iso[3]):numeric?Date.UTC(+numeric[3],+numeric[2]-1,+numeric[1]):named?Date.UTC(+(named[3]||new Date().getFullYear()),months.indexOf(named[2]),+named[1]):Number.isFinite(Date.parse(w.createdAt))?Date.parse(w.createdAt):i;};
-  return board.state.weeks.filter(w=>!w.archived).map((w,i)=>({id:w.id,title:board.weekTitle(w),rank:rank(w,i),quests:w.quests.filter(q=>window.DersQuests.active(q)&&!window.DersQuests.isDone(q)).map(q=>({id:q.id,title:q.title,lesson:board.category(q.categoryId||q.subject).name}))})).filter(w=>w.quests.length).sort((a,b)=>b.rank-a.rank);
+  return weekDates.order(board.state.weeks).filter(w=>!w.archived).map(w=>({id:w.id,title:board.weekTitle(w),quests:(w.quests||[]).filter(q=>window.DersQuests.active(q)&&!window.DersQuests.isDone(q)).map(q=>({id:q.id,title:q.title,lesson:board.category(q.categoryId||q.subject).name}))})).filter(w=>w.quests.length);
  }
  function updateTasks(){const select=$('focusTask');if(!select)return;const groups=focusWeeks(),signature=JSON.stringify(groups);if(select.dataset.items===signature)return;select.dataset.items=signature;const value=select.value;select.innerHTML='<option value="">Serbest Çalışma</option>'+groups.map(w=>`<optgroup data-week-id="${esc(w.id)}" label="${esc(w.title+' — '+w.quests.length+' görev')}">${w.quests.map(q=>`<option value="${esc(w.id+'|'+q.id)}">${esc(q.lesson+' · '+q.title)}</option>`).join('')}</optgroup>`).join('');select.value=value;if(!select.value)select.value='';window.DersSelect?.refresh();}
  function renderFocus(){
@@ -60,7 +58,7 @@
  function daily(){
   const wrap=$('dailyStudySummary');if(!wrap)return;if(!board.user){wrap.replaceChildren();return;}
   const segments=study.segments().map(s=>({...s,category_name:s.category_name||tasks().find(t=>t.questId===s.quest_id&&t.weekId===s.week_id)?.categoryName||'Serbest Çalışma'}));
-  const s=core.summary(segments,study.visibleHistory(board.state.studyHistory),date);
+  const s=core.summary(segments,study.visibleHistory(board.state.studyHistory),date,board.state.weeks);
   const html=`<div class="daily-heading"><h2>Günlük Çalışma Özeti</h2><input class="input" type="date" id="studyDay" aria-label="Özet günü" value="${date}"></div><div class="daily-numbers"><span><strong>${duration(s.totalMs)}</strong>Net çalışma</span><span><strong>${s.completed} görev</strong>Tamamlanan görev</span><span><strong>${esc(s.top)}</strong>En çok çalışılan ders</span></div>${Object.entries(s.byLesson).map(([name,ms])=>`<div class="lesson-duration"><span>${esc(name)}</span><meter min="0" max="${s.totalMs||1}" value="${ms}"></meter><span>${duration(ms)}</span></div>`).join('')}`;
   if(wrap.dataset.render===html)return;wrap.dataset.render=html;wrap.innerHTML=html;$('studyDay').onchange=e=>{if(e.target.value){date=e.target.value;daily();}};
  }
@@ -86,14 +84,14 @@
   const uid=board.user?.id,token=crypto.randomUUID();wrap.dataset.request=token;wrap.innerHTML='<p role="status">Karne yükleniyor…</p>';
   try{
    const data=await study.rpc('report',{student_id:sid});if(!wrap.isConnected||wrap.dataset.request!==token||uid!==board.user?.id)return;
-   const state=data.state||{weeks:[],categories:[]},weeks=state.weeks||[],own=uid===sid;
+   const state=data.state||{weeks:[],categories:[]},weeks=weekDates.order(state.weeks||[]),own=uid===sid;
    wrap.innerHTML=`<div class="report-heading"><h3>Öğrenci Karnesi</h3><label class="field">Hafta<select class="select" id="reportWeek" data-ui-transient="true">${weeks.map(w=>`<option value="${esc(w.id)}">${esc(own?board.weekTitle(w):w.name)}${w.archived?' · Arşiv':''}</option>`).join('')}</select></label></div><div id="reportContent"></div>`;
    const select=wrap.querySelector('#reportWeek');select.value=selectedWeek||state.activeWeekId||weeks[0]?.id;
    const draw=()=>{
     const w=weeks.find(w=>w.id===select.value),host=wrap.querySelector('#reportContent');if(!w){host.textContent='Henüz hafta yok.';return;}
-    const qs=(w.quests||[]).filter(window.DersQuests.active),complete=window.DersQuests.isDone,done=qs.filter(complete).length,late=qs.filter(q=>!complete(q)&&/^\d{4}-\d{2}-\d{2}$/.test(q.repeat?.endDate||w.endDate||w.end||'')&&(q.repeat?.endDate||w.endDate||w.end)<core.dayKey(Date.now())).length;
+    const qs=(w.quests||[]).filter(window.DersQuests.active),complete=window.DersQuests.isDone,metrics=window.DersQuests.metrics(qs),late=qs.filter(q=>!complete(q)&&/^\d{4}-\d{2}-\d{2}$/.test(q.repeat?.endDate||w.endDate||w.end||'')&&(q.repeat?.endDate||w.endDate||w.end)<core.dayKey(Date.now())).length;
     const segments=data.segments.filter(s=>s.week_id===w.id),time=segments.reduce((n,s)=>n+s.duration_ms,0),lessons=[...new Set(qs.map(q=>q.categoryId||q.subject))];
-    host.innerHTML=`<div class="report-stats"><span><strong>${done}/${qs.length}</strong>Tamamlanan görev</span><span><strong>${qs.length-done}</strong>Bekleyen</span><span><strong>${late}</strong>Süresi geçen (tarihli)</span><span><strong>${qs.length?Math.round(done/qs.length*100):0}%</strong>Tamamlama</span><span><strong>${duration(time)}</strong>Toplam net çalışma</span><span><strong>${duration(segments.filter(s=>!s.quest_id).reduce((n,s)=>n+s.duration_ms,0))}</strong>Serbest çalışma · bu hafta</span></div>
+    host.innerHTML=`<div class="report-stats"><span><strong>${metrics.done}/${metrics.total}</strong>Tamamlanan görev</span><span><strong>${metrics.total-metrics.done}</strong>Bekleyen</span><span><strong>${late}</strong>Süresi geçen (tarihli)</span><span><strong>${metrics.units}/${metrics.targets} (%${metrics.percent})</strong>Tekrar İlerlemesi</span><span><strong>${metrics.completionPercent}%</strong>Görev Tamamlanması</span><span><strong>${duration(time)}</strong>Toplam net çalışma</span><span><strong>${duration(segments.filter(s=>!s.quest_id).reduce((n,s)=>n+s.duration_ms,0))}</strong>Serbest çalışma · bu hafta</span></div>
     <div class="report-lessons">${lessons.map(id=>{const a=qs.filter(q=>(q.categoryId||q.subject)===id),name=(state.categories||[]).find(c=>c.id===id)?.name||'Belirtilmemiş';return `<div><span>${esc(name)}</span><progress max="${a.length||1}" value="${a.filter(complete).length}"></progress><span>${a.filter(complete).length}/${a.length}</span></div>`;}).join('')}</div>
     <div class="report-tasks">${qs.map(q=>`<details data-report-quest="${esc(q.id)}"><summary>${esc(q.title)} <small>${window.DersQuests.describe(q)} · ${duration(segments.filter(s=>s.quest_id===q.id).reduce((n,s)=>n+s.duration_ms,0))}</small></summary><p>${esc(q.detail)}</p><div class="report-thread"></div></details>`).join('')}</div>
     <h3>Haftalık Öğretmen Değerlendirmesi</h3>${data.reviews.filter(r=>r.week_id===w.id).map(r=>`<div class="week-review"><strong>${esc(r.teacher_name)}</strong><p>${esc(r.body)}</p><time>${new Date(r.updated_at).toLocaleString('tr-TR',{timeZone:'Europe/Istanbul'})}</time></div>`).join('')||'<p class="sync-status">Henüz değerlendirme yok.</p>'}

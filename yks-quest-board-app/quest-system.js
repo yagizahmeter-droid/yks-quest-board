@@ -22,6 +22,11 @@
   function recurring(q){return ['weekly','daily'].includes(q?.repeat?.kind)&&Number.isInteger(Number(q.repeat.target))&&Number(q.repeat.target)>0;}
   function isDone(q){return recurring(q)?(q.lockedForStudent?completions(q):normalize(q).completions).length>=Number(q.repeat.target):Boolean(q?.done);}
   function active(q){return !q.archived;}
+  function metrics(quests){
+    const total=quests.length,done=quests.filter(isDone).length;
+    const parts=quests.map(progress),units=parts.reduce((n,p)=>n+Math.min(p.target,p.count),0),targets=parts.reduce((n,p)=>n+p.target,0);
+    return {total,done,units,targets,percent:targets?Math.round(units/targets*100):0,completionPercent:total?Math.round(done/total*100):0};
+  }
   function completions(q){const seen=new Set();return (q.completions||[]).filter(e=>{if(!e.id||seen.has(e.id))return false;seen.add(e.id);return true;});}
   function earned(q){return recurring(q)&&q.lockedForStudent?completions(q).reduce((n,e)=>n+Number(e.xp||0),0):isDone(q)?Number(q.xp||0):0;}
   function possible(q){const p=progress(q);return recurring(q)&&q.lockedForStudent?earned(q)+(p.target-p.count)*q.xp:Number(q.xp||0);}
@@ -87,7 +92,7 @@
     if(error)throw error;if(data?.error)throw new Error(data.error);await b.flush();
   }
   function setServerTime(value){const n=Date.parse(value);if(Number.isFinite(n))clockOffset=n-Date.now();}
-  root.DersQuests={repeatKinds,repeatSettings,timestamp,today,recurring,isDone,active,completions,earned,possible,normalize,progress,describe,complete,drain,archiveWeek,setServerTime};
+  root.DersQuests={repeatKinds,repeatSettings,timestamp,today,recurring,isDone,active,metrics,completions,earned,possible,normalize,progress,describe,complete,drain,archiveWeek,setServerTime};
   if(typeof module!=='undefined')module.exports=root.DersQuests;
   if(typeof window!=='undefined'){
     window.addEventListener('online',drain);

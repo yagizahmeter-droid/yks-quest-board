@@ -43,10 +43,15 @@
  }
  function remaining(s,now){return s?.status==='running'?Math.max(0,s.deadline-now):s?.remainingMs||0;}
  function dayKey(value){const d=new Date(value);return Number.isFinite(+d)?new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Istanbul',year:'numeric',month:'2-digit',day:'2-digit'}).format(d):'';}
- function summary(segments,history,day){
+ function summary(segments,history,day,weeks){
   const from=Date.parse(day+'T00:00:00+03:00'),to=from+86400000,byLesson={};let totalMs=0;
   const spans=new Set();for(const s of segments){if(spans.has(s.id))continue;spans.add(s.id);const ms=Math.max(0,Math.min(Date.parse(s.ended_at),to)-Math.max(Date.parse(s.started_at),from));if(!Number.isFinite(ms)||!ms)continue;const name=s.category_name||'Serbest Çalışma';byLesson[name]=(byLesson[name]||0)+ms;totalMs+=ms;}
-  const seen=new Set();for(const h of history||[])if(dayKey(h.completedAt)===day)seen.add(h.id||h.questId+'|'+h.completedAt);
+  const seen=new Set();for(const h of history||[])if(dayKey(h.completedAt)===day){
+   const q=weeks?.find(w=>w.id===h.weekId)?.quests?.find(q=>q.id===h.questId);
+   // Intermediate repeat events are work records, not finished tasks.
+   if(q?.repeat&&['weekly','daily'].includes(q.repeat.kind)&&h.id!==q.completionId)continue;
+   seen.add(h.id||h.questId+'|'+h.completedAt);
+  }
   return {totalMs,completed:seen.size,byLesson,top:Object.entries(byLesson).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—'};
  }
  const api={validate,create,tick,act,remaining,summary,dayKey};if(typeof module!=='undefined')module.exports=api;else root.DersFocusCore=api;

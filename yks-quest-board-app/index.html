@@ -837,7 +837,7 @@
             <div class="stat-metric"><span><i data-lucide="sparkles"></i> Seviye</span><strong id="level">Level 1</strong></div>
           </div>
           <div class="stat stat-pair">
-            <div class="stat-metric"><span><i data-lucide="chart-no-axes-column-increasing"></i> Haftalık İlerleme</span><strong id="progressText">0%</strong><div class="progress-track" role="progressbar" aria-label="Haftalık İlerleme" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div id="progressFill" class="progress-fill"></div></div><small id="remainingText">İlk görev seni bekliyor</small></div>
+            <div class="stat-metric"><span><i data-lucide="chart-no-axes-column-increasing"></i> Tekrar İlerlemesi</span><strong id="progressText">0%</strong><div class="progress-track" role="progressbar" aria-label="Tekrar İlerlemesi" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div id="progressFill" class="progress-fill"></div></div><small id="remainingText">İlk görev seni bekliyor</small></div>
             <div class="stat-metric"><span><i data-lucide="circle-check"></i> Görev Sayacı</span><strong id="questCount">0 / 0</strong><small>Tamamlanan / toplam</small></div>
           </div>
         </div>
@@ -932,7 +932,7 @@
       <div id="authDisabled" class="auth-disabled">Bulut bağlantısı yapılandırılmamış.</div>
       <form id="signedOutPanel" class="auth-grid" data-draft>
         <label class="field">E-Posta<input id="authEmail" class="input" type="email" autocomplete="email" placeholder="mail@ornek.com"></label>
-        <label class="field">Şifre<input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="En az 6 karakter"></label>
+        <label class="field">Şifre<input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="Şifren" aria-describedby="passwordPolicyHint"><small id="passwordPolicyHint" hidden>Yeni hesaplarda en az 10 karakter kullan. Uzun ve benzersiz bir parola tercih et.</small></label>
         <button id="signInButton" class="button primary" type="button"><i data-lucide="log-in"></i>Giriş Yap</button>
         <button id="signUpButton" class="button primary" type="button" hidden><i data-lucide="user-plus"></i>Hesap Oluştur</button>
         <a id="authSwitch" href="#/account/signup" data-route="account/signup">Kayıt Ol</a>
@@ -943,7 +943,7 @@
     </section>
   </main>
   </div>
-  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.3.1</button></footer>
+  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.3.2</button></footer>
 
   <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
     <section class="modal">
@@ -1028,6 +1028,8 @@
   </dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" popover="manual"></div>
 
+  <script src="./password-policy.js"></script>
+  <script src="./week-dates.js"></script>
   <script src="./quest-system.js"></script>
   <script src="./curriculum.js"></script>
   <script src="./personal-catalog.js"></script>
@@ -1542,14 +1544,11 @@
     async function syncAfterLogin() { return pushStateToCloud(); }
 
     function getStats(quests) {
-      const total = quests.length;
-      const done = quests.filter((quest) => window.DersQuests.isDone(quest)).length;
+      const metrics = window.DersQuests.metrics(quests);
       const earnedXp = quests.reduce((sum, quest) => sum + window.DersQuests.earned(quest), 0);
       const possibleXp = quests.reduce((sum, quest) => sum+window.DersQuests.possible(quest),0);
-      const units=quests.reduce((n,q)=>n+window.DersQuests.progress(q).count,0),targets=quests.reduce((n,q)=>n+window.DersQuests.progress(q).target,0);
-      const percent = targets ? Math.round((units / targets) * 100) : 0;
       const level = Math.max(1, Math.floor(earnedXp / 500) + 1);
-      return { total, done, earnedXp, possibleXp, percent, level };
+      return { ...metrics, earnedXp, possibleXp, level };
     }
 
     function render() {
@@ -1577,7 +1576,7 @@
 
     function renderWeekSelect() {
       els.weekSelect.innerHTML = "";
-      state.weeks.filter(week=>!week.archived).forEach((week) => {
+      window.DersWeekDates.order(state.weeks.filter(week=>!week.archived)).forEach((week) => {
         const option = document.createElement("option");
         option.value = week.id;
         option.textContent = weekTitle(week);
@@ -1672,7 +1671,7 @@
       els.progressTrack.setAttribute("aria-valuenow", String(stats.percent));
       els.remainingText.textContent = stats.total === 0 ? "Henüz görev yok" : left === 0
         ? "Hafta tamamlandı"
-        : `${left} görev kaldı`;
+        : `${stats.units}/${stats.targets} çalışma adımı · ${left} görev kaldı`;
     }
 
     function renderBoard(week) {
@@ -1982,7 +1981,7 @@
       const date = els.historyDateFilter.value;
       const weekId = els.historyWeekFilter.value;
       const categoryId = els.historyCategoryFilter.value;
-      els.historyWeekFilter.innerHTML = `<option value="">Tüm haftalar</option>${state.weeks.map((week) => `<option value="${escapeHtml(week.id)}">${escapeHtml(weekTitle(week))}</option>`).join("")}`;
+      els.historyWeekFilter.innerHTML = `<option value="">Tüm haftalar</option>${window.DersWeekDates.order(state.weeks).map((week) => `<option value="${escapeHtml(week.id)}">${escapeHtml(weekTitle(week))}</option>`).join("")}`;
       els.historyCategoryFilter.innerHTML = `<option value="">Tüm kategoriler</option>${categories.map((category) => `<option value="${escapeHtml(category.id)}">${escapeHtml(category.name)}</option>`).join("")}`;
       els.historyWeekFilter.value = weekId;
       els.historyCategoryFilter.value = categoryId;
@@ -2335,8 +2334,8 @@
       if (!supabaseClient) return;
       const email = els.authEmail.value.trim();
       const password = els.authPassword.value;
-      if (!email || password.length < 6) {
-        els.syncStatus.textContent = "E-posta ve en az 6 karakter şifre gir.";
+      if (!email || !window.DersPasswordPolicy.valid(password)) {
+        els.syncStatus.textContent = "E-posta ve en az 10 karakter şifre gir.";
         return;
       }
       const { error } = await supabaseClient.auth.signUp({ email, password });

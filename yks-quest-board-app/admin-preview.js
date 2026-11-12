@@ -57,6 +57,12 @@
     return {state,version,updated_at:now(),xpBreakdown:{total:tasks.reduce((n,q)=>n+earned(q),0),personal:tasks.filter(q=>!q.lockedForStudent).reduce((n,q)=>n+earned(q),0),competitive:tasks.filter(q=>q.lockedForStudent).reduce((n,q)=>n+earned(q),0)}};
   }
   async function rpc(name,{p_action:action,p_payload:p={}}={}) {
+    if(name==='ders_history'){
+      if(role!=='student'||p.request_user_id&&p.request_user_id!==id||p.student_id||p.user_id)return {data:null,error:{message:'Yalnızca kendi örnek geçmişini yönetebilirsin.'}};
+      if(action==='list_hidden')return result({records:[]});
+      if(action==='restore'&&Array.isArray(p.records)&&p.records.length>=1&&p.records.length<=100&&p.records.every(r=>['completion','segment'].includes(r.kind)&&typeof r.id==='string'))return result({count:0,xp_preserved:true});
+      return {data:null,error:{message:'Geçersiz geçmiş işlemi.'}};
+    }
     if(name==='ders_classes')return classPreview.rpc(action,p);
     if(name==='ders_exams'){
       if(action==='list')return result(exams.filter(e=>e.user_id===(p.student_id||id)));

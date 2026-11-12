@@ -2,7 +2,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'..');
 // Retain only synthetic session storage across reloads; no real account or API is used.
-const fixture=fs.readFileSync(path.join(root,'admin-preview.js'),'utf8').replace("Object.defineProperty(window,'localStorage',{value:memory()});",'');
+const fixture=fs.readFileSync(path.join(root,'admin-preview-classes.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'admin-preview.js'),'utf8').replace("Object.defineProperty(window,'localStorage',{value:memory()});",'');
 async function main(){let server,browser;const errors=[],remote=[],ledger=new Map();let loseReply=false,saves=0;
  try{
   let url=process.env.DERS_MINI_TEST_URL;

@@ -1,0 +1,8 @@
+const assert=require('assert/strict'),q=require('../quest-system.js'),f=require('../focus-core.js'),policy=require('../password-policy.js');
+const history=Array.from({length:4},(_,i)=>({id:'h'+i,weekId:'w',questId:'repeat',completedAt:'2026-11-12T10:00:00Z'})),events=history.map((h,i)=>({id:'e'+i,historyId:h.id,completedAt:h.completedAt,date:'2026-11-'+(9+i)}));
+const task={id:'repeat',xp:100,repeat:{kind:'weekly',target:4},completions:events.slice(0,2)};
+assert.deepEqual(q.metrics([task]),{total:1,done:0,units:2,targets:4,percent:50,completionPercent:0});assert.equal(q.earned(task),0);assert.equal(f.summary([],history.slice(0,2),'2026-11-12',[{id:'w',quests:[task]}]).completed,0);
+const finished={...task,completions:events,completionId:'h3'};assert.equal(q.metrics([finished]).done,1);assert.equal(q.metrics([finished]).percent,100);assert.equal(q.earned(finished),100);assert.equal(f.summary([],history,'2026-11-12',[{id:'w',quests:[finished]}]).completed,1);assert.equal(f.summary([],history.slice(0,3),'2026-11-12',[{id:'w',quests:[finished]}]).completed,0);
+const teacher={...task,lockedForStudent:true,completions:events.slice(0,2).map(e=>({...e,xp:25}))};assert.equal(q.metrics([teacher]).done,0);assert.equal(q.metrics([teacher]).percent,50);assert.equal(q.earned(teacher),50);
+assert.equal(policy.minimum,10);for(const p of ['', '123456', '123456789'])assert.equal(policy.valid(p),false);for(const p of ['1234567890','a long unique passphrase','Şifre güvenli 42'])assert.ok(policy.valid(p));assert.equal(policy.valid(1234567890),false);
+console.log('PASS Repeat progress2/4 is50% and0 completedtasks; finishing is1, visiblehistoryfilters apply, personal/teacherXPunchanged, passwordmin10');

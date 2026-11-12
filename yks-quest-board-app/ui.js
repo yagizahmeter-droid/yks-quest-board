@@ -116,6 +116,9 @@
     $('signInButton').hidden = signup;
     $('authHeading').textContent = window.DersBoard.user ? 'Hesap Senkronizasyonu' : signup ? 'Yeni Hesap' : 'Tekrar Hoş Geldin';
     $('authPassword').autocomplete = signup ? 'new-password' : 'current-password';
+    $('authPassword').minLength = signup ? window.DersPasswordPolicy.minimum : 0;
+    $('authPassword').placeholder = signup ? 'En az 10 karakter' : 'Şifren';
+    $('passwordPolicyHint').hidden = !signup;
     $('authSwitch').textContent = signup ? 'Zaten hesabım var' : 'Kayıt Ol';
     $('authSwitch').dataset.route = signup ? 'account' : 'account/signup';
     $('authSwitch').href = '#/' + $('authSwitch').dataset.route;

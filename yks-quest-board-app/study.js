@@ -1,18 +1,20 @@
 (() => {
  const core=window.DersFocusCore,board=window.DersBoard;
- let owner=null,session=null,queue=[],data={segments:[],reviews:[],teachers:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}},syncing=null,loaded=false,status='',audio=null;
+ let owner=null,session=null,queue=[],data={segments:[],reviews:[],teachers:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}},syncing=null,refreshing=null,refreshAgain=false,epoch=0,writeVersion=0,loaded=false,status='',audio=null;
  const key=()=> 'ders-learning.v113:'+owner;
  const emit=()=>document.dispatchEvent(new CustomEvent('ders:study'));
  function persist(){if(!owner)return;localStorage.setItem(key(),JSON.stringify({session,queue,segments:data.segments,hidden_history:data.hidden_history||[]}));}
  async function rpc(action,payload={}){
   const uid=board.user?.id;if(!uid||!navigator.onLine)throw Error('Giriş ve internet bağlantısı gerekli.');
   const r=await board.client.rpc('ders_learning',{p_action:action,p_payload:{...payload,request_user_id:uid}});
-  if(uid!==board.user?.id)throw Error('Oturum değişti.');if(r.error)throw Error(r.error.message||'Çalışma verileri yüklenemedi.');return r.data;
+  if(uid!==board.user?.id)throw Error('Oturum değişti.');if(r.error)throw Error(r.error.message||'Çalışma verileri yüklenemedi.');
+  if(!['overview','report','messages'].includes(action)){writeVersion++;if(refreshing)refreshAgain=true;}
+  return r.data;
  }
  function own(){
   const uid=board.user?.id||null;if(uid===owner)return;
   if(owner&&session&&session.status==='running')try{commit(core.act(session,'pause',Date.now()));}catch(e){board.toast(e.message);}
-  owner=uid;session=null;queue=[];loaded=false;status='';data={segments:[],reviews:[],teachers:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}};
+  epoch++;owner=uid;session=null;queue=[];syncing=null;refreshing=null;refreshAgain=false;loaded=false;status='';data={segments:[],reviews:[],teachers:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}};
   if(uid)try{const saved=JSON.parse(localStorage.getItem(key())||'{}');session=saved.session||null;queue=saved.queue||[];data.segments=saved.segments||[];data.hidden_history=saved.hidden_history||[];}catch{status='Cihazdaki odak kaydı okunamadı; depolama kaydı korunuyor.';}
   emit();if(uid)refresh();
  }
@@ -34,15 +36,26 @@
   if(JSON.stringify(next)!==JSON.stringify(session)){const events=next.events;next.events=[];try{commit(next);if(events.length)sound(events.at(-1));}catch(e){status=e.message;session=core.act(session,'pause',Date.now());}emit();}
   else document.dispatchEvent(new CustomEvent('ders:study-tick'));
  }
- async function refresh(){
-  const uid=owner;if(!uid||!navigator.onLine)return;
-  try{const incoming=await rpc('overview');if(uid!==owner)return;data=incoming;loaded=true;status='';persist();emit();await flush();}catch(e){if(uid===owner){status=e.message;emit();}}
+ async function refresh(force=true){
+  const uid=owner,generation=epoch;if(!uid||board.user?.id!==uid||!navigator.onLine)return;
+  if(refreshing){if(force)refreshAgain=true;return refreshing;}
+  const job=(async()=>{do{
+   refreshAgain=false;const version=writeVersion;
+   try{const incoming=await rpc('overview');if(generation!==epoch||uid!==owner)return;
+    // An overview started before a write cannot erase the acknowledged write.
+    if(version!==writeVersion){refreshAgain=true;continue;}
+    data=incoming;loaded=true;status='';persist();emit();await flush();
+   }catch(e){if(generation===epoch&&uid===owner){status=e.message;emit();}return;}
+  }while(refreshAgain&&generation===epoch&&uid===owner&&navigator.onLine);})();
+  refreshing=job;try{await job;}finally{if(refreshing===job)refreshing=null;}
  }
  async function flush(){
   if(syncing||!owner||board.user?.id!==owner||!queue.length||!navigator.onLine)return syncing;
-  const uid=owner,batch=queue.slice(0,100);
-  syncing=(async()=>{try{await rpc('save_segments',{segments:batch});if(uid!==owner)return;const ids=new Set(batch.map(s=>s.id));queue=queue.filter(s=>!ids.has(s.id));const existing=new Set(data.segments.map(s=>s.id));data.segments.push(...batch.filter(s=>!existing.has(s.id)));status='';persist();emit();}catch(e){if(uid===owner){status='Süreler cihazda korunuyor: '+e.message;emit();}}finally{syncing=null;}})();
-  return syncing;
+  const uid=owner,generation=epoch;
+  const job=(async()=>{while(generation===epoch&&uid===owner&&queue.length&&navigator.onLine){const batch=queue.slice(0,100);
+   try{await rpc('save_segments',{segments:batch});if(generation!==epoch||uid!==owner)return;const ids=new Set(batch.map(s=>s.id));queue=queue.filter(s=>!ids.has(s.id));const existing=new Set(data.segments.map(s=>s.id));data.segments.push(...batch.filter(s=>!existing.has(s.id)));status='';persist();emit();}
+   catch(e){if(generation===epoch&&uid===owner){status='Süreler cihazda korunuyor: '+e.message;emit();}return;}
+  }})();syncing=job;try{await job;}finally{if(syncing===job)syncing=null;}
  }
  const api={rpc,refresh,flush,visibleHistory(history,hidden=data.hidden_history||[]){const ids=new Set(hidden.filter(h=>h.kind==='completion').map(h=>h.id));return (history||[]).filter(h=>!ids.has(h.id));},get soundReady(){return audio?.state==='running';},get session(){return session;},get data(){return data;},get loaded(){return loaded;},get status(){return status;},get pending(){return queue.length;},
   segments(){const ids=new Set((data.hidden_history||[]).filter(h=>h.kind==='segment').map(h=>h.id)),m=new Map();for(const s of [...data.segments,...queue])if(!ids.has(s.id))m.set(s.id,s);return [...m.values()];},
@@ -50,8 +63,8 @@
   act(action){unlock();const next=core.act(session,action,Date.now());const events=next?.events||[];if(next)next.events=[];commit(next);if(events.length)sound(events.at(-1));emit();},
   setSound(value,tone){if(session){commit({...session,settings:{...session.settings,sound:value,tone}});emit();}unlock();}
  };
- window.DersStudy=api;setInterval(tick,500);setInterval(()=>{if(!document.hidden)refresh();},30000);
+ window.DersStudy=api;setInterval(tick,500);setInterval(()=>{if(owner&&!document.hidden&&navigator.onLine)refresh(false);},30000);
  window.addEventListener('online',()=>{flush();refresh();});document.addEventListener('visibilitychange',()=>{tick();if(!document.hidden)refresh();});
- window.addEventListener('storage',e=>{if(e.key===key()){try{const saved=JSON.parse(e.newValue||'{}');session=saved.session||null;queue=saved.queue||[];data.segments=saved.segments||data.segments;tick();}catch{}}});
+  window.addEventListener('storage',e=>{if(e.key===key()){try{const saved=JSON.parse(e.newValue||'{}');session=saved.session||null;queue=saved.queue||[];data.segments=saved.segments||data.segments;data.hidden_history=saved.hidden_history||[];tick();emit();}catch{}}});
  document.addEventListener('ders:render',own);own();
 })();

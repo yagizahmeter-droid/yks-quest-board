@@ -1,10 +1,10 @@
-const CACHE_NAME = "ders-pwa-v1-3-1-release-r1";
+const CACHE_NAME = "ders-pwa-v1-3-2-release-r1";
 const APP_SHELL = [
   './classes.js','./classes.css',
   './admin-preview-classes.js',
   './experience.js','./v121.css',
   './exams-core.js','./exams.js','./exams.css',
-  './focus-core.js','./study.js','./learning-ui.js','./v113.css','./v114.css',
+  './password-policy.js','./week-dates.js','./focus-core.js','./study.js','./learning-ui.js','./v113.css','./v114.css',
   './assets/theme-vine.svg','./assets/theme-cloud-light.svg','./assets/theme-cloud-dark.svg',
   "./",
   "./index.html",

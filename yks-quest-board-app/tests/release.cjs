@@ -10,7 +10,7 @@ let checks=0;
 const current=require('../package.json').version;
 const publicAssets=['config.js','index.html','sync.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','admin.js','admin.css','admin-preview.js','history-groups.js','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','ui.js','theme.js','ui.css','appearance.js','appearance.css','assets','service-worker.js','manifest.webmanifest','icons','vendor','focus-core.js','study.js','learning-ui.js','v113.css','v114.css','exams-core.js','exams.js','exams.css','experience.js','v121.css'];
 function pass(message){checks++;console.log('PASS release',message);}
-publicAssets.push('classes.js','classes.css');
+publicAssets.push('classes.js','classes.css','password-policy.js','week-dates.js');
 publicAssets.push('admin-preview-classes.js');
 try {
   for(const asset of [...publicAssets,'scripts'])
@@ -32,7 +32,7 @@ try {
   assert.ok(html.includes('aria-label="Sürüm geçmişini aç">v'+current+'</button>'));
   assert.ok(!html.includes('v'+current+' · Önizleme'));
   const releases=require('../release-history.js').releases;
-  assert.equal(releases[0].version,current);assert.equal(releases[0].date,'2026-11-07');assert.equal(releases[0].sections.length,6);
+  assert.equal(releases[0].version,current);assert.equal(releases[0].date,'2026-11-12');assert.equal(releases[0].sections.length,7);
   assert.equal(releases.filter(r=>r.version===current).length,1);
   assert.match(fs.readFileSync(path.join(fixture,'dist/service-worker.js'),'utf8'),new RegExp('ders-pwa-v'+current.replaceAll('.','-')+'-release-r\\d+'));
   for(const asset of ['theme-vine.svg','theme-cloud-light.svg','theme-cloud-dark.svg'])assert.ok(fs.existsSync(path.join(fixture,'dist/assets',asset)));

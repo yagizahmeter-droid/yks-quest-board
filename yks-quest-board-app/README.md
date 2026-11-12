@@ -1,28 +1,28 @@
 # D.E.R.S.
 
-Dijital Eğitim ve Rutin Sistemi. Existing Quest Board design and JSON data model are retained.
+D.E.R.S.; öğrencinin görevlerini, çalışma sürelerini ve deneme sonuçlarını takip ettiği, öğretmenlerin program ve sınıflarını yönettiği web uygulamasıdır.
 
-## Architecture
+## Kullanım
 
-Static PWA: index.html, teacher.js, sync.js and locally bundled public Supabase SDK. Email/password authentication uses a publishable key only. Existing weeks, tasks, XP and history stay in quest_board_states.
+- PC ve telefonda https://dershub.vercel.app adresine aynı hesapla giriş yap. Yeni hesap için en az 10 karakterli, benzersiz bir parola kullan. Mevcut hesapların girişinde yeni kayıt sınırı uygulanmaz.
+- **Programım:** Kendi haftalık tekrar veya günlük görevlerini ekle. Ders filtreleri ve Tamamlananlar bölümü görevleri düzenler. Görev sayacı yalnızca hedefi biten görevleri sayar; **Tekrar İlerlemesi** tamamlanan çalışma adımlarını gösterir. Örneğin 2/4 tekrar, %50 ilerleme ve 0 tamamlanan görevdir.
+- **Öğretmen:** Davet koduyla bağlantı isteği gönder; gelen programı inceleyip kabul veya reddet. Öğretmen görevlerinde değişiklik isteme akışı korunur.
+- **Sınıflar:** Öğretmenin oluşturduğu sınıflara davet veya bağlantıyla katıl. Programlar, ortak görevler ve sınıf gizlilik tercihleri burada yönetilir. Deneme ve çalışma süresi paylaşımı isteğe bağlıdır.
+- **Denemelerim:** TYT/AYT için doğru ve yanlış sayılarını gir; boş ve net otomatik hesaplanır. Eksik testler sıfır sayılmaz. Grafik ve geçmiş, gerçek sınav tarihini kullanır.
+- **Odak Modu:** Görev seçerek veya serbest çalış. Geçici çevrimdışı süreler bu cihazda tutulur ve bağlantı geri gelince eşitlenir. Çakışma olursa kayıt korunur ve hata gösterilir.
+- **Çalışma Geçmişi:** Gün/hafta ve kategori filtrelerini kullan. Temizle işlemi kayıtları silmez; görünüm ve çalışma özetlerinden gizler. **Gizlenen Kayıtlar** ile geri getir. Gizleme/geri getirme görevleri ve XP'yi yeniden ödüllendirmez.
 
-## Interface
+Chrome'da Ana ekrana ekle / Uygulamayı yükle; iPhone Safari'de Paylaş > Ana Ekrana Ekle kullanılabilir. PWA çevrimdışı kabuğu saklar; ilk giriş, davetler ve sunucu işlemleri internet gerektirir. Classic, Saydam, Natural ve Cloud görünümleri ile açık/koyu/sistem teması korunur.
 
-The UI renewal branch is ders-ui-renewal, based on the tested 94916b6 commit. The old version remains recoverable in Git. Hash routes provide home (#/home), program (#/program), teacher (#/teacher), history (#/history), account (#/account) and registration (#/account/signup) views without changing hosting or database routing.
+## Mimari ve veriler
 
-ui.js controls presentation, browser history, modal back behavior, draft warnings and notification badges. ui.css provides responsive light/dark styles; theme.js applies the remembered light/dark/system preference before paint. Lucide 0.468.0 is vendored and pinned. Private pages require the existing Auth session; server permissions remain authoritative. Navigation does not request new data or save board changes.
+Statik JavaScript PWA, Supabase Auth/Postgres ve yalnızca açık publishable anahtar kullanır. Kullanıcı panosu `quest_board_states` içinde kalır; öğretmen görevleri, tekrarlar, çalışma süreleri, sınıflar ve denemeler mevcut RPC/RLS kurallarıyla yetkilendirilir. Tarayıcı rolü sunucu yetkisi oluşturmaz.
 
-Atomic teacher operations and optimistic synchronization use the authenticated ders_action RPC. Account-scoped offline storage and three-way merging preserve independent edits and remote additions. Explicit local edits win same-field conflicts; server-controlled teacher fields always win. Version checks prevent blind overwrites. PWA caches static same-origin assets only, never Supabase responses or student progress.
+Hesaba özel yerel önbellek ve üç yönlü board birleştirmesi bağımsız cihaz değişikliklerini korur. Öğretmenin kontrolündeki alanlarda sunucu geçerlidir. Çalışma süresi kuyruğu sabit kayıt kimlikleriyle yeniden denenir. PWA Supabase yanıtlarını veya kullanıcı ilerlemesini ortak statik önbelleğe koymaz.
 
-## Teacher / Student
+`week-dates.js`, gerçek tarih alanlarını ve açık yıllı eski aralıkları kullanır. Adı değişmiş bir haftanın kimliği/tarihi değişmez. Tarihi bilinmeyen eski haftalara varsayımsal yıl atanmaz; kararlı eski sıra korunur.
 
-After registration choose the account type and enter a display name once. Teachers create a seven-day invite code; rotation cancels older codes. Students submit the code and teachers approve or reject the request. Approved teachers send weekly programs. Students review and accept or reject them. Acceptance appends a new week without replacing personal tasks.
-
-Teacher tasks are marked, are not bound to a day and can be completed normally. Editing requires a change request and teacher decision. Either participant can disconnect; future teacher access is revoked.
-
-## Development
-
-Install pinned dependencies with npm or pnpm:
+## Geliştirme ve test
 
 ```sh
 npm start
@@ -31,28 +31,16 @@ npm run build
 npm test
 ```
 
-Development address: http://127.0.0.1:4173. Tests create a separate local PostgreSQL cluster with synthetic accounts and use headless Chrome. They never write to production. Set SKIP_BROWSER=1 for database-only tests. Browser tests use the standard installed Chrome path on Windows.
+Yerel adres: http://127.0.0.1:4173. Dosyayı `file://` üzerinden açma; manifest, servis çalışanı ve önizleme izolasyonu HTTP(S) gerektirir. Bağımlılıklar paket dosyalarıyla sabitlenmiştir; yerel vendor SDK'ları yayın paketindedir.
 
-For desktop sandbox asynchronous-realpath limitations, run Node with -r ./scripts/windows-realpath.cjs. Tests can also resolve packages from the sibling ders-test-runtime directory used during development.
+`tests/integration.cjs`, ayrı yerel PostgreSQL ve örnek hesaplar kullanır. Staging testleri yalnızca `hswipswqulolcwqvcjvi` test projesine ve yok sayılan `.env.staging-test.json` dosyasındaki örnek hesaplara izin verir; kimlik bilgilerini depoya ekleme. Windows testleri kurulu Chrome'u kullanır. Çalışma ortamının yolu gerekiyorsa Node'u `-r ./scripts/windows-realpath.cjs` ile başlat.
 
-tests/browser.cjs imitates GoTrue/REST transport with all data operations backed by real PostgreSQL and RLS. In addition, tests/staging.cjs verifies REAL Supabase Auth, REST API and browser sessions on the explicitly approved separate staging project. It requires an ignored local credentials fixture; no secret key is used. See TEST_REPORT.md for actual results.
+v1.3.2 odaklı kontroller: `tests/v132-*.cjs`. v1.3.1 deneme regresyonu: `tests/exams.cjs`, `tests/v131-core.cjs`, `tests/v131-staging.cjs`. Sonuçların kapsamı ve doğrulanamayan cihazlar sürüm raporunda belirtilir; emülasyon gerçek cihaz testi sayılmaz.
 
-## Database
+## Güvenli yayın
 
-Fresh staging projects need supabase-schema.sql followed by migrations/20261012_teacher_workflows.sql. Existing production already has the JSON table. Follow MIGRATION_PLAN.md first; do not apply the superseded 001 schema.
+Mevcut Vercel projesi `yks-quest-board-yks-quest-board-app`, GitHub deposu `yagizahmeter-droid/yks-quest-board`, canlı dal `main` ve ana adres `dershub.vercel.app` olarak korunur. `config.js` yalnızca açık bağlantı bilgisi içerir. Production build, canlı Supabase `jswgagzbetwviamiwcck` ve doğru Vercel projesini doğrular.
 
-The separate free ders-staging project has been migrated and tested. The approved UI preview branch points only to staging. The separately prepared ders-v1-production-ready release uses the existing live Supabase project jswgagzbetwviamiwcck and its existing publishable key. The production teacher migration was previously applied with explicit approval and backups; this frontend release does not run migrations or rewrite account data.
+Önce ayrı staging ve Vercel Preview üzerinde test et. `node scripts/build.cjs --production` ve `node tests/release.cjs` kontrollerini çalıştır. `scripts/build.cjs` yalnızca uygulama varlıklarını yayınlar; testler, SQL, yedekler ve yerel kimlik bilgileri dağıtıma girmez.
 
-## Deployment
-
-Publish a feature branch to Vercel Preview. Never merge main or promote without approval. The existing GitHub-to-Vercel connection works, and the connector is now authorized for the correct project. Do not disable deployment protection; use a temporary preview share link when authorized.
-
-Publish only the static assets listed in scripts/build.cjs, including ui.js, theme.js and ui.css. Tests, backups, SQL and dependencies are excluded. The development server also uses an explicit asset allowlist. pnpm-lock.yaml pins all declared dependencies.
-
-The current Vercel project has no configured environment variables; config.js supplies the public database connection. Production builds validate the live Supabase URL, public key type, and Vercel project ID when available. Run node scripts/build.cjs --production and node tests/release.cjs before release. See PRODUCTION_RELEASE.md for the exact target, final approval gate, and rollback point. Do not update main or start any production deployment before that approval.
-
-tests/ui.cjs covers page routing, back/forward, modal and form guards, protected routes, themes, keyboard controls, long names and mobile screenshots. The staging suite can also run against an approved hosted preview with --preview, using an ignored .env.preview-test.json fixture; it verifies the served config targets staging BEFORE sign-in.
-
-On HTTPS, sign in with the same account on PC and phone. Chrome menu > Ana ekrana ekle installs the PWA. Completion remains available temporarily offline and retries after reconnect. Invitations, approvals and program changes need internet.
-
-Marka/domain uygunluğu doğrulanmadı.
+Canlı migration veya Auth ayarından önce şema/politika önkontrolü, sunucuda kapalı yedek ve geri dönüş planını doğrula. Mevcut veriyi yeniden oluşturma/sıfırlama. Yeni production yetkileri ve dağıtım için kullanıcının ilgili sürüme verdiği yayın onayı gerekir. v1.3.2 veritabanı planı: `docs/V132-DATABASE.md`. Önceki `V1*`/`TEST_REPORT` belgeleri kendi sürümlerinin arşividir; güncel yapılandırma yerine kullanılmamalıdır.
