@@ -69,6 +69,7 @@
         if(!['completed','already_completed','expired','outside_window','target_reached','archived'].includes(data?.status))throw new Error('Görev sonucu doğrulanamadı.');
         await b.flush();
         if(root.DersBoard.user?.id!==id||!navigator.onLine)break;
+        root.DersMotion?.repeatConfirmed?.(op,data);
         // Keep the same idempotency key until the canonical board has been received.
         save(id,queue(id).filter(item=>item.request_id!==op.request_id));
         if(data.status==='completed'&&!data.duplicate)b.toast(`+${data.xp} XP kazandın`);
@@ -83,7 +84,7 @@
     if(!q.lockedForStudent){root.DersBoard.completePersonalRepeat(q.id);return;}
     const op={quest_id:q.assignedQuestId,request_id:crypto.randomUUID()};
     if(q.repeat.kind==='daily')op.expected_date=today();
-    try { save(id,[...queue(id),op]);render();drain(); }
+    try { save(id,[...queue(id),op]);root.DersMotion?.expectTeacher?.({requestId:op.request_id,assignedQuestId:q.assignedQuestId,questId:q.id,weekId:root.DersBoard.week().id,beforeCount:progress(q).count,target:q.repeat.target,beforeTotalXp:root.DersBoard.verifiedXp?.total});render();drain(); }
     catch { root.DersBoard.toast('Görev kaydı bu cihazda saklanamadı. Depolama alanını kontrol et.'); }
   }
   async function archiveWeek(week){

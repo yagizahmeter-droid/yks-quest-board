@@ -1,0 +1,44 @@
+/* The study tick supplies progress; this decoration never drives the timer. */
+.focus-dial {
+ --focus-progress:1;
+ --focus-phase-color:var(--accent);
+ position:relative;
+ display:grid;
+ place-items:center;
+ inline-size:min(100%,28rem);
+ aspect-ratio:1;
+ margin-inline:auto;
+}
+.focus-dial[data-phase="break"] { --focus-phase-color:var(--blue); }
+.focus-ring {
+ position:absolute;
+ inset:0;
+ inline-size:100%;
+ block-size:100%;
+ transform:rotate(-90deg);
+ pointer-events:none;
+ fill:none;
+ stroke-width:1.4;
+}
+.focus-ring-track { stroke:var(--line); }
+.focus-ring-progress {
+ stroke:var(--focus-phase-color);
+ stroke-linecap:round;
+ stroke-dasharray:100;
+ stroke-dashoffset:var(--focus-offset,0px);
+}
+.focus-dial[data-progress-motion="true"] .focus-ring-progress { transition:stroke-dashoffset .45s linear; }
+.focus-dial #focusClock {
+ position:relative;
+ margin:0;
+ font-size:clamp(2rem,11.5vw,5rem);
+ font-variant-numeric:tabular-nums;
+ font-feature-settings:"tnum";
+ white-space:nowrap;
+}
+:root[data-motion="off"] .focus-ring-progress,
+:root[data-motion="off"] .focus-shell :is(.focus-secondary,#focusStatus) { transition:none;animation:none;transform:none; }
+@media(prefers-reduced-motion:reduce) {
+ .focus-dial .focus-ring-progress,
+ .focus-shell :is(.focus-secondary,#focusStatus) { transition:none;animation:none;transform:none; }
+}

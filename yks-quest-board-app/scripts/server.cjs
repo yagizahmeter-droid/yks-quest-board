@@ -5,6 +5,7 @@ const server = http.createServer((req, res) => {
   let requested; try { requested = decodeURIComponent(req.url.split('?')[0]); } catch { res.writeHead(400).end(); return; }
   const asset = requested === '/' ? '/index.html' : requested;
   if(['/password-policy.js','/week-dates.js'].includes(asset)){res.setHeader('Content-Type',types['.js']);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}
+  if(['/motion-ledger.js','/motion.js','/motion.css','/motion-widgets.css'].includes(asset)){res.setHeader('Content-Type',types[path.extname(asset)]);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}
   if(asset==='/admin-preview-classes.js'){res.setHeader('Content-Type',types['.js']);fs.createReadStream(path.join(root,'admin-preview-classes.js')).pipe(res);return;}
   if(['/classes.js','/classes.css'].includes(asset)){res.setHeader('Content-Type',types[path.extname(asset)]);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}
   if(['/exams-core.js','/exams.js','/exams.css','/experience.js','/v121.css'].includes(asset)){res.setHeader('Content-Type',types[path.extname(asset)]);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}

@@ -14,6 +14,10 @@ D.E.R.S.; öğrencinin görevlerini, çalışma sürelerini ve deneme sonuçlar�
 
 Chrome'da Ana ekrana ekle / Uygulamayı yükle; iPhone Safari'de Paylaş > Ana Ekrana Ekle kullanılabilir. PWA çevrimdışı kabuğu saklar; ilk giriş, davetler ve sunucu işlemleri internet gerektirir. Classic, Saydam, Natural ve Cloud görünümleri ile açık/koyu/sistem teması korunur.
 
+## Etkileşim efektleri (v1.4.0 önizlemesi)
+
+Görünüm → Etkileşim Efektleri bölümünde animasyonları, dokunsal geri bildirimi ve konfeti efektlerini bu cihaz için ayrı kapatabilirsin. Sistemindeki Hareketi Azalt tercihi görsel hareketleri sınırlar. Görev/XP kutlamaları sunucu onayını bekler; başka cihazdan gelen veya yeniden okunan eski sonuçlar tekrar kutlanmaz. Titreşim her tarayıcı ve cihazda desteklenmez.
+
 ## Mimari ve veriler
 
 Statik JavaScript PWA, Supabase Auth/Postgres ve yalnızca açık publishable anahtar kullanır. Kullanıcı panosu `quest_board_states` içinde kalır; öğretmen görevleri, tekrarlar, çalışma süreleri, sınıflar ve denemeler mevcut RPC/RLS kurallarıyla yetkilendirilir. Tarayıcı rolü sunucu yetkisi oluşturmaz.
