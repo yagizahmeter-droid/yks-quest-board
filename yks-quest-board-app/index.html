@@ -1672,8 +1672,8 @@
       const breakdown=document.getElementById('xpBreakdown');
       if(currentUser&&verifiedXp){if(!document.getElementById('competitiveXp'))breakdown.innerHTML='Doğrulanan: Rekabet <span id="competitiveXp"></span> XP · Kişisel <span id="personalXp"></span> XP';}
       else breakdown.textContent='Tüm haftalar';
-      els.totalXp.textContent=displayXp.total+' XP';els.level.textContent='Level '+(Math.floor(displayXp.total/500)+1);
-      window.DersMotion?.account(displayXp);
+      if(window.DersMotion?.account)window.DersMotion.account(displayXp);
+      else{els.totalXp.textContent=displayXp.total+' XP';els.level.textContent='Level '+(Math.floor(displayXp.total/500)+1);}
       els.questCount.textContent = `${stats.done} / ${stats.total}`;
       els.progressText.textContent = `${stats.percent}%`;
       els.progressFill.style.width = `${stats.percent}%`;
