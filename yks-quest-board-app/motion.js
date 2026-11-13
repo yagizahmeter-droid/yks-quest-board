@@ -6,7 +6,8 @@
  let prefs={...defaults},owner=null,lastTotal=null,lastBuzz=-Infinity,gesture=-Infinity;
  const media=matchMedia('(prefers-reduced-motion: reduce)'), supported=typeof navigator.vibrate==='function';
  const animations=new Set(), jobs=new Map(),numbers=new Map(),charts=new Map(),classStates=new Map(),contributions=new Map(),particles=new Set(),timers=new Set(),observers=new Set();
- let tabId,ledger,routeAnimation,boardAnimation,boardKeys=null;
+ const elementAnimations=new WeakMap();
+ let tabId,ledger,routeAnimation,lastPage,lastRoute,levelTransition=null,boardKeys=null;
  try {prefs={...defaults,...JSON.parse(localStorage.getItem(PREF)||'{}')};}catch{}
  for(const key of Object.keys(defaults))if(typeof prefs[key]!=='boolean')prefs[key]=defaults[key];
  try {tabId=sessionStorage.getItem('ders-motion.tab')||crypto.randomUUID();sessionStorage.setItem('ders-motion.tab',tabId);}catch{tabId=crypto.randomUUID();}
@@ -17,10 +18,18 @@
  const bounded=(map,key,value)=>{if(map.size>=256&&!map.has(key))map.delete(map.keys().next().value);map.set(key,value);};
  function animate(el,frames,options={}){
   if(!el?.isConnected||!enabled()||typeof el.animate!=='function')return null;
-  const a=el.animate(frames,{duration:240,easing:'cubic-bezier(.2,.7,.2,1)',...options});animations.add(a);
-  a.finished.then(()=>{animations.delete(a);a.cancel();},()=>animations.delete(a));return a;
+  const props=new Set(frames.flatMap(frame=>Object.keys(frame)).filter(key=>!['offset','easing','composite'].includes(key)));
+  const records=elementAnimations.get(el)||new Set();elementAnimations.set(el,records);
+  const overlapping=[...records].filter(record=>['running','paused'].includes(record.animation.playState)&&[...record.props].some(prop=>props.has(prop)));
+  const next=frames.map(frame=>({...frame}));
+  // Read the displayed frame before cancelling. Never reset an interrupted transition to its initial frame.
+  if(overlapping.length){const style=getComputedStyle(el);for(const prop of props)if(overlapping.some(record=>record.props.has(prop)))next[0][prop]=style.getPropertyValue(prop.replace(/[A-Z]/g,c=>'-'+c.toLowerCase()));for(const record of overlapping)record.animation.cancel();}
+  const a=el.animate(next,{duration:240,easing:'cubic-bezier(.2,.7,.2,1)',...options}),record={animation:a,props};records.add(record);animations.add(a);
+  const release=()=>{animations.delete(a);records.delete(record);};
+  a.finished.then(()=>{release();a.cancel();},release);return a;
  }
  function stop(){
+  levelTransition=null;
   for(const a of animations)a.cancel();animations.clear();
   for(const job of jobs.values()){cancelAnimationFrame(job.frame);job.finish();}jobs.clear();
   for(const id of timers)clearTimeout(id);timers.clear();
@@ -43,19 +52,25 @@
   key ||= el.id;if(!key){el.textContent=format(value);return;}
   const old=numbers.get(key);bounded(numbers,key,value);
   el.setAttribute('aria-label',format(value));
-  const prior=jobs.get(key);if(prior){cancelAnimationFrame(prior.frame);prior.finish();jobs.delete(key);}
+  const prior=jobs.get(key);
+  if(prior?.element===el&&prior.target===value&&enabled())return;
+  const from=prior?.current??old,deadline=prior?.target===value?prior.deadline:performance.now()+320;
+  if(prior){cancelAnimationFrame(prior.frame);jobs.delete(key);}
   const finish=()=>{if(el.isConnected)el.textContent=format(value);};
-  if(old===undefined||old===value||!enabled()){finish();return;}
+  if(from===undefined||from===value||!enabled()){finish();return;}
   // The accessible value is final; intermediate frames are purely visual, not live announcements.
-  el.setAttribute('aria-label',format(value));const start=performance.now(),job={frame:0,finish};
-  const tick=now=>{if(!el.isConnected||!enabled()){finish();jobs.delete(key);return;}const t=Math.min(1,(now-start)/320);el.textContent=format(old+(value-old)*(1-(1-t)**3));if(t<1)job.frame=requestAnimationFrame(tick);else{finish();jobs.delete(key);}};
+  const start=performance.now(),duration=Math.max(1,deadline-start),job={frame:0,finish,element:el,target:value,current:from,deadline};el.textContent=format(from);
+  const tick=now=>{if(!el.isConnected||!enabled()){finish();jobs.delete(key);return;}const t=Math.min(1,(now-start)/duration);job.current=from+(value-from)*(1-(1-t)**3);el.textContent=format(job.current);if(t<1)job.frame=requestAnimationFrame(tick);else{finish();jobs.delete(key);}};
   jobs.set(key,job);job.frame=requestAnimationFrame(tick);
  }
  function progressValue(el,from,to,key){
-  if(!el||!enabled()||from===to)return;
-  const previous=jobs.get(key);if(previous){cancelAnimationFrame(previous.frame);previous.finish();}
-  const start=performance.now(),job={frame:0,finish:()=>{el.value=to;}};
-  const tick=now=>{if(!el.isConnected||!enabled()){job.finish();jobs.delete(key);return;}const t=Math.min(1,(now-start)/320);el.value=from+(to-from)*(1-(1-t)**3);if(t<1)job.frame=requestAnimationFrame(tick);else{job.finish();jobs.delete(key);}};
+  if(!el||!enabled())return;
+  const previous=jobs.get(key);if(previous?.element===el&&previous.target===to)return;
+  if(from===to&&!previous)return;
+  const deadline=previous?.target===to?previous.deadline:performance.now()+320;
+  if(previous){from=previous.current;cancelAnimationFrame(previous.frame);jobs.delete(key);}
+  const start=performance.now(),duration=Math.max(1,deadline-start),job={frame:0,finish:()=>{el.value=to;},element:el,target:to,current:from,deadline};el.value=from;
+  const tick=now=>{if(!el.isConnected||!enabled()){job.finish();jobs.delete(key);return;}const t=Math.min(1,(now-start)/duration);job.current=from+(to-from)*(1-(1-t)**3);el.value=job.current;if(t<1)job.frame=requestAnimationFrame(tick);else{job.finish();jobs.delete(key);}};
   jobs.set(key,job);job.frame=requestAnimationFrame(tick);
  }
  function account(xp){
@@ -64,8 +79,8 @@
   number($('competitiveXp'),xp.competitive,{key:'competitive',format:n=>Math.round(n).toLocaleString('tr-TR')});
   number($('personalXp'),xp.personal,{key:'personal',format:n=>Math.round(n).toLocaleString('tr-TR')});
   const total=Number(xp.total)||0,level=Math.floor(total/500)+1,ratio=total%500/5,fill=$('levelXpFill');
-  if($('level')){$('level').textContent='Level '+level;$('level').dataset.finalText='Level '+level;}
-  if(fill){fill.dataset.target=ratio+'%';fill.style.width=((lastTotal!==null&&total>lastTotal&&ledger.pending().length)?lastTotal%500/5:ratio)+'%';fill.parentElement.setAttribute('aria-valuenow',String(total%500));}
+  if($('level')){$('level').dataset.finalText='Level '+level;if(!levelTransition||levelTransition.phase==='new')$('level').textContent='Level '+level;}
+  if(fill){fill.dataset.target=ratio+'%';if(!levelTransition||levelTransition.phase==='new')fill.style.width=((lastTotal!==null&&total>lastTotal&&ledger.pending().length)?lastTotal%500/5:ratio)+'%';fill.parentElement.setAttribute('aria-valuenow',String(total%500));}
   if($('levelXpCaption'))$('levelXpCaption').textContent=(total%500)+' / 500 XP';
  }
  function confetti(){
@@ -88,8 +103,8 @@
   xpFloat(xp,el);
   const previous=lastTotal??Number(intent.beforeTotalXp),leveled=xp>0&&Number.isFinite(previous)&&Math.floor(total/500)>Math.floor(previous/500);
   if(leveled){
-   const fill=$('levelXpFill'),target=fill?.dataset.target;
-   if(fill&&enabled()){if($('level'))$('level').textContent='Level '+(Math.floor(previous/500)+1);fill.style.width='100%';delay(()=>{if($('level'))$('level').textContent=$('level').dataset.finalText;fill.style.transition='none';fill.style.width='0%';requestAnimationFrame(()=>{fill.style.transition='';fill.style.width=target;});},280);}
+   const fill=$('levelXpFill');
+   if(fill&&enabled()){const run={phase:'old'};levelTransition=run;if($('level'))$('level').textContent='Level '+(Math.floor(previous/500)+1);fill.style.width='100%';delay(()=>{if(levelTransition!==run)return;run.phase='new';if($('level'))$('level').textContent=$('level').dataset.finalText;fill.style.transition='none';fill.style.width='0%';requestAnimationFrame(()=>{if(levelTransition!==run)return;fill.style.transition='';fill.style.width=fill.dataset.target;});},280);delay(()=>{if(levelTransition!==run)return;levelTransition=null;fill.style.width=fill.dataset.target;if($('level'))$('level').textContent=$('level').dataset.finalText;},650);}
    animate($('level'),[{transform:'scale(1)',opacity:1},{transform:'scale(1.07)',opacity:.7},{transform:'scale(1)',opacity:1}],{duration:760});pulse($('level')?.closest('.stat-metric'),true);confetti();
   }
   const active=(week?.quests||[]).filter(window.DersQuests.active);
@@ -147,7 +162,8 @@
   if(Number.isFinite(Number(ownXp)))host.querySelectorAll('[data-motion-class-xp]').forEach(el=>number(el,ownXp,{key:'class:'+cid}));
   for(const task of detail.shared_tasks||[]){
    const old=prev?.find(t=>t.id===task.id),el=[...host.querySelectorAll('[data-motion-shared]')].find(el=>el.dataset.motionShared===task.id);
-   if(old&&Number(task.total)!==old.total){const bar=el?.querySelector('progress');if(bar&&task.target)progressValue(bar,Math.min(old.total,task.target),Math.min(Number(task.total),task.target),'shared-progress:'+cid+':'+task.id);}
+   const progressKey='shared-progress:'+cid+':'+task.id;
+   if(old&&(Number(task.total)!==old.total||jobs.has(progressKey))){const bar=el?.querySelector('progress');if(bar&&task.target)progressValue(bar,Math.min(old.total,task.target),Math.min(Number(task.total),task.target),progressKey);}
    if(pending&&(!pending.taskId||pending.taskId===task.id))pulse(el?.querySelector('[data-motion-contribution]'));
    if(old&&!old.settled&&task.status==='completed'&&task.settled_at&&ledger.once('class-settled:'+cid+':'+task.id+':'+task.settled_at)){pulse(el,true);confetti();vibrate('shared');}
   }
@@ -165,7 +181,7 @@
   if(boardKeys?.week===week)for(const el of els)if(!boardKeys.keys.includes(el.dataset.motionQuest))animate(el,[{opacity:0,transform:'translateY(5px)'},{opacity:1,transform:'none'}]);
   boardKeys={week,keys};
  }
- function transition(element){boardAnimation?.cancel();boardAnimation=animate(element,[{opacity:.45},{opacity:1}],{duration:190});}
+ function transition(element){animate(element,[{opacity:.45},{opacity:1}],{duration:190});}
  function settings(){
   const dialog=$('appearanceDialog');if(!dialog||$('motionSettings'))return;
   const box=document.createElement('fieldset');box.id='motionSettings';box.className='appearance-field motion-settings';box.dataset.autoSave='';
@@ -177,7 +193,7 @@
  window.DersMotion=Object.fromEntries(Object.entries({expectCompletion,expectTeacher,confirmed,repeatConfirmed,account,capture,reorder,number,chart,classState,actionConfirmed,focusEvent,feedback,transition,cancel:id=>ledger.forget(id)}).map(([key,fn])=>[key,safe(fn)]));
  document.addEventListener('pointerdown',()=>{gesture=performance.now();},{passive:true});document.addEventListener('keydown',()=>{gesture=performance.now();},{passive:true});
  document.addEventListener('ders:render',safe(render));
- document.addEventListener('ders:route',()=>{routeAnimation?.cancel();routeAnimation=animate(document.querySelector('.page-view:not([hidden])'),[{opacity:.4,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:210});});
+ document.addEventListener('ders:route',event=>{const page=document.querySelector('.page-view:not([hidden])');if(lastPage===page&&lastRoute===event.detail)return;lastPage=page;lastRoute=event.detail;if(routeAnimation?.effect?.target!==page)routeAnimation?.cancel();routeAnimation=animate(page,[{opacity:.4,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:210});});
  document.addEventListener('visibilitychange',apply);media.addEventListener?.('change',apply);window.addEventListener('pagehide',stop);
  window.addEventListener('storage',e=>{if(e.key===PREF){try{const value=JSON.parse(e.newValue);for(const key of Object.keys(defaults))if(typeof value?.[key]==='boolean')prefs[key]=value[key];}catch{}for(const input of document.querySelectorAll('[data-motion-pref]'))input.checked=prefs[input.dataset.motionPref];apply();}});
  settings();apply();

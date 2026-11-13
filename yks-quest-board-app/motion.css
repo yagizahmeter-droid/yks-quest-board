@@ -21,6 +21,9 @@
 :root[data-motion="on"] :is(.button,.icon-button,.subject-tab,.tab):active:not(:disabled) {transform:scale(.98);}
 @media(hover:hover) and (pointer:fine) {
  :root[data-motion="on"] :is(.button,.icon-button,.destination):hover {filter:brightness(1.06);}
+ /* Keep the link's hit area still; only its content lifts inside it. */
+ :root[data-motion="on"] .destination > span {transition:transform .16s ease;}
+ :root[data-motion="on"] .destination:hover > span {transform:translateY(-3px);}
 }
 @supports(interpolate-size:allow-keywords) {
  :root[data-motion="on"] details::details-content {interpolate-size:allow-keywords;transition:block-size .2s ease,content-visibility .2s allow-discrete;block-size:0;overflow:clip;}

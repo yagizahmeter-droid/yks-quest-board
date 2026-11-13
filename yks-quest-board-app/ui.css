@@ -115,8 +115,8 @@ svg.lucide { width: 19px; height: 19px; flex-shrink: 0; stroke-width: 1.8; }
 .section-heading h2 { font-size: 16px; margin: 0; }
 .section-heading > span { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
 .destination-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.destination { display: grid; grid-template-columns: 1fr auto; align-content: space-between; gap: 26px 12px; min-height: 178px; border: 1px solid var(--line); border-radius: var(--radius-card); padding: 22px; color: var(--text); background: var(--panel); box-shadow: var(--shadow); transition: transform .16s ease, border-color .16s ease; }
-.destination:hover { transform: translateY(-3px); border-color: var(--accent); }
+.destination { display: grid; grid-template-columns: 1fr auto; align-content: space-between; gap: 26px 12px; min-height: 178px; border: 1px solid var(--line); border-radius: var(--radius-card); padding: 22px; color: var(--text); background: var(--panel); box-shadow: var(--shadow); transition: border-color .16s ease; }
+.destination:hover { border-color: var(--accent); }
 .destination > svg:first-child { grid-column: 1; width: 28px; height: 28px; color: var(--accent); }
 .destination:nth-child(2) > svg:first-child { color: var(--purple); }
 .destination:nth-child(3) > svg:first-child { color: var(--cyan); }
