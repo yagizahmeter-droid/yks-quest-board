@@ -1,5 +1,7 @@
 # Animasyon ve arayüz etkileşim düzeltmeleri
 
+Yeni talimata göre anlık tik ve iyimser XP davranışı için `OPTIMISTIC-FEEDBACK.md` güncellemesine bak. Aşağıdaki metin önceki onay sonrası XP davranışının tarihli kaydıdır.
+
 15 Kasım 2026 — mevcut v1.4.0 Motion System 2.0 önizlemesi üzerine. Production yayını veya migration yoktur.
 
 ## Yeniden üretilen nedenler

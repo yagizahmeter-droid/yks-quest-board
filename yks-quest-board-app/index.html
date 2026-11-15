@@ -1579,7 +1579,15 @@
       return { ...metrics, earnedXp, possibleXp, level };
     }
 
+    let feedbackFrame=0,renderSerial=0;
+    function renderAfterFeedback(){
+      if(!window.DersMotion?.enabled?.()){render();return;}
+      if(feedbackFrame)return;const serial=renderSerial;
+      feedbackFrame=requestAnimationFrame(()=>{feedbackFrame=requestAnimationFrame(()=>{feedbackFrame=0;if(serial===renderSerial)render();});});
+    }
+
     function render() {
+      renderSerial++;
       const week = activeWeek();
       if (!week) return;
       els.weekSubtitle.textContent = week.customTitle ? weekTitle(week) : week.range || week.name || "D.E.R.S.";
@@ -1871,22 +1879,24 @@
       if (!quest||quest.archived) return;
       if(window.DersQuests.recurring(quest)){window.DersQuests.complete(quest);return;}
       const beforeTotalXp=Number(verifiedXp?.total??getStats(state.weeks.flatMap(w=>w.quests)).earnedXp),previous=quest.completionId;
+      const historyId=!quest.done?crypto.randomUUID():null;
+      if(historyId)window.DersMotion?.beginCompletion?.({historyId,weekId:week.id,questId:quest.id,beforeCount:0,target:1,beforeTotalXp},quest);
       let history;
       if(!saveDraftChange(()=>{
         quest.done = !quest.done;
-        if(quest.done){history=addHistoryRecord(quest,week);quest.completionId=history.id;}
+        if(quest.done){history=addHistoryRecord(quest,week,historyId);quest.completionId=history.id;}
         else{removeHistoryRecord(quest);quest.completionId=null;}
-      }))return;
+      })){if(historyId)window.DersMotion?.cancel('history:'+historyId);return;}
       if(history)window.DersMotion?.expectCompletion({historyId:history.id,weekId:week.id,questId:quest.id,beforeCount:0,target:1,beforeTotalXp});
       else if(previous)window.DersMotion?.cancel('history:'+previous);
-      render();
+      renderAfterFeedback();
       showToast(quest.done ? (currentUser?'Görev kaydedildi; eşitleme bekleniyor.':'Görev cihazda kaydedildi.') : "Görev geri alındı");
     }
 
-    function addHistoryRecord(quest, week) {
+    function addHistoryRecord(quest, week,recordId) {
       const category = subjectFor(quest.categoryId || quest.subject);
       const record = {
-        id: crypto?.randomUUID ? crypto.randomUUID() : `history-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        id: recordId || (crypto?.randomUUID ? crypto.randomUUID() : `history-${Date.now()}-${Math.random().toString(16).slice(2)}`),
         userId: currentUser?.id || "local",
         questId: quest.id,
         categoryId: category.id,
@@ -2438,19 +2448,20 @@
     window.DersBoard = {
       get client() { return supabaseClient; }, get user() { return currentUser; }, get state() { return state; },
       get authReady() { return authReady; }, get verifiedXp() { return verifiedXp; },
-      week: activeWeek, weekTitle, renameAssignedWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud, render,
+      week: activeWeek, weekTitle, renameAssignedWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud, render,renderAfterFeedback,
       completePersonalRepeat(id){
         const week=activeWeek(),q=week.quests.find(q=>q.id===id);
         if(!q||q.lockedForStudent||!window.DersQuests.recurring(q)||window.DersQuests.progress(q).blocked)return;
-        const beforeCount=window.DersQuests.progress(q).count,beforeTotalXp=Number(verifiedXp?.total??getStats(state.weeks.flatMap(w=>w.quests)).earnedXp);let motionHistory;
+        const beforeCount=window.DersQuests.progress(q).count,beforeTotalXp=Number(verifiedXp?.total??getStats(state.weeks.flatMap(w=>w.quests)).earnedXp),motionHistory=crypto.randomUUID();
+        window.DersMotion?.beginCompletion?.({historyId:motionHistory,weekId:week.id,questId:q.id,beforeCount,target:q.repeat.target,beforeTotalXp},q);
         if(!saveDraftChange(()=>{
           const completedAt=window.DersQuests.timestamp(),event={id:crypto.randomUUID(),date:window.DersQuests.today(completedAt),completedAt};
           q.completions=[...window.DersQuests.completions(q),event];q.done=window.DersQuests.isDone(q);
-          const record=addHistoryRecord(q,week);motionHistory=record.id;record.xp=q.done?q.xp:0;record.completedAt=completedAt;record.occurrenceDate=event.date;event.historyId=record.id;
+          const record=addHistoryRecord(q,week,motionHistory);record.xp=q.done?q.xp:0;record.completedAt=completedAt;record.occurrenceDate=event.date;event.historyId=record.id;
           q.completionId=q.done?record.id:null;
-        }))return;
+        })){window.DersMotion?.cancel('history:'+motionHistory);return;}
         window.DersMotion?.expectCompletion({historyId:motionHistory,weekId:week.id,questId:q.id,beforeCount,target:q.repeat.target,beforeTotalXp});
-        render();showToast(window.DersQuests.describe(q));
+        renderAfterFeedback();showToast(window.DersQuests.describe(q));
       },
       setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; window.DersUI?.refresh(); },
       editQuest(id, weekId, changes) {

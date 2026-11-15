@@ -16,7 +16,7 @@ Chrome'da Ana ekrana ekle / Uygulamayı yükle; iPhone Safari'de Paylaş > Ana E
 
 ## Etkileşim efektleri (v1.4.0 önizlemesi)
 
-Görünüm → Etkileşim Efektleri bölümünde animasyonları, dokunsal geri bildirimi ve konfeti efektlerini bu cihaz için ayrı kapatabilirsin. Sistemindeki Hareketi Azalt tercihi görsel hareketleri sınırlar. Görev/XP kutlamaları sunucu onayını bekler; başka cihazdan gelen veya yeniden okunan eski sonuçlar tekrar kutlanmaz. Titreşim her tarayıcı ve cihazda desteklenmez.
+Görünüm → Etkileşim Efektleri bölümünde animasyonları, dokunsal geri bildirimi ve konfeti efektlerini bu cihaz için ayrı kapatabilirsin. Sistemindeki Hareketi Azalt tercihi görsel hareketleri sınırlar. Tik, küçük spring ve tahmini ödülün +XP efekti tıklama anında oynar. Hesap XP’si yalnızca sunucuda doğrulanmış sonuçla değişir; ret durumunda geçici tepki geri alınır. Aynı yanıt, yeniden deneme veya başka cihazdan gelen sonuç ikinci ödül efekti üretmez. Titreşim her tarayıcı ve cihazda desteklenmez.
 
 Motion System 2.0 önizlemesi anlık basma geri bildirimi, yönlü sayfa/sekme geçişleri, akıcı açılıp kapanan pencereler ve göreve bağlı XP etiketleri ekler. Sürüm Geçmişi sabit başlık altında tek içerik alanında kayar. Kapsam ve test ayrıntıları: `docs/MOTION2.md`. Planlanan Teacher Workspace ve öğrenci dock'u bu sürüme dahil değildir.
 

@@ -11,6 +11,15 @@
 .quest[data-motion-pending] .check{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 22%,var(--panel));color:var(--accent)}
 .quest[data-motion-pending] .motion-tick{visibility:visible;opacity:.8}
 .motion-pending-status{display:block;color:var(--muted);font-size:10px;line-height:1.5;margin-top:4px}
+.quest[data-motion-pending] .motion-pending-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.motion-optimistic-check{animation:var(--motion-pop-name,motion-optimistic-check) 500ms cubic-bezier(.2,.8,.25,1.12) both;animation-delay:var(--motion-pop-delay,0ms)}
+.motion-optimistic-check .motion-tick{animation:var(--motion-tick-name,motion-optimistic-tick) 500ms steps(1,end);animation-delay:var(--motion-pop-delay,0ms)}
+@keyframes motion-optimistic-check{0%{transform:scale(.86)}34%{transform:scale(1.2)}63%{transform:scale(.96)}100%{transform:none}}
+@keyframes motion-optimistic-check-alt{0%{transform:scale(.86)}34%{transform:scale(1.2)}63%{transform:scale(.96)}100%{transform:none}}
+@keyframes motion-optimistic-tick{from,to{visibility:visible;opacity:1}}
+@keyframes motion-optimistic-tick-alt{from,to{visibility:visible;opacity:1}}
+:root[data-motion="off"] :is(.motion-optimistic-check,.motion-optimistic-check .motion-tick){animation:none}
+@media(prefers-reduced-motion:reduce){.motion-optimistic-check,.motion-optimistic-check .motion-tick{animation:none}}
 .quest[data-motion-error] .check{background:var(--panel);border-color:var(--line);color:var(--muted)}
 .quest[data-motion-error] .motion-tick{visibility:hidden}
 @media(hover:hover) and (pointer:fine){:root[data-motion="on"] .motion-control:hover{border-color:var(--accent)}:root[data-motion="on"] .teacher-item{transition:box-shadow var(--motion-hover),border-color var(--motion-hover)}:root[data-motion="on"] .teacher-item:hover{box-shadow:0 8px 22px #00000016;border-color:var(--accent)}}
@@ -38,7 +47,7 @@
 .motion-xp{inset:auto;margin:0;display:inline-flex;align-items:baseline;gap:4px;min-width:76px;justify-content:center;padding:7px 12px;border-radius:16px;background:var(--panel);border:1px solid var(--accent);color:var(--accent);box-shadow:0 5px 20px #0002,0 0 18px color-mix(in srgb,var(--accent) 16%,transparent);font-variant-numeric:tabular-nums;animation:motion2-xp 1250ms var(--motion-ease-out) both}
 .motion-xp::backdrop{background:transparent;pointer-events:none}
 .motion-xp b{font-size:20px;letter-spacing:-.5px}.motion-xp .motion-xp-plus{font-size:17px;font-weight:600}.motion-xp small{font-size:10px;font-weight:750;letter-spacing:.7px}
-@keyframes motion2-xp{0%{opacity:0;transform:translateY(8px) scale(.72)}18%{opacity:1;transform:translate(var(--xp-safe-x,0px),-3px) scale(1.08);box-shadow:0 0 22px color-mix(in srgb,var(--accent) 35%,transparent)}32%{opacity:1;transform:translate(var(--xp-safe-x,0px),-6px) scale(1)}68%{opacity:1;transform:translate(calc(var(--xp-safe-x,0px) + var(--xp-drift,0px)*.5),-22px) scale(1)}100%{opacity:0;transform:translate(calc(var(--xp-safe-x,0px) + var(--xp-drift,0px)),-54px) scale(.98)}}
+@keyframes motion2-xp{0%{opacity:.85;transform:translateY(0) scale(.86)}18%{opacity:1;transform:translate(var(--xp-safe-x,0px),-3px) scale(1.08);box-shadow:0 0 22px color-mix(in srgb,var(--accent) 35%,transparent)}32%{opacity:1;transform:translate(var(--xp-safe-x,0px),-6px) scale(1)}68%{opacity:1;transform:translate(calc(var(--xp-safe-x,0px) + var(--xp-drift,0px)*.5),-22px) scale(1)}100%{opacity:0;transform:translate(calc(var(--xp-safe-x,0px) + var(--xp-drift,0px)),-54px) scale(.98)}}
 :root[data-motion="off"] .motion-dialog::backdrop{transition:none}
 @media(prefers-reduced-motion:reduce){.motion-dialog::backdrop{transition:none}.motion-xp{display:none}}
 @media(max-width:720px){.motion-dialog[open]{max-height:calc(100dvh - 20px)}.release-history.motion-dialog>.appearance-heading{padding:16px 18px}.release-history .release-notes{padding:0 18px 18px}}
