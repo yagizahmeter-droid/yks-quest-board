@@ -63,6 +63,7 @@
       await b.flush();
       for(const op of queue(id)){
         if(root.DersBoard.user?.id!==id||!navigator.onLine)break;
+        root.DersMotion?.retry?.('repeat:'+op.request_id);
         const {data,error}=await b.client.rpc('ders_action',{p_action:'complete_repeat',p_payload:op});
         if(root.DersBoard.user?.id!==id)break;
         if(error)throw error;if(data?.error)throw new Error(data.error);
@@ -76,7 +77,7 @@
         else if(data.status==='expired')b.toast('Bekleyen günlük görev geçmiş güne ait; güvenli olarak onaylanamadı.');
         else if(data.status!=='completed')b.toast(data.status==='already_completed'?'Bugün zaten tamamlandı.':'Görev şu anda tamamlanamaz.');
       }
-    }catch(error){if(root.DersBoard.user?.id===id)b.toast(error.message||'Görev onayı bekliyor. İnternet bağlantını kontrol et.');}
+    }catch(error){if(root.DersBoard.user?.id===id){root.DersMotion?.pendingError?.(queue(id).map(op=>'repeat:'+op.request_id));b.toast('Görev onaylanamadı; tamamlandı sayılmadı. '+(error.message||'İnternet bağlantını kontrol et. Kaydın yeniden denenecek.'));}}
     finally{draining=false;render();}
   }
   function complete(q){const id=root.DersBoard?.user?.id;if(!id||!recurring(q)||progress(q).blocked)return;

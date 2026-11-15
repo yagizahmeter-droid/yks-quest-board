@@ -1,5 +1,7 @@
 # Motion System 2.0 — v1.4.0 önizlemesi
 
+Güncel kutucuk/XP, kalıcı TYT/AYT ve kontrol davranışı için `MOTION-INTERACTIONS.md` ek düzeltmelerine bak. Aşağıdaki metin ilk Motion System 2.0 uygulamasının tarihli kaydıdır.
+
 15 Kasım 2026. Mevcut v1.4.0 ve titreme düzeltmelerinin üzerine eklenmiştir. Production yayını yapılmaz; Teacher Workspace, öğrenci dock'u ve çoklu pencere kapsam dışıdır.
 
 ## Neden ve uygulama
