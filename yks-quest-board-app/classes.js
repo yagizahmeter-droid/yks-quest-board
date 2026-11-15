@@ -1,5 +1,8 @@
 (() => {
+
  'use strict';
+ function finishVisualClose(root,done){if(window.DersUI?.finishModal)return window.DersUI.finishModal(root,done);done();return true;}
+
  const board=window.DersBoard,$=id=>document.getElementById(id),esc=v=>board.escape(String(v??'')),uuid=()=>crypto.randomUUID();
  const page=document.createElement('section');page.id='classesPage';page.className='page-view classes-page';page.dataset.page='classes';page.hidden=true;page.setAttribute('aria-label','Sınıflar');$('pageContent').append(page);
  const nav=document.createElement('a');nav.href='#/classes';nav.dataset.route='classes';nav.title='Sınıflar';nav.innerHTML='<i data-lucide="graduation-cap"></i><span>Sınıflar</span><b class="notification-count" id="classActionBadge" hidden></b>';document.querySelector('.main-nav').insertBefore(nav,document.querySelector('[data-route="teacher"]'));
@@ -22,7 +25,7 @@
  async function rpc(action,payload={}){reset();const uid=owner,version=session;if(!uid||!navigator.onLine)throw Error('Bu işlem için giriş ve internet bağlantısı gerekli.');const r=await board.client.rpc('ders_classes',{p_action:action,p_payload:payload});if(uid!==board.user?.id||version!==session)throw Error('Oturum değişti.');if(r.error)throw Error(r.error.code==='PGRST202'?'Sınıf sistemi bu ortamda henüz etkin değil.':r.error.message);if(r.data?.error)throw Error(r.data.error);
   if(motionActions.has(action)&&typeof payload.request_id==='string'&&payload.request_id.trim()&&typeof payload.class_id==='string'&&payload.class_id.trim()&&r.data?.ok===true&&(!r.data.class_id||r.data.class_id===payload.class_id))window.DersMotion?.actionConfirmed?.('class',action,payload,r.data);
   return r.data;}
- function close(force=false){if(!force&&!window.DersUI.canLeave(dialog))return false;dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('class-dialog');return true;}
+ function close(force=false){if(!force&&!window.DersUI.canLeave(dialog))return false;return finishVisualClose(dialog,()=>{dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('class-dialog');});}
  dialog.oncancel=e=>{e.preventDefault();close();};
  function modal(title,body,onSave,saveLabel='Kaydet'){
   if(dialog.open&&!window.DersUI.canLeave(dialog))return;
@@ -92,6 +95,7 @@
   if(selected&&detail&&tab==='settings'&&page.querySelector('#classPrivacyForm')?.dataset.dirty==='true')return;
   const next=JSON.stringify([overview,detail,selected,tab,period,week,message,loadError,programWeek]);if(next===snapshot)return;snapshot=next;
   const nextMotionView=visible()&&selected&&detail?JSON.stringify([owner,session,lifecycle,view,selected,tab,period,week,filter,programWeek]):'';
+  const tabMotion=selected&&detail?window.DersMotion?.ui?.beginTabs($('classContent'),{key:'class-tabs:'+owner+':'+selected,value:tab,index:['summary','members','programs','shared','ranking','statistics','announcements','settings'].indexOf(tab),nav:page.querySelector('.class-tabs')}):null;
   const rankSnapshot=nextMotionView&&nextMotionView===motionView&&page.querySelector('[data-motion-rank]')?window.DersMotion?.capture?.(page,'[data-motion-rank]','data-motion-rank'):null;motionView=nextMotionView;
   page.innerHTML=(message?'<p class="class-message" role="status">'+esc(message)+'</p>':'')+(loadError?'<p role="alert">'+esc(loadError)+'</p>':'');
   if(!selected||!detail){renderOverview();return;}
@@ -106,6 +110,7 @@
   if(tab==='settings'&&!teacher){const form=$('classPrivacyForm'),target=context();let saving=false;form.onsubmit=async e=>{e.preventDefault();if(saving||!sameView(target)||!visible()||!form.isConnected)return;const scope=context();saving=true;const save=form.querySelector('[type="submit"]');save.disabled=true;try{await rpc('preferences',{class_id:scope.selected,request_id:uuid(),...Object.fromEntries(['share_name','share_exams','share_study'].map(k=>[k,form.elements[k].checked]))});if(sameView(scope)){window.DersUI.clearDirty(form);if(visible())message='Gizlilik tercihlerin kaydedildi.';}await refresh({fresh:true});if(sameOwner(scope))board.toast('Gizlilik tercihlerin kaydedildi.');}catch(error){if(sameView(scope)&&visible()&&form.isConnected)form.querySelector('[role="alert"]').textContent=error.message;}finally{saving=false;if(form.isConnected)save.disabled=false;}};window.DersUI.clearDirty(form);}
   for(const element of host.querySelectorAll('[data-class-stat]'))window.DersMotion?.number?.(element,Number(element.dataset.classValue),{key:JSON.stringify(['classes',owner,selected,tab,period,week,element.dataset.classStat])});
   for(const element of host.querySelectorAll('[data-class-trend]')){const rows=detail.statistics.exam_trend.filter(r=>r.exam_type+':'+r.scope===element.dataset.classTrend);window.DersMotion?.chart?.(element,{key:JSON.stringify(['classes',owner,selected,tab,period,week,rows[0].exam_type,rows[0].scope,'total']),fingerprint:JSON.stringify(rows.map(r=>[r.day,r.average,r.participants]))});}
+  window.DersMotion?.ui?.endTabs(tabMotion,host,page.querySelector('.class-tabs'));
   if(rankSnapshot)window.DersMotion?.reorder?.(rankSnapshot,page,'[data-motion-rank]','data-motion-rank');
   window.DersSelect?.refresh();window.lucide.createIcons();
  }

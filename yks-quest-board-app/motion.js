@@ -3,6 +3,8 @@
  // Presentation only. Canonical board acknowledgements, never optimistic XP, drive rewards.
  const PREF='ders-motion.preferences.v1', $=id=>document.getElementById(id);
  const defaults={animations:true,haptics:true,confetti:true};
+ const durations=Object.freeze({press:100,release:180,hover:200,tooltip:200,page:390,tab:360,modalEnter:430,modalExit:300,task:500,xp:1250,level:950});
+ const easing=Object.freeze({out:'cubic-bezier(.16,1,.3,1)',in:'cubic-bezier(.4,0,1,1)',spring:'cubic-bezier(.2,.8,.25,1.12)'}),cleanups=new Set();
  let prefs={...defaults},owner=null,lastTotal=null,lastBuzz=-Infinity,gesture=-Infinity;
  const media=matchMedia('(prefers-reduced-motion: reduce)'), supported=typeof navigator.vibrate==='function';
  const animations=new Set(), jobs=new Map(),numbers=new Map(),charts=new Map(),classStates=new Map(),contributions=new Map(),particles=new Set(),timers=new Set(),observers=new Set();
@@ -36,6 +38,7 @@
   for(const el of particles)el.remove();particles.clear();
   for(const observer of observers)observer.disconnect();observers.clear();
   const fill=$('levelXpFill');if(fill&&fill.dataset.target){fill.style.transition='';fill.style.width=fill.dataset.target;}const level=$('level');if(level?.dataset.finalText)level.textContent=level.dataset.finalText;
+  for(const cleanup of cleanups)try{cleanup();}catch{}
  }
  function own(){const id=window.DersBoard?.user?.id||null;if(id===owner)return;stop();owner=id;ledger.setOwner(id);lastTotal=null;numbers.clear();charts.clear();classStates.clear();contributions.clear();boardKeys=null;}
  function pulse(el,complete=false){
@@ -90,22 +93,36 @@
   delay(()=>{particles.delete(host);host.remove();},950);
  }
  function xpFloat(value,el){
-  if(!(value>0)||!enabled())return;const r=el?.getBoundingClientRect(),pop=document.createElement('span');pop.className='motion-xp';pop.textContent='+'+value.toLocaleString('tr-TR')+' XP';pop.setAttribute('aria-hidden','true');
-  if(r&&r.width&&r.bottom>0&&r.top<innerHeight){pop.style.left=Math.min(innerWidth-100,Math.max(12,r.right-100))+'px';pop.style.top=Math.max(20,r.top)+'px';}
-  document.body.append(pop);particles.add(pop);delay(()=>{particles.delete(pop);pop.remove();},850);
+  if(!(value>0)||!enabled())return;
+  const visible=node=>{const r=node?.getBoundingClientRect();return r&&r.width&&r.bottom>0&&r.top<innerHeight?r:null;};
+  const r=visible(el),anchor=r||visible($('totalXp'))||visible(document.querySelector('.workspace-header'))||visible($('focusMini'));
+  const pop=document.createElement('span');pop.className='motion-xp';pop.setAttribute('aria-hidden','true');pop.setAttribute('popover','manual');pop.dataset.xp=String(value);pop.innerHTML='<span class="motion-xp-plus">+</span><b></b><small>XP</small>';pop.querySelector('b').textContent=value.toLocaleString('tr-TR');
+  pop.style.visibility='hidden';document.body.append(pop);particles.add(pop);try{pop.showPopover?.();}catch{}
+  // Layout dimensions stay stable while the pop animation scales the painted box.
+  const width=pop.offsetWidth||96,height=pop.offsetHeight||38,margin=12;
+  const x=anchor?anchor.right-width-10:innerWidth-width-20,y=r?r.top+6:anchor?anchor.bottom+8:72;
+  const others=[...particles].filter(p=>p!==pop&&p.classList.contains('motion-xp'));
+  const reserved=[...document.querySelectorAll('#focusMini,.app-footer')].map(visible).filter(Boolean);
+  const overlaps=(a,b)=>a.left<b.right+8&&a.right+8>b.left&&a.top<b.bottom+8&&a.bottom+8>b.top;
+  let left,top,found=false;
+  const place=()=>{for(let lane=0;lane<24;lane++){left=Math.max(margin,Math.min(innerWidth-width-margin,x-(lane%3)*(width+10)));top=Math.max(64,Math.min(innerHeight-height-margin,y+(lane<12?-1:1)*Math.floor(lane%12/3)*(height+56)));const area={left,right:left+width,top:top-44,bottom:top+height+8};if(!reserved.some(a=>overlaps(area,a))&&!others.some(p=>p.isConnected&&overlaps(area,{left:parseFloat(p.style.left),right:parseFloat(p.style.left)+p.offsetWidth,top:parseFloat(p.style.top)-44,bottom:parseFloat(p.style.top)+p.offsetHeight+8}))){found=true;return;}}};
+  if(others.length>=6){particles.delete(others[0]);others.shift().remove();}
+  place();while(!found&&others.length){const oldest=others.shift();particles.delete(oldest);oldest.remove();place();}
+  pop.style.left=left+'px';pop.style.top=top+'px';pop.style.visibility='';
+  delay(()=>{particles.delete(pop);pop.remove();},durations.xp+50);
  }
  const questElement=id=>[...document.querySelectorAll('[data-motion-quest]')].find(el=>el.dataset.motionQuest===id);
  function success(intent,q,xp,week,total){
   const el=questElement(q.id),done=window.DersQuests.isDone(q);
   pulse(el,done);
-  if(done){animate(el?.querySelector('.check'),[{transform:'scale(1)'},{transform:'scale(.82)'},{transform:'scale(1)'}],{duration:260});animate(el?.querySelector('.motion-tick'),[{strokeDashoffset:24},{strokeDashoffset:0}],{duration:280});}
+  if(done){animate(el?.querySelector('.check'),[{transform:'scale(1)'},{transform:'scale(.82)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:durations.task,easing:easing.spring});animate(el?.querySelector('.motion-tick'),[{strokeDashoffset:24},{strokeDashoffset:0}],{duration:380});}
   else {const count=window.DersQuests.progress(q).count,progress=el?.querySelector('.repeat-meter-fill'),key='repeat:'+q.id;numbers.set(key,Number(intent.beforeCount));number(el?.querySelector('.motion-repeat-count'),count,{key,format:n=>String(Math.round(n))});if(progress&&enabled()){progress.style.width=(Number(intent.beforeCount)/intent.target*100)+'%';requestAnimationFrame(()=>{progress.style.width=(count/intent.target*100)+'%';});}}
   xpFloat(xp,el);
   const previous=lastTotal??Number(intent.beforeTotalXp),leveled=xp>0&&Number.isFinite(previous)&&Math.floor(total/500)>Math.floor(previous/500);
   if(leveled){
    const fill=$('levelXpFill');
    if(fill&&enabled()){const run={phase:'old'};levelTransition=run;if($('level'))$('level').textContent='Level '+(Math.floor(previous/500)+1);fill.style.width='100%';delay(()=>{if(levelTransition!==run)return;run.phase='new';if($('level'))$('level').textContent=$('level').dataset.finalText;fill.style.transition='none';fill.style.width='0%';requestAnimationFrame(()=>{if(levelTransition!==run)return;fill.style.transition='';fill.style.width=fill.dataset.target;});},280);delay(()=>{if(levelTransition!==run)return;levelTransition=null;fill.style.width=fill.dataset.target;if($('level'))$('level').textContent=$('level').dataset.finalText;},650);}
-   animate($('level'),[{transform:'scale(1)',opacity:1},{transform:'scale(1.07)',opacity:.7},{transform:'scale(1)',opacity:1}],{duration:760});pulse($('level')?.closest('.stat-metric'),true);confetti();
+   animate($('level'),[{transform:'scale(1)',opacity:1},{transform:'scale(1.1)',opacity:.7},{transform:'scale(1)',opacity:1}],{duration:durations.level});pulse($('level')?.closest('.stat-metric'),true);confetti();
   }
   const active=(week?.quests||[]).filter(window.DersQuests.active);
   if(done&&active.length&&active.every(window.DersQuests.isDone)&&ledger.once('week:'+week.id+':'+intent.id))confetti();
@@ -186,14 +203,15 @@
   const dialog=$('appearanceDialog');if(!dialog||$('motionSettings'))return;
   const box=document.createElement('fieldset');box.id='motionSettings';box.className='appearance-field motion-settings';box.dataset.autoSave='';
   box.innerHTML='<legend>Etkileşim Efektleri</legend>'+[['animations','Animasyonlar'],['haptics','Dokunsal Geri Bildirim'],['confetti','Konfeti Efektleri']].map(([key,label])=>`<label><span>${label}</span><input type="checkbox" id="motion-${key}" data-motion-pref="${key}" aria-describedby="motionSupport"></label>`).join('')+'<p id="motionSupport">'+(supported?'Tercihler bu cihazda saklanır. Titreşim cihaz ve tarayıcı desteğine bağlıdır.':'Bu tarayıcı titreşimi desteklemiyor. Görsel geri bildirimler kullanılabilir.')+'</p>';
-  dialog.insertBefore(box,dialog.querySelector('.appearance-footer'));box.querySelectorAll('input').forEach(input=>{const key=input.dataset.motionPref;input.checked=prefs[key];input.disabled=key==='haptics'&&!supported;input.onchange=()=>{prefs[key]=input.checked;try{localStorage.setItem(PREF,JSON.stringify(prefs));}catch{}apply();};});
+  const body=dialog.querySelector('.appearance-body');(body||dialog).insertBefore(box,body?null:dialog.querySelector('.appearance-footer'));box.querySelectorAll('input').forEach(input=>{const key=input.dataset.motionPref;input.checked=prefs[key];input.disabled=key==='haptics'&&!supported;input.onchange=()=>{prefs[key]=input.checked;try{localStorage.setItem(PREF,JSON.stringify(prefs));}catch{}apply();};});
  }
  function apply(){document.documentElement.dataset.motion=enabled()?'on':'off';if(!enabled())stop();if(!prefs.confetti)for(const el of particles)if(el.classList.contains('motion-confetti')){el.remove();particles.delete(el);}}
  const safe=fn=>(...args)=>{try{return fn(...args);}catch{return undefined;}};
  window.DersMotion=Object.fromEntries(Object.entries({expectCompletion,expectTeacher,confirmed,repeatConfirmed,account,capture,reorder,number,chart,classState,actionConfirmed,focusEvent,feedback,transition,cancel:id=>ledger.forget(id)}).map(([key,fn])=>[key,safe(fn)]));
+ Object.assign(window.DersMotion,{enabled,durations,easing,animate:safe(animate),onStop(fn){cleanups.add(fn);return()=>cleanups.delete(fn);}});
  document.addEventListener('pointerdown',()=>{gesture=performance.now();},{passive:true});document.addEventListener('keydown',()=>{gesture=performance.now();},{passive:true});
  document.addEventListener('ders:render',safe(render));
- document.addEventListener('ders:route',event=>{const page=document.querySelector('.page-view:not([hidden])');if(lastPage===page&&lastRoute===event.detail)return;lastPage=page;lastRoute=event.detail;if(routeAnimation?.effect?.target!==page)routeAnimation?.cancel();routeAnimation=animate(page,[{opacity:.4,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:210});});
+ document.addEventListener('ders:route',event=>{const page=document.querySelector('.page-view:not([hidden])');if(lastPage===page&&lastRoute===event.detail)return;lastPage=page;lastRoute=event.detail;if(window.DersMotion.ui){window.DersMotion.ui.routeAfter(page,event.detail);return;}if(routeAnimation?.effect?.target!==page)routeAnimation?.cancel();routeAnimation=animate(page,[{opacity:.4,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:durations.page});});
  document.addEventListener('visibilitychange',apply);media.addEventListener?.('change',apply);window.addEventListener('pagehide',stop);
  window.addEventListener('storage',e=>{if(e.key===PREF){try{const value=JSON.parse(e.newValue);for(const key of Object.keys(defaults))if(typeof value?.[key]==='boolean')prefs[key]=value[key];}catch{}for(const input of document.querySelectorAll('[data-motion-pref]'))input.checked=prefs[input.dataset.motionPref];apply();}});
  settings();apply();

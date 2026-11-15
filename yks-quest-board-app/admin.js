@@ -1,4 +1,6 @@
 (() => {
+ function finishVisualClose(root,done){if(window.DersUI?.finishModal)return window.DersUI.finishModal(root,done);done();return true;}
+
   const board = window.DersBoard, trigger = document.getElementById('adminButton');
   if (!board || !trigger) return;
   let owner = null, generation = 0, allowed = false, checking = null, subscribed = false, previewToken = 0;
@@ -29,8 +31,8 @@
   let currentRole = null;
   const publicAssets = new Map();
   const appBase = new URL('./',location.href);
-  const scripts = ['theme.js','sync.js','vendor/lucide.js','password-policy.js','week-dates.js','motion-ledger.js','motion.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','focus-core.js','study.js','learning-ui.js','teacher-drafts.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
-  const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css','v113.css','v114.css','motion.css','motion-widgets.css'];
+  const scripts = ['theme.js','sync.js','vendor/lucide.js','password-policy.js','week-dates.js','motion-ledger.js','motion.js','motion-ui.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','focus-core.js','study.js','learning-ui.js','teacher-drafts.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
+  const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css','v113.css','v114.css','motion.css','motion-widgets.css','motion-ui.css'];
   scripts.push('exams-core.js','exams.js','experience.js','classes.js');styles.push('exams.css','v121.css','classes.css');
   const assetPaths = new Map([...scripts,...styles,'admin-preview.js','admin-preview-classes.js','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','assets/theme-vine.svg','assets/theme-cloud-light.svg','assets/theme-cloud-dark.svg'].map(name=>[new URL(name,appBase).pathname,name]));
   const failure = (code,details = {}) => Object.assign(new Error(code),{code,...details});
@@ -81,7 +83,7 @@
   }
   function close(force = false) {
     if (!force && !window.DersUI.canLeave(dialog)) return;
-    stopPreview(); dialog.close(); window.DersUI.modalClosed('admin');
+    stopPreview();return finishVisualClose(dialog,()=>{dialog.close();window.DersUI.modalClosed('admin');});
     if (!trigger.hidden) trigger.focus({preventScroll:true});
   }
   function revoke(clearDraft = true) {

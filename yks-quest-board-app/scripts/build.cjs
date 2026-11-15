@@ -18,6 +18,6 @@ assets.push('password-policy.js','week-dates.js');
 assets.push('admin.js','admin.css','admin-preview.js','history-groups.js','focus-core.js','study.js','learning-ui.js','v113.css','v114.css');
 assets.push('exams-core.js','exams.js','exams.css','experience.js','v121.css');
 assets.push('classes.js','classes.css');
-assets.push('admin-preview-classes.js','motion-ledger.js','motion.js','motion.css','motion-widgets.css');
+assets.push('admin-preview-classes.js','motion-ledger.js','motion.js','motion.css','motion-widgets.css','motion-ui.js','motion-ui.css');
 for(const asset of assets) fs.cpSync(path.join(root,asset),path.join(out,asset),{recursive:true});
 console.log('Static D.E.R.S. assets prepared in dist; no account exports or tests included.');

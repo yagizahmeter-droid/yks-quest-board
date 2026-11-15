@@ -18,7 +18,7 @@
 @keyframes motion-float {from{opacity:0;transform:translateY(8px)}20%{opacity:1}to{opacity:0;transform:translateY(-35px)}}
 @keyframes motion-confetti {from{opacity:0;transform:translate(0,-10px)}15%{opacity:1}to{opacity:0;transform:translate(var(--x),150px) rotate(var(--r))}}
 :root[data-motion="on"] :is(.button,.icon-button,.subject-tab,.tab) {transition:transform .12s ease,background-color .12s ease;}
-:root[data-motion="on"] :is(.button,.icon-button,.subject-tab,.tab):active:not(:disabled) {transform:scale(.98);}
+/* Press is driven at pointerdown/keydown on a stable hit area by motion-ui.js. */
 @media(hover:hover) and (pointer:fine) {
  :root[data-motion="on"] :is(.button,.icon-button,.destination):hover {filter:brightness(1.06);}
  /* Keep the link's hit area still; only its content lifts inside it. */

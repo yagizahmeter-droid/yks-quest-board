@@ -18,6 +18,8 @@ Chrome'da Ana ekrana ekle / Uygulamayı yükle; iPhone Safari'de Paylaş > Ana E
 
 Görünüm → Etkileşim Efektleri bölümünde animasyonları, dokunsal geri bildirimi ve konfeti efektlerini bu cihaz için ayrı kapatabilirsin. Sistemindeki Hareketi Azalt tercihi görsel hareketleri sınırlar. Görev/XP kutlamaları sunucu onayını bekler; başka cihazdan gelen veya yeniden okunan eski sonuçlar tekrar kutlanmaz. Titreşim her tarayıcı ve cihazda desteklenmez.
 
+Motion System 2.0 önizlemesi anlık basma geri bildirimi, yönlü sayfa/sekme geçişleri, akıcı açılıp kapanan pencereler ve göreve bağlı XP etiketleri ekler. Sürüm Geçmişi sabit başlık altında tek içerik alanında kayar. Kapsam ve test ayrıntıları: `docs/MOTION2.md`. Planlanan Teacher Workspace ve öğrenci dock'u bu sürüme dahil değildir.
+
 ## Mimari ve veriler
 
 Statik JavaScript PWA, Supabase Auth/Postgres ve yalnızca açık publishable anahtar kullanır. Kullanıcı panosu `quest_board_states` içinde kalır; öğretmen görevleri, tekrarlar, çalışma süreleri, sınıflar ve denemeler mevcut RPC/RLS kurallarıyla yetkilendirilir. Tarayıcı rolü sunucu yetkisi oluşturmaz.
