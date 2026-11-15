@@ -1,4 +1,6 @@
 (() => {
+ function finishVisualClose(root,done){if(window.DersUI?.finishModal)return window.DersUI.finishModal(root,done);done();return true;}
+
   const theme = window.DersTheme, dialog = document.getElementById('appearanceDialog');
   const trigger = document.getElementById('appearanceButton'), palette = document.getElementById('accentPalette');
   for (const [value, colors] of Object.entries(theme.palettes)) {
@@ -16,7 +18,7 @@
   }
   function close() {
     if (!dialog.open) return;
-    dialog.close(); window.DersUI.modalClosed('appearance'); trigger.focus({preventScroll:true});
+    return finishVisualClose(dialog,()=>{dialog.close();window.DersUI.modalClosed('appearance');trigger.focus({preventScroll:true});});
   }
   trigger.addEventListener('click', () => { refresh(); dialog.showModal(); window.DersUI.openModal('appearance', dialog, close); });
   document.getElementById('closeAppearance').addEventListener('click', close);

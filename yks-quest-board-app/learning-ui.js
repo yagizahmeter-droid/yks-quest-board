@@ -1,4 +1,6 @@
 (() => {
+ function finishVisualClose(root,done){if(window.DersUI?.finishModal)return window.DersUI.finishModal(root,done);done();return true;}
+
  const study=window.DersStudy,core=window.DersFocusCore,board=window.DersBoard,weekDates=window.DersWeekDates,$=id=>document.getElementById(id),esc=x=>board.escape(String(x??''));
  const icon=(name,label,id='')=>`<button type="button" class="icon-button" ${id?`id="${id}"`:''} title="${label}" aria-label="${label}"><i data-lucide="${name}"></i></button>`;
  const duration=ms=>{const seconds=Math.floor((ms||0)/1000),m=Math.floor(seconds/60);return m>=60?`${Math.floor(m/60)} sa ${m%60} dk`:m?`${m} dk ${seconds%60} sn`:`${seconds} sn`;};
@@ -7,7 +9,7 @@
  let settingsOwner,renderedSession='',date=core.dayKey(Date.now());
  const dialog=document.createElement('dialog');dialog.id='learningDialog';dialog.className='ders-dialog learning-dialog';document.body.append(dialog);
  const mini=document.createElement('aside');mini.className='focus-mini';mini.id='focusMini';mini.hidden=true;mini.innerHTML='<button type="button" id="focusMiniOpen"><i data-lucide="timer"></i><span><small id="miniPhase"></small><strong id="miniClock"></strong></span></button>'+icon('pause','Duraklat','focusMiniPause')+icon('rotate-ccw','Sıfırla','focusMiniReset');document.body.append(mini);
- function close(force=false,nextRoute){if(!force&&!window.DersUI.canLeave(dialog))return;dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('learning',nextRoute);}
+ function close(force=false,nextRoute){if(!force&&!window.DersUI.canLeave(dialog))return;return finishVisualClose(dialog,()=>{dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('learning',nextRoute);});}
  function show(title,body){if(dialog.open&&!window.DersUI.canLeave(dialog))return false;dialog.innerHTML=`<header class="modal-head"><h2>${esc(title)}</h2>${icon('x','Kapat','closeLearning')}</header><div class="modal-body">${body}</div>`;if(!dialog.open)dialog.showModal();window.DersUI.openModal('learning',dialog,close);$('closeLearning').onclick=()=>close();window.DersUI.clearDirty(dialog);return true;}
  dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
  function error(e){board.toast(e.message||'İşlem tamamlanamadı.');}

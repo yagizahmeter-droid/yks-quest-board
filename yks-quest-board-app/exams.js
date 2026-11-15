@@ -1,5 +1,8 @@
 (() => {
+
  'use strict';
+ function finishVisualClose(root,done){if(window.DersUI?.finishModal)return window.DersUI.finishModal(root,done);done();return true;}
+
  const core=window.DersExamsCore,board=window.DersBoard,esc=value=>board.escape(String(value??'')),icons=()=>window.lucide.createIcons();
  const mounts=new Map(),cache=new Map();
  let owner=null,loading=new Map(),editor=null,busy=false;
@@ -19,7 +22,7 @@
  }
  function close(force=false){
   if(!force&&(busy||!window.DersUI.canLeave(dialog)))return false;
-  dialog.close();dialog.replaceChildren();editor=null;window.DersUI?.modalClosed('exam-dialog');return true;
+  return finishVisualClose(dialog,()=>{dialog.close();dialog.replaceChildren();editor=null;window.DersUI?.modalClosed('exam-dialog');});
  }
  function show(title,html){
   if(dialog.open&&!close())return false;
@@ -48,6 +51,7 @@
   const field=(label,attribute,options,value)=>'<label class="field">'+label+'<select class="select" '+attribute+' data-ui-transient="true">'+options.map(([v,l])=>'<option value="'+esc(v)+'" '+(v===value?'selected':'')+'>'+esc(l)+'</option>').join('')+'</select></label>';
   const metrics=[['count','Kayıtlı Deneme',stats.count,stats.completeCount+' tam · '+stats.partialCount+' kısmi'],['last','Son Deneme',latest?.totalNet,stats.last?core.date(stats.last.exam_date)+(latest.complete?' · Tam':' · Kısmi'):'Henüz veri yok'],['best','En Yüksek Net',stats.best,'Tam denemeler'],['average','Ortalama Net',stats.average,'Tam denemeler'],['lastFive','Son 5 Deneme Ortalaması',stats.lastFive,stats.completeCount?Math.min(5,stats.completeCount)+' son tam deneme':'Henüz tam deneme yok'],['change','İlk → Son Gelişim',stats.change,'Sınav tarihine göre tam denemeler']];
   const motionKey=(kind,key)=>JSON.stringify(['exams',owner,view.sid,view.exam,view.scope,kind,key]);
+  const tabMotion=window.DersMotion?.ui?.beginTabs(host,{key:host,value:JSON.stringify([view.exam,view.scope,view.completeness]),index:(view.exam==='AYT'?100:0)+Math.max(0,scopes.findIndex(([key])=>key===view.scope))*2+(view.completeness==='complete'?1:0),nav:host.querySelector('.segmented')});
   host.innerHTML='<section class="exam-panel exam-overview"><div class="exam-toolbar"><div><h2>Denemelerim</h2><p>Gerçek sınav tarihine göre ilerlemen. Kısmi kayıtlar ayrıca işaretlenir.</p></div><div class="signed-in-actions">'+(writable?'<button class="button primary" data-exam-action="new" type="button"><i data-lucide="plus"></i>Yeni Deneme Ekle</button>':'')+button('refresh-cw','Yenile','refresh')+'</div></div><div class="exam-filters"><div class="segmented" role="group" aria-label="Deneme sınavı">'+['TYT','AYT'].map(exam=>'<button type="button" class="button '+(view.exam===exam?'is-active':'')+'" data-exam-filter="'+exam+'" aria-pressed="'+(view.exam===exam)+'">'+exam+'</button>').join('')+'</div>'+(scopes.length>1?field('Test Kapsamı','data-exam-scope',scopes,view.scope):'')+field('Grafikler ve Geçmiş','data-exam-completeness',[['all','Tüm Denemeler'],['complete','Tam Denemeler']],view.completeness)+'</div>'+(stored?.error?'<div class="exam-error" role="alert">'+esc(stored.error)+'</div>':'')+'</section>'+
    (!stored?'<p role="status">Denemeler yükleniyor…</p>':!all.length?'<section class="exam-panel empty-state"><i data-lucide="chart-no-axes-combined"></i><h2>Henüz '+view.exam+' denemesi yok</h2><p>İlk kaydından sonra netlerini ve gelişimini burada görebilirsin.</p></section>':
    '<section class="exam-panel"><h2>Genel Performans</h2><p class="exam-note">Seçili sınav ve test kapsamındaki tüm kayıtlar. Tam deneme ortalamalarına kısmi kayıtlar katılmaz.</p><div class="exam-stats">'+metrics.map(([key,label,value,note])=>'<article class="exam-metric" data-exam-stat="'+key+'"><span>'+label+'</span><strong>'+(key==='count'?value:core.format(value))+'</strong><small>'+note+'</small></article>').join('')+'</div></section>'+
@@ -64,11 +68,12 @@
    const lessons=new Map();for(const row of records)for(const test of core.evaluate(row).tests)if(!lessons.has(test.id))lessons.set(test.id,test);
    const select=host.querySelector('[data-exam-lesson]');if(!lessons.has(view.lesson))view.lesson=lessons.keys().next().value;
    select.innerHTML=[...lessons.values()].map(test=>'<option value="'+test.id+'" '+(view.lesson===test.id?'selected':'')+'>'+esc(test.label)+'</option>').join('');
-   view.drawCharts=()=>{if(!host.isConnected||!host.getBoundingClientRect().width)return;chart(host.querySelector('[data-exam-chart="total"]'),core.series(rows),core.evaluate(records[0]).maximum,'Net Gelişimi',motionKey('chart',[view.completeness,'total']));chart(host.querySelector('[data-exam-chart="lesson"]'),core.series(rows,view.lesson),lessons.get(view.lesson).max,'Ders Performansı · '+lessons.get(view.lesson).label,motionKey('chart',[view.completeness,view.lesson]));};
+   view.drawCharts=()=>{if(!host.isConnected||!host.getBoundingClientRect().width)return;const lessonHost=host.querySelector('[data-exam-chart="lesson"]'),lessonMotion=window.DersMotion?.ui?.beginTabs(lessonHost,{value:view.lesson,index:select.selectedIndex});chart(host.querySelector('[data-exam-chart="total"]'),core.series(rows),core.evaluate(records[0]).maximum,'Net Gelişimi',motionKey('chart',[view.completeness,'total']));chart(host.querySelector('[data-exam-chart="lesson"]'),core.series(rows,view.lesson),lessons.get(view.lesson).max,'Ders Performansı · '+lessons.get(view.lesson).label,motionKey('chart',[view.completeness,view.lesson]));window.DersMotion?.ui?.endTabs(lessonMotion);};
    select.onchange=()=>{view.lesson=select.value;view.drawCharts();};view.drawCharts();
    host.querySelector('.exam-performance').innerHTML='<div class="exam-table-scroll"><table><thead><tr><th>Ders</th><th>Ortalama Net</th><th>En Yüksek</th><th>Son Net</th><th>Deneme</th></tr></thead><tbody>'+[...lessons.values()].map(test=>{const s=core.lessonStats(rows,test.id);return '<tr data-exam-summary="'+test.id+'"><th scope="row">'+esc(test.label)+'</th><td>'+core.format(s.average)+'</td><td>'+core.format(s.best)+'</td><td>'+core.format(s.last)+'</td><td>'+s.count+'</td></tr>';}).join('')+'</tbody></table></div>';
   }
   for(const [key,,value] of metrics){const element=host.querySelector('[data-exam-stat="'+key+'"] strong');if(element&&typeof value==='number'&&Number.isFinite(value))window.DersMotion?.number?.(element,value,{key:motionKey('stat',key),format:core.format});}
+  window.DersMotion?.ui?.endTabs(tabMotion,host,host.querySelector('.segmented'));
   window.DersUI.clearDirty(host);window.DersSelect?.refresh();icons();
  }
  function chart(host,points,maximum,label,key){

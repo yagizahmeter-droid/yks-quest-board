@@ -1,4 +1,6 @@
 (() => {
+ function finishVisualClose(root,done){if(window.DersUI?.finishModal)return window.DersUI.finishModal(root,done);done();return true;}
+
   const panel = document.getElementById('teacherPanel');
   const roleSelect = document.getElementById('roleSelect');
   let overview = null, owner = null, snapshot = '', busy = false;
@@ -108,7 +110,7 @@
     if(!teacher){
       const all=[...overview.requests,...resolved].sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
       panel.insertAdjacentHTML('beforeend','<section class="change-requests" aria-labelledby="myRequestsTitle"><h3 id="myRequestsTitle">Değişiklik Taleplerim</h3><div class="request-tabs" role="tablist" aria-label="Talep durumu">'+[['pending','Bekleyen'],['approved','Kabul Edilen'],['rejected','Reddedilen']].map(([s,l])=>'<button class="button '+(s===requestsTab?'is-active':'')+'" type="button" role="tab" aria-selected="'+(s===requestsTab)+'" data-request-tab="'+s+'">'+l+' ('+all.filter(r=>r.status===s).length+')</button>').join('')+'</div><div class="request-list" role="tabpanel">'+(all.filter(r=>r.status===requestsTab).map(requestCard).join('')||'<p class="sync-status">'+({pending:'Bekleyen değişiklik talebin yok.',approved:'Henüz kabul edilen değişiklik talebin yok.',rejected:'Reddedilen değişiklik talebin yok.'}[requestsTab])+'</p>')+'</div></section>');
-      panel.querySelectorAll('[data-request-tab]').forEach((b,i,buttons)=>{b.onclick=()=>{requestsTab=b.dataset.requestTab;render(true);};b.onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[n].click();panel.querySelectorAll('[data-request-tab]')[n].focus();}};});
+      panel.querySelectorAll('[data-request-tab]').forEach((b,i,buttons)=>{b.onclick=()=>{const motion=window.DersMotion?.ui?.beginTabs(panel,{key:'requests:'+owner,value:b.dataset.requestTab,index:i,nav:b.parentElement});requestsTab=b.dataset.requestTab;render(true);window.DersMotion?.ui?.endTabs(motion,panel,panel.querySelector('[data-request-tab]')?.parentElement);};b.onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[n].click();panel.querySelectorAll('[data-request-tab]')[n].focus();}};});
     }
   }
   function requestCard(r){const p=r.requested_changes||{},date=v=>v?new Date(v).toLocaleString('tr-TR',{timeZone:'Europe/Istanbul'}):'—';return '<article class="teacher-item request-card" data-request-id="'+esc(r.id)+'" data-status="'+esc(r.status)+'"><strong>'+esc(p.type==='topic_title'?'Konu Adı Değişikliği':'Görev Değişikliği')+'</strong><dl>'+[['Öğretmen',r.teacher_name||overview.assignments.find(a=>a.id===r.assignment_id)?.name||'Öğretmen'],['Program',r.week_name||'Geçmiş program'],['Ders',r.category_name||'Belirtilmemiş'],['Mevcut',p.current_title||r.title],['İstenen',p.title],['Ayrıntı',p.type==='topic_title'?'':p.detail],['XP',p.type==='topic_title'?'':p.xp],['Gerekçe',p.reason],['Gönderilme',date(r.created_at)],['Durum',{pending:'Beklemede',approved:'Kabul Edildi',rejected:'Reddedildi'}[r.status]],['Sonuçlanma',r.resolved_at?date(r.resolved_at):'']].filter(([,v])=>v!==''&&v!=null).map(([k,v])=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>').join('')+'</dl></article>';}
@@ -156,8 +158,7 @@
     if (!force && busy) { window.DersBoard.toast('İşlem sürüyor. Biraz bekle.'); return false; }
     if (!force && window.DersUI && !window.DersUI.canLeave(dialog)) return false;
     try{rememberComposer();}catch(error){if(!force){window.DersBoard.toast(error.message);return false;}}
-    viewToken++; dialog.close(); dialog.replaceChildren(); shownStudent = null; studentData = null;classComposer=null;
-    window.DersUI?.clearDirty(dialog); window.DersUI?.modalClosed('teacher-dialog', nextRoute); return true;
+    viewToken++;return finishVisualClose(dialog,()=>{dialog.close();dialog.replaceChildren();shownStudent=null;studentData=null;classComposer=null;window.DersUI?.clearDirty(dialog);window.DersUI?.modalClosed('teacher-dialog',nextRoute);});
   }
   function showDialog(title, body) {
     if (dialog.open && window.DersUI && !window.DersUI.canLeave(dialog)) return false;
@@ -206,6 +207,8 @@
     window.DersExams?.unmount(wrap);window.DersExperience?.unmount(wrap);
     rememberComposer(); window.DersUI?.clearDirty(wrap);
     const token = ++viewToken, uid = owner, id = shownStudent;
+    const tabMotion=window.DersMotion?.ui?.beginTabs(wrap,{key:'student-tabs:'+id,value:action,index:[...dialog.querySelectorAll('[role="tab"]')].findIndex(b=>b.dataset.action===action),nav:dialog.querySelector('.student-tabs')});
+    try {
     dialog.querySelectorAll('[role="tab"]').forEach(b => { const selected = b.dataset.action === action; b.tabIndex = selected ? 0 : -1; b.setAttribute('aria-selected',String(selected)); b.classList.toggle('is-active',selected); if(selected)wrap.setAttribute('aria-labelledby',b.id); });
     if (action === 'student-program') { programForm(); return; }
     if (action === 'student-results') { await window.DersExams.mount(wrap,id); return; }
@@ -215,6 +218,7 @@
     const data = await rpc('student_board',{student_id:id});
     if (token !== viewToken || uid !== owner || id !== shownStudent || !dialog.open || !overview.connections.some(c => c.student_id === id && c.status === 'approved')) return;
     studentView(data,id);
+    }finally{if(token===viewToken&&uid===owner&&id===shownStudent&&dialog.open)window.DersMotion?.ui?.endTabs(tabMotion);}
   }
   function review(a) {
     const quests = a.quests || [];

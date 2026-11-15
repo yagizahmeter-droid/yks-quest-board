@@ -787,6 +787,7 @@
   <link rel="stylesheet" href="./classes.css">
   <link rel="stylesheet" href="./motion.css">
   <link rel="stylesheet" href="./motion-widgets.css">
+  <link rel="stylesheet" href="./motion-ui.css">
   <script src="./vendor/lucide.js"></script>
 </head>
 <body>
@@ -1012,6 +1013,7 @@
   </dialog>
   <dialog id="appearanceDialog" class="ders-dialog appearance-dialog" aria-labelledby="appearanceTitle" data-auto-save>
     <header class="appearance-heading"><h2 id="appearanceTitle">Görünüm</h2><button id="closeAppearance" class="icon-button" type="button" aria-label="Görünüm ayarlarını kapat" title="Kapat"><i data-lucide="x"></i></button></header>
+    <div class="modal-body appearance-body">
     <fieldset class="appearance-field"><legend>Arayüz Stili</legend><div class="style-options">
       <label class="style-option"><input type="radio" name="appearanceStyle" value="classic"><span class="style-preview preview-classic" aria-hidden="true"><span></span><span></span><span></span></span><strong>Klasik</strong></label>
       <label class="style-option"><input type="radio" name="appearanceStyle" value="glass"><span class="style-preview preview-glass" aria-hidden="true"><span></span><span></span><span></span></span><strong>Saydam</strong></label>
@@ -1026,6 +1028,7 @@
     <fieldset class="appearance-field"><legend>Vurgu Rengi</legend><div id="accentPalette" class="accent-palette" role="radiogroup" aria-label="Vurgu Rengi"></div></fieldset>
     <label class="monochrome-control"><span>Renksiz Mod</span><input id="monochromeToggle" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
 <fieldset class="appearance-field"><legend>Arka Plan</legend><div id="backgroundOptions" class="background-options"></div><div class="background-custom"><label class="button" for="backgroundFile"><i data-lucide="folder-plus"></i>Fotoğraf Seç</label><input class="visually-hidden" id="backgroundFile" type="file" accept="image/png,image/jpeg,image/webp"><button class="button" id="useCustomBackground" type="button" disabled>Özel Arka Plan</button><button class="icon-button" id="removeBackground" type="button" disabled title="Özel arka planı kaldır" aria-label="Özel arka planı kaldır"><i data-lucide="trash-2"></i></button></div><p id="backgroundStatus" role="status">Yalnızca bu cihazda saklanır. Tarayıcı verileri temizlenirse silinir.</p></fieldset>
+    </div>
     <footer class="appearance-footer"><button id="resetAppearance" class="button" type="button"><i data-lucide="rotate-ccw"></i>Varsayılana Dön</button></footer>
   </dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" popover="manual"></div>
@@ -1034,6 +1037,7 @@
   <script src="./week-dates.js"></script>
   <script src="./motion-ledger.js"></script>
   <script src="./motion.js"></script>
+  <script src="./motion-ui.js"></script>
   <script src="./quest-system.js"></script>
   <script src="./curriculum.js"></script>
   <script src="./personal-catalog.js"></script>
@@ -1568,8 +1572,10 @@
       renderSubjectOptions();
       renderSubjectNav(week);
       renderStats(week);
+      const tabMotion=window.DersMotion?.ui?.beginTabs(els.board,{key:'program:'+week.id,value:activeSubject,index:[...els.subjectNav.querySelectorAll('.tab')].findIndex(el=>el.getAttribute('aria-pressed')==='true'),nav:els.subjectNav});
       const motionOrder=window.DersMotion?.capture(els.board,'[data-motion-quest]','data-motion-quest');
       renderBoard(week);
+      window.DersMotion?.ui?.endTabs(tabMotion);
       window.DersMotion?.reorder(motionOrder,els.board,'[data-motion-quest]','data-motion-quest');
       renderHistory();
       renderTeacherPanel();
@@ -1620,7 +1626,7 @@
         button.addEventListener("click", () => {
           activeSubject = subject.id;
           render();
-          window.DersMotion?.transition(els.board);
+          if(!window.DersMotion?.ui)window.DersMotion?.transition(els.board);
         });
         if (editMode && subject.id !== "all") {
           const wrapper = document.createElement("span");
@@ -2034,10 +2040,12 @@
       if(photoBusy&&!force){showToast('Fotoğraf analizi sürüyor. Biraz bekle.');return;}
       if (!force && window.DersUI && !window.DersUI.canLeave(els.weekModalBackdrop)) return;
       photoGeneration++;
+      const finish=()=>{
       els.weekModalBackdrop.classList.remove("open");
       window.DersUI?.clearDirty(els.weekModalBackdrop);
       window.DersUI?.modalClosed('week');
-      els.newWeekButton.focus({ preventScroll: true });
+      els.newWeekButton.focus({ preventScroll: true });};
+      if(window.DersUI?.finishModal)return window.DersUI.finishModal(els.weekModalBackdrop,finish);finish();
     }
 
     function renderDraftList() {
@@ -2395,8 +2403,7 @@
     const nameDialog=document.getElementById('assignedWeekNameDialog');
     function closeWeekName(saved=false) {
       if(!saved && !window.DersUI?.canLeave(nameDialog))return;
-      window.DersUI?.clearDirty(nameDialog);nameDialog.close();window.DersUI?.modalClosed('assigned-week-name');
-      document.getElementById('renameAssignedWeekButton').focus({preventScroll:true});
+      return window.DersUI.finishModal(nameDialog,()=>{window.DersUI?.clearDirty(nameDialog);nameDialog.close();window.DersUI?.modalClosed('assigned-week-name');document.getElementById('renameAssignedWeekButton').focus({preventScroll:true});});
     }
     document.getElementById('renameAssignedWeekButton').onclick=()=>{
       const week=activeWeek();nameDialog.dataset.weekId=week.id;

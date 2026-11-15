@@ -53,7 +53,8 @@
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
   function openModal(id, root, close) {
-    overlays.set(id, { root, close });
+    overlays.set(id, { root, close, owner:window.DersBoard.user?.id||null });
+    window.DersMotion?.ui?.modalEnter(root);
     if (current.modal === id) return;
     const replace = Boolean(current.modal);
     current = stateFor(current.route, replace ? current.depth : current.depth + 1, id);
@@ -102,6 +103,7 @@
     if (!loading && privateRoutes.has(route) && !window.DersBoard.user) {
       intended = route; route = 'account'; current = stateFor(route, current.depth); history.replaceState(current, '', '#/account');
     }
+    window.DersMotion?.ui?.routeBefore(loading?null:document.querySelector('[data-page="'+route.split('/')[0]+'"]'),route);
     document.querySelectorAll('[data-page]').forEach(el => el.hidden = loading || el.dataset.page !== route.split('/')[0]);
     $('routeLoading').hidden = !loading;
     $('pageTitle').textContent = route.startsWith('account') && !window.DersBoard.user ? (route === 'account/signup' ? 'Kayıt Ol' : 'Giriş Yap') : titles[route];
@@ -236,9 +238,10 @@
     if (link && !event.ctrlKey && !event.metaKey && !event.shiftKey && event.button === 0) { event.preventDefault(); navigate(link.dataset.route); }
     const historyTab = event.target.closest('[data-history-view]');
     if (historyTab) {
+      const tabMotion=window.DersMotion?.ui?.beginTabs($('historyPage'),{value:historyTab.dataset.historyView,index:[...document.querySelectorAll('[data-history-view]')].indexOf(historyTab),nav:historyTab.parentElement});
       historyView = historyTab.dataset.historyView;
       document.querySelectorAll('[data-history-view]').forEach(b => { b.classList.toggle('is-active', b === historyTab); b.setAttribute('aria-pressed', String(b === historyTab)); });
-      drawCompleted(); icons();
+      drawCompleted(); icons();window.DersMotion?.ui?.endTabs(tabMotion);
     }
   });
   document.addEventListener('input', event => {
@@ -283,6 +286,7 @@
     const messages = { invalid_credentials:'E-posta veya şifre hatalı.', email_not_confirmed:'Giriş yapmadan önce e-postanı doğrula.', user_already_exists:'Bu e-posta için zaten bir hesap var.', email_address_invalid:'Geçerli bir e-posta adresi gir.', weak_password:'Daha güçlü bir şifre seç.', over_request_rate_limit:'Çok fazla deneme yapıldı. Biraz sonra tekrar dene.', over_email_send_rate_limit:'E-posta gönderim sınırına ulaşıldı. Biraz sonra tekrar dene.' };
     return messages[error.code] || 'İşlem tamamlanamadı. Bilgilerini kontrol edip tekrar dene.';
   }
-  window.DersUI = { refresh, navigate, openModal, modalClosed, clearDirty, canLeave, authError, closeNavigationForModal(){if(document.body.classList.contains('drawer-open'))closeSidebar(false,true);}, get route() { return current.route; }, setTeacherInfo(data) { teacherInfo = data; refresh(); } };
+  function finishModal(root,finish,options={}){const overlay=[...overlays.values()].find(item=>item.root===root);const immediate=options.immediate||Boolean(overlay&&overlay.owner!==(window.DersBoard.user?.id||null));if(window.DersMotion?.ui?.modalExit)return window.DersMotion.ui.modalExit(root,finish,{immediate});finish();return true;}
+  window.DersUI = { finishModal, refresh, navigate, openModal, modalClosed, clearDirty, canLeave, authError, closeNavigationForModal(){if(document.body.classList.contains('drawer-open'))closeSidebar(false,true);}, get route() { return current.route; }, setTeacherInfo(data) { teacherInfo = data; refresh(); } };
   refresh();
 })();
