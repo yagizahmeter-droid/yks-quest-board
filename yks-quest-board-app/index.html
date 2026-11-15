@@ -1505,6 +1505,25 @@
       return data;
     }
 
+    function rejectPendingCompletions(error,sent,canonical) {
+      // Only an explicit write rejection is safe to compensate. Offline, timeouts,
+      // lost replies, expired auth and version conflicts keep the existing retry queue.
+      if(!['42501','23514','22023','P0001','DERS_REJECTED'].includes(error?.code))return;
+      const accepted=new Set((canonical?.studyHistory||[]).map(h=>h.id));
+      const intents=(window.DersMotion?.pendingCompletions?.()||[]).filter(i=>!accepted.has(i.historyId)&&sent.studyHistory?.some(h=>h.id===i.historyId&&h.questId===i.questId&&h.weekId===i.weekId));
+      if(!intents.length)return;const reverted=[];
+      if(!saveDraftChange(()=>{for(const intent of intents){
+        const q=state.weeks.find(w=>w.id===intent.weekId)?.quests.find(q=>q.id===intent.questId);if(!q||q.lockedForStudent)continue;
+        if(window.DersQuests.recurring(q)){
+          if(!q.completions?.some(e=>e.historyId===intent.historyId))continue;
+          q.completions=q.completions.filter(e=>e.historyId!==intent.historyId);Object.assign(q,window.DersQuests.normalize(q));
+        }else{if(q.completionId!==intent.historyId)continue;const previous=canonical?.weeks?.find(w=>w.id===intent.weekId)?.quests.find(item=>item.id===q.id);q.done=Boolean(previous?.done);q.completionId=previous?.completionId||null;}
+        state.studyHistory=(state.studyHistory||[]).filter(h=>h.id!==intent.historyId);reverted.push(intent.id);
+      }}))return;
+      for(const id of reverted)window.DersMotion?.cancel(id);
+      if(reverted.length){render();showToast('Sunucu görevi onaylamadı. İşaret geri alındı; kayıtlı geçmişin ve XP’n korundu. '+(error.message||''));}
+    }
+
     async function pushStateToCloud() {
       if (!supabaseClient || !currentUser || !navigator.onLine) return;
       if (syncInFlight) { await syncInFlight; return pushStateToCloud(); }
@@ -1529,8 +1548,8 @@
             state: candidate, expected_version: remote?.version || 0, client_id: clientId
           } });
           if (generation !== authGeneration || userId !== currentUser?.id) return;
-          if (error) throw error;
-          if (data.error) throw new Error(data.error);
+          if (error) { rejectPendingCompletions(error,localSnapshot,remote?.state);throw error; }
+          if (data.error) {const rejection=Object.assign(new Error(data.error),{code:'DERS_REJECTED'});rejectPendingCompletions(rejection,localSnapshot,remote?.state);throw rejection;}
           if (data.conflict) { remote = data; continue; }
           verifiedXp = data.xpBreakdown || verifiedXp;
           const changed = revision !== startRevision;
@@ -1762,6 +1781,7 @@
       const sourceLabel = quest.lockedForStudent ? 'Öğretmen atadı' : /\d+\s*Ekim/i.test(quest.sourceDay || "") ? "Haftalık havuz" : (quest.sourceDay || "Haftalık havuz");
       button.className = `quest${window.DersQuests.isDone(quest) ? " done" : ""}`;
       button.dataset.motionQuest=quest.id;
+      button.dataset.motionWeek=activeWeek().id;
       button.style.setProperty("--subject-color", subject.color);
       button.setAttribute("role", "button");
       button.setAttribute("tabindex", "0");
