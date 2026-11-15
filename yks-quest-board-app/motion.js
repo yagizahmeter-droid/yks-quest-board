@@ -1,6 +1,6 @@
 (() => {
  'use strict';
- // Presentation only. Canonical board acknowledgements, never optimistic XP, drive rewards.
+ // Click feedback is optimistic; only canonical acknowledgements change account rewards.
  const PREF='ders-motion.preferences.v1', $=id=>document.getElementById(id);
  const defaults={animations:true,haptics:true,confetti:true};
  const durations=Object.freeze({press:100,release:180,hover:200,tooltip:200,page:390,tab:360,modalEnter:430,modalExit:300,task:500,xp:1250,level:950});
@@ -8,8 +8,8 @@
  let prefs={...defaults},owner=null,lastTotal=null,lastBuzz=-Infinity,gesture=-Infinity;
  const media=matchMedia('(prefers-reduced-motion: reduce)'), supported=typeof navigator.vibrate==='function';
  const animations=new Set(), jobs=new Map(),numbers=new Map(),charts=new Map(),classStates=new Map(),contributions=new Map(),particles=new Set(),timers=new Set(),observers=new Set();
- const elementAnimations=new WeakMap(),pendingVisuals=new Map();
- let tabId,ledger,routeAnimation,lastPage,lastRoute,levelTransition=null,boardKeys=null;
+ const elementAnimations=new WeakMap(),pendingVisuals=new Map(),checkPops=new Map();
+ let tabId,ledger,routeAnimation,lastPage,lastRoute,levelTransition=null,boardKeys=null,popSequence=0;
  try {prefs={...defaults,...JSON.parse(localStorage.getItem(PREF)||'{}')};}catch{}
  for(const key of Object.keys(defaults))if(typeof prefs[key]!=='boolean')prefs[key]=defaults[key];
  try {tabId=sessionStorage.getItem('ders-motion.tab')||crypto.randomUUID();sessionStorage.setItem('ders-motion.tab',tabId);}catch{tabId=crypto.randomUUID();}
@@ -32,6 +32,7 @@
  }
  function stop(){
   levelTransition=null;
+  checkPops.clear();document.querySelectorAll('.motion-optimistic-check').forEach(el=>{el.classList.remove('motion-optimistic-check');el.style.removeProperty('--motion-pop-delay');});
   for(const a of animations)a.cancel();animations.clear();
   for(const job of jobs.values()){cancelAnimationFrame(job.frame);job.finish();}jobs.clear();
   for(const id of timers)clearTimeout(id);timers.clear();
@@ -92,13 +93,14 @@
   for(let i=0;i<16;i++){const p=document.createElement('i');p.style.setProperty('--x',((i-7.5)*19)+'px');p.style.setProperty('--r',(i%2?180:-150)+'deg');p.style.left=(40+i%5*5)+'%';host.append(p);}
   delay(()=>{particles.delete(host);host.remove();},950);
  }
- function xpFloat(value,el,intent){
+ function xpFloat(value,el,intent,birth){
   if(!(value>0)||!enabled())return;
   // Resolve the same owned quest after render; never borrow a different row or HUD anchor.
-  const check=el?.querySelector('.check'),r=check?.getBoundingClientRect();
+  const check=el?.querySelector('.check'),r=birth||check?.getBoundingClientRect();
   if(!r?.width||!r.height||r.bottom<=0||r.top>=innerHeight||r.right<=0||r.left>=innerWidth||el.dataset.motionWeek!==intent.weekId)return;
   const pop=document.createElement('span');pop.className='motion-xp';pop.setAttribute('aria-hidden','true');pop.setAttribute('popover','manual');pop.dataset.xp=String(value);pop.innerHTML='<span class="motion-xp-plus">+</span><b></b><small>XP</small>';pop.querySelector('b').textContent=value.toLocaleString('tr-TR');
   pop.dataset.anchorQuest=intent.questId;pop.dataset.anchorWeek=intent.weekId;
+  pop.dataset.motionIntent=intent.id;pop.dataset.optimistic=String(Boolean(birth));
   pop.style.visibility='hidden';document.body.append(pop);particles.add(pop);try{pop.showPopover?.();}catch{}
   // Layout dimensions stay stable while the pop animation scales the painted box.
   const width=pop.offsetWidth||96,height=pop.offsetHeight||38;
@@ -107,19 +109,43 @@
   if(others.length>=8){particles.delete(others[0]);others[0].remove();}
   pop.style.setProperty('--xp-drift',(same?(same%2?1:-1)*Math.ceil(same/2)*18:0)+'px');
   const left=r.left+r.width/2-width/2;pop.style.setProperty('--xp-safe-x',(Math.max(0,8-left)+Math.min(0,innerWidth-8-left-width))+'px');
+  const source={x:r.left+r.width/2+scrollX,y:r.top+r.height/2+scrollY};
   pop.style.left=left+'px';pop.style.top=(r.top+r.height/2-height/2)+'px';pop.style.visibility='';
-  // Follow that exact checkbox through scrolling or redraw; a hidden task never moves its XP to another page.
-  const follow=()=>{if(!pop.isConnected)return;const node=questElement(intent.questId,intent.weekId)?.querySelector('.check'),box=node?.getBoundingClientRect();if(!box?.width||!box.height||box.bottom<=0||box.top>=innerHeight){pop.remove();particles.delete(pop);return;}pop.style.left=(box.left+box.width/2-width/2)+'px';pop.style.top=(box.top+box.height/2-height/2)+'px';requestAnimationFrame(follow);};requestAnimationFrame(follow);
+  // Keep the birth point, not a mutable row node. Scroll moves the document point;
+  // a detached/rebuilt checkbox cannot restart, remove or relocate this particle.
+  const follow=()=>{if(!pop.isConnected)return;if(window.DersUI?.route!=='program'||window.DersBoard?.week()?.id!==intent.weekId){pop.remove();particles.delete(pop);return;}pop.style.left=(source.x-scrollX-width/2)+'px';pop.style.top=(source.y-scrollY-height/2)+'px';requestAnimationFrame(follow);};requestAnimationFrame(follow);
   delay(()=>{particles.delete(pop);pop.remove();},durations.xp+50);
  }
  const questElement=(id,weekId)=>[...document.querySelectorAll('[data-motion-quest]')].find(el=>el.dataset.motionQuest===id&&(!weekId||el.dataset.motionWeek===weekId));
+ function paintPop(el){
+  const check=el.querySelector('.check');if(!check)return;
+  const active=[...checkPops.values()].filter(p=>p.questId===el.dataset.motionQuest&&p.weekId===el.dataset.motionWeek&&performance.now()-p.started<durations.task).at(-1);
+  if(active){if(check.dataset.motionPop!==active.id){check.dataset.motionPop=active.id;check.style.setProperty('--motion-pop-delay',-Math.max(0,performance.now()-active.started)+'ms');check.style.setProperty('--motion-pop-name',active.variant?'motion-optimistic-check-alt':'motion-optimistic-check');check.style.setProperty('--motion-tick-name',active.variant?'motion-optimistic-tick-alt':'motion-optimistic-tick');check.classList.add('motion-optimistic-check');}}
+  else{delete check.dataset.motionPop;check.classList.remove('motion-optimistic-check');for(const key of ['--motion-pop-delay','--motion-pop-name','--motion-tick-name'])check.style.removeProperty(key);}
+ }
+ function cancelVisual(id){checkPops.delete(id);for(const p of particles)if(p.dataset.motionIntent===id){p.remove();particles.delete(p);}}
+ function begin(intent,q){
+  own();if(!owner||!q||q.archived||ledger.has('optimistic:'+intent.id))return false;
+  const p=window.DersQuests.progress(q),recurring=window.DersQuests.recurring(q);if(p.blocked||!recurring&&q.done)return false;
+  const complete=!recurring||p.count+1>=p.target,reward=Number(q.xp),xp=Number.isFinite(reward)&&reward>0&&(q.lockedForStudent||complete)?reward:0;
+  const queued=ledger.expect({...intent,xp,complete});if(!queued&&!ledger.pending().some(i=>i.id===intent.id))return false;
+  if(!ledger.once('optimistic:'+intent.id))return false;
+  const el=questElement(intent.questId,intent.weekId),r=el?.querySelector('.check')?.getBoundingClientRect(),birth=r?{left:r.left,top:r.top,width:r.width,height:r.height}:null,started=performance.now();
+  checkPops.set(intent.id,{id:intent.id,questId:intent.questId,weekId:intent.weekId,started,variant:popSequence++%2});pendingVisuals.set(intent.id,{started,failed:false,node:null});
+  paintPending();xpFloat(xp,el,intent,birth);vibrate(complete?'task':'repeat');
+  delay(()=>checkPops.delete(intent.id),durations.xp+50);
+  document.dispatchEvent(new CustomEvent('ders:motion-preview',{detail:{id:intent.id,questId:intent.questId,weekId:intent.weekId,xp,complete}}));return true;
+ }
+ function beginCompletion(intent,q){return begin({...intent,id:'history:'+intent.historyId},q);}
+ function beginTeacher(intent,q){return begin({...intent,id:'repeat:'+intent.requestId},q);}
  function clearPending(id){pendingVisuals.delete(id);paintPending();}
  function paintPending(){
   const pending=ledger.pending(),ids=new Set(pending.map(i=>i.id));for(const id of pendingVisuals.keys())if(!ids.has(id))pendingVisuals.delete(id);
   for(const el of document.querySelectorAll('[data-motion-quest]')){
+   paintPop(el);
    const intent=pending.find(i=>i.questId===el.dataset.motionQuest&&i.weekId===el.dataset.motionWeek);
    if(!intent){el.removeAttribute('data-motion-pending');el.removeAttribute('data-motion-error');el.removeAttribute('aria-busy');el.querySelector('.motion-pending-status')?.remove();continue;}
-   let visual=pendingVisuals.get(intent.id);if(!visual){visual={started:performance.now(),failed:false,node:null};pendingVisuals.set(intent.id,visual);}
+   let visual=pendingVisuals.get(intent.id);if(!visual){visual={started:performance.now()-Math.max(0,Date.now()-intent.createdAt),failed:false,node:null};pendingVisuals.set(intent.id,visual);}
    const actual=window.DersBoard?.state?.weeks?.find(w=>w.id===intent.weekId)?.quests.find(q=>q.id===intent.questId);
    if(visual.failed&&actual?.lockedForStudent&&window.DersQuests.isDone(actual)){el.removeAttribute('data-motion-pending');el.removeAttribute('data-motion-error');el.removeAttribute('aria-busy');el.querySelector('.motion-pending-status')?.remove();continue;}
    el.toggleAttribute('data-motion-pending',!visual.failed);el.toggleAttribute('data-motion-error',visual.failed);el.setAttribute('aria-busy',String(!visual.failed));
@@ -127,15 +153,16 @@
    const tick=el.querySelector('.motion-tick');if(!visual.failed&&visual.node!==tick){const elapsed=performance.now()-visual.started,t=Math.min(1,elapsed/380);visual.node=tick;if(t<1)animate(tick,[{strokeDashoffset:24*(1-t)**3},{strokeDashoffset:0}],{duration:380-elapsed,easing:easing.out});}
   }
  }
- function pendingError(ids){for(const id of ids){const item=pendingVisuals.get(id);if(item)item.failed=true;}paintPending();}
- function retry(id){const item=pendingVisuals.get(id);if(item?.failed){item.failed=false;item.started=performance.now();item.node=null;paintPending();}}
- function cancel(id){ledger.forget(id);clearPending(id);}
+ function pendingError(ids){for(const id of ids){cancelVisual(id);const item=pendingVisuals.get(id);if(item)item.failed=true;}paintPending();}
+ function retry(id){const item=pendingVisuals.get(id);if(item?.failed){item.failed=false;item.node=null;paintPending();}}
+ function cancel(id){cancelVisual(id);ledger.forget(id);clearPending(id);}
  function success(intent,q,xp,week,total){
-  const hadPending=pendingVisuals.has(intent.id);clearPending(intent.id);const el=questElement(q.id,intent.weekId),done=window.DersQuests.isDone(q);
-  pulse(el,done);
-  if(done){animate(el?.querySelector('.check'),[{transform:'scale(1)'},{transform:'scale(.82)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:durations.task,easing:easing.spring});if(!hadPending)animate(el?.querySelector('.motion-tick'),[{strokeDashoffset:24},{strokeDashoffset:0}],{duration:380});}
+  const played=ledger.has('optimistic:'+intent.id),hadPending=pendingVisuals.has(intent.id);clearPending(intent.id);const el=questElement(q.id,intent.weekId),done=window.DersQuests.isDone(q);
+  if(!played)pulse(el,done);
+  if(done){if(!played)animate(el?.querySelector('.check'),[{transform:'scale(1)'},{transform:'scale(.82)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:durations.task,easing:easing.spring});if(!hadPending&&!played)animate(el?.querySelector('.motion-tick'),[{strokeDashoffset:24},{strokeDashoffset:0}],{duration:380});}
   else {const count=window.DersQuests.progress(q).count,progress=el?.querySelector('.repeat-meter-fill'),key='repeat:'+q.id;numbers.set(key,Number(intent.beforeCount));number(el?.querySelector('.motion-repeat-count'),count,{key,format:n=>String(Math.round(n))});if(progress&&enabled()){progress.style.width=(Number(intent.beforeCount)/intent.target*100)+'%';requestAnimationFrame(()=>{progress.style.width=(count/intent.target*100)+'%';});}}
-  xpFloat(xp,el,intent);
+  if(!played)xpFloat(xp,el,intent);
+  else if(Number(intent.xp)!==xp)window.DersBoard.toast('Ödül sunucuda '+xp+' XP olarak doğrulandı.');
   const previous=lastTotal??Number(intent.beforeTotalXp),leveled=xp>0&&Number.isFinite(previous)&&Math.floor(total/500)>Math.floor(previous/500);
   if(leveled){
    const fill=$('levelXpFill');
@@ -146,7 +173,7 @@
   if(done&&active.length&&active.every(window.DersQuests.isDone)&&ledger.once('week:'+week.id+':'+intent.id))confetti();
   lastTotal=total;
   document.dispatchEvent(new CustomEvent('ders:motion-success',{detail:{id:intent.id,questId:q.id,complete:done,xp,leveled}}));
-  return leveled?'level':done?'task':'repeat';
+  return played?null:leveled?'level':done?'task':'repeat';
  }
  function expectCompletion(intent){own();if(!owner)return false;const result=ledger.expect({...intent,id:'history:'+intent.historyId});paintPending();return result;}
  function expectTeacher(intent){own();if(!owner)return false;const result=ledger.expect({...intent,id:'repeat:'+intent.requestId});paintPending();return result;}
@@ -160,7 +187,7 @@
    if(!h||!q||q.archived||!ledger.once(intent.id))continue;
    feedback.push(success(intent,q,Math.max(0,Number(h.xp)||0),week,total));
   }
-  if(feedback.length)vibrate(feedback.includes('level')?'level':feedback.includes('task')?'task':'repeat');
+  if(feedback.some(Boolean))vibrate(feedback.includes('level')?'level':feedback.includes('task')?'task':'repeat');
   lastTotal=total;
  }
  function repeatConfirmed(op,result){
@@ -225,9 +252,9 @@
  }
  function apply(){document.documentElement.dataset.motion=enabled()?'on':'off';if(!enabled())stop();if(!prefs.confetti)for(const el of particles)if(el.classList.contains('motion-confetti')){el.remove();particles.delete(el);}}
  const safe=fn=>(...args)=>{try{return fn(...args);}catch{return undefined;}};
- window.DersMotion=Object.fromEntries(Object.entries({expectCompletion,expectTeacher,confirmed,repeatConfirmed,account,capture,reorder,number,chart,classState,actionConfirmed,focusEvent,feedback,transition,cancel,pendingError,retry,pendingCompletions:()=>ledger.pending().filter(i=>i.historyId)}).map(([key,fn])=>[key,safe(fn)]));
+ window.DersMotion=Object.fromEntries(Object.entries({beginCompletion,beginTeacher,expectCompletion,expectTeacher,confirmed,repeatConfirmed,account,capture,reorder,number,chart,classState,actionConfirmed,focusEvent,feedback,transition,cancel,pendingError,retry,pendingCompletions:()=>ledger.pending().filter(i=>i.historyId)}).map(([key,fn])=>[key,safe(fn)]));
  Object.assign(window.DersMotion,{enabled,durations,easing,animate:safe(animate),onStop(fn){cleanups.add(fn);return()=>cleanups.delete(fn);}});
- document.addEventListener('pointerdown',()=>{gesture=performance.now();},{passive:true});document.addEventListener('keydown',()=>{gesture=performance.now();},{passive:true});
+ document.addEventListener('pointerdown',()=>{gesture=performance.now();},{capture:true,passive:true});document.addEventListener('keydown',()=>{gesture=performance.now();},{capture:true});
  document.addEventListener('ders:render',safe(render));
  document.addEventListener('ders:route',event=>{const page=document.querySelector('.page-view:not([hidden])');if(lastPage===page&&lastRoute===event.detail)return;lastPage=page;lastRoute=event.detail;if(window.DersMotion.ui){window.DersMotion.ui.routeAfter(page,event.detail);return;}if(routeAnimation?.effect?.target!==page)routeAnimation?.cancel();routeAnimation=animate(page,[{opacity:.4,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:durations.page});});
  document.addEventListener('visibilitychange',apply);media.addEventListener?.('change',apply);window.addEventListener('pagehide',stop);
