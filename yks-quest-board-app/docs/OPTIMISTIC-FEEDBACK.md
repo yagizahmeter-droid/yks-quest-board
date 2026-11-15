@@ -31,6 +31,8 @@ Son yerel ölçümde başlangıç çağrısı aynı click içinde yaklaşık **7
 - 16 görev/XP/PWA regresyonu: kişisel ara tekrar 0 XP, son adım tek ödül, offline/reload, kalıcı efekt deduplikasyonu, doğrulanmış hesap sayacı, tercihler ve sınıf XP ayrımı.
 - 13 Motion System 2.0 ve 12 etkileşim grubu; dört tema, masaüstü, 360/390/430 px, Chrome/WebKit dokunmatik emülasyonu ve klavye.
 - Gerçek Supabase test projesinde 5 Auth/RLS ve iki cihaz kontrolü: kaybolan yanıt, aynı request_id ile duplicate onay, iki kayıt/+50 Rekabet XP, değişmeyen Kişisel XP, yetkisiz öğrenci reddi. Production isteği sıfır.
+- `tests/optimistic-staging.cjs`: önizlemede gerçek Auth/RPC kullanılarak HTTP yanıtı **2005 ms** bekletildi. İyimser çağrı aynı click içinde **9,6 ms**'de başladı; yanıt öncesinde hesap XP'si aynıydı. Yanıttan sonra tek geçmiş kaydı, +200 Rekabet XP ve değişmeyen Kişisel XP doğrulandı. Aynı request_id ile gerçek duplicate RPC, ikinci efekt veya ikinci ödül üretmedi. İki ek kontrol geçti; production isteği sıfır.
+- Önizlemedeki 7 grupluk tarayıcı ölçümünde çağrı yaklaşık **7,5 ms**, ilk görünür kare **13,9–25,4 ms** idi. Tamamen örnek bellek verisi kullanan bu ölçüm, yukarıdaki gerçek HTTP denemesinden ayrı raporlanır.
 - 21 efekt defteri kontrolü, JavaScript/HTML lint, 7 güvenli yayın paketi kontrolü ve production build.
 
 Fiziksel telefon titreşimi test edilmedi; destek, tercih ve API çağrısı sınırları otomatik test edildi. Veritabanı, Auth, RLS, XP formülü ve kullanıcı kayıtlarının yapısı değişmedi. PWA kabuk önbelleği r5; uygulama sürümü v1.4.0 olarak kalır.
