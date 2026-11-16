@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>D.E.R.S. · Örnek Görünüm</title>
+  <style>
+    :root{color-scheme:light dark;font-family:system-ui,sans-serif}body{margin:0;min-height:100dvh;display:grid;place-items:center;background:Canvas;color:CanvasText}main{max-width:38rem;padding:32px;line-height:1.65}h1{font-size:24px}p{color:GrayText}
+  </style>
+</head>
+<body>
+  <main><h1>D.E.R.S. · Örnek Görünüm</h1><p id="previewStatus" role="status">Önizlemeyi yönetici panelindeki “Yeni Sekmede Aç” düğmesinden başlat.</p></main>
+  <script>
+  (()=>{
+    'use strict';
+    const channel=new URLSearchParams(location.hash.slice(1)).get('demo'),origin=new URL(location.href).origin,status=document.getElementById('previewStatus');
+    // sandbox must come from the HTTP header; a meta tag cannot enforce it.
+    if(!['http:','https:'].includes(location.protocol)||window.origin!=='null'||!/^[-a-f0-9]{36}$/.test(channel||''))return;
+    try{window.opener=null;}catch{}
+    if(window.opener!==null)return;
+    status.textContent='Güvenli örnek görünüm hazırlanıyor…';
+    let started=false;
+    const revoke=()=>{try{window.close();document.open();document.write('<!doctype html><html lang="tr"><meta charset="utf-8"><title>D.E.R.S. · Önizleme sona erdi</title><p>Önizleme sona erdi. Yönetici panelinden yeniden açabilirsin.</p></html>');document.close();}catch{}};
+    window.addEventListener('message',event=>{
+      const data=event.data;
+      if(started||event.origin!==origin||!event.source||data?.channel!==channel)return;
+      if(data.type==='ders-demo-revoke'){revoke();return;}
+      if(data.type==='ders-demo-probe'){event.source.postMessage({type:'ders-demo-shell-ready',channel},origin);return;}
+      if(data.type!=='ders-demo-render'||event.ports.length!==1||typeof data.html!=='string'||data.html.length>12000000||!/^<!doctype html>/i.test(data.html))return;
+      started=true;const port=event.ports[0];
+      port.onmessage=event=>{if(event.data?.type==='ders-demo-revoke'){revoke();port.close();}};
+      const notify=state=>{if(['ready','error'].includes(state))port.postMessage({type:'ders-admin-preview',channel,state});};
+      Object.defineProperty(window,'DersDemoTabBridge',{value:Object.freeze({channel,notify}),configurable:false,writable:false});
+      try{document.open();document.write(data.html);document.close();}catch{notify('error');}
+    });
+  })();
+  </script>
+</body>
+</html>

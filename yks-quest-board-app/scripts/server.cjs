@@ -4,6 +4,7 @@ const types = { '.html':'text/html; charset=utf-8','.js':'text/javascript; chars
 const server = http.createServer((req, res) => {
   let requested; try { requested = decodeURIComponent(req.url.split('?')[0]); } catch { res.writeHead(400).end(); return; }
   const asset = requested === '/' ? '/index.html' : requested;
+  if(['/admin-preview','/admin-preview.html'].includes(asset)){const rule=JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8')).headers.find(h=>h.source===asset);for(const h of rule.headers)res.setHeader(h.key,h.value);res.setHeader('Content-Type',types['.html']);fs.createReadStream(path.join(root,'admin-preview.html')).pipe(res);return;}
   if(['/password-policy.js','/week-dates.js'].includes(asset)){res.setHeader('Content-Type',types['.js']);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}
   if(['/motion-ledger.js','/motion.js','/motion.css','/motion-widgets.css','/motion-ui.js','/motion-ui.css'].includes(asset)){res.setHeader('Content-Type',types[path.extname(asset)]);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}
   if(['/admin-preview-classes.js','/admin-preview-workspace.js'].includes(asset)){res.setHeader('Content-Type',types['.js']);fs.createReadStream(path.join(root,asset.slice(1))).pipe(res);return;}

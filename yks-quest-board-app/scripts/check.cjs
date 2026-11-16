@@ -9,6 +9,7 @@ files.push('admin-preview-workspace.js','admin-preview-classes.js','motion-ledge
 for (const file of files) new vm.Script(fs.readFileSync(path.join(root,file),'utf8'), { filename:file });
 const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
 for (const match of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)) if (match[1].trim()) new vm.Script(match[1], { filename:'index.html inline script' });
+const shell=fs.readFileSync(path.join(root,'admin-preview.html'),'utf8');for(const m of shell.matchAll(/<script>([\s\S]*?)<\/script>/g))new vm.Script(m[1],{filename:'admin-preview.html'});
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 if (new Set(ids).size !== ids.length) throw new Error('Duplicate HTML ids');
 if (/sb_secret_|service_role/.test(fs.readFileSync(path.join(root,'config.js'),'utf8'))) throw new Error('Private API key in browser config');

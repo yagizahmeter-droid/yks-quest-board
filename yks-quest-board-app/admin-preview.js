@@ -2,6 +2,11 @@
   const script = document.currentScript, role = script.dataset.role === 'teacher' ? 'teacher' : 'student';
   const appearance = JSON.parse(script.dataset.appearance || '{}');
   function signal(state) {
+    if(script.dataset.previewTarget==='tab'){
+      const bridge=window.DersDemoTabBridge;
+      if(bridge?.channel===script.dataset.previewChannel)bridge.notify(state);
+      return;
+    }
     if (script.dataset.previewChannel && script.dataset.parentOrigin) parent.postMessage({type:'ders-admin-preview',channel:script.dataset.previewChannel,state},script.dataset.parentOrigin);
   }
   window.addEventListener('error',()=>signal('error'),{once:true});
@@ -9,7 +14,7 @@
     const values = new Map();
     return {getItem:k=>values.get(String(k)) ?? null,setItem:(k,v)=>values.set(String(k),String(v)),removeItem:k=>values.delete(String(k)),clear:()=>values.clear(),key:i=>[...values.keys()][i]??null,get length(){return values.size;}};
   };
-  // This adapter is used only inside the opaque-origin frame; it never receives a token.
+  // Used only in an opaque-origin demo frame/tab; it never receives a real token.
   Object.defineProperty(window,'localStorage',{value:memory()});
   Object.defineProperty(window,'sessionStorage',{value:memory()});
   for (const [key,value] of Object.entries({'ders-theme':appearance.choice,'ders-appearance-style':appearance.style,'ders-appearance-accent':appearance.accent,'ders-appearance-monochrome':appearance.monochrome,'ders-background':appearance.background === 'custom' ? 'industrial' : appearance.background}))

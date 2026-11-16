@@ -15,7 +15,7 @@ if(process.env.VERCEL_ENV==='production' || process.argv.includes('--production'
 fs.mkdirSync(out,{recursive:true});
 const assets=['index.html','config.js','sync.js','program-composer.js','teacher.js','teacher-drafts.js','program-import.js','backgrounds.js','release-history.js','v111.css','quest-system.js','curriculum.js','personal-catalog.js','select-controls.js','quest-ui.css','ui.js','theme.js','ui.css','appearance.js','appearance.css','assets','service-worker.js','manifest.webmanifest','icons','vendor'];
 assets.push('password-policy.js','week-dates.js');
-assets.push('admin.js','admin.css','admin-preview.js','history-groups.js','focus-core.js','study.js','learning-ui.js','v113.css','v114.css');
+assets.push('admin-preview.html','admin.js','admin.css','admin-preview.js','history-groups.js','focus-core.js','study.js','learning-ui.js','v113.css','v114.css');
 assets.push('exams-core.js','exams.js','exams.css','experience.js','v121.css');
 assets.push('class-model.js','class-dom.js','classes.js','teacher-workspace.js','program-tools.js','teacher-insights.js','program-schedules.js','teacher-actions.js','classes.css','teacher-workspace.css');
 assets.push('admin-preview-workspace.js','admin-preview-classes.js','motion-ledger.js','motion.js','motion.css','motion-widgets.css','motion-ui.js','motion-ui.css');

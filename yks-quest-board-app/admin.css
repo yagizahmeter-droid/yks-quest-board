@@ -3,6 +3,8 @@
 .admin-heading,.admin-toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px; }
 .admin-heading h2 { margin:0; font-size:20px; flex:1; }
 .admin-toolbar .segmented { flex-wrap:wrap; }
+.admin-preview-option{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.admin-preview-option>[data-preview-tab]{font-size:12px}
 .admin-toolbar .button { min-height:44px; }
 .admin-status { color:var(--muted); font-size:13px; line-height:1.6; }
 .admin-frame { display:block; width:100%; height:60dvh; min-height:320px; border:1px solid var(--line); border-radius:8px; background:var(--bg); }
