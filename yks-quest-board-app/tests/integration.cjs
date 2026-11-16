@@ -148,7 +148,12 @@ async function main() {
     await require('./exams-db.cjs')({root,admin,asUser,action,check,denied});
     await require('./v121-security.cjs')({root,admin,asUser,action,board,check,denied});
     await require('./classes-db.cjs')({root,admin,asUser,action,board,check,denied,ids});
-    if(process.env.SKIP_BROWSER!=='1') await require('./browser.cjs')({root,deps,action,asUser,admin,ids,personal});
+    if(process.env.SKIP_BROWSER!=='1') {
+      // The current teacher UI uses the v1.5.0 workspace, not the retired form.
+      const release=require('../scripts/v150-production-release.cjs'),baseline=(await admin.query(release.preflightSQL)).rows[0].checks;
+      await admin.query(release({schemaHash:baseline.schema_hash,functions:baseline.functions,enableCron:false}));
+      await require('./browser.cjs')({root,deps,action,asUser,admin,ids,personal});
+    }
     console.log(`RESULT: ${checks} database/security/sync checks passed`);
   } catch(error) { console.error('TEST FAILURE',error); throw error; }
   finally { if(admin) await admin.end(); if(database) await database.stop(); }

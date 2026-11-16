@@ -230,7 +230,18 @@
   $('sidebar').inert = mobile.matches;
   $('pageBack').onclick = () => { if (current.depth > 0) history.back(); else navigate('home'); };
   $('addProgramButton').onclick = () => $('newWeekButton').click();
-  $('openQuestEditor').onclick = () => { $('questEditor').open = true; $('manualDetail').focus(); $('questEditor').scrollIntoView({block:'nearest'}); };
+  $('openQuestEditor').onclick = () => {
+    const editor=$('questEditor'),detail=$('manualDetail'),previous=document.activeElement;
+    const focus=()=>{
+      if(!editor.open||!detail.isConnected||editor.closest('[hidden],[inert]')||![previous,$('openQuestEditor')].includes(document.activeElement))return;
+      // Opening details commits its native content visibility after style/paint.
+      // Follow that state rather than guessing a delay or disabling motion.
+      if(getComputedStyle(editor,'::details-content').contentVisibility==='hidden'){requestAnimationFrame(focus);return;}
+      detail.focus({preventScroll:true});
+    };
+    editor.open=true;focus();
+    editor.scrollIntoView({block:'nearest'});
+  };
   document.querySelector('[data-go-teacher]').onclick = () => navigate('teacher');
   document.querySelector('[data-account-logout]').onclick = () => { if (canLeave(activeRoot())) $('signOutButton').click(); };
   document.addEventListener('click', event => {

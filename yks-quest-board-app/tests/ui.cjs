@@ -79,9 +79,9 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     const student = await newPage();await login(student,1);await go(student,'program');
     assert.equal(await student.locator('#editModeButton').innerText(),'Düzenle');
     await student.click('#editModeButton');await student.click('#openQuestEditor');await student.fill('#manualDetail','UI task\n30 soru ve analiz');
-    await student.fill('#manualRepeatTarget','1');await student.click('#addQuestButton');await student.locator('.quest-title').getByText('UI task',{exact:true}).waitFor();
-    await student.locator('.quest').filter({hasText:'UI task'}).locator('.check').click();await student.evaluate(()=>window.DersBoard.flush());
-    await go(student,'home');assert.ok((await student.locator('#totalXp').innerText()).includes('680'));pass('Existing quest completion updates XP and home metrics');
+    await student.fill('#manualRepeatTarget','1');await student.click('#addQuestButton');await student.locator('#board .quest-title').getByText('UI task',{exact:true}).waitFor();
+    await student.locator('#board .quest').filter({hasText:'UI task'}).locator('.check').click();await student.evaluate(()=>window.DersBoard.flush());
+    await go(student,'home');await student.waitForFunction(()=>DersBoard.verifiedXp?.total===680&&document.getElementById('totalXp').textContent.includes('680'));assert.ok((await student.locator('#totalXp').innerText()).includes('680'));pass('Existing quest completion updates XP and home metrics');
     await go(student,'program');
     const longName = 'Çok uzun bir matematik dersi ve çalışma konusu '.repeat(4);
     const original=await action(ids[1],'read_board'),longCategory='existing-long-category';original.state.categories.push({id:longCategory,name:longName.trim(),origin:'manual',color:'#63d6d6'});await action(ids[1],'sync_board',{expected_version:original.version,state:original.state});await student.evaluate(()=>DersBoard.flush());
@@ -96,10 +96,10 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
       for (const theme of ['light','dark']) {
         await student.evaluate(t=>window.DersTheme.set(t),theme);
         assert.equal(await student.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,`${width}/${theme} overflow`);
-        const overlaps = await student.locator('.quest').evaluateAll(rows=>rows.some(row=>{const a=row.querySelector('.check').getBoundingClientRect(),b=row.querySelector('.quest-main').getBoundingClientRect();return b.left<a.right-1;}));
+        const overlaps = await student.locator('#board .quest').evaluateAll(rows=>rows.some(row=>{const a=row.querySelector('.check').getBoundingClientRect(),b=row.querySelector('#board .quest-main').getBoundingClientRect();return b.left<a.right-1;}));
         assert.equal(overlaps,false);
-        const questWidth=await student.locator('.quest-main').first().evaluate(e=>e.getBoundingClientRect().width);
-        if(questWidth<=150){await student.screenshot({path:path.join(root,'test-results',`floating-quest-width-${width}.png`),fullPage:true});console.log('QUEST WIDTH',JSON.stringify(await student.evaluate(()=>({route:location.hash,state:history.state,programHidden:document.querySelector('#programPage').hidden,quest:document.querySelector('.quest-main')?.outerHTML,boardWidth:document.querySelector('#board').getBoundingClientRect().width}))));}
+        const questWidth=await student.locator('#board .quest-main').first().evaluate(e=>e.getBoundingClientRect().width);
+        if(questWidth<=150){await student.screenshot({path:path.join(root,'test-results',`floating-quest-width-${width}.png`),fullPage:true});console.log('QUEST WIDTH',JSON.stringify(await student.evaluate(()=>({route:location.hash,state:history.state,programHidden:document.querySelector('#programPage').hidden,quest:document.querySelector('#board .quest-main')?.outerHTML,boardWidth:document.querySelector('#board').getBoundingClientRect().width}))));}
         assert.ok(questWidth>150,`${width}/${theme} quest text width ${questWidth}`);
         await student.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));await student.locator('.app-version').waitFor();const version = await student.locator('.app-version').evaluate(el=>{const box=el.getBoundingClientRect();return {text:el.textContent,left:box.left,right:box.right,top:box.top,bottom:box.bottom,pointerEvents:getComputedStyle(el).pointerEvents};});
         assert.equal(version.text,'v'+require('../package.json').version);assert.notEqual(version.pointerEvents,'none');
@@ -130,28 +130,14 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
     const link=(await action(ids[0],'overview')).connections.find(c=>c.status==='pending');await action(ids[0],'respond_connection',{id:link.id,status:'approved'});
     const teacher = await newPage();await login(teacher,0);await go(teacher,'teacher');
     await teacher.locator('#teacherPanel [data-action="student"]').click();
-    await teacher.fill('#assignmentName','Retained draft');await teacher.fill('#assignmentStart','2026-10-21');await teacher.fill('#assignmentEnd','2026-10-27');await pointerSelect(teacher,'#assignmentDraft [data-key="category"]','Matematik');await pointerSelect(teacher,'#assignmentDraft [data-key="topic_category"]','Problemler');await pointerSelect(teacher,'#assignmentDraft [data-key="topic"]','__category');
-    const assigned=(await action(ids[1],'overview')).assignments.find(a=>a.status==='accepted').quests[0];
-    await action(ids[1],'request_change',{quest_id:assigned.id,changes:{title:assigned.title,detail:'Pending UI change · 30 soru ve analiz',xp:100}});
-    await teacher.evaluate(()=>window.DersTeacher.refresh());
-    assert.equal(await teacher.inputValue('#assignmentName'),'Retained draft');assert.equal(await teacher.locator('#assignmentDraft [data-role="derived-title"]').innerText(),'Problemler');
-    assert.ok(Number(await teacher.locator('.main-nav [data-teacher-count]').innerText())>0);pass('Pending badge updates without erasing teacher draft');
-    teacher.once('dialog',d=>d.dismiss());await go(teacher,'home');assert.equal(await teacher.locator('#teacherPage').isVisible(),true);pass('Teacher program draft is guarded on navigation');
-    await teacher.evaluate(()=>window.DersUI.clearDirty(document.getElementById('assignmentForm')));
-    await teacher.locator('[data-action="student-progress"]').click();await teacher.locator('#studentSummary').waitFor();
-    await teacher.goBack();await teacher.locator('#questDialog').waitFor({state:'hidden'});assert.equal(await teacher.locator('#teacherPage').isVisible(),true);pass('Teacher progress modal participates in browser back');
-    await teacher.screenshot({path:path.join(root,'test-results','ui-teacher-desktop.png'),fullPage:true});
-    let releaseResponse, received;
-    const responseReady = new Promise(resolve=>received=resolve), responseGate = new Promise(resolve=>releaseResponse=resolve);
-    await teacher.context().route(apiUrl+'/rest/v1/rpc/ders_action',async route=>{
-      if(route.request().postDataJSON().p_action!=='student_board'){await route.continue();return;}
-      const response=await route.fetch();received();await responseGate;await route.fulfill({response});
-    });
-    await teacher.locator('#teacherPanel [data-action="student"]').click();await teacher.locator('[data-action="student-progress"]').click();await responseReady;
-    await teacher.evaluate(()=>window.DersBoard.client.auth.signOut());await teacher.waitForFunction(()=>!window.DersBoard.user);
-    assert.equal(await teacher.locator('#teacherPanel [data-action="student"]').count(),0);pass('Account switch immediately clears teacher cache and controls');
-    releaseResponse();await teacher.waitForFunction(()=>document.querySelector('#toast').textContent.includes('Oturum değişti'));
-    assert.equal(await teacher.locator('#questDialog').isVisible(),false);assert.equal(await teacher.locator('#studentSummary').count(),0);pass('Late student response cannot reveal progress after sign-out');
+    const scope='[data-student-window="'+ids[1]+'"]',win=teacher.locator(scope);await win.locator('input[name="name"]').fill('Retained draft');await pointerSelect(teacher,scope+' [data-key="category"]','Matematik');await pointerSelect(teacher,scope+' [data-key="topic_category"]','Problemler');await pointerSelect(teacher,scope+' [data-key="topic"]','__category');await win.locator('[data-workspace="save"]').click();await win.getByText('Taslak hesabına kaydedildi.',{exact:true}).waitFor();
+    const assigned=(await action(ids[1],'overview')).assignments.find(a=>a.status==='accepted').quests[0];await action(ids[1],'request_change',{quest_id:assigned.id,changes:{title:assigned.title,detail:'Pending UI change · 30 soru ve analiz',xp:100}});await teacher.evaluate(()=>DersTeacher.refresh());assert.equal(await win.locator('input[name="name"]').inputValue(),'Retained draft');assert.equal(await win.locator('[data-role="derived-title"]').innerText(),'Problemler');assert.ok(Number(await teacher.locator('.main-nav [data-teacher-count]').innerText())>0);pass('Pending badge updates without erasing teacher draft');
+    await teacher.context().setOffline(true);await win.locator('input[name="name"]').fill('Retained offline draft');teacher.once('dialog',d=>d.dismiss());await go(teacher,'home');assert.equal(await teacher.locator('#workspacePage').isVisible(),true);assert.equal(await win.locator('input[name="name"]').inputValue(),'Retained offline draft');pass('Unsaved Workspace program is guarded on navigation');await teacher.context().setOffline(false);await win.locator('[data-workspace="save"]').click();await win.getByText('Taslak hesabına kaydedildi.',{exact:true}).waitFor();
+    await win.locator('[data-tab="report"]').click();await win.locator('.report-stats').waitFor();await teacher.goBack();await teacher.locator('#teacherPage').waitFor({state:'visible'});pass('Workspace report returns through normal browser history');await teacher.screenshot({path:path.join(root,'test-results','ui-teacher-desktop.png'),fullPage:true});
+    await teacher.evaluate(id=>DersWorkspace.open(id),ids[1]);await win.locator('[data-workspace="close"]').click();await win.waitFor({state:'detached'});await go(teacher,'teacher');
+    let releaseResponse,received,finished;const responseReady=new Promise((r,reject)=>{const timer=setTimeout(()=>reject(Error('Fresh Workspace student request was not made')),20000);received=()=>{clearTimeout(timer);r();};}),responseGate=new Promise(r=>releaseResponse=r),responseFinished=new Promise(r=>finished=r);
+    await teacher.context().route(apiUrl+'/rest/v1/rpc/ders_workspace',async route=>{if(route.request().postDataJSON().p_action!=='student'){await route.continue();return;}const response=await route.fetch();received();await responseGate;await route.fulfill({response});finished();});
+    await teacher.locator('#teacherPanel [data-action="student"]').click();await responseReady;await teacher.evaluate(()=>DersBoard.client.auth.signOut());await teacher.waitForFunction(()=>!DersBoard.user);assert.equal(await teacher.locator('#teacherPanel [data-action="student"]').count(),0);assert.equal(await teacher.locator('[data-student-window]').count(),0);pass('Account switch immediately clears teacher cache and controls');releaseResponse();await responseFinished;await teacher.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));assert.equal(await teacher.locator('[data-student-window]').count(),0);assert.equal(await teacher.locator('#workspacePage .report-stats').count(),0);pass('Late student response cannot reveal progress after sign-out');
     assert.deepEqual(errors,[]);pass('No browser JavaScript errors');
     fs.writeFileSync(path.join(root,'test-results','ui-result.json'),JSON.stringify({checks,productionTouched:false},null,2));
     console.log(`RESULT: ${checks} interface/navigation/theme scenarios passed`);

@@ -52,10 +52,13 @@ module.exports=async({root,admin,asUser,action,board,check,denied})=>{
  const learning=async(u,n,p)=>(await asUser(u,'select public.ders_learning($1,$2) r',[n,p])).rows[0].r;
  const segmentIds=[];
  for(const user of [a,b]){const id=uuid(),end=Date.now()-600000,w=(await board(user)).state.weeks.find(w=>w.id==='teacher-week-'+(user===a?aa:ba));segmentIds.push(id);await learning(user,'save_segments',{segments:[{id,session_id:uuid(),week_id:w.id,quest_id:w.quests[0].id,category_name:'Matematik',started_at:new Date(end-60000).toISOString(),ended_at:new Date(end).toISOString(),duration_ms:60000}]});}
- const timer=uuid();await run(t,'create_shared',{class_id:cid,id:timer,name:'Net Süre',subject:'Matematik',kind:'duration',target:120000,starts_on:day,ends_on:day,xp_pool:10});
+ // The synthetic session is ten minutes old and can cross Istanbul midnight.
+ // Derive the task window from those real segment timestamps, not wall-clock today.
+ const segmentDay=(await admin.query("select min((started_at at time zone 'Europe/Istanbul')::date)::text d from study_segments where id=any($1::text[])",[segmentIds])).rows[0].d;
+ const timer=uuid();await run(t,'create_shared',{class_id:cid,id:timer,name:'Net Süre',subject:'Matematik',kind:'duration',target:120000,starts_on:segmentDay,ends_on:day,xp_pool:10});
  assert.equal((await rpc(a,'eligible_segments',{class_id:cid,task_id:timer})).length,1);
  const timeOps=[a,b].map((u,i)=>run(u,'contribute_segments',{class_id:cid,task_id:timer,segment_ids:[segmentIds[i]]}));await Promise.all(timeOps);
- const another=uuid();await run(t,'create_shared',{class_id:cid,id:another,name:'Başka Hedef',subject:'Matematik',kind:'duration',target:999999,starts_on:day,ends_on:day,xp_pool:5});
+ const another=uuid();await run(t,'create_shared',{class_id:cid,id:another,name:'Başka Hedef',subject:'Matematik',kind:'duration',target:999999,starts_on:segmentDay,ends_on:day,xp_pool:5});
  await denied(run(a,'contribute_segments',{class_id:cid,task_id:another,segment_ids:[segmentIds[0]]}),'Verified study segment cannot fund another shared task');
  assert.equal((await rpc(a,'detail',{class_id:cid})).shared_tasks.find(x=>x.id===timer).total,120000);
  await denied(run(a,'contribute_questions',{class_id:cid,task_id:another,id:uuid(),amount:1}),'Cannot forge question contribution for a duration task');

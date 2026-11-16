@@ -46,6 +46,12 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
   const {chromium}=deps('playwright'); let browser;
   try {
     browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+    const createComposerFixture=require('./class-composer-fixture.cjs')({asUser,ids});
+    if(process.env.V150_UI_REGRESSION){
+      const cases={'personal':'personal-catalog.cjs','catalog':'catalog-browser.cjs','general':'teacher-general-browser.cjs','legacy':'v1141-browser.cjs','forms':['teacher-general-browser.cjs','v1141-browser.cjs']},name=cases[process.env.V150_UI_REGRESSION];assert.ok(name,'Unknown focused UI case');
+      await action(ids[4],'init_profile',{role:'student',name:'Focused regression student'});const initial=await action(ids[4],'read_board');await action(ids[4],'sync_board',{expected_version:initial.version,state:{...personal,profile:initial.state?.profile||{displayName:'Focused regression student'}}});
+      for(const file of [].concat(name))await require('./'+file)({createComposerFixture,root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;
+    }
     if(process.env.V150_WORKSPACE_BROWSER==='1'){await require('./v150-workspace-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,ids,asUser});return;}
     if(process.env.V130_ADMIN_CLASSES_ONLY==='1'){const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,admin,asUser};await require('./admin-classes.cjs')(options);if(process.env.ADMIN_CLASSES_REGRESSION==='1')await require('./admin-preview-fix.cjs')(options);return;}
     if(process.env.CLASSES_TEST==='1'){await require('./classes-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids,asUser});return;}
@@ -59,7 +65,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
       return;
     }
     if(process.env.V111_ONLY==='1'){const opts={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./stability-browser.cjs')(opts);await require('./v111-browser.cjs')(opts);return;}
-    if(process.env.V1141_ONLY==='1'){await require('./v1141-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;}
+    if(process.env.V1141_ONLY==='1'){await require('./v1141-browser.cjs')({createComposerFixture,root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;}
     if(process.env.V121_ONLY==='1'){const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./v121-browser.cjs')(options);if(process.env.V121_EXAMS==='1')await require('./exams-browser.cjs')(options);return;}
     if(process.env.V120_ONLY==='1'){await require('./exams-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids,asUser});return;}
     if(process.env.PERSONAL_REPEAT_ONLY==='1'){const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids};await require('./personal-repeat-browser.cjs')(options);await require('./v121-browser.cjs')(options);return;}
@@ -83,37 +89,40 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await fresh.locator('#teacherPanel').getByText('New Student · Öğrenci',{exact:true}).waitFor();
     assert.equal(await fresh.locator('#roleSelect').isDisabled(),true);await fresh.evaluate(()=>window.DersUI.navigate('program'));assert.equal(await fresh.locator('#addProgramButton').isVisible(),true);assert.equal(await fresh.locator('#editModeButton').isVisible(),false);console.log('PASS New account starts empty and role is set once');
     await t.locator('#teacherPanel [data-action="student"]').click();
-    await t.fill('#assignmentName','Browser Program');await t.fill('#assignmentStart','2026-10-21');await t.fill('#assignmentEnd','2026-10-27');
-    await pointerSelect(t,'#assignmentDraft [data-key="category"]','Fizik');await pointerSelect(t,'#assignmentDraft [data-key="topic_category"]','Basınç ve Kaldırma Kuvveti');await pointerSelect(t,'#assignmentDraft [data-key="topic"]','Kaldırma Kuvveti');
-    await t.locator('#assignmentDraft [data-key="detail"]').fill('50 soru ve analiz');await t.locator('#assignmentDraft [data-key="xp"]').fill('200');
-    await t.getByRole('button',{name:'Programı Gönder',exact:true}).click();
-    await t.locator('#teacherPanel').getByText('Browser Program',{exact:true}).waitFor();
-    await t.click('#dismissDialog');await t.locator('#questDialog').waitFor({state:'hidden'});
+    const workspace=t.locator('[data-student-window="'+ids[1]+'"]');await workspace.waitFor();
+    await workspace.locator('input[name="name"]').fill('Browser Program');
+    const scope='[data-student-window="'+ids[1]+'"]';
+    await pointerSelect(t,scope+' [data-key="category"]','Fizik');await pointerSelect(t,scope+' [data-key="topic_category"]','Basınç ve Kaldırma Kuvveti');await pointerSelect(t,scope+' [data-key="topic"]','Kaldırma Kuvveti');
+    await workspace.locator('[data-key="detail"]').fill('50 soru ve analiz');await workspace.locator('[data-key="xp"]').fill('200');
+    await workspace.locator('[data-workspace="send"]').click();await workspace.locator('[data-tool="send"]').click();
+    await workspace.getByRole('heading',{name:'1/1 öğrenciye gönderildi',exact:true}).waitFor();
+    await t.evaluate(()=>DersUI.navigate('teacher'));await t.locator('#teacherPanel').getByText('Browser Program',{exact:true}).waitFor();
     await s.locator('#teacherPanel [data-action="refresh"]').click();await s.locator('#teacherPanel').getByText('Browser Program',{exact:true}).waitFor();
     await s.locator('#teacherPanel .teacher-item').filter({has:s.getByText('Browser Program',{exact:true})}).locator('[data-action="review"]').click();
     await s.getByRole('button',{name:'Programı Kabul Et',exact:true}).click();
     await s.locator('#weekSelect option').filter({hasText:'Browser Program'}).waitFor({state:'attached'});
-    await s.locator('.quest').filter({hasText:'Kaldırma Kuvveti'}).locator('.check').click();await s.evaluate(()=>window.DersBoard.flush());
+    await s.locator('#board .quest').filter({hasText:'Kaldırma Kuvveti'}).locator('.check').click();await s.evaluate(()=>window.DersBoard.flush());
     await phone.evaluate(()=>window.DersBoard.flush());
     await phone.waitForFunction(()=>window.DersBoard.state.weeks.some(w=>w.name==='Browser Program'&&w.quests[0].done));
-    assert.match(await phone.locator('#totalXp').innerText(),/380/);
+    await phone.waitForFunction(()=>DersBoard.verifiedXp?.total===380&&document.getElementById('totalXp').textContent.includes('380'));assert.match(await phone.locator('#totalXp').innerText(),/380/);
     console.log('PASS Browser teacher sends, student accepts and second device sees completion');
-    await s.locator('.quest').filter({hasText:'Kaldırma Kuvveti'}).getByRole('button',{name:'Değişiklik İste'}).click();
+    await s.locator('#board .quest').filter({hasText:'Kaldırma Kuvveti'}).getByRole('button',{name:'Değişiklik İste'}).click();
     assert.equal(await s.locator('#editTitle').getAttribute('readonly'),'');await s.fill('#editDetail','Basınç güncellendi');await s.getByRole('button',{name:'İsteği Gönder'}).click();
     await s.locator('#questDialog').waitFor({state:'hidden'});await t.locator('#teacherPanel [data-action="refresh"]').click();
-    await t.getByRole('button',{name:'Değişikliği Onayla'}).click();await s.evaluate(()=>window.DersBoard.flush());
-    await s.locator('.quest').filter({hasText:'Basınç güncellendi'}).waitFor();assert.equal(await s.locator('.quest-title').getByText('Kaldırma Kuvveti',{exact:true}).count(),1);console.log('PASS Browser change request and teacher approval');
-    await pointerSelect(s,'#weekSelect','original');await s.locator('.quest').filter({hasText:'Temel Kavramlar'}).locator('.check').click();await s.evaluate(()=>window.DersBoard.flush());
-    await s.getByRole('button',{name:/Tamamlananlar/}).click();assert.equal(await s.locator('.quest.done').count(),1);
+    const approved=t.waitForResponse(r=>r.url().endsWith('/rpc/ders_action')&&r.request().postDataJSON()?.p_action==='resolve_change');await t.getByRole('button',{name:'Değişikliği Onayla'}).click();assert.ok((await approved).ok());await s.evaluate(()=>window.DersBoard.flush());await pointerSelect(s,'#weekSelect',await s.evaluate(()=>DersBoard.state.weeks.find(w=>w.name==='Browser Program').id));
+    await s.locator('#board .quest').filter({hasText:'Basınç güncellendi'}).waitFor();assert.equal(await s.locator('#board .quest-title').getByText('Kaldırma Kuvveti',{exact:true}).count(),1);console.log('PASS Browser change request and teacher approval');
+    await pointerSelect(s,'#weekSelect','original');await s.locator('#board .quest').filter({hasText:'Temel Kavramlar'}).locator('.check').click();await s.evaluate(()=>window.DersBoard.flush());
+    await s.getByRole('button',{name:/Tamamlananlar/}).click();assert.equal(await s.locator('#board .quest.done').count(),1);
+    await s.locator('#board .quest.done').filter({hasText:'Temel Kavramlar'}).waitFor();assert.equal(await s.locator('#board .quest.done').filter({hasText:'Kaldırma Kuvveti'}).count(),0);
     await s.evaluate(()=>window.DersUI.navigate('history'));assert.equal(await s.locator('#historyList .history-item').count(),2);await s.evaluate(()=>window.DersUI.navigate('program'));console.log('PASS Completed tab, independent weeks, global XP and history');
     await s.click('#newWeekButton');await s.fill('#modalWeekName','Empty browser week');await s.fill('#modalWeekRange','28 Ekim-4 Kasım');await s.click('#emptyWeekModalButton');
     await s.click('#openQuestEditor');await s.fill('#manualDetail','Manual browser task\nKonu anlatımı / soru çözümü');await s.fill('#manualRepeatTarget','1');await s.click('#addQuestButton');
-    await s.locator('.quest-title').filter({hasText:'Manual browser task'}).waitFor();console.log('PASS New empty week and manual quest');
-    await s.context().setOffline(true);await s.locator('.quest').filter({hasText:'Manual browser task'}).locator('.check').click();
+    await s.locator('#board .quest-title').filter({hasText:'Manual browser task'}).waitFor();console.log('PASS New empty week and manual quest');
+    await s.context().setOffline(true);await s.locator('#board .quest').filter({hasText:'Manual browser task'}).locator('.check').click();
     await s.context().setOffline(false);await s.evaluate(()=>window.DersBoard.flush());await phone.evaluate(()=>window.DersBoard.flush());
     await phone.waitForFunction(()=>window.DersBoard.state.weeks.some(w=>w.name==='Empty browser week'&&w.quests[0]?.done));console.log('PASS Offline completion synchronizes after reconnect');
-    await s.click('#editModeButton');await s.locator('.quest [data-action="edit"]').click();await s.fill('#editTitle','Edited manual task');await s.getByRole('button',{name:'Kaydet',exact:true}).click();
-    await s.locator('.quest-title').filter({hasText:'Edited manual task'}).waitFor();console.log('PASS Personal quest edit mode');
+    await s.locator('#subjectNav').getByRole('button',{name:/^Tümü/}).click();await s.click('#editModeButton');await s.locator('#board .quest [data-action="edit"]').click();await s.fill('#editTitle','Edited manual task');await s.getByRole('button',{name:'Kaydet',exact:true}).click();
+    await s.locator('#board .quest-title').filter({hasText:'Edited manual task'}).waitFor();console.log('PASS Personal quest edit mode');
     fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
     for(const width of [360,390,430,1280]){
       await s.setViewportSize({width,height:900});
@@ -128,12 +137,13 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await t.setViewportSize({width:360,height:900});await t.getByRole('button',{name:'Davet Kodu Oluştur'}).click();
     await t.waitForFunction(()=>document.querySelector('#inviteResult')?.dataset.code?.length===24);
     assert.equal(await t.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
-    await t.locator('#teacherPanel [data-action="student"]').click();await t.locator('[data-action="student-progress"]').click();await t.locator('#studentSummary').waitFor();
-    assert.equal(await t.locator('#studentSummary').getByText('580 XP · 4/4 görev',{exact:true}).count(),1);
+    await t.locator('#teacherPanel [data-action="student"]').click();const reportWindow=t.locator('[data-student-window="'+ids[1]+'"]');await reportWindow.locator('[data-tab="report"]').click();await reportWindow.locator('.report-stats').waitFor();
+    const reportState=await action(ids[0],'student_board',{student_id:ids[1]});assert.equal(reportState.xpBreakdown.total,580);
+    for(const week of reportState.state.weeks){await pointerSelect(t,'[data-student-window="'+ids[1]+'"] .report-heading select',week.id);const metrics=await t.evaluate(quests=>DersQuests.metrics(quests),week.quests);assert.equal(await reportWindow.locator('.report-stats strong').first().textContent(),metrics.done+'/'+metrics.total);}
     await t.screenshot({path:path.join(root,'test-results','teacher-progress-360.png'),fullPage:true});
     await s.evaluate(()=>window.DersUI.navigate('teacher'));s.once('dialog',dialog=>dialog.accept());await s.locator('#teacherPanel [data-action="disconnect"]').click();
     await s.waitForFunction(()=>!document.querySelector('#teacherPanel [data-action="disconnect"]'));
-    await t.evaluate(()=>window.DersTeacher.refresh());assert.equal(await t.locator('#questDialog').isVisible(),false);
+    await t.evaluate(async()=>{await DersTeacher.refresh();await DersWorkspace.refresh();});assert.equal(await t.locator('[data-student-window]').count(),0);
     assert.equal(await t.locator('#teacherPanel [data-action="student"]').count(),0);console.log('PASS Teacher progress on mobile and revocation clears open student data');
     await s.evaluate(()=>window.DersUI.navigate('account'));await s.click('#signOutButton');await s.waitForFunction(()=>!window.DersBoard.user);
     assert.equal(await s.locator('#board').getByText('Edited manual task').count(),0);console.log('PASS Sign-out clears account-specific board');
@@ -151,11 +161,11 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     await require('./ui.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
     await require('./appearance.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users});
     await require('./floating.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`});
-    await require('./quest-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids,admin});
-    await require('./catalog-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
+    await require('./quest-workspace-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids,admin});
+    await require('./catalog-browser.cjs')({createComposerFixture,root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
     await require('./dropdown-layers.cjs')({root,browser,siteUrl:`http://127.0.0.1:${site.address().port}`});
     await require('./personal-catalog.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
-    await require('./teacher-general-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
-    await require('./v1141-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
+    await require('./teacher-general-browser.cjs')({createComposerFixture,root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
+    await require('./v1141-browser.cjs')({createComposerFixture,root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});
   }finally{if(browser)await browser.close();await new Promise(resolve=>api.close(resolve));await new Promise(resolve=>site.close(resolve));}
 };
