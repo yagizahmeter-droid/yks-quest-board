@@ -32,6 +32,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
       if(url.pathname==='/rest/v1/rpc/ders_control') {res.end(JSON.stringify((await asUser(uid,'select public.ders_control($1,$2) r',[body.p_action,body.p_payload||{}])).rows[0].r));return;}
       if(url.pathname==='/rest/v1/rpc/ders_exams') {res.end(JSON.stringify((await asUser(uid,'select public.ders_exams($1,$2) r',[body.p_action,body.p_payload||{}])).rows[0].r));return;}
       if(url.pathname==='/rest/v1/rpc/ders_classes') {res.end(JSON.stringify((await asUser(uid,'select public.ders_classes($1,$2) r',[body.p_action,body.p_payload||{}])).rows[0].r));return;}
+      if(url.pathname==='/rest/v1/rpc/ders_workspace') {res.end(JSON.stringify((await asUser(uid,'select public.ders_workspace($1,$2) r',[body.p_action,body.p_payload||{}])).rows[0].r));return;}
       if(url.pathname==='/rest/v1/quest_board_states') {
         const rows=(await asUser(uid,'select * from public.quest_board_states where user_id=$1',[uid])).rows;
         res.end(JSON.stringify(rows[0]||null));return;
@@ -45,6 +46,7 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
   const {chromium}=deps('playwright'); let browser;
   try {
     browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+    if(process.env.V150_WORKSPACE_BROWSER==='1'){await require('./v150-workspace-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,ids,asUser});return;}
     if(process.env.V130_ADMIN_CLASSES_ONLY==='1'){const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,admin,asUser};await require('./admin-classes.cjs')(options);if(process.env.ADMIN_CLASSES_REGRESSION==='1')await require('./admin-preview-fix.cjs')(options);return;}
     if(process.env.CLASSES_TEST==='1'){await require('./classes-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids,asUser});return;}
     if(process.env.V113_ONLY==='1'){

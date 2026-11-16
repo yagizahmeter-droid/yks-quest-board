@@ -1,8 +1,8 @@
-const CACHE_NAME = "ders-pwa-v1-4-0-release-r5";
+const CACHE_NAME = "ders-pwa-v1-5-0-preview-r2";
 const APP_SHELL = [
  './motion-ledger.js','./motion.js','./motion.css','./motion-widgets.css','./motion-ui.js','./motion-ui.css',
-  './classes.js','./classes.css',
-  './admin-preview-classes.js',
+  './class-model.js','./class-dom.js','./teacher-workspace.js','./program-tools.js','./teacher-insights.js','./program-schedules.js','./teacher-actions.js','./teacher-workspace.css','./classes.js','./classes.css',
+  './admin-preview-classes.js','./admin-preview-workspace.js',
   './experience.js','./v121.css',
   './exams-core.js','./exams.js','./exams.css',
   './password-policy.js','./week-dates.js','./focus-core.js','./study.js','./learning-ui.js','./v113.css','./v114.css',
@@ -12,7 +12,7 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./config.js",
   "./sync.js",
-  "./teacher.js",
+  "./program-composer.js","./teacher.js",
   "./teacher-drafts.js",
   "./program-import.js",
   "./backgrounds.js",

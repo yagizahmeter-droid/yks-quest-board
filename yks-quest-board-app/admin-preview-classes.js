@@ -2,7 +2,7 @@
 window.DersPreviewClasses = function(env){
  const {role,id,teacher,student,now,result}=env,uuid=()=>crypto.randomUUID(),day=(at=Date.now())=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Istanbul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(at));
  const cid='00000000-0000-4000-8000-000000000010',inviteCid='00000000-0000-4000-8000-000000000011',newStudent='00000000-0000-4000-8000-000000000003';
- const names={[teacher]:'Örnek Öğretmen',[student]:'Örnek Öğrenci',[newStudent]:'Örnek Katılımcı'};
+ const names={[teacher]:'Örnek Öğretmen',[student]:'Örnek Öğrenci',[newStudent]:'Örnek Katılımcı','00000000-0000-4000-8000-000000000021':'Örnek Elif','00000000-0000-4000-8000-000000000022':'Örnek Deniz'};
  const classes=[{id:cid,teacher_id:teacher,name:'Örnek TYT Sınıfı',description:'Yalnızca bu önizlemede kullanılan örnek sınıf.',created_at:now(),archived_at:null},{id:inviteCid,teacher_id:teacher,name:'Örnek Davet Sınıfı',description:'Öğrenci davetini denemek için örnek sınıf.',created_at:now(),archived_at:null}];
  const members=[{class_id:cid,student_id:student,status:'active',joined_at:now(),left_at:null,share_name:false,share_exams:false,share_study:false}];
  const requests=[{id:uuid(),class_id:cid,student_id:newStudent,kind:'join',status:'pending',created_at:now()},{id:uuid(),class_id:inviteCid,student_id:student,kind:'invite',status:'pending',created_at:now()}];

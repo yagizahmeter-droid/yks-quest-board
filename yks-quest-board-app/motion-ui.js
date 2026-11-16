@@ -4,7 +4,7 @@
  const {durations:d,easing:e}=motion,$=id=>document.getElementById(id),enabled=()=>motion.enabled();
  const ghosts=new Set(),tabStates=new Map(),modalJobs=new Map(),presses=new Map(),indicators=new Map();
  let routeJob=null,routeState={route:null,page:null,owner:null},hint=null,hintOwner=null,hintJob=null,hintVersion=0,sequence=0;
- const order=['home','program','exams','classes','teacher','history','focus','account','account/signup'];
+ const order=['home','program','exams','classes','teacher','workspace','history','focus','account','account/signup'];
  const safe=fn=>(...args)=>{try{return fn(...args);}catch{return undefined;}};
  const settle=(animation,fn)=>{if(animation)animation.finished.then(fn,fn);else fn();};
  const rect=el=>el?.getBoundingClientRect();
@@ -23,7 +23,7 @@
  function removeGhost(ghost){if(ghost){ghosts.delete(ghost);ghost.remove();}}
  function clearGhosts(){for(const ghost of ghosts)ghost.remove();ghosts.clear();}
  function routeBefore(nextPage,route){
-  if(routeState.owner!==owner()){clearGhosts();routeJob=null;routeState={route:null,page:null,owner:owner()};}
+  if(routeState.owner!==owner()){clearGhosts();hideHint(true);routeJob=null;routeState={route:null,page:null,owner:owner()};return;}
   if(routeState.page===nextPage&&routeState.route===route)return;
   clearGhosts();hideHint(true);
   const previous=document.querySelector('.page-view:not([hidden])');

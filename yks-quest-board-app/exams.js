@@ -170,7 +170,7 @@
  document.addEventListener('ders:render',()=>{const previous=owner;syncOwner();if(previous!==owner)route();});
  document.addEventListener('ders:route',route);
  window.addEventListener('online',route);
- document.addEventListener('visibilitychange',()=>{if(!document.hidden){route();for(const [host,view] of mounts)if(host.isConnected)load(view.sid);}});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden){route();for(const [host,view] of mounts)if(host.isConnected&&!host.closest('[hidden],[inert]'))load(view.sid);}});
  window.DersExams={mount,unmount:host=>{mounts.get(host)?.observer?.disconnect();mounts.delete(host);},refresh:()=>load(owner,true),create,rpc};
  route();
 })();

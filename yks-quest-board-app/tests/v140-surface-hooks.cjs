@@ -13,7 +13,7 @@ const test=(name,run)=>tests.push({name,run});
 // Reuse the existing offline DOM/RPC fixture without executing its test suite.
 const fixtureFile=path.join(root,'tests','v132-classes-refresh.cjs');
 const fixtureSource=fs.readFileSync(fixtureFile,'utf8').split('const tests = [];')[0]
- .replace('sandbox.window = sandbox;','sandbox.DersMotion = options.motion; sandbox.window = sandbox;');
+ .replace('sandbox.window = sandbox;','sandbox.DersClassModel = require("../class-model.js"); sandbox.DersMotion = options.motion; sandbox.window = sandbox;');
 const fixtureContext={require,URL,__dirname:path.dirname(fixtureFile)};
 vm.runInNewContext(fixtureSource+'\nglobalThis.fixture={harness,classDetail,overview,Element,Events,flush};',fixtureContext,{filename:fixtureFile});
 const {harness:classHarness,classDetail,overview,Element,Events,flush}=fixtureContext.fixture;

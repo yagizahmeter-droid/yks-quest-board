@@ -31,10 +31,10 @@
   let currentRole = null;
   const publicAssets = new Map();
   const appBase = new URL('./',location.href);
-  const scripts = ['theme.js','sync.js','vendor/lucide.js','password-policy.js','week-dates.js','motion-ledger.js','motion.js','motion-ui.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','focus-core.js','study.js','learning-ui.js','teacher-drafts.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
+  const scripts = ['theme.js','sync.js','vendor/lucide.js','password-policy.js','week-dates.js','motion-ledger.js','motion.js','motion-ui.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','focus-core.js','study.js','learning-ui.js','teacher-drafts.js','program-composer.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
   const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css','v113.css','v114.css','motion.css','motion-widgets.css','motion-ui.css'];
-  scripts.push('exams-core.js','exams.js','experience.js','classes.js');styles.push('exams.css','v121.css','classes.css');
-  const assetPaths = new Map([...scripts,...styles,'admin-preview.js','admin-preview-classes.js','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','assets/theme-vine.svg','assets/theme-cloud-light.svg','assets/theme-cloud-dark.svg'].map(name=>[new URL(name,appBase).pathname,name]));
+  scripts.push('exams-core.js','exams.js','experience.js','class-model.js','class-dom.js','classes.js','teacher-workspace.js','program-tools.js','teacher-insights.js','program-schedules.js','teacher-actions.js');styles.push('exams.css','v121.css','classes.css','teacher-workspace.css');
+  const assetPaths = new Map([...scripts,...styles,'admin-preview.js','admin-preview-classes.js','admin-preview-workspace.js','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','assets/theme-vine.svg','assets/theme-cloud-light.svg','assets/theme-cloud-dark.svg'].map(name=>[new URL(name,appBase).pathname,name]));
   const failure = (code,details = {}) => Object.assign(new Error(code),{code,...details});
   let cancelFrame = null;
   function ownedAsset(value) {
@@ -204,7 +204,8 @@
       runtime.dataset.previewChannel = channel; runtime.dataset.parentOrigin = location.origin;
       runtime.dataset.appearance = JSON.stringify({choice:window.DersTheme.choice,style:window.DersTheme.style,accent:window.DersTheme.accent,monochrome:window.DersTheme.monochrome,background:window.DersBackgrounds.selected});
       const classRuntime=doc.createElement('script');classRuntime.src=new URL('./admin-preview-classes.js',location.href).href;
-      doc.head.prepend(csp, base, classRuntime, runtime);
+      const workspaceRuntime=doc.createElement('script');workspaceRuntime.src=new URL('./admin-preview-workspace.js',location.href).href;
+      doc.head.prepend(csp, base, classRuntime, workspaceRuntime, runtime);
       // The opaque sandbox has no Vercel cookie. Inline only public static assets
       // fetched by the parent; never pass authentication or account state into it.
       const [light,dark] = await Promise.all([asset('./assets/background-light.webp',true),asset('./assets/background-dark.webp',true)]);

@@ -35,13 +35,15 @@
     ]}],activeWeekId:'preview-week',studyHistory:[]
   };
   let connections = [{id:'preview-connection',student_id:student,teacher_id:teacher,status:'approved',name:role==='teacher'?'Örnek Öğrenci':'Örnek Öğretmen'}];
+  if(role==='teacher')connections.push(...[['00000000-0000-4000-8000-000000000021','Örnek Elif'],['00000000-0000-4000-8000-000000000022','Örnek Deniz']].map(([student_id,name])=>({id:'preview-'+student_id,student_id,teacher_id:teacher,status:'approved',name})));
   let assignments = [{id:'preview-assignment',student_id:student,teacher_id:teacher,name:role==='teacher'?'Örnek Öğrenci':'Örnek Öğretmen',week_name:'Örnek öğretmen programı',week_range:'Test haftası',status:'pending',quests:[{id:'preview-offer',category_name:'Matematik',title:'Problemler',detail:'40 soru ve analiz',xp:100,exam_type:'TYT',repeat_kind:'none'}]}];
   let requests = [];
   let exams = [];
   const result = data => ({data:clone(data),error:null});
   const learning={segments:[],reviews:[],messages:[],notifications:[],preferences:{program:true,feedback:true,question:true,review:true}};
-  function assignPreview(p,sid=student){const a={id:crypto.randomUUID(),student_id:sid,teacher_id:teacher,name:'Örnek Öğrenci',week_name:p.week_name,week_range:p.week_range||p.starts_on+' – '+p.ends_on,status:'pending',quests:p.quests.map(q=>({...q,id:crypto.randomUUID(),category_name:q.category,repeat_kind:q.repeat_kind||'none',repeat_target:q.repeat_target||1}))};assignments.push(a);return a;}
+  function assignPreview(p,sid=student){const a={id:crypto.randomUUID(),student_id:sid,teacher_id:teacher,name:connections.find(c=>c.student_id===sid)?.name||'Örnek Öğrenci',created_at:now(),week_name:p.week_name,week_range:p.week_range||p.starts_on+' – '+p.ends_on,status:'pending',quests:p.quests.map(q=>({...q,id:crypto.randomUUID(),category_name:q.category,repeat_kind:q.repeat_kind||'none',repeat_target:q.repeat_target||1}))};assignments.push(a);return a;}
   const classPreview=window.DersPreviewClasses({role,id,teacher,student,profile,now,result,learning,state:()=>state,connections:()=>connections,assignments:()=>assignments,assign:assignPreview});
+  const workspacePreview=window.DersPreviewWorkspace?.({role,teacher,student,profile,now,result,classPreview,learning,state:()=>state,connections:()=>connections,assignments:()=>assignments,assign:assignPreview,exams:()=>exams});
   function learn(action,p){
     if(action==='overview'||action==='report')return result({...learning,state:action==='report'?state:null,teachers:[{id:teacher,name:'Örnek Öğretmen'}]});
     if(action==='save_segments'){for(const s of p.segments||[])if(!learning.segments.some(x=>x.id===s.id))learning.segments.push({...s,user_id:id,duration_ms:Date.parse(s.ended_at)-Date.parse(s.started_at),category_name:s.quest_id?'Matematik':'Serbest Çalışma'});return result({saved:true});}
@@ -63,6 +65,7 @@
       if(action==='restore'&&Array.isArray(p.records)&&p.records.length>=1&&p.records.length<=100&&p.records.every(r=>['completion','segment'].includes(r.kind)&&typeof r.id==='string'))return result({count:0,xp_preserved:true});
       return {data:null,error:{message:'Geçersiz geçmiş işlemi.'}};
     }
+    if(name==='ders_workspace')return workspacePreview?workspacePreview.rpc(action,p):{data:null,error:{message:'Örnek çalışma alanını yüklemek için önizlemeyi yeniden aç.'}};
     if(name==='ders_classes')return classPreview.rpc(action,p);
     if(name==='ders_exams'){
       if(action==='list')return result(exams.filter(e=>e.user_id===(p.student_id||id)));

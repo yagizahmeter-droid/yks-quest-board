@@ -1,8 +1,8 @@
 (() => {
-  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus', 'exams','classes'];
+  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus', 'exams','classes','workspace'];
   const titles = { home: 'Genel Bakış', program: 'Programım', teacher: 'Öğretmen', history: 'Çalışma Geçmişi', account: 'Hesabım', 'account/signup': 'Kayıt Ol',focus:'Odak Modu',exams:'Denemelerim' };
-  titles.classes='Sınıflar';
-  const privateRoutes = new Set(['program', 'teacher', 'history','focus','exams','classes']);
+  titles.classes='Sınıflar';titles.workspace='Öğretmen Çalışma Alanı';
+  const privateRoutes = new Set(['program', 'teacher', 'history','focus','exams','classes','workspace']);
   const $ = id => document.getElementById(id);
   const mobile = matchMedia('(max-width: 720px)');
   const overlays = new Map();
@@ -20,14 +20,14 @@
   current ||= history.state;
   try { document.body.classList.toggle('nav-compact', localStorage.getItem('ders-navigation-compact') === 'true'); } catch {}
 
-  const baselines = new WeakMap();
+  const baselines = new WeakMap(), managedDrafts = new WeakMap();
   const draftSelector = '[data-draft], form, .modal-backdrop, dialog:not([data-auto-save])';
   let closedModalBack = false;
   function values(root) {
     return JSON.stringify([...root.querySelectorAll('input,select,textarea')].filter(el => !el.closest('[data-auto-save]') && el.dataset.uiTransient !== 'true').map((el,i) => [el.id || `${el.name}:${el.dataset.key || ''}:${i}`, el.type === 'file' ? [...el.files].map(f => [f.name,f.size,f.lastModified]) : ['checkbox','radio'].includes(el.type) ? el.checked : el.value]));
   }
   function scopes(root) { return root ? [...(root.matches?.(draftSelector) ? [root] : []), ...root.querySelectorAll(draftSelector)].filter(el => !el.closest('[data-auto-save]')) : []; }
-  function dirty(root) { return scopes(root).some(el => el.dataset.dirty==='true' && baselines.has(el) && baselines.get(el) !== values(el)); }
+  function dirty(root) { return scopes(root).some(el => managedDrafts.has(el) ? Boolean(managedDrafts.get(el)()) : el.dataset.dirty==='true' && baselines.has(el) && baselines.get(el) !== values(el)); }
   function canLeave(root) { return !dirty(root) || confirm('Kaydedilmemiş değişiklikler var. Yine de ayrılmak istiyor musun?'); }
   function activeRoot() { return overlays.get(current.modal)?.root || document.querySelector('.page-view:not([hidden])'); }
   function clearDirty(root) {
@@ -287,6 +287,6 @@
     return messages[error.code] || 'İşlem tamamlanamadı. Bilgilerini kontrol edip tekrar dene.';
   }
   function finishModal(root,finish,options={}){const overlay=[...overlays.values()].find(item=>item.root===root);const immediate=options.immediate||Boolean(overlay&&overlay.owner!==(window.DersBoard.user?.id||null));if(window.DersMotion?.ui?.modalExit)return window.DersMotion.ui.modalExit(root,finish,{immediate});finish();return true;}
-  window.DersUI = { finishModal, refresh, navigate, openModal, modalClosed, clearDirty, canLeave, authError, closeNavigationForModal(){if(document.body.classList.contains('drawer-open'))closeSidebar(false,true);}, get route() { return current.route; }, setTeacherInfo(data) { teacherInfo = data; refresh(); } };
+  window.DersUI = { registerDraft(root,isDirty){managedDrafts.set(root,isDirty);}, finishModal, refresh, navigate, openModal, modalClosed, clearDirty, canLeave, authError, closeNavigationForModal(){if(document.body.classList.contains('drawer-open'))closeSidebar(false,true);}, get route() { return current.route; }, setTeacherInfo(data) { teacherInfo = data; refresh(); } };
   refresh();
 })();
