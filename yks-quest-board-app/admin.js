@@ -1,4 +1,6 @@
 (() => {
+ function finishVisualClose(root,done){if(window.DersUI?.finishModal)return window.DersUI.finishModal(root,done);done();return true;}
+
   const board = window.DersBoard, trigger = document.getElementById('adminButton');
   if (!board || !trigger) return;
   let owner = null, generation = 0, allowed = false, checking = null, subscribed = false, previewToken = 0;
@@ -9,8 +11,8 @@
   dialog.innerHTML = `<header class="admin-heading"><h2 id="adminTitle">Yönetici Paneli</h2><button type="button" class="icon-button" id="adminClose" aria-label="Yönetici panelini kapat" title="Kapat"><i data-lucide="x"></i></button></header>
     <p class="admin-status" id="adminStatus" role="status"></p>
     <div class="admin-toolbar"><div class="segmented" role="group" aria-label="Rol önizleme">
-    <button type="button" class="button" data-preview-role="student"><i data-lucide="circle-user-round"></i>Öğrenci</button>
-    <button type="button" class="button" data-preview-role="teacher"><i data-lucide="graduation-cap"></i>Öğretmen</button></div>
+    <div class="admin-preview-option"><button type="button" class="button" data-preview-role="student"><i data-lucide="circle-user-round"></i>Öğrenci</button><button type="button" class="button" data-preview-tab="student" aria-label="Öğrenci · Yeni Sekmede Aç"><i data-lucide="arrow-up-right"></i>Yeni Sekmede Aç</button></div>
+    <div class="admin-preview-option"><button type="button" class="button" data-preview-role="teacher"><i data-lucide="graduation-cap"></i>Öğretmen</button><button type="button" class="button" data-preview-tab="teacher" aria-label="Öğretmen · Yeni Sekmede Aç"><i data-lucide="arrow-up-right"></i>Yeni Sekmede Aç</button></div></div>
     <button type="button" class="button" id="adminReturn" hidden><i data-lucide="arrow-left"></i>Admin Paneline Dön</button>
     <button type="button" class="button" id="adminReset" hidden><i data-lucide="rotate-ccw"></i>Örnek Verileri Sıfırla</button></div>
     <div id="adminPreview" hidden></div>
@@ -29,12 +31,95 @@
   let currentRole = null;
   const publicAssets = new Map();
   const appBase = new URL('./',location.href);
-  const scripts = ['theme.js','sync.js','vendor/lucide.js','password-policy.js','week-dates.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','focus-core.js','study.js','learning-ui.js','teacher-drafts.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
-  const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css','v113.css','v114.css'];
-  scripts.push('exams-core.js','exams.js','experience.js','classes.js');styles.push('exams.css','v121.css','classes.css');
-  const assetPaths = new Map([...scripts,...styles,'admin-preview.js','admin-preview-classes.js','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','assets/theme-vine.svg','assets/theme-cloud-light.svg','assets/theme-cloud-dark.svg'].map(name=>[new URL(name,appBase).pathname,name]));
+  const scripts = ['theme.js','sync.js','vendor/lucide.js','password-policy.js','week-dates.js','motion-ledger.js','motion.js','motion-ui.js','quest-system.js','curriculum.js','personal-catalog.js','program-import.js','history-groups.js','focus-core.js','study.js','learning-ui.js','teacher-drafts.js','program-composer.js','teacher.js','select-controls.js','ui.js','appearance.js','backgrounds.js','release-history.js'];
+  const styles = ['ui.css','appearance.css','quest-ui.css','v111.css','admin.css','v113.css','v114.css','motion.css','motion-widgets.css','motion-ui.css'];
+  scripts.push('exams-core.js','exams.js','experience.js','class-model.js','class-dom.js','classes.js','teacher-workspace.js','program-tools.js','teacher-insights.js','program-schedules.js','teacher-actions.js');styles.push('exams.css','v121.css','classes.css','teacher-workspace.css');
+  const assetPaths = new Map([...scripts,...styles,'admin-preview.js','admin-preview-classes.js','admin-preview-workspace.js','assets/background-light.webp','assets/background-dark.webp','assets/brand-mark.svg','assets/theme-vine.svg','assets/theme-cloud-light.svg','assets/theme-cloud-dark.svg'].map(name=>[new URL(name,appBase).pathname,name]));
   const failure = (code,details = {}) => Object.assign(new Error(code),{code,...details});
   let cancelFrame = null;
+  const previewTabs = new Set();
+  const tabCurrent = task => previewTabs.has(task) && !task.tab.closed && allowed && task.uid === board.user?.id && task.generation === generation;
+  function disposeTab(task,closeTab=true) {
+    previewTabs.delete(task); clearTimeout(task.timer);
+    // With opener severed, browsers disallow cross-origin window.close(). Ask
+    // the isolated page to close itself instead; the channel carries no data.
+    if(closeTab)try{if(task.prepared){task.port?.postMessage({type:'ders-demo-revoke'});task.tab.postMessage({type:'ders-demo-revoke',channel:task.channel},'*');}else task.tab.close();}catch{}
+    const port=task.port;if(port)setTimeout(()=>port.close(),1000);
+    task.reject?.(failure('cancelled')); task.reject=null;
+  }
+  function workerPolicy(controller) {
+    if(!controller)return Promise.resolve(true);
+    return new Promise(resolve=>{
+      const channel=new MessageChannel();
+      const finish=value=>{clearTimeout(timer);channel.port1.close();resolve(value);};
+      const timer=setTimeout(()=>finish(false),700);
+      channel.port1.onmessage=e=>finish(e.data?.type==='ders-demo-navigation-policy'&&e.data.excluded===true);
+      try{controller.postMessage({type:'ders-demo-navigation-policy'},[channel.port2]);}catch{finish(false);}
+    });
+  }
+  async function safeDemoNavigation() {
+    // Older offline workers fall back to the real index.html. Fail closed until
+    // the active worker confirms that both demo navigation paths are excluded.
+    const sw=navigator.serviceWorker;
+    if(sw?.controller && !await workerPolicy(sw.controller)){
+      try{const registration=await sw.getRegistration();await registration?.update();}catch{}
+      const deadline=Date.now()+8000;let safe=false;
+      while(Date.now()<deadline){if(await workerPolicy(sw.controller)){safe=true;break;}await new Promise(r=>setTimeout(r,300));}
+      if(!safe)throw failure('worker');
+    }
+    const response=await fetch(new URL('admin-preview.html',appBase),{cache:'no-store'});
+    const csp=response.headers.get('content-security-policy')||'',sandbox=csp.split(';').map(s=>s.trim()).find(s=>s.startsWith('sandbox '));
+    if(!response.ok||new URL(response.url).origin!==location.origin||!sandbox||sandbox!=='sandbox allow-scripts allow-forms')throw failure('isolation');
+  }
+  function probeTab(task) {
+    if(!tabCurrent(task)){disposeTab(task);return;}
+    if(task.prepared)try{task.tab.postMessage({type:'ders-demo-probe',channel:task.channel},'*');}catch{}
+  }
+  window.addEventListener('message',async event=>{
+    if(event.origin!=='null'||event.data?.type!=='ders-demo-shell-ready')return;
+    const task=[...previewTabs].find(t=>event.source===t.tab&&event.data.channel===t.channel);
+    if(!task||task.booting||!task.prepared||!tabCurrent(task))return;
+    task.booting=true;
+    try{
+      if(!await authorize()||!tabCurrent(task)){disposeTab(task);return;}
+      task.port?.close();const bridge=new MessageChannel();task.port=bridge.port1;
+      bridge.port1.onmessage=e=>{
+        if(!tabCurrent(task)||e.data?.type!=='ders-admin-preview'||e.data.channel!==task.channel)return;
+        if(e.data.state==='ready'){clearTimeout(task.timer);task.booting=false;task.resolve?.();task.resolve=null;task.reject=null;}
+        if(e.data.state==='error'){task.reject?.(failure('start'));disposeTab(task);}
+      };
+      task.tab.postMessage({type:'ders-demo-render',channel:task.channel,html:task.html},'*',[bridge.port2]);
+    }catch{task.reject?.(failure('start'));disposeTab(task);}
+  });
+  async function previewTab(role) {
+    if(!['student','teacher'].includes(role)||!allowed||!dialog.open)return;
+    if(!['http:','https:'].includes(location.protocol)){$('adminStatus').textContent='Yeni sekme için uygulamayı HTTPS web adresinden veya yerel geliştirme sunucusundan aç.';return;}
+    // Open during the trusted click, before authorization/asset awaits, so the
+    // browser creates a genuine tab. Sever opener before any demo code runs.
+    const tab=window.open('about:blank','_blank');
+    if(!tab){$('adminStatus').textContent='Tarayıcı yeni sekmeyi engelledi. Bu site için açılır pencerelere izin verip yeniden dene.';return;}
+    const task={tab,role,uid:board.user?.id,generation,channel:crypto.randomUUID()};previewTabs.add(task);
+    try{
+      tab.opener=null;tab.document.title='D.E.R.S. · Örnek Görünüm';tab.document.body.textContent='Güvenli örnek görünüm hazırlanıyor…';
+      if(!await authorize()||!tabCurrent(task))throw failure('authorization');
+      $('adminStatus').textContent='Yeni sekmede örnek görünüm hazırlanıyor…';
+      await recordEvent('preview_open',role);
+      const html=await previewDocument(role,task.channel,true);
+      await safeDemoNavigation();
+      if(!tabCurrent(task))throw failure('cancelled');
+      task.html=html;
+      const started=new Promise((resolve,reject)=>{task.resolve=resolve;task.reject=reject;task.timer=setTimeout(()=>reject(failure('start')),15000);});
+      tab.location.replace(new URL('admin-preview.html#demo='+task.channel,appBase).href);task.prepared=true;
+      probeTab(task);await started;
+      if(tabCurrent(task))$('adminStatus').textContent=(role==='teacher'?'Öğretmen':'Öğrenci')+' örnek görünümü yeni sekmede açıldı. Değişiklikler yalnızca o sekmede kalır.';
+    }catch(error){
+      disposeTab(task);publicAssets.clear();
+      if(task.uid!==board.user?.id)return;
+      const messages={authorization:'Yönetici yetkisi doğrulanamadı. Yeniden giriş yapıp dene.',worker:'Güvenli önizleme için uygulamanın çevrimdışı sürümü güncellenmeli. Sayfayı yenileyip yeniden dene.',isolation:'Örnek sekmenin güvenli yalıtımı doğrulanamadı. Panel içindeki önizlemeyi kullanabilir veya yeniden deneyebilirsin.',assets:'Önizleme dosyaları yüklenemedi. Bağlantını kontrol edip yeniden dene.',cancelled:'Örnek sekme kapatıldı veya oturum değişti.',start:'Yeni sekme başlatılamadı. Sayfayı yenileyip yeniden dene.'};
+      $('adminStatus').textContent=messages[error.code]||messages.start;
+      console.warn('D.E.R.S. demo tab failed',{role,code:error.code||'start'});
+    }
+  }
   function ownedAsset(value) {
     try { const url = new URL(value,appBase); return url.origin === appBase.origin ? assetPaths.get(url.pathname) : null; }
     catch { return null; }
@@ -81,10 +166,11 @@
   }
   function close(force = false) {
     if (!force && !window.DersUI.canLeave(dialog)) return;
-    stopPreview(); dialog.close(); window.DersUI.modalClosed('admin');
+    stopPreview();return finishVisualClose(dialog,()=>{dialog.close();window.DersUI.modalClosed('admin');});
     if (!trigger.hidden) trigger.focus({preventScroll:true});
   }
   function revoke(clearDraft = true) {
+    [...previewTabs].forEach(task=>disposeTab(task));
     allowed = false; trigger.hidden = true; stopPreview();
     if (dialog.open) close(true);
     $('adminNoteList').replaceChildren(); $('adminEventList').replaceChildren(); notes = [];
@@ -160,18 +246,7 @@
     try { await recordEvent('panel_open'); } catch (error) { $('adminStatus').textContent = error.message; }
     await Promise.all([loadNotes(),loadEvents()]);
   }
-  async function preview(role, resetting = false) {
-    if (!['student','teacher'].includes(role) || !await authorize() || !dialog.open) return;
-    if (!['http:','https:'].includes(location.protocol)) {
-      stopPreview();
-      $('adminStatus').textContent = 'Rol önizlemesi dosyadan açılamaz. Uygulamayı HTTPS web adresinden veya yerel geliştirme sunucusundan açıp yönetici hesabınla giriş yap.';
-      return;
-    }
-    try { await recordEvent(resetting ? 'sample_reset' : 'preview_open',role); }
-    catch (error) { $('adminStatus').textContent = error.message; return; }
-    stopPreview(); const token = previewToken, uid = owner;
-    $('adminStatus').textContent = 'Örnek görünüm hazırlanıyor…';
-    try {
+  async function previewDocument(role,channel,standalone=false){
       const [response,brand] = await Promise.all([fetch(new URL('index.html',appBase), {cache:'no-store'}).catch(()=>{throw failure('assets',{resource:'index.html'});}),asset('./assets/brand-mark.svg')]);
       if (!response.ok || new URL(response.url).origin !== location.origin || !(response.headers.get('content-type') || '').includes('text/html')) throw failure('assets',{resource:'index.html',status:response.status});
       const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
@@ -198,11 +273,12 @@
       csp.content = `default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; frame-src 'none'; worker-src 'none'; form-action 'none'; base-uri ${location.origin}`;
       const runtime = doc.createElement('script'); runtime.src = new URL('./admin-preview.js', location.href).href;
       runtime.dataset.role = role;
-      const channel = crypto.randomUUID();
       runtime.dataset.previewChannel = channel; runtime.dataset.parentOrigin = location.origin;
       runtime.dataset.appearance = JSON.stringify({choice:window.DersTheme.choice,style:window.DersTheme.style,accent:window.DersTheme.accent,monochrome:window.DersTheme.monochrome,background:window.DersBackgrounds.selected});
       const classRuntime=doc.createElement('script');classRuntime.src=new URL('./admin-preview-classes.js',location.href).href;
-      doc.head.prepend(csp, base, classRuntime, runtime);
+      const workspaceRuntime=doc.createElement('script');workspaceRuntime.src=new URL('./admin-preview-workspace.js',location.href).href;
+      if(standalone){base.remove();csp.content=csp.content.replace(`base-uri ${location.origin}`,"base-uri 'none'");runtime.dataset.previewTarget='tab';doc.head.prepend(csp,classRuntime,workspaceRuntime,runtime);}
+      else doc.head.prepend(csp,base,classRuntime,workspaceRuntime,runtime);
       // The opaque sandbox has no Vercel cookie. Inline only public static assets
       // fetched by the parent; never pass authentication or account state into it.
       const [light,dark] = await Promise.all([asset('./assets/background-light.webp',true),asset('./assets/background-dark.webp',true)]);
@@ -220,13 +296,28 @@
       doc.querySelectorAll('script:not([src])').forEach(script => {
         script.textContent = script.textContent.replace('if ("serviceWorker" in navigator)', 'if (false)');
       });
+      return '<!doctype html>' + doc.documentElement.outerHTML;
+  }
+  async function preview(role, resetting = false) {
+    if (!['student','teacher'].includes(role) || !await authorize() || !dialog.open) return;
+    if (!['http:','https:'].includes(location.protocol)) {
+      stopPreview();
+      $('adminStatus').textContent = 'Rol önizlemesi dosyadan açılamaz. Uygulamayı HTTPS web adresinden veya yerel geliştirme sunucusundan açıp yönetici hesabınla giriş yap.';
+      return;
+    }
+    try { await recordEvent(resetting ? 'sample_reset' : 'preview_open',role); }
+    catch (error) { $('adminStatus').textContent = error.message; return; }
+    stopPreview(); const token = previewToken, uid = owner;
+    $('adminStatus').textContent = 'Örnek görünüm hazırlanıyor…';
+    try {
+      const channel=crypto.randomUUID(),html=await previewDocument(role,channel);
       if (token !== previewToken || uid !== board.user?.id || !allowed || !dialog.open) return;
       const frame = document.createElement('iframe'); frame.className = 'admin-frame';
       frame.title = (role === 'student' ? 'Öğrenci' : 'Öğretmen') + ' örnek görünümü';
       frame.setAttribute('sandbox','allow-scripts allow-forms'); frame.referrerPolicy = 'no-referrer';
       frame.style.visibility = 'hidden'; frame.inert = true;
       const started = ready(frame,channel);
-      frame.srcdoc = '<!doctype html>' + doc.documentElement.outerHTML;
+      frame.srcdoc = html;
       $('adminPreview').replaceChildren(frame); $('adminPreview').hidden = false;
       await started;
       if (token !== previewToken || uid !== board.user?.id || !allowed || !dialog.open) return;
@@ -286,7 +377,9 @@
   };
   dialog.addEventListener('cancel', e => { e.preventDefault(); close(); });
   dialog.querySelectorAll('[data-preview-role]').forEach(b => b.onclick = () => preview(b.dataset.previewRole));
+  dialog.querySelectorAll('[data-preview-tab]').forEach(b => b.onclick = () => previewTab(b.dataset.previewTab));
   function observeSession() {
+    for(const task of previewTabs){if(task.tab.closed)disposeTab(task,false);else probeTab(task);}
     const uid = board.user?.id || null;
     if (uid !== owner) { generation++; owner = uid; checking = null; revoke(); if (uid) authorize(); }
     if (!subscribed && board.client) {
@@ -295,7 +388,7 @@
     }
   }
   setInterval(observeSession, 1000);
-  setInterval(() => { if (dialog.open && !document.hidden) authorize(); },15000);
+  setInterval(() => { if ((dialog.open || previewTabs.size) && !document.hidden) authorize(); },15000);
   window.addEventListener('focus', authorize);
   window.addEventListener('offline', () => { generation++; checking = null; revoke(false); });
   window.addEventListener('online', authorize);

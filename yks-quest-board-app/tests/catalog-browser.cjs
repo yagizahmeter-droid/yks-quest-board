@@ -1,12 +1,13 @@
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
-module.exports=async({root,browser,apiUrl,siteUrl,users,action,ids})=>{
+module.exports=async({createComposerFixture,root,browser,apiUrl,siteUrl,users,action,ids})=>{
+ const openComposer=await createComposerFixture();
   let checks=0;const pass=m=>{checks++;console.log('PASS catalog UI',m);};
   const ctx=await browser.newContext({viewport:{width:1280,height:900},serviceWorkers:'block'});
   try {
     await ctx.route('**/config.js',r=>r.fulfill({contentType:'text/javascript',body:`window.YKS_CONFIG={supabaseUrl:'${apiUrl}',supabaseAnonKey:'local-public-fixture'};`}));
     const p=await ctx.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
     await p.goto(siteUrl+'/#/account');await p.fill('#authEmail',users[0].email);await p.fill('#authPassword','test-password');await p.click('#signInButton');await p.waitForFunction(()=>Boolean(window.DersBoard.user));
-    await p.evaluate(()=>window.DersUI.navigate('teacher'));await p.locator('#teacherPanel [data-action="student"]').first().click();
+    await p.evaluate(()=>window.DersUI.navigate('teacher'));await openComposer(p);
     const f=k=>p.locator(`#assignmentDraft [data-index="0"] [data-key="${k}"]`);
     const choose=async(key,value)=>{const control=f(key).locator('..');await control.locator('.select-trigger').click();const label=await f(key).locator('option').evaluateAll((options,value)=>options.find(o=>o.value===value).label,value);await control.getByRole('option',{name:label,exact:true}).click();assert.equal(await f(key).inputValue(),value);};
     assert.equal(await f('topic_category').isDisabled(),true);
@@ -42,9 +43,10 @@ module.exports=async({root,browser,apiUrl,siteUrl,users,action,ids})=>{
     pass('Long parenthetical titles and dropdowns fit 360/390/430/1280px in both themes');
     await p.evaluate(()=>window.DersUI.clearDirty(document.getElementById('questDialog')));await p.click('#dismissDialog');
     const assignment=await action(ids[0],'assign_program',{student_id:ids[1],week_name:'Legacy catalog copy',quests:[{exam_type:'TYT',category:'Fizik',title:'Basınç',detail:'Önceki açıklama',xp:175,repeat_kind:'weekly',repeat_target:4}]});
-    await p.evaluate(()=>window.DersTeacher.refresh());await p.locator(`#teacherPanel [data-action="student"][data-id="${ids[1]}"]`).click();await p.selectOption('#assignmentTemplate',assignment.assignment_id);await p.locator('[data-action="draft-copy"]').click();
-    assert.equal(await f('topic').inputValue(),'__legacy');assert.equal(await p.locator('#assignmentDraft [data-index="0"] [data-role="derived-title"]').innerText(),'Basınç');assert.equal(await f('detail').inputValue(),'Önceki açıklama');assert.equal(await f('xp').inputValue(),'175');assert.equal(await f('repeat_target').inputValue(),'4');
-    pass('Legacy titles outside new catalog copy unchanged as read-only legacy options');
+    await action(ids[1],'respond_assignment',{id:assignment.assignment_id,status:'accepted'});const source=(await action(ids[1],'read_board')).state.weeks.find(w=>w.name==='Legacy catalog copy');assert.ok(source);
+    await p.evaluate(id=>DersWorkspace.open(id),ids[1]);const scope='[data-student-window="'+ids[1]+'"]',win=p.locator(scope),pointer=require('./pointer-select.cjs');await win.locator('[data-workspace="right-history"]').click();await pointer(p,scope+' [name="previous-week"]',source.id);await win.locator('.workspace-past h3').getByText('Legacy catalog copy',{exact:true}).waitFor();await win.locator('.workspace-past .teacher-item strong').getByText('Basınç',{exact:true}).waitFor();await win.locator('[data-workspace="past-template"]').click();let panel=win.locator('.program-tools-panel');await panel.locator('[name="template_name"]').fill('Legacy catalog regression');await panel.locator('[data-tool="save-template"]').click();await panel.waitFor({state:'detached'});await win.locator('[data-workspace="templates"]').click();panel=win.locator('.program-tools-panel');const confirm=d=>d.accept();p.on('dialog',confirm);try{await panel.locator('.teacher-item').filter({hasText:'Legacy catalog regression'}).locator('[data-tool="independent"]').click();await panel.waitFor({state:'detached'});}finally{p.off('dialog',confirm);}
+    const legacy=k=>win.locator('[data-index="0"] [data-key="'+k+'"]');assert.equal(await legacy('topic').inputValue(),'__legacy');assert.equal(await win.locator('[data-index="0"] [data-role="derived-title"]').innerText(),'Basınç');assert.equal(await legacy('detail').inputValue(),'Önceki açıklama');assert.equal(await legacy('xp').inputValue(),'175');assert.equal(await legacy('repeat_target').inputValue(),'4');assert.equal(await win.locator('.teacher-quest-draft').count(),1);
+    pass('Real Workspace previous-program preview and independent template retain legacy title, description, XP and repeats');
     assert.deepEqual(errors,[]);pass('No browser JavaScript errors');
     fs.writeFileSync(path.join(root,'test-results/catalog-ui-result.json'),JSON.stringify({checks,productionTouched:false},null,2));
   } finally { await ctx.close(); }

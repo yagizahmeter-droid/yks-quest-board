@@ -1,4 +1,6 @@
 (() => {
+ function finishVisualClose(root,done){if(window.DersUI?.finishModal)return window.DersUI.finishModal(root,done);done();return true;}
+
  const board=window.DersBoard,study=window.DersStudy,core=window.DersFocusCore,$=id=>document.getElementById(id),esc=v=>board.escape(String(v??''));
  const views=new Map();let owner=null,busy=false;
  const dialog=document.createElement('dialog');dialog.id='historyCleanupDialog';dialog.className='ders-dialog';document.body.append(dialog);
@@ -32,7 +34,7 @@
    catch(e){if(uid===board.user?.id&&form.isConnected){error.textContent=e.message;form.querySelector('button').disabled=false;}}finally{busy=false;}
   };
  }
- function close(force=false){if(!force&&busy)return false;dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('history-cleanup');return true;}
+ function close(force=false){if(!force&&busy)return false;return finishVisualClose(dialog,()=>{dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('history-cleanup');});}
  dialog.oncancel=e=>{e.preventDefault();close();};
  async function cleanup(scope={scope:'week',week_id:board.week().id}){
   if(board.state.profile?.role!=='student')return;

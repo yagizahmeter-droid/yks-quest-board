@@ -784,7 +784,11 @@
   <link rel="stylesheet" href="./v114.css">
   <link rel="stylesheet" href="./exams.css">
   <link rel="stylesheet" href="./v121.css">
+  <link rel="stylesheet" href="./teacher-workspace.css">
   <link rel="stylesheet" href="./classes.css">
+  <link rel="stylesheet" href="./motion.css">
+  <link rel="stylesheet" href="./motion-widgets.css">
+  <link rel="stylesheet" href="./motion-ui.css">
   <script src="./vendor/lucide.js"></script>
 </head>
 <body>
@@ -834,7 +838,7 @@
         <div class="stats">
           <div class="stat stat-pair">
             <div class="stat-metric"><span><i data-lucide="zap"></i> Toplam XP</span><strong id="totalXp">0 XP</strong><small id="xpBreakdown" aria-label="Sunucuda doğrulanan XP">Tüm haftalar</small></div>
-            <div class="stat-metric"><span><i data-lucide="sparkles"></i> Seviye</span><strong id="level">Level 1</strong></div>
+            <div class="stat-metric"><span><i data-lucide="sparkles"></i> Seviye</span><strong id="level">Level 1</strong><div class="level-xp-track" role="progressbar" aria-label="Seviye XP ilerlemesi" aria-valuenow="0" aria-valuemin="0" aria-valuemax="500"><div id="levelXpFill"></div></div><small id="levelXpCaption">0 / 500 XP</small></div>
           </div>
           <div class="stat stat-pair">
             <div class="stat-metric"><span><i data-lucide="chart-no-axes-column-increasing"></i> Tekrar İlerlemesi</span><strong id="progressText">0%</strong><div class="progress-track" role="progressbar" aria-label="Tekrar İlerlemesi" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div id="progressFill" class="progress-fill"></div></div><small id="remainingText">İlk görev seni bekliyor</small></div>
@@ -943,7 +947,7 @@
     </section>
   </main>
   </div>
-  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.3.2</button></footer>
+  <footer class="app-footer"><span>By Yağız Ahmet ER</span><button class="app-version" type="button" id="versionHistoryButton" aria-label="Sürüm geçmişini aç">v1.5.0</button></footer>
 
   <div id="weekModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
     <section class="modal">
@@ -1010,6 +1014,7 @@
   </dialog>
   <dialog id="appearanceDialog" class="ders-dialog appearance-dialog" aria-labelledby="appearanceTitle" data-auto-save>
     <header class="appearance-heading"><h2 id="appearanceTitle">Görünüm</h2><button id="closeAppearance" class="icon-button" type="button" aria-label="Görünüm ayarlarını kapat" title="Kapat"><i data-lucide="x"></i></button></header>
+    <div class="modal-body appearance-body">
     <fieldset class="appearance-field"><legend>Arayüz Stili</legend><div class="style-options">
       <label class="style-option"><input type="radio" name="appearanceStyle" value="classic"><span class="style-preview preview-classic" aria-hidden="true"><span></span><span></span><span></span></span><strong>Klasik</strong></label>
       <label class="style-option"><input type="radio" name="appearanceStyle" value="glass"><span class="style-preview preview-glass" aria-hidden="true"><span></span><span></span><span></span></span><strong>Saydam</strong></label>
@@ -1024,12 +1029,16 @@
     <fieldset class="appearance-field"><legend>Vurgu Rengi</legend><div id="accentPalette" class="accent-palette" role="radiogroup" aria-label="Vurgu Rengi"></div></fieldset>
     <label class="monochrome-control"><span>Renksiz Mod</span><input id="monochromeToggle" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
 <fieldset class="appearance-field"><legend>Arka Plan</legend><div id="backgroundOptions" class="background-options"></div><div class="background-custom"><label class="button" for="backgroundFile"><i data-lucide="folder-plus"></i>Fotoğraf Seç</label><input class="visually-hidden" id="backgroundFile" type="file" accept="image/png,image/jpeg,image/webp"><button class="button" id="useCustomBackground" type="button" disabled>Özel Arka Plan</button><button class="icon-button" id="removeBackground" type="button" disabled title="Özel arka planı kaldır" aria-label="Özel arka planı kaldır"><i data-lucide="trash-2"></i></button></div><p id="backgroundStatus" role="status">Yalnızca bu cihazda saklanır. Tarayıcı verileri temizlenirse silinir.</p></fieldset>
+    </div>
     <footer class="appearance-footer"><button id="resetAppearance" class="button" type="button"><i data-lucide="rotate-ccw"></i>Varsayılana Dön</button></footer>
   </dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" popover="manual"></div>
 
   <script src="./password-policy.js"></script>
   <script src="./week-dates.js"></script>
+  <script src="./motion-ledger.js"></script>
+  <script src="./motion.js"></script>
+  <script src="./motion-ui.js"></script>
   <script src="./quest-system.js"></script>
   <script src="./curriculum.js"></script>
   <script src="./personal-catalog.js"></script>
@@ -1497,6 +1506,25 @@
       return data;
     }
 
+    function rejectPendingCompletions(error,sent,canonical) {
+      // Only an explicit write rejection is safe to compensate. Offline, timeouts,
+      // lost replies, expired auth and version conflicts keep the existing retry queue.
+      if(!['42501','23514','22023','P0001','DERS_REJECTED'].includes(error?.code))return;
+      const accepted=new Set((canonical?.studyHistory||[]).map(h=>h.id));
+      const intents=(window.DersMotion?.pendingCompletions?.()||[]).filter(i=>!accepted.has(i.historyId)&&sent.studyHistory?.some(h=>h.id===i.historyId&&h.questId===i.questId&&h.weekId===i.weekId));
+      if(!intents.length)return;const reverted=[];
+      if(!saveDraftChange(()=>{for(const intent of intents){
+        const q=state.weeks.find(w=>w.id===intent.weekId)?.quests.find(q=>q.id===intent.questId);if(!q||q.lockedForStudent)continue;
+        if(window.DersQuests.recurring(q)){
+          if(!q.completions?.some(e=>e.historyId===intent.historyId))continue;
+          q.completions=q.completions.filter(e=>e.historyId!==intent.historyId);Object.assign(q,window.DersQuests.normalize(q));
+        }else{if(q.completionId!==intent.historyId)continue;const previous=canonical?.weeks?.find(w=>w.id===intent.weekId)?.quests.find(item=>item.id===q.id);q.done=Boolean(previous?.done);q.completionId=previous?.completionId||null;}
+        state.studyHistory=(state.studyHistory||[]).filter(h=>h.id!==intent.historyId);reverted.push(intent.id);
+      }}))return;
+      for(const id of reverted)window.DersMotion?.cancel(id);
+      if(reverted.length){render();showToast('Sunucu görevi onaylamadı. İşaret geri alındı; kayıtlı geçmişin ve XP’n korundu. '+(error.message||''));}
+    }
+
     async function pushStateToCloud() {
       if (!supabaseClient || !currentUser || !navigator.onLine) return;
       if (syncInFlight) { await syncInFlight; return pushStateToCloud(); }
@@ -1510,7 +1538,7 @@
           state = normalizeState(remote.state);
           localStorage.setItem(boardStorageKey(), JSON.stringify(state));
           setLocalMeta({ version: remote.version, baseState: state, pending: false, updatedAt: new Date(remote.updated_at).getTime() });
-          render(); updateAuthUi(); return;
+          render(); updateAuthUi(); window.DersMotion?.confirmed({userId,state:remote.state,xpBreakdown:verifiedXp}); return;
         }
         for (let attempt = 0; attempt < 4; attempt += 1) {
           const startRevision = revision;
@@ -1521,8 +1549,8 @@
             state: candidate, expected_version: remote?.version || 0, client_id: clientId
           } });
           if (generation !== authGeneration || userId !== currentUser?.id) return;
-          if (error) throw error;
-          if (data.error) throw new Error(data.error);
+          if (error) { rejectPendingCompletions(error,localSnapshot,remote?.state);throw error; }
+          if (data.error) {const rejection=Object.assign(new Error(data.error),{code:'DERS_REJECTED'});rejectPendingCompletions(rejection,localSnapshot,remote?.state);throw rejection;}
           if (data.conflict) { remote = data; continue; }
           verifiedXp = data.xpBreakdown || verifiedXp;
           const changed = revision !== startRevision;
@@ -1531,6 +1559,7 @@
           localStorage.setItem(boardStorageKey(), JSON.stringify(state));
           setLocalMeta({ version: data.version, baseState: accepted, pending: changed, updatedAt: Date.now() });
           render(); updateAuthUi();
+          window.DersMotion?.confirmed({userId,state:accepted,xpBreakdown:verifiedXp});
           if (changed) scheduleSync();
           return;
         }
@@ -1551,7 +1580,15 @@
       return { ...metrics, earnedXp, possibleXp, level };
     }
 
+    let feedbackFrame=0,renderSerial=0;
+    function renderAfterFeedback(){
+      if(!window.DersMotion?.enabled?.()){render();return;}
+      if(feedbackFrame)return;const serial=renderSerial;
+      feedbackFrame=requestAnimationFrame(()=>{feedbackFrame=requestAnimationFrame(()=>{feedbackFrame=0;if(serial===renderSerial)render();});});
+    }
+
     function render() {
+      renderSerial++;
       const week = activeWeek();
       if (!week) return;
       els.weekSubtitle.textContent = week.customTitle ? weekTitle(week) : week.range || week.name || "D.E.R.S.";
@@ -1563,7 +1600,11 @@
       renderSubjectOptions();
       renderSubjectNav(week);
       renderStats(week);
+      const tabMotion=window.DersMotion?.ui?.beginTabs(els.board,{key:'program:'+week.id,value:activeSubject,index:[...els.subjectNav.querySelectorAll('.tab')].findIndex(el=>el.getAttribute('aria-pressed')==='true'),nav:els.subjectNav});
+      const motionOrder=window.DersMotion?.capture(els.board,'[data-motion-quest]','data-motion-quest');
       renderBoard(week);
+      window.DersMotion?.ui?.endTabs(tabMotion);
+      window.DersMotion?.reorder(motionOrder,els.board,'[data-motion-quest]','data-motion-quest');
       renderHistory();
       renderTeacherPanel();
       window.DersUI?.refresh();
@@ -1613,6 +1654,7 @@
         button.addEventListener("click", () => {
           activeSubject = subject.id;
           render();
+          if(!window.DersMotion?.ui)window.DersMotion?.transition(els.board);
         });
         if (editMode && subject.id !== "all") {
           const wrapper = document.createElement("span");
@@ -1660,11 +1702,12 @@
       const stats = getStats(week.quests.filter(window.DersQuests.active));
       const accountStats = getStats(state.weeks.flatMap(item => item.quests));
       const left = stats.total - stats.done;
-      els.totalXp.textContent = `${accountStats.earnedXp} XP`;
-      document.getElementById('xpBreakdown').textContent = currentUser && verifiedXp
-        ? `Doğrulanan: Rekabet ${verifiedXp.competitive} XP · Kişisel ${verifiedXp.personal} XP`
-        : 'Tüm haftalar';
-      els.level.textContent = `Level ${accountStats.level}`;
+      const displayXp=currentUser&&verifiedXp?verifiedXp:{total:accountStats.earnedXp,competitive:0,personal:accountStats.earnedXp};
+      const breakdown=document.getElementById('xpBreakdown');
+      if(currentUser&&verifiedXp){if(!document.getElementById('competitiveXp'))breakdown.innerHTML='Doğrulanan: Rekabet <span id="competitiveXp"></span> XP · Kişisel <span id="personalXp"></span> XP';}
+      else breakdown.textContent='Tüm haftalar';
+      if(window.DersMotion?.account)window.DersMotion.account(displayXp);
+      else{els.totalXp.textContent=displayXp.total+' XP';els.level.textContent='Level '+(Math.floor(displayXp.total/500)+1);}
       els.questCount.textContent = `${stats.done} / ${stats.total}`;
       els.progressText.textContent = `${stats.percent}%`;
       els.progressFill.style.width = `${stats.percent}%`;
@@ -1746,13 +1789,15 @@
       const button = document.createElement("div");
       const sourceLabel = quest.lockedForStudent ? 'Öğretmen atadı' : /\d+\s*Ekim/i.test(quest.sourceDay || "") ? "Haftalık havuz" : (quest.sourceDay || "Haftalık havuz");
       button.className = `quest${window.DersQuests.isDone(quest) ? " done" : ""}`;
+      button.dataset.motionQuest=quest.id;
+      button.dataset.motionWeek=activeWeek().id;
       button.style.setProperty("--subject-color", subject.color);
       button.setAttribute("role", "button");
       button.setAttribute("tabindex", "0");
       button.setAttribute("aria-pressed", String(window.DersQuests.isDone(quest)));
       button.setAttribute("aria-label", `${subject.name}: ${quest.title}, ${quest.detail}, ${quest.xp} XP`);
       button.innerHTML = `
-        <span class="check" aria-hidden="true">${window.DersQuests.isDone(quest) ? "✓" : ""}</span>
+        <span class="check" aria-hidden="true"><svg class="motion-tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 6"/></svg></span>
         <span class="quest-main">
           <span class="quest-title">${escapeHtml(quest.title)}</span>
           <span class="quest-meta">
@@ -1769,7 +1814,7 @@
         button.classList.toggle('today-done',Boolean(progress.todayDone));
         button.setAttribute('aria-disabled',String(progress.blocked));
         button.setAttribute('aria-label',`${subject.name}: ${quest.title}, ${window.DersQuests.describe(quest)}`);
-        button.querySelector('.quest-main').insertAdjacentHTML('beforeend',`<span class="repeat-progress" role="status">${escapeHtml(window.DersQuests.describe(quest))}</span>`);
+        button.querySelector('.quest-main').insertAdjacentHTML('beforeend',`<span class="repeat-progress" role="status"><span class="motion-repeat-count">${progress.count}</span>${escapeHtml(window.DersQuests.describe(quest).slice(String(progress.count).length))}</span><span class="repeat-meter" aria-hidden="true"><span class="repeat-meter-fill" style="width:${Math.min(100,progress.count/progress.target*100)}%"></span></span>`);
       }
       if (completedView) {
         button.querySelector(".quest-meta").insertAdjacentHTML("beforeend", `<span class="chip completed-badge">Tamamlandı</span>`);
@@ -1819,6 +1864,8 @@
         button.querySelector('.quest-main').append(change);
       }
       const details = document.createElement('button');details.className='quest-action';details.type='button';details.title='Görev detayı ve çalışma süresi';details.setAttribute('aria-label','Görev detayı: '+quest.title);details.innerHTML='<i data-lucide="message-square"></i>Detay';details.addEventListener('click',event=>{event.stopPropagation();window.DersLearningUI.task(currentUser?.id,activeWeek().id,quest.id);});button.querySelector('.quest-main').append(details);
+      // A blocked repeat disables completion, not its independent secondary actions.
+      button.querySelectorAll('button.quest-action,.edit-tools select').forEach(control=>control.setAttribute('aria-disabled','false'));
       button.addEventListener("click", () => toggleQuest(quest.id));
       button.addEventListener("keydown", (event) => {
         if (event.target === button && (event.key === "Enter" || event.key === " ")) {
@@ -1834,28 +1881,25 @@
       const quest = week.quests.find((item) => item.id === id);
       if (!quest||quest.archived) return;
       if(window.DersQuests.recurring(quest)){window.DersQuests.complete(quest);return;}
-      const beforeLevel = getStats(state.weeks.flatMap(item => item.quests)).level;
-      quest.done = !quest.done;
-      if (quest.done) {
-        const history = addHistoryRecord(quest, week);
-        quest.completionId = history.id;
-      } else {
-        removeHistoryRecord(quest);
-        quest.completionId = null;
-      }
-      saveState();
-      render();
-      const afterLevel = getStats(state.weeks.flatMap(item => item.quests)).level;
-      if (quest.done) {
-        showXpEffect(quest.xp, afterLevel > beforeLevel);
-      }
-      showToast(quest.done ? `+${quest.xp} XP kazandın` : "Görev geri alındı");
+      const beforeTotalXp=Number(verifiedXp?.total??getStats(state.weeks.flatMap(w=>w.quests)).earnedXp),previous=quest.completionId;
+      const historyId=!quest.done?crypto.randomUUID():null;
+      if(historyId)window.DersMotion?.beginCompletion?.({historyId,weekId:week.id,questId:quest.id,beforeCount:0,target:1,beforeTotalXp},quest);
+      let history;
+      if(!saveDraftChange(()=>{
+        quest.done = !quest.done;
+        if(quest.done){history=addHistoryRecord(quest,week,historyId);quest.completionId=history.id;}
+        else{removeHistoryRecord(quest);quest.completionId=null;}
+      })){if(historyId)window.DersMotion?.cancel('history:'+historyId);return;}
+      if(history)window.DersMotion?.expectCompletion({historyId:history.id,weekId:week.id,questId:quest.id,beforeCount:0,target:1,beforeTotalXp});
+      else if(previous)window.DersMotion?.cancel('history:'+previous);
+      renderAfterFeedback();
+      showToast(quest.done ? (currentUser?'Görev kaydedildi; eşitleme bekleniyor.':'Görev cihazda kaydedildi.') : "Görev geri alındı");
     }
 
-    function addHistoryRecord(quest, week) {
+    function addHistoryRecord(quest, week,recordId) {
       const category = subjectFor(quest.categoryId || quest.subject);
       const record = {
-        id: crypto?.randomUUID ? crypto.randomUUID() : `history-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        id: recordId || (crypto?.randomUUID ? crypto.randomUUID() : `history-${Date.now()}-${Math.random().toString(16).slice(2)}`),
         userId: currentUser?.id || "local",
         questId: quest.id,
         categoryId: category.id,
@@ -1879,27 +1923,6 @@
         : history.map((record) => record.questId).lastIndexOf(quest.id);
       if (index >= 0) history.splice(index, 1);
       state.studyHistory = history;
-    }
-
-    function showXpEffect(xp, leveledUp) {
-      const pop = document.createElement("div");
-      pop.className = "fx-pop";
-      pop.textContent = leveledUp ? `LEVEL UP! +${xp} XP` : `+${xp} XP`;
-      document.body.append(pop);
-      setTimeout(() => pop.remove(), 950);
-      const effects = document.createElement('div');
-      effects.className = 'xp-effects'; document.body.append(effects);
-      setTimeout(() => effects.remove(), 950);
-      const colors = ["#f1c75b", "#72d18b", "#5fb4ff", "#b79cff"];
-      for (let i = 0; i < 18; i += 1) {
-        const piece = document.createElement("span");
-        piece.className = "confetti-piece";
-        piece.style.left = `${Math.random() * 100}%`;
-        piece.style.background = colors[i % colors.length];
-        piece.style.setProperty("--x", `${(Math.random() - .5) * 150}px`);
-        effects.append(piece);
-        setTimeout(() => piece.remove(), 950);
-      }
     }
 
     function showToast(message) {
@@ -2050,10 +2073,12 @@
       if(photoBusy&&!force){showToast('Fotoğraf analizi sürüyor. Biraz bekle.');return;}
       if (!force && window.DersUI && !window.DersUI.canLeave(els.weekModalBackdrop)) return;
       photoGeneration++;
+      const finish=()=>{
       els.weekModalBackdrop.classList.remove("open");
       window.DersUI?.clearDirty(els.weekModalBackdrop);
       window.DersUI?.modalClosed('week');
-      els.newWeekButton.focus({ preventScroll: true });
+      els.newWeekButton.focus({ preventScroll: true });};
+      if(window.DersUI?.finishModal)return window.DersUI.finishModal(els.weekModalBackdrop,finish);finish();
     }
 
     function renderDraftList() {
@@ -2411,8 +2436,7 @@
     const nameDialog=document.getElementById('assignedWeekNameDialog');
     function closeWeekName(saved=false) {
       if(!saved && !window.DersUI?.canLeave(nameDialog))return;
-      window.DersUI?.clearDirty(nameDialog);nameDialog.close();window.DersUI?.modalClosed('assigned-week-name');
-      document.getElementById('renameAssignedWeekButton').focus({preventScroll:true});
+      return window.DersUI.finishModal(nameDialog,()=>{window.DersUI?.clearDirty(nameDialog);nameDialog.close();window.DersUI?.modalClosed('assigned-week-name');document.getElementById('renameAssignedWeekButton').focus({preventScroll:true});});
     }
     document.getElementById('renameAssignedWeekButton').onclick=()=>{
       const week=activeWeek();nameDialog.dataset.weekId=week.id;
@@ -2426,18 +2450,21 @@
     nameDialog.oncancel=e=>{e.preventDefault();closeWeekName();};
     window.DersBoard = {
       get client() { return supabaseClient; }, get user() { return currentUser; }, get state() { return state; },
-      get authReady() { return authReady; },
-      week: activeWeek, weekTitle, renameAssignedWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud, render,
+      get authReady() { return authReady; }, get verifiedXp() { return verifiedXp; },
+      week: activeWeek, weekTitle, renameAssignedWeek, category: subjectFor, escape: escapeHtml, toast: showToast, flush: pushStateToCloud, render,renderAfterFeedback,
       completePersonalRepeat(id){
         const week=activeWeek(),q=week.quests.find(q=>q.id===id);
         if(!q||q.lockedForStudent||!window.DersQuests.recurring(q)||window.DersQuests.progress(q).blocked)return;
+        const beforeCount=window.DersQuests.progress(q).count,beforeTotalXp=Number(verifiedXp?.total??getStats(state.weeks.flatMap(w=>w.quests)).earnedXp),motionHistory=crypto.randomUUID();
+        window.DersMotion?.beginCompletion?.({historyId:motionHistory,weekId:week.id,questId:q.id,beforeCount,target:q.repeat.target,beforeTotalXp},q);
         if(!saveDraftChange(()=>{
           const completedAt=window.DersQuests.timestamp(),event={id:crypto.randomUUID(),date:window.DersQuests.today(completedAt),completedAt};
           q.completions=[...window.DersQuests.completions(q),event];q.done=window.DersQuests.isDone(q);
-          const record=addHistoryRecord(q,week);record.xp=q.done?q.xp:0;record.completedAt=completedAt;record.occurrenceDate=event.date;event.historyId=record.id;
+          const record=addHistoryRecord(q,week,motionHistory);record.xp=q.done?q.xp:0;record.completedAt=completedAt;record.occurrenceDate=event.date;event.historyId=record.id;
           q.completionId=q.done?record.id:null;
-        }))return;
-        render();showToast(window.DersQuests.describe(q));
+        })){window.DersMotion?.cancel('history:'+motionHistory);return;}
+        window.DersMotion?.expectCompletion({historyId:motionHistory,weekId:week.id,questId:q.id,beforeCount,target:q.repeat.target,beforeTotalXp});
+        renderAfterFeedback();showToast(window.DersQuests.describe(q));
       },
       setProfile(profile) { state.profile = { role: profile.role, displayName: profile.display_name }; window.DersUI?.refresh(); },
       editQuest(id, weekId, changes) {
@@ -2451,6 +2478,7 @@
   </script>
   <script src="./teacher-drafts.js"></script>
   <script src="./study.js"></script>
+  <script src="./program-composer.js"></script>
   <script src="./teacher.js"></script>
   <script src="./select-controls.js"></script>
   <script src="./ui.js"></script>
@@ -2462,6 +2490,13 @@
   <script src="./exams-core.js"></script>
   <script src="./exams.js"></script>
   <script src="./experience.js"></script>
+  <script src="./class-model.js"></script>
+  <script src="./class-dom.js"></script>
   <script src="./classes.js"></script>
+  <script src="./teacher-workspace.js"></script>
+  <script src="./program-tools.js"></script>
+  <script src="./teacher-insights.js"></script>
+  <script src="./program-schedules.js"></script>
+  <script src="./teacher-actions.js"></script>
 </body>
 </html>

@@ -1,4 +1,6 @@
 (() => {
+ function finishVisualClose(root,done){if(window.DersUI?.finishModal)return window.DersUI.finishModal(root,done);done();return true;}
+
  const study=window.DersStudy,core=window.DersFocusCore,board=window.DersBoard,weekDates=window.DersWeekDates,$=id=>document.getElementById(id),esc=x=>board.escape(String(x??''));
  const icon=(name,label,id='')=>`<button type="button" class="icon-button" ${id?`id="${id}"`:''} title="${label}" aria-label="${label}"><i data-lucide="${name}"></i></button>`;
  const duration=ms=>{const seconds=Math.floor((ms||0)/1000),m=Math.floor(seconds/60);return m>=60?`${Math.floor(m/60)} sa ${m%60} dk`:m?`${m} dk ${seconds%60} sn`:`${seconds} sn`;};
@@ -7,10 +9,11 @@
  let settingsOwner,renderedSession='',date=core.dayKey(Date.now());
  const dialog=document.createElement('dialog');dialog.id='learningDialog';dialog.className='ders-dialog learning-dialog';document.body.append(dialog);
  const mini=document.createElement('aside');mini.className='focus-mini';mini.id='focusMini';mini.hidden=true;mini.innerHTML='<button type="button" id="focusMiniOpen"><i data-lucide="timer"></i><span><small id="miniPhase"></small><strong id="miniClock"></strong></span></button>'+icon('pause','Duraklat','focusMiniPause')+icon('rotate-ccw','Sıfırla','focusMiniReset');document.body.append(mini);
- function close(force=false,nextRoute){if(!force&&!window.DersUI.canLeave(dialog))return;dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('learning',nextRoute);}
+ function close(force=false,nextRoute){if(!force&&!window.DersUI.canLeave(dialog))return;return finishVisualClose(dialog,()=>{dialog.close();dialog.replaceChildren();window.DersUI.modalClosed('learning',nextRoute);});}
  function show(title,body){if(dialog.open&&!window.DersUI.canLeave(dialog))return false;dialog.innerHTML=`<header class="modal-head"><h2>${esc(title)}</h2>${icon('x','Kapat','closeLearning')}</header><div class="modal-body">${body}</div>`;if(!dialog.open)dialog.showModal();window.DersUI.openModal('learning',dialog,close);$('closeLearning').onclick=()=>close();window.DersUI.clearDirty(dialog);return true;}
  dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
  function error(e){board.toast(e.message||'İşlem tamamlanamadı.');}
+ function validationFeedback(element){try{window.DersMotion?.feedback?.('error',{id:crypto.randomUUID(),element});}catch{}}
  function tasks(){return board.state.weeks.flatMap(w=>(w.quests||[]).map(q=>({weekId:w.id,questId:q.id,title:q.title,week:board.weekTitle(w),categoryName:board.category(q.categoryId||q.subject).name})));}
  function initFocus(){
   const wrap=$('focusPage');if(!wrap||settingsOwner===board.user?.id&&wrap.childElementCount)return;
@@ -18,11 +21,13 @@
   <form id="focusSettings" class="focus-settings" data-auto-save><div class="focus-durations"><fieldset><legend>Çalışma</legend><label>Saat<input class="input" id="workHours" type="number" min="0" max="8" value="0" required></label><label>Dakika<input class="input" id="workMinutes" type="number" min="0" max="59" value="25" required></label></fieldset><fieldset><legend>Mola</legend><label>Saat<input class="input" id="breakHours" type="number" min="0" max="8" value="0" required></label><label>Dakika<input class="input" id="breakMinutes" type="number" min="0" max="59" value="5" required></label></fieldset></div>
   <label class="field">Görev<select class="select" id="focusTask" data-searchable data-week-groups><option value="">Serbest Çalışma</option></select></label>
   <div class="focus-options"><div class="focus-behavior"><label><input type="checkbox" id="focusRepeat">Tekrarlı Oturum</label><label><input type="checkbox" id="focusAuto">Otomatik Aşama Geçişi</label></div><div class="focus-audio"><label class="focus-sound"><input type="checkbox" id="focusSound" checked>Sesli Bildirim</label><label class="focus-tone">Ses<select class="select" id="focusTone"><option value="bell">Çan</option><option value="soft">Yumuşak</option></select></label></div></div><button class="button primary" id="focusStart" type="submit"><i data-lucide="play"></i>Başlat</button><p role="alert" id="focusError"></p></form>
-  <section class="focus-face" aria-label="Zamanlayıcı"><h3 id="focusPhase">Çalışma Zamanı</h3><output id="focusClock" aria-label="Kalan Süre">00:25:00</output><p id="focusInfo"></p><div id="focusControls" class="focus-controls" hidden>${icon('pause','Duraklat','focusPause')}${icon('play','Devam Et','focusResume')}<div id="focusSecondary" class="focus-secondary">${icon('skip-forward','Geçerli Aşamayı Atla','focusSkip')}${icon('square','Oturumu Bitir','focusFinish')}<button class="button primary" id="focusNext" type="button">Sonraki Aşama</button></div></div><p id="focusStatus" role="status"></p></section></div>`;
+  <section class="focus-face" aria-label="Zamanlayıcı"><h3 id="focusPhase">Çalışma Zamanı</h3><div id="focusDial" class="focus-dial"><svg class="focus-ring" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle class="focus-ring-track" cx="50" cy="50" r="47"></circle><circle class="focus-ring-progress" cx="50" cy="50" r="47" pathLength="100"></circle></svg><output id="focusClock" aria-label="Kalan Süre">00:25:00</output></div><p id="focusInfo"></p><div id="focusControls" class="focus-controls" hidden>${icon('pause','Duraklat','focusPause')}${icon('play','Devam Et','focusResume')}<div id="focusSecondary" class="focus-secondary">${icon('skip-forward','Geçerli Aşamayı Atla','focusSkip')}${icon('square','Oturumu Bitir','focusFinish')}<button class="button primary" id="focusNext" type="button">Sonraki Aşama</button></div></div><p id="focusStatus" role="status"></p></section></div>`;
   let pref;try{pref=JSON.parse(localStorage.getItem('ders-focus-settings:'+settingsOwner)||'null');}catch{}
   if(pref){for(const id of ['workHours','workMinutes','breakHours','breakMinutes','focusTone'])if(pref[id]!=null)$(id).value=pref[id];for(const id of ['focusRepeat','focusAuto','focusSound'])if(pref[id]!=null)$(id).checked=pref[id];}
   $('focusSettings').onsubmit=e=>{e.preventDefault();try{const task=tasks().find(t=>t.weekId+'|'+t.questId===$('focusTask').value);const values={};for(const id of ['workHours','workMinutes','breakHours','breakMinutes','focusTone'])values[id]=$(id).value;for(const id of ['focusRepeat','focusAuto','focusSound'])values[id]=$(id).checked;
-   study.start({workMs:(Number(values.workHours)*60+Number(values.workMinutes))*60000,breakMs:(Number(values.breakHours)*60+Number(values.breakMinutes))*60000,repeat:values.focusRepeat,auto:values.focusAuto,sound:values.focusSound,tone:values.focusTone,task,contextWeekId:board.week().id});
+   const settings={workMs:(Number(values.workHours)*60+Number(values.workMinutes))*60000,breakMs:(Number(values.breakHours)*60+Number(values.breakMinutes))*60000,repeat:values.focusRepeat,auto:values.focusAuto,sound:values.focusSound,tone:values.focusTone,task,contextWeekId:board.week().id};
+   try{core.validate(settings);}catch(e){validationFeedback($('focusSettings'));throw e;}
+   study.start(settings);
    localStorage.setItem('ders-focus-settings:'+settingsOwner,JSON.stringify(values));$('focusSettings').hidden=true;$('focusError').textContent='';
   }catch(e){$('focusError').textContent=e.message;}};
   for(const [id,action] of [['focusPause','pause'],['focusResume','resume'],['focusSkip','skip'],['focusFinish','finish'],['focusNext','next']])$(id).onclick=()=>{if(action==='finish'&&!confirm('Odak oturumu bitirilsin mi? Net çalışma süren korunacak.'))return;try{study.act(action);}catch(e){error(e);}};
@@ -34,6 +39,12 @@
   return weekDates.order(board.state.weeks).filter(w=>!w.archived).map(w=>({id:w.id,title:board.weekTitle(w),quests:(w.quests||[]).filter(q=>window.DersQuests.active(q)&&!window.DersQuests.isDone(q)).map(q=>({id:q.id,title:q.title,lesson:board.category(q.categoryId||q.subject).name}))})).filter(w=>w.quests.length);
  }
  function updateTasks(){const select=$('focusTask');if(!select)return;const groups=focusWeeks(),signature=JSON.stringify(groups);if(select.dataset.items===signature)return;select.dataset.items=signature;const value=select.value;select.innerHTML='<option value="">Serbest Çalışma</option>'+groups.map(w=>`<optgroup data-week-id="${esc(w.id)}" label="${esc(w.title+' — '+w.quests.length+' görev')}">${w.quests.map(q=>`<option value="${esc(w.id+'|'+q.id)}">${esc(q.lesson+' · '+q.title)}</option>`).join('')}</optgroup>`).join('');select.value=value;if(!select.value)select.value='';window.DersSelect?.refresh();}
+ function renderDial(s,remaining){
+  const dial=$('focusDial');if(!dial)return;
+  const total=s?(s.phase==='break'?s.settings.breakMs:s.settings.workMs):25*60000,ratio=total>0?remaining/total:0,key=s?`${s.id}:${s.phase}:${s.cycle}`:'idle';
+  dial.dataset.progressMotion=String(s?.status==='running'&&dial.dataset.progressKey===key);dial.dataset.progressKey=key;dial.dataset.phase=s?.phase||'work';
+  const value=Number.isFinite(ratio)?Math.max(0,Math.min(1,ratio)):0;dial.style.setProperty('--focus-progress',String(value));dial.style.setProperty('--focus-offset',String(100*(1-value))+'px');
+ }
  function renderFocus(){
   const s=study.session,active=s&&!['completed','ended'].includes(s.status),inFocus=window.DersUI.route==='focus';
   mini.hidden=!active||inFocus||!board.user;document.body.classList.toggle('has-focus-mini',!mini.hidden);
@@ -44,7 +55,7 @@
   const shell=$('focusClock').closest('.focus-shell');shell.dataset.sessionState=s?.status||'idle';shell.dataset.active=String(Boolean(active));
   const signature=s?.id+':'+s?.status;
   if(signature!==renderedSession){renderedSession=signature;$('focusSettings').hidden=!!active;}
-  text('focusClock',clock(s?core.remaining(s,Date.now()):25*60000));
+  const remaining=s?core.remaining(s,Date.now()):25*60000;text('focusClock',clock(remaining));renderDial(s,remaining);
   text('focusPhase',!s||s.phase==='work'?'Çalışma Zamanı':'Mola Zamanı');
   text('focusInfo',s?`${s.settings.task?.title||'Serbest Çalışma'} · ${s.cycle}. çalışma${s.status==='paused'?' · Duraklatıldı':s.status==='completed'?' · Tamamlandı':s.status==='ended'?' · Bitirildi':s.status==='waiting'?' · Geçiş bekliyor':''}`:'');
   $('focusControls').hidden=!active;$('focusPause').hidden=s?.status!=='running';$('focusResume').hidden=s?.status!=='paused';$('focusNext').hidden=s?.status!=='waiting';
@@ -52,7 +63,7 @@
   if($('focusTask').dataset.active!==String(!!active)){$('focusTask').dataset.active=String(!!active);window.DersSelect?.refresh();}
   text('focusStatus',study.status|| (study.pending?'Süre kayıtları eşitlenmeyi bekliyor.':s?.settings.sound?(study.soundReady?'Ses açık':'Sesi etkinleştirmek için Devam et veya ses ayarına dokun.'):''));
  }
- function renderClocks(){const s=study.session;if(!s)return;text('miniClock',clock(core.remaining(s,Date.now())));if($('focusClock'))text('focusClock',clock(core.remaining(s,Date.now())));}
+ function renderClocks(){const s=study.session;if(!s)return;const remaining=core.remaining(s,Date.now());text('miniClock',clock(remaining));if($('focusClock')){text('focusClock',clock(remaining));renderDial(s,remaining);}}
  $('focusMiniOpen').onclick=()=>window.DersUI.navigate('focus');$('focusMiniPause').onclick=()=>{try{study.act(study.session?.status==='paused'?'resume':study.session?.status==='waiting'?'next':'pause');}catch(e){error(e);}};
  $('focusMiniReset').onclick=()=>{try{study.act('reset');}catch(e){error(e);}};
  function daily(){
@@ -80,22 +91,23 @@
   if(!show(q.title,`<p>${esc(q.detail)}</p><strong>Net çalışma: ${duration(total)}</strong><button class="button" id="focusThisTask" type="button"><i data-lucide="timer"></i>Bu Göreve Odaklan</button><div id="taskThread"></div>`))return;
   $('focusThisTask').onclick=()=>{close(true,'focus');initFocus();$('focusTask').value=week+'|'+qid;window.DersSelect?.refresh();};await thread($('taskThread'),sid,week,qid);
  }
- async function report(wrap,sid,selectedWeek,selectedQuest){
+ async function report(wrap,sid,selectedWeek,selectedQuest,scope=''){
+  const weekId='reportWeek'+(scope?'-'+scope:''),contentId='reportContent'+(scope?'-'+scope:''),reviewId='weekReviewForm'+(scope?'-'+scope:'');
   const uid=board.user?.id,token=crypto.randomUUID();wrap.dataset.request=token;wrap.innerHTML='<p role="status">Karne yükleniyor…</p>';
   try{
    const data=await study.rpc('report',{student_id:sid});if(!wrap.isConnected||wrap.dataset.request!==token||uid!==board.user?.id)return;
    const state=data.state||{weeks:[],categories:[]},weeks=weekDates.order(state.weeks||[]),own=uid===sid;
-   wrap.innerHTML=`<div class="report-heading"><h3>Öğrenci Karnesi</h3><label class="field">Hafta<select class="select" id="reportWeek" data-ui-transient="true">${weeks.map(w=>`<option value="${esc(w.id)}">${esc(own?board.weekTitle(w):w.name)}${w.archived?' · Arşiv':''}</option>`).join('')}</select></label></div><div id="reportContent"></div>`;
-   const select=wrap.querySelector('#reportWeek');select.value=selectedWeek||state.activeWeekId||weeks[0]?.id;
+   wrap.innerHTML=`<div class="report-heading"><h3>Öğrenci Karnesi</h3><label class="field">Hafta<select class="select" id="${esc(weekId)}" data-ui-transient="true">${weeks.map(w=>`<option value="${esc(w.id)}">${esc(own?board.weekTitle(w):w.name)}${w.archived?' · Arşiv':''}</option>`).join('')}</select></label></div><div id="${esc(contentId)}"></div>`;
+   const select=wrap.querySelector('#'+weekId);select.value=selectedWeek||state.activeWeekId||weeks[0]?.id;
    const draw=()=>{
-    const w=weeks.find(w=>w.id===select.value),host=wrap.querySelector('#reportContent');if(!w){host.textContent='Henüz hafta yok.';return;}
+    const w=weeks.find(w=>w.id===select.value),host=wrap.querySelector('#'+contentId);if(!w){host.textContent='Henüz hafta yok.';return;}
     const qs=(w.quests||[]).filter(window.DersQuests.active),complete=window.DersQuests.isDone,metrics=window.DersQuests.metrics(qs),late=qs.filter(q=>!complete(q)&&/^\d{4}-\d{2}-\d{2}$/.test(q.repeat?.endDate||w.endDate||w.end||'')&&(q.repeat?.endDate||w.endDate||w.end)<core.dayKey(Date.now())).length;
     const segments=data.segments.filter(s=>s.week_id===w.id),time=segments.reduce((n,s)=>n+s.duration_ms,0),lessons=[...new Set(qs.map(q=>q.categoryId||q.subject))];
     host.innerHTML=`<div class="report-stats"><span><strong>${metrics.done}/${metrics.total}</strong>Tamamlanan görev</span><span><strong>${metrics.total-metrics.done}</strong>Bekleyen</span><span><strong>${late}</strong>Süresi geçen (tarihli)</span><span><strong>${metrics.units}/${metrics.targets} (%${metrics.percent})</strong>Tekrar İlerlemesi</span><span><strong>${metrics.completionPercent}%</strong>Görev Tamamlanması</span><span><strong>${duration(time)}</strong>Toplam net çalışma</span><span><strong>${duration(segments.filter(s=>!s.quest_id).reduce((n,s)=>n+s.duration_ms,0))}</strong>Serbest çalışma · bu hafta</span></div>
     <div class="report-lessons">${lessons.map(id=>{const a=qs.filter(q=>(q.categoryId||q.subject)===id),name=(state.categories||[]).find(c=>c.id===id)?.name||'Belirtilmemiş';return `<div><span>${esc(name)}</span><progress max="${a.length||1}" value="${a.filter(complete).length}"></progress><span>${a.filter(complete).length}/${a.length}</span></div>`;}).join('')}</div>
-    <div class="report-tasks">${qs.map(q=>`<details data-report-quest="${esc(q.id)}"><summary>${esc(q.title)} <small>${window.DersQuests.describe(q)} · ${duration(segments.filter(s=>s.quest_id===q.id).reduce((n,s)=>n+s.duration_ms,0))}</small></summary><p>${esc(q.detail)}</p><div class="report-thread"></div></details>`).join('')}</div>
+    <div class="report-tasks">${qs.map(q=>`<details data-report-quest="${esc(q.id)}"><summary class="report-task-summary"><span class="report-task-row"><span class="report-task-heading"><svg class="report-task-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg><span class="report-task-title">${esc(q.title)}</span></span><small class="report-task-status">${esc(window.DersQuests.describe(q))} · ${duration(segments.filter(s=>s.quest_id===q.id).reduce((n,s)=>n+s.duration_ms,0))}</small></span></summary><p>${esc(q.detail)}</p><div class="report-thread"></div></details>`).join('')}</div>
     <h3>Haftalık Öğretmen Değerlendirmesi</h3>${data.reviews.filter(r=>r.week_id===w.id).map(r=>`<div class="week-review"><strong>${esc(r.teacher_name)}</strong><p>${esc(r.body)}</p><time>${new Date(r.updated_at).toLocaleString('tr-TR',{timeZone:'Europe/Istanbul'})}</time></div>`).join('')||'<p class="sync-status">Henüz değerlendirme yok.</p>'}
-    ${own?'':`<form id="weekReviewForm" data-draft><label class="field">Değerlendirmen<textarea class="textarea" name="body" rows="4" maxlength="8000" required>${esc(data.reviews.find(r=>r.week_id===w.id&&r.teacher_id===uid)?.body||'')}</textarea></label><button class="button primary" type="submit">Değerlendirmeyi Kaydet</button><p role="status"></p></form>`}`;
+    ${own?'':`<form id="${esc(reviewId)}" data-draft><label class="field">Değerlendirmen<textarea class="textarea" name="body" rows="4" maxlength="8000" required>${esc(data.reviews.find(r=>r.week_id===w.id&&r.teacher_id===uid)?.body||'')}</textarea></label><button class="button primary" type="submit">Değerlendirmeyi Kaydet</button><p role="status"></p></form>`}`;
     for(const detail of host.querySelectorAll('details'))detail.addEventListener('toggle',()=>{if(detail.open&&!detail.dataset.loaded){detail.dataset.loaded='true';thread(detail.querySelector('.report-thread'),sid,w.id,detail.dataset.reportQuest);}});
     const form=host.querySelector('form');if(form){form.onsubmit=async e=>{e.preventDefault();const b=form.querySelector('button');b.disabled=true;try{const body=form.elements.body.value.trim();await study.rpc('review',{student_id:sid,week_id:w.id,body});const old=data.reviews.find(r=>r.week_id===w.id&&r.teacher_id===uid);if(old){old.body=body;old.updated_at=new Date().toISOString();}else data.reviews.push({teacher_id:uid,teacher_name:board.state.profile?.displayName||'Öğretmen',week_id:w.id,body,updated_at:new Date().toISOString()});window.DersUI.clearDirty(form);form.querySelector('[role="status"]').textContent='Değerlendirme kaydedildi.';study.refresh();}catch(e){form.querySelector('[role="status"]').textContent=e.message;}finally{b.disabled=false;}};window.DersUI.clearDirty(form);}
     if(selectedQuest){const target=[...host.querySelectorAll('details')].find(d=>d.dataset.reportQuest===selectedQuest);if(target){target.open=true;target.scrollIntoView({block:'nearest'});}selectedQuest=null;}

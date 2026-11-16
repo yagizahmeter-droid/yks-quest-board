@@ -2,6 +2,7 @@
   if (typeof HTMLElement.prototype.showPopover !== 'function') { window.DersSelect = { close() {}, refresh() {} }; return; }
   const controls = new Map(); let opened = null, sequence = 0;
   const fold = value => value.toLocaleLowerCase('tr-TR');
+  const fingerprint = c => JSON.stringify([...c.native.options].map(o=>[o.value,o.label,o.disabled,o.hidden,o.selected]));
   function close(restore = false) {
     if (!opened) return;
     const c = opened; opened = null;
@@ -68,7 +69,7 @@
   function open(c) {
     if (c.native.disabled) return;
     if (opened === c) { close(true); return; } close(); update(c); opened=c;
-    c.expanded=new Set();c.query='';if (c.search) c.search.value=''; draw(c); c.wrap.classList.add('select-open'); c.trigger.setAttribute('aria-expanded','true');
+    c.expanded=new Set();c.query='';if (c.search) c.search.value=''; c.fingerprint=fingerprint(c);draw(c); c.wrap.classList.add('select-open'); c.trigger.setAttribute('aria-expanded','true');
     position(c); c.popup.showPopover(); if(c.search)c.search.focus(); else c.trigger.focus(); active(c,c.index);
   }
   function key(c, e) {
@@ -117,5 +118,11 @@
   document.addEventListener('focusin',e=>{if(opened && !opened.wrap.contains(e.target))close();});
   window.addEventListener('resize',()=>opened&&position(opened)); document.addEventListener('scroll',e=>{if(opened && !opened.popup.contains(e.target))position(opened);},true);
   scan(); observer.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['disabled','aria-label']});
-  window.DersSelect={close,refresh:()=>{scan();controls.forEach(update);if(opened){if(opened.native.disabled)close();else draw(opened,opened.search?.value||'');}}};
+  window.DersSelect={close,refresh:(root=document)=>{
+    scan(root);for(const c of controls.values())if(root===document||root.contains(c.native))update(c);
+    if(opened&&(root===document||root.contains(opened.native))){
+      if(opened.native.disabled)close();
+      else {const next=fingerprint(opened);if(opened.fingerprint!==next){opened.fingerprint=next;draw(opened,opened.search?.value||'');}}
+    }
+  }};
 })();

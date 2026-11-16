@@ -1,0 +1,10 @@
+'use strict';
+const assert=require('node:assert/strict'),{homework,progress}=require('../class-model.js');
+const quest=(count=0)=>({count,repeat_target:4}),p={starts_on:'2026-12-28',ends_on:'2027-01-03',recipients:Array.from({length:10},(_,i)=>({student_id:String(i),status:i<5?'accepted':'pending',quests:[quest(4),quest(2)]}))};
+let s=homework([p]);assert.equal(s.total,10);assert.equal(s.done,5);assert.equal(s.units,30);assert.equal(s.targets,40);assert.equal(s.percent,75);assert.equal(s.completionPercent,50);assert.deepEqual(s.students,{sent:10,accepted:5,pending:5,rejected:0,withdrawn:0,cancelled:0,started:5,completed:0});
+assert.equal(homework([{...p,recipients:p.recipients.map(r=>({...r,status:'rejected'}))}]).percent,null);
+assert.equal(homework([{...p,cancelled_at:'now'}]).total,0);
+assert.equal(homework([p],{starts_on:'2027-02-01'}).total,0);
+assert.deepEqual(progress([{...quest(4),archived_at:'now'},quest(2)]),{total:1,done:0,partial:1,started:true,targets:4,units:2,percent:50,completionPercent:0});
+assert.equal(homework([{...p,recipients:p.recipients.map(r=>({...r,archived_at:'now'}))}]).total,0);
+console.log('PASS v150 accepted-only denominators, independent states, archived tasks, zero denominator, repeat units and year boundary');

@@ -1,0 +1,18 @@
+'use strict';
+const assert=require('node:assert/strict'),{randomUUID:uuid}=require('node:crypto');
+module.exports=async({admin,asUser,action,t,other,students,check,denied})=>{
+ await admin.query(require('../scripts/v150-workspace-migration.cjs')());
+ const rpc=async(u,action,p={})=>(await asUser(u,'select public.ders_workspace($1,$2::jsonb) r',[action,JSON.stringify(p)])).rows[0].r,sid=students[0],id=uuid();
+ check((await rpc(t,'students')).some(s=>s.id===sid),'Workspace lists only teacher-approved student connections');
+ await denied(rpc(sid,'students'),'Student cannot call teacher workspace');await denied(rpc(other,'student',{student_id:sid}),'Unlinked teacher cannot load student workspace');
+ const sent=await action(t,'assign_program',{student_id:sid,week_name:'M3 previous program',week_range:'28.12.2026 – 03.01.2027',quests:[{category:'Matematik',title:'M3 Test',xp:100,repeat_kind:'weekly',repeat_target:4}]});await action(sid,'respond_assignment',{id:sent.assignment_id,status:'accepted'});
+ const d=await rpc(t,'student',{student_id:sid});assert.equal(d.student_id,sid);assert.ok(d.week);assert.equal(d.week.id,d.weeks.find(w=>w.id===d.week.id).id);assert.equal(d.weeks.some(w=>w.quests),false);check(true,'Authorized right panel returns one actual canonical week and lightweight week metadata');
+ let body={name:'Taslak A',start:'2026-12-28',end:'2027-01-03',quests:[]},draft=await rpc(t,'save_draft',{student_id:sid,id,revision:0,body});assert.equal(draft.revision,1);assert.equal((await rpc(t,'save_draft',{student_id:sid,id,revision:0,body})).revision,1);
+ const results=await Promise.all([rpc(t,'save_draft',{student_id:sid,id,revision:1,body:{...body,name:'PC'}}),rpc(t,'save_draft',{student_id:sid,id,revision:1,body:{...body,name:'Phone'}})]);assert.equal(results.filter(r=>r.code==='draft_conflict').length,1);assert.equal((await rpc(t,'drafts',{student_id:sid}))[0].revision,2);check(true,'Draft saves are idempotent and concurrent devices cannot silently overwrite one another');
+ if(process.env.V150_TOOLS==='1')await require('./v150-tools-db.cjs')({admin,asUser,action,check,denied});
+ if(process.env.V150_ACTIONS==='1')await require('./v150-actions-db.cjs')({admin,asUser,rpc,t,other,students,cid:(await admin.query('select id from school_classes where teacher_id=$1 and archived_at is null limit 1',[t])).rows[0].id,check,denied});
+ if(process.env.V150_WORKSPACE_BROWSER==='1')await require('./browser.cjs')({root:require('node:path').resolve(__dirname,'..'),deps:require,action,asUser,admin,ids:[t,...students],personal:{}});
+ await admin.query("insert into student_teacher_connections(teacher_id,student_id,status,approved_at) values($1,$2,'approved',now())",[other,sid]);await denied(rpc(other,'save_draft',{student_id:sid,id,revision:2,body}),'Another linked teacher cannot overwrite a draft by ID');assert.equal((await rpc(other,'drafts',{student_id:sid})).length,0);assert.equal((await asUser(other,'select * from teacher_workspace_drafts')).rows.length,0);
+ await denied(asUser(t,'update teacher_workspace_drafts set body=$1 where id=$2',[body,id]),'Direct draft writes cannot bypass optimistic concurrency');await admin.query("update student_teacher_connections set status='revoked' where teacher_id=$1 and student_id=$2",[t,sid]);await denied(rpc(t,'drafts',{student_id:sid}),'Revocation immediately hides student drafts');assert.equal((await asUser(t,'select * from teacher_workspace_drafts')).rows.length,0);assert.equal((await admin.query('select count(*)::int n from teacher_workspace_drafts where id=$1',[id])).rows[0].n,1);check(true,'Owner RLS and connection revocation quarantine drafts without deleting them');
+
+};

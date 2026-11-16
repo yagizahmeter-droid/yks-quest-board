@@ -63,19 +63,21 @@
       await b.flush();
       for(const op of queue(id)){
         if(root.DersBoard.user?.id!==id||!navigator.onLine)break;
+        root.DersMotion?.retry?.('repeat:'+op.request_id);
         const {data,error}=await b.client.rpc('ders_action',{p_action:'complete_repeat',p_payload:op});
         if(root.DersBoard.user?.id!==id)break;
         if(error)throw error;if(data?.error)throw new Error(data.error);
         if(!['completed','already_completed','expired','outside_window','target_reached','archived'].includes(data?.status))throw new Error('Görev sonucu doğrulanamadı.');
         await b.flush();
         if(root.DersBoard.user?.id!==id||!navigator.onLine)break;
+        root.DersMotion?.repeatConfirmed?.(op,data);
         // Keep the same idempotency key until the canonical board has been received.
         save(id,queue(id).filter(item=>item.request_id!==op.request_id));
-        if(data.status==='completed'&&!data.duplicate)b.toast(`+${data.xp} XP kazandın`);
+        if(data.status==='completed'&&!data.duplicate)b.toast(root.DersMotion?.beginTeacher?'Görev doğrulandı.':`+${data.xp} XP kazandın`);
         else if(data.status==='expired')b.toast('Bekleyen günlük görev geçmiş güne ait; güvenli olarak onaylanamadı.');
         else if(data.status!=='completed')b.toast(data.status==='already_completed'?'Bugün zaten tamamlandı.':'Görev şu anda tamamlanamaz.');
       }
-    }catch(error){if(root.DersBoard.user?.id===id)b.toast(error.message||'Görev onayı bekliyor. İnternet bağlantını kontrol et.');}
+    }catch(error){if(root.DersBoard.user?.id===id){root.DersMotion?.pendingError?.(queue(id).map(op=>'repeat:'+op.request_id));b.toast('Görev onaylanamadı; tamamlandı sayılmadı. '+(error.message||'İnternet bağlantını kontrol et. Kaydın yeniden denenecek.'));}}
     finally{draining=false;render();}
   }
   function complete(q){const id=root.DersBoard?.user?.id;if(!id||!recurring(q)||progress(q).blocked)return;
@@ -83,8 +85,10 @@
     if(!q.lockedForStudent){root.DersBoard.completePersonalRepeat(q.id);return;}
     const op={quest_id:q.assignedQuestId,request_id:crypto.randomUUID()};
     if(q.repeat.kind==='daily')op.expected_date=today();
-    try { save(id,[...queue(id),op]);render();drain(); }
-    catch { root.DersBoard.toast('Görev kaydı bu cihazda saklanamadı. Depolama alanını kontrol et.'); }
+    const intent={requestId:op.request_id,assignedQuestId:q.assignedQuestId,questId:q.id,weekId:root.DersBoard.week().id,beforeCount:progress(q).count,target:q.repeat.target,beforeTotalXp:root.DersBoard.verifiedXp?.total};
+    root.DersMotion?.beginTeacher?.(intent,q);
+    try { save(id,[...queue(id),op]);root.DersMotion?.expectTeacher?.(intent);if(root.DersBoard.renderAfterFeedback)root.DersBoard.renderAfterFeedback();else render();drain(); }
+    catch { root.DersMotion?.cancel?.('repeat:'+op.request_id);root.DersBoard.toast('Görev kaydı bu cihazda saklanamadı. Depolama alanını kontrol et.'); }
   }
   async function archiveWeek(week){
     const b=root.DersBoard;if(!b?.user||!navigator.onLine)throw new Error('Haftayı güvenli arşivlemek için giriş ve internet bağlantısı gerekli.');

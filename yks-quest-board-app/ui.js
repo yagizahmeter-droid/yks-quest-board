@@ -1,8 +1,8 @@
 (() => {
-  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus', 'exams','classes'];
+  const routes = ['home', 'program', 'teacher', 'history', 'account', 'account/signup', 'focus', 'exams','classes','workspace'];
   const titles = { home: 'Genel Bakış', program: 'Programım', teacher: 'Öğretmen', history: 'Çalışma Geçmişi', account: 'Hesabım', 'account/signup': 'Kayıt Ol',focus:'Odak Modu',exams:'Denemelerim' };
-  titles.classes='Sınıflar';
-  const privateRoutes = new Set(['program', 'teacher', 'history','focus','exams','classes']);
+  titles.classes='Sınıflar';titles.workspace='Öğretmen Çalışma Alanı';
+  const privateRoutes = new Set(['program', 'teacher', 'history','focus','exams','classes','workspace']);
   const $ = id => document.getElementById(id);
   const mobile = matchMedia('(max-width: 720px)');
   const overlays = new Map();
@@ -20,14 +20,14 @@
   current ||= history.state;
   try { document.body.classList.toggle('nav-compact', localStorage.getItem('ders-navigation-compact') === 'true'); } catch {}
 
-  const baselines = new WeakMap();
+  const baselines = new WeakMap(), managedDrafts = new WeakMap();
   const draftSelector = '[data-draft], form, .modal-backdrop, dialog:not([data-auto-save])';
   let closedModalBack = false;
   function values(root) {
     return JSON.stringify([...root.querySelectorAll('input,select,textarea')].filter(el => !el.closest('[data-auto-save]') && el.dataset.uiTransient !== 'true').map((el,i) => [el.id || `${el.name}:${el.dataset.key || ''}:${i}`, el.type === 'file' ? [...el.files].map(f => [f.name,f.size,f.lastModified]) : ['checkbox','radio'].includes(el.type) ? el.checked : el.value]));
   }
   function scopes(root) { return root ? [...(root.matches?.(draftSelector) ? [root] : []), ...root.querySelectorAll(draftSelector)].filter(el => !el.closest('[data-auto-save]')) : []; }
-  function dirty(root) { return scopes(root).some(el => el.dataset.dirty==='true' && baselines.has(el) && baselines.get(el) !== values(el)); }
+  function dirty(root) { return scopes(root).some(el => managedDrafts.has(el) ? Boolean(managedDrafts.get(el)()) : el.dataset.dirty==='true' && baselines.has(el) && baselines.get(el) !== values(el)); }
   function canLeave(root) { return !dirty(root) || confirm('Kaydedilmemiş değişiklikler var. Yine de ayrılmak istiyor musun?'); }
   function activeRoot() { return overlays.get(current.modal)?.root || document.querySelector('.page-view:not([hidden])'); }
   function clearDirty(root) {
@@ -53,7 +53,8 @@
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
   function openModal(id, root, close) {
-    overlays.set(id, { root, close });
+    overlays.set(id, { root, close, owner:window.DersBoard.user?.id||null });
+    window.DersMotion?.ui?.modalEnter(root);
     if (current.modal === id) return;
     const replace = Boolean(current.modal);
     current = stateFor(current.route, replace ? current.depth : current.depth + 1, id);
@@ -102,6 +103,7 @@
     if (!loading && privateRoutes.has(route) && !window.DersBoard.user) {
       intended = route; route = 'account'; current = stateFor(route, current.depth); history.replaceState(current, '', '#/account');
     }
+    window.DersMotion?.ui?.routeBefore(loading?null:document.querySelector('[data-page="'+route.split('/')[0]+'"]'),route);
     document.querySelectorAll('[data-page]').forEach(el => el.hidden = loading || el.dataset.page !== route.split('/')[0]);
     $('routeLoading').hidden = !loading;
     $('pageTitle').textContent = route.startsWith('account') && !window.DersBoard.user ? (route === 'account/signup' ? 'Kayıt Ol' : 'Giriş Yap') : titles[route];
@@ -228,7 +230,18 @@
   $('sidebar').inert = mobile.matches;
   $('pageBack').onclick = () => { if (current.depth > 0) history.back(); else navigate('home'); };
   $('addProgramButton').onclick = () => $('newWeekButton').click();
-  $('openQuestEditor').onclick = () => { $('questEditor').open = true; $('manualDetail').focus(); $('questEditor').scrollIntoView({block:'nearest'}); };
+  $('openQuestEditor').onclick = () => {
+    const editor=$('questEditor'),detail=$('manualDetail'),previous=document.activeElement;
+    const focus=()=>{
+      if(!editor.open||!detail.isConnected||editor.closest('[hidden],[inert]')||![previous,$('openQuestEditor')].includes(document.activeElement))return;
+      // Opening details commits its native content visibility after style/paint.
+      // Follow that state rather than guessing a delay or disabling motion.
+      if(getComputedStyle(editor,'::details-content').contentVisibility==='hidden'){requestAnimationFrame(focus);return;}
+      detail.focus({preventScroll:true});
+    };
+    editor.open=true;focus();
+    editor.scrollIntoView({block:'nearest'});
+  };
   document.querySelector('[data-go-teacher]').onclick = () => navigate('teacher');
   document.querySelector('[data-account-logout]').onclick = () => { if (canLeave(activeRoot())) $('signOutButton').click(); };
   document.addEventListener('click', event => {
@@ -236,9 +249,10 @@
     if (link && !event.ctrlKey && !event.metaKey && !event.shiftKey && event.button === 0) { event.preventDefault(); navigate(link.dataset.route); }
     const historyTab = event.target.closest('[data-history-view]');
     if (historyTab) {
+      const tabMotion=window.DersMotion?.ui?.beginTabs($('historyPage'),{value:historyTab.dataset.historyView,index:[...document.querySelectorAll('[data-history-view]')].indexOf(historyTab),nav:historyTab.parentElement});
       historyView = historyTab.dataset.historyView;
       document.querySelectorAll('[data-history-view]').forEach(b => { b.classList.toggle('is-active', b === historyTab); b.setAttribute('aria-pressed', String(b === historyTab)); });
-      drawCompleted(); icons();
+      drawCompleted(); icons();window.DersMotion?.ui?.endTabs(tabMotion);
     }
   });
   document.addEventListener('input', event => {
@@ -283,6 +297,7 @@
     const messages = { invalid_credentials:'E-posta veya şifre hatalı.', email_not_confirmed:'Giriş yapmadan önce e-postanı doğrula.', user_already_exists:'Bu e-posta için zaten bir hesap var.', email_address_invalid:'Geçerli bir e-posta adresi gir.', weak_password:'Daha güçlü bir şifre seç.', over_request_rate_limit:'Çok fazla deneme yapıldı. Biraz sonra tekrar dene.', over_email_send_rate_limit:'E-posta gönderim sınırına ulaşıldı. Biraz sonra tekrar dene.' };
     return messages[error.code] || 'İşlem tamamlanamadı. Bilgilerini kontrol edip tekrar dene.';
   }
-  window.DersUI = { refresh, navigate, openModal, modalClosed, clearDirty, canLeave, authError, closeNavigationForModal(){if(document.body.classList.contains('drawer-open'))closeSidebar(false,true);}, get route() { return current.route; }, setTeacherInfo(data) { teacherInfo = data; refresh(); } };
+  function finishModal(root,finish,options={}){const overlay=[...overlays.values()].find(item=>item.root===root);const immediate=options.immediate||Boolean(overlay&&overlay.owner!==(window.DersBoard.user?.id||null));if(window.DersMotion?.ui?.modalExit)return window.DersMotion.ui.modalExit(root,finish,{immediate});finish();return true;}
+  window.DersUI = { registerDraft(root,isDirty){managedDrafts.set(root,isDirty);}, finishModal, refresh, navigate, openModal, modalClosed, clearDirty, canLeave, authError, closeNavigationForModal(){if(document.body.classList.contains('drawer-open'))closeSidebar(false,true);}, get route() { return current.route; }, setTeacherInfo(data) { teacherInfo = data; refresh(); } };
   refresh();
 })();

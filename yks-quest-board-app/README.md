@@ -14,6 +14,12 @@ D.E.R.S.; öğrencinin görevlerini, çalışma sürelerini ve deneme sonuçlar�
 
 Chrome'da Ana ekrana ekle / Uygulamayı yükle; iPhone Safari'de Paylaş > Ana Ekrana Ekle kullanılabilir. PWA çevrimdışı kabuğu saklar; ilk giriş, davetler ve sunucu işlemleri internet gerektirir. Classic, Saydam, Natural ve Cloud görünümleri ile açık/koyu/sistem teması korunur.
 
+## Etkileşim efektleri (v1.4.0 önizlemesi)
+
+Görünüm → Etkileşim Efektleri bölümünde animasyonları, dokunsal geri bildirimi ve konfeti efektlerini bu cihaz için ayrı kapatabilirsin. Sistemindeki Hareketi Azalt tercihi görsel hareketleri sınırlar. Tik, küçük spring ve tahmini ödülün +XP efekti tıklama anında oynar. Hesap XP’si yalnızca sunucuda doğrulanmış sonuçla değişir; ret durumunda geçici tepki geri alınır. Aynı yanıt, yeniden deneme veya başka cihazdan gelen sonuç ikinci ödül efekti üretmez. Titreşim her tarayıcı ve cihazda desteklenmez.
+
+Motion System 2.0 önizlemesi anlık basma geri bildirimi, yönlü sayfa/sekme geçişleri, akıcı açılıp kapanan pencereler ve göreve bağlı XP etiketleri ekler. Sürüm Geçmişi sabit başlık altında tek içerik alanında kayar. Kapsam ve test ayrıntıları: `docs/MOTION2.md`. Planlanan Teacher Workspace ve öğrenci dock'u bu sürüme dahil değildir.
+
 ## Mimari ve veriler
 
 Statik JavaScript PWA, Supabase Auth/Postgres ve yalnızca açık publishable anahtar kullanır. Kullanıcı panosu `quest_board_states` içinde kalır; öğretmen görevleri, tekrarlar, çalışma süreleri, sınıflar ve denemeler mevcut RPC/RLS kurallarıyla yetkilendirilir. Tarayıcı rolü sunucu yetkisi oluşturmaz.
