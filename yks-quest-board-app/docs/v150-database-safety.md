@@ -43,3 +43,7 @@ Local scheduler testing uses a registration fixture and calls the real PostgreSQ
 ## Native staging installation verified
 
 The atomic `v150_m3_m7_guarded_staging_bundle` was applied on 16 November to staging only. All M1–M7 `_validated` flags are true. Native pg_cron 1.6.4 owns only the named once-per-minute workspace job. Eight real Auth/RLS/UI/Cron groups passed; automatic browser-closed delivery produced one attempt and two sent receipts. Anonymous/authenticated worker EXECUTE is false. The earlier local-only scheduling limitation is superseded by this evidence; detailed concurrency/failure injection still runs on isolated local PostgreSQL. No production migration was applied. The prepared install bundle is now a historical reviewed input, not a command to rerun on the installed schema.
+
+## Hosted preview verification
+
+The protected preview passed 12 actual Auth/RLS/UI groups and actual HTTPS offline PWA. The existing synthetic admin flag was reused; no new admin enrollment was needed. All fixtures were restricted to pre-existing example.com accounts. Final checks independently confirmed production deployment/main still unchanged. The preview contains a public staging configuration and must not be promoted to production; prepare a separately reviewed live-config release after explicit approval.

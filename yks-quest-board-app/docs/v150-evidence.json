@@ -1,0 +1,66 @@
+{
+  "version": "1.5.0",
+  "environment": "preview",
+  "applicationCommit": "7d5557e650a6cfdcafe95277e40d61fe832ca5ef",
+  "deployment": "dpl_E1ajUdPh7tWFhH7VzKoLFwo6KMRa",
+  "project": "prj_x2vIkhipW3ZaACfDAiOld1mXKZ4T",
+  "branch": "ders-v1-5-0-workspace-preview",
+  "preview": "https://yks-quest-board-yks-quest-board-bxdrswemv-yagizahmeter-9033.vercel.app/",
+  "staging": "hswipswqulolcwqvcjvi",
+  "productionChanged": false,
+  "productionCommit": "2ea1d7a7013b32921f48852845b2bcfe06b70044",
+  "localDatabaseGroups": 81,
+  "localBrowserGroups": 42,
+  "stagingClassGroups": 10,
+  "stagingWorkspaceGroups": 8,
+  "hostedGroups": 12,
+  "nativeCron": {
+    "version": "1.6.4",
+    "job": "ders-v150-program-dispatch",
+    "browserClosed": true,
+    "attempts": 1,
+    "recipients": 2,
+    "sentReceipts": 2,
+    "clientExecute": false
+  },
+  "preservation": [
+    {
+      "milestone": "M1",
+      "validated": true
+    },
+    {
+      "milestone": "M2",
+      "validated": true
+    },
+    {
+      "milestone": "M3",
+      "validated": true
+    },
+    {
+      "milestone": "M4",
+      "validated": true
+    },
+    {
+      "milestone": "M5",
+      "validated": true
+    },
+    {
+      "milestone": "M6",
+      "validated": true
+    },
+    {
+      "milestone": "M7",
+      "validated": true
+    }
+  ],
+  "offlinePwa": {
+    "localhost": true,
+    "actualHostedHttps": true,
+    "privateApiCached": false
+  },
+  "unverified": [
+    "Firefox: Windows runtime failed to launch it",
+    "Physical phone/haptics/OS installation",
+    "Actual OS print-to-PDF dialog"
+  ]
+}

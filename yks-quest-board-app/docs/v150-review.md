@@ -1,6 +1,6 @@
 # D.E.R.S. v1.5.0 review — 16 November 2026
 
-**State: local integration and real Supabase staging/Auth/native Cron verified. Complete hosted preview verification is the remaining release gate; production is not authorized.**
+**State: implemented and verified locally, in real Supabase staging, and in the actual protected HTTPS preview. Preview is ready for review. Production is not authorized. Firefox/physical-device/OS-dialog limits remain explicitly unverified.**
 
 Work branch: `ders-v150-workspace`. Native base `293ae1c`, M1 `fe0e9a9`, M2 `510bcc5`, M3–M6 checkpoint `647cefd`. M7 and local integration were recorded in `2219751`; this continuation records genuine staging evidence separately. GitHub `main` was checked again on 16 November: `2ea1d7a7013b32921f48852845b2bcfe06b70044` (v1.3.2). No main push, production migration or production deployment was performed.
 
@@ -23,13 +23,13 @@ Work branch: `ders-v150-workspace`. Native base `293ae1c`, M1 `fe0e9a9`, M2 `510
 | --- | --- | --- |
 | Class correctness/privacy | Accepted-only homework, separate statuses/units, scoped periods, consent aggregates, selective/idempotent approvals and terminal invite cleanup | Local PostgreSQL and real staging Auth/RLS/browser |
 | Class loading | Keyed DOM, lazy sections and assignment details, bounded pages, coalesced reads, stale-owner/view rejection, visible polling | Local and real staging; measured 10/30/50/100 fixtures |
-| Workspace | Shared composer; adjustable 57/43 new/history split; pin/hide and real draft preview; independent account drafts and revision conflicts | Local PostgreSQL/RLS plus actual Chromium UI |
+| Workspace | Shared composer; adjustable 57/43 new/history split; pin/hide and real draft preview; independent account drafts and revision conflicts | Local PostgreSQL/RLS plus actual protected HTTPS UI and real Supabase |
 | Windows/dock | Single/two/triple/free, drag/resize/snap/max/min/close, same-node swaps, center-expanding dock with internal horizontal scrolling | Chromium, WebKit touch emulation; Firefox launch failed in this environment |
-| Program tools | Validated send review, recipient outcomes, receipt-based retry, templates/search/filter/favorite/update/copy/delete and daily-date rebasing | Local PostgreSQL and browser; remote M4 pending |
+| Program tools | Validated send review, recipient outcomes, receipt-based retry, templates/search/filter/favorite/update/copy/delete and daily-date rebasing | Local PostgreSQL and browser; real hosted save/search/favorite/send verified |
 | Acceptance/reminders | Acceptance and task progress separate; search/week/status, cancelled-program distinction, opt-out and server 24h cooldown | Local PostgreSQL and browser |
 | Analysis | Shared validated period; authorized within-class 2–12-student comparison; missing/partial exam distinctions; contribution audit/corrections and non-punitive flags | Local PostgreSQL and browser |
 | Reports | Previous-period comparison, subject averages, incomplete-task actions, CSV and browser print-to-PDF | Local browser download and print-frame boundary; physical OS print dialog not tested |
-| Scheduling | Durable owner-only jobs, explicit Istanbul time, editing/cancel, private worker, bounded retries and saved authorization intervals | Real local PostgreSQL worker; native staging Cron is not yet installed/verified |
+| Scheduling | Durable owner-only jobs, explicit Istanbul time, editing/cancel, private worker, bounded retries and saved authorization intervals | Real local PostgreSQL worker; native staging Cron 1.6.4 delivered to two recipients while the browser was closed |
 | Action center | Authorized actionable counts/targets; local section ordering; real existing workflows | Local PostgreSQL and browser |
 | Admin preview | Real shared components with isolated in-memory sample adapters; no network or writes to parent data | Both roles tested in opaque restricted frames |
 
@@ -74,7 +74,8 @@ The detailed adversarial matrix runs locally against PostgreSQL RLS. M3–M7 als
 - **13 Motion System 2 groups** passed after the account-snapshot fix, including same-account transitions, interruptions, modal focus/exit, themes, touch and reduced motion.
 - Resize regression: reproduced 360px jump; final measured error 0px. Responsive geometry: 48 Chromium viewport/style changes, zero overflowing sampled frames.
 - Production static build and JavaScript/public-config/duplicate-ID checks passed. This app is plain JavaScript, not a TypeScript project.
-- PWA manifest/icon URLs, the new-asset cache and actual offline shell reload passed. Private API responses are not cached. The intentional mobile footer overlap guard is preserved; release-history interaction is covered separately by Motion2.
+- PWA manifest/icon URLs, new-asset caching and actual offline reload passed both locally and on the protected HTTPS Vercel preview. No private API responses are cached. Footer overlap suppression is intentional and preserved.
+- **12 actual hosted HTTPS groups passed**: exact asset/config hash verification; real catalog/draft/template/send UI; student acceptance; same-click feedback during a delayed real request; two-session completion/reload with exactly 100 task XP; acceptance tracking; schedule create/edit/cancel; authorized CSV; server-authorized admin role previews with no frame network/parent writes; four appearances at 360/390/430px. All use synthetic staging accounts and zero production requests.
 - Firefox was downloaded but headless launch timed out before browser verification. Firefox is **not reported as passed**. Physical phones, physical haptics, OS install and OS PDF dialog remain untested.
 
 Reproduction: set `V150_M2`, `V150_WORKSPACE`, `V150_WORKSPACE_BROWSER`, `V150_TOOLS`, `V150_ANALYSIS`, `V150_SCHEDULER`, `V150_ACTIONS`, `V150_POLISH` to `1`, then run `tests/v150-db.cjs` with the documented local dependency/browser runtime. Do not run two embedded DB suites concurrently (port 55453). Inspect the final RESULT/artifacts, not only process exit status.
@@ -89,7 +90,7 @@ Four styles (Klasik/Saydam/Natural/Cloud), light/dark, 1440/360/390/430px are co
 
 ## 9. Completed vs pending
 
-M1/M2 are implemented and verified in staging. M3–M7 are implemented and locally integrated, including the action center and admin adapters. **Remote installation, real Supabase Auth integration for new APIs, native timed delivery with browser closed and post-install advisors are now verified.** Complete hosted Vercel preview checks still remain. No production action has occurred.
+M1/M2 are implemented and verified in staging. M3–M7 are implemented and locally integrated, including the action center and admin adapters. **Remote installation, real Supabase Auth integration, browser-closed native delivery, advisors and the complete protected Vercel preview have passed their documented checks.** Runtime development is ready for review; production remains held. Firefox, physical devices/haptics/OS installation and the OS PDF dialog are not claimed as tested.
 
 ## 10. Known limits
 
@@ -100,20 +101,24 @@ M1/M2 are implemented and verified in staging. M3–M7 are implemented and local
 - Native scheduler resolution is about one minute; retries preserve sent receipts and do not undo delivered assignments. In staging Cron 1.6.4, one job delivered to two recipients with one successful receipt each and one attempt. Native job execution logs independently show succeeded runs.
 - Template searches and table pages are bounded; local layouts do not synchronize student content to browser storage.
 
-## 11. Staging preview
+## 11. Verified staging preview
 
-The previously blocked installation succeeded through `v150_m3_m7_guarded_staging_bundle`. Manual SQL installation is no longer needed and would be rejected by its repeat guard. The existing Vercel project/repository/team were verified. A new, non-main, staging-only preview is being prepared; old v1.4.0 URLs are not substitutes.
+- [Immutable tested preview](https://yks-quest-board-yks-quest-board-bxdrswemv-yagizahmeter-9033.vercel.app/), deployment `dpl_E1ajUdPh7tWFhH7VzKoLFwo6KMRa`, **READY**, target preview.
+- Application commit: `7d5557e650a6cfdcafe95277e40d61fe832ca5ef`, branch `ders-v1-5-0-workspace-preview`, existing project `prj_x2vIkhipW3ZaACfDAiOld1mXKZ4T`, team `yagizahmeter-9033`.
+- Deployment protection stays enabled. A 23-hour share link was issued to the user; its temporary token is not stored in committed documentation. Later documentation/test-only branch commits retain the same runtime bytes; this immutable deployment remains the fully exercised review target.
+- Actual deployed config/workspace/program-tools/motion-ui content hashes match the reviewed preview tree. Config uses only the public staging key for `hswipswqulolcwqvcjvi`; production build guard rejects that preview config.
+- Production `dershub.vercel.app` was independently checked: deployment `dpl_EFJMVKjNFyyQLwyVXCwx9QerDEWs`, READY, target production, main `2ea1d7a7013b32921f48852845b2bcfe06b70044` unchanged.
 
-## 12. Hosted preview and production release gates
+## 12. Release gates and recovery
 
-1. Confirm the prepared bundle actually committed in `hswipswqulolcwqvcjvi`; check all five new preservation flags, APIs, RLS/ACLs and only the named native Cron job.
-2. Run `tests/v150-workspace-staging.cjs` with synthetic example.com accounts. Set `V150_NATIVE_CRON=1` to schedule actual future delivery, close the browser, wait for native execution, and verify receipts/Cron execution logs. Failed runs preserve audit rows and cancel only their own pending schedules.
-3. Run staging advisors and inspect native job ownership/health and send results; fix actual findings without weakening access controls.
-4. Commit/push the verified candidate to a non-main branch in the existing repository/project, configure its public staging endpoint, verify READY/SHA/environment and issue a protected preview share link.
-5. Submit the complete preview and evidence for review. Production needs separate explicit approval, fresh closed backup/preservation checks, reviewed migrations and a rollback deployment. No production action is included in this development task.
+1. Completed: atomic M3–M7 staging installation, seven preservation flags, restricted worker grants and only the named native Cron job. Manual SQL installation is no longer needed; repeat installation is rejected.
+2. Completed: eight real staging Auth/RLS/UI/Cron groups plus 12 actual hosted browser groups, protected-preview source/endpoint hashes, native execution logs, actual HTTPS offline PWA and READY verification. Only synthetic example.com accounts were used; the existing synthetic admin flag was reused without adding a role grant.
+3. Completed: post-install security/performance advisors. Policyless-RLS INFO entries are intentionally closed private tables, including reminders; unused-index INFO entries are retained. The existing leaked-password WARN is unchanged. No paid Auth feature or unrelated policy was enabled. See [closed-table advisory](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy), [index advisory](https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index), [existing Auth warning](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
+4. Awaiting user review and separate explicit production approval. Before a release: recheck live schema/config/commit, prepare the correct missing guarded migrations with a fresh server-only backup, retain a rollback deployment and validate preservation. Do not promote the staging-config preview to production.
+5. Recovery details are in `v150-database-safety.md`. Stop only the named workspace Cron job if rolling back; retain new jobs/receipts/backups for audit. Never overwrite newer rows with old snapshots or drop the Cron extension/other jobs.
 
-## Real staging continuation evidence
+## Real staging execution evidence
 
-On 16 November, the guarded M3–M7 bundle committed in `hswipswqulolcwqvcjvi`, all seven snapshots validated, and native Cron 1.6.4 registered only `ders-v150-program-dispatch` (`* * * * *`, postgres). Anonymous/authenticated direct worker execution is denied. The actual browser closed before the future schedule was delivered; both recipients have one sent receipt and the job has one attempt. Independent Cron execution rows at 10:26/10:27/10:28/10:29 UTC report success. Synthetic drafts/templates were deleted with revision checks, the synthetic class was archived, and sent receipts remain for audit. No production request or real-user write occurred.
+Native pg_cron 1.6.4 registered `ders-v150-program-dispatch` every minute as postgres. The test browser closed before future delivery; the job finished in one attempt with two unique successful recipient receipts. Independent Cron rows at 10:26/10:27/10:28/10:29 UTC report success. Anonymous/authenticated worker EXECUTE is false. All seven closed-snapshot validation flags are true.
 
-Post-install advisors found no new public-RLS/privileged-API error: INFO policyless-RLS entries are intentionally closed private tables (including reminders); unused-index INFO entries are retained. The existing leaked-password-protection WARN is unchanged; no paid Auth feature or unrelated policy was enabled. References: [private closed-table advisory](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy), [index advisory](https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index), [existing Auth warning](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
+Synthetic drafts/templates were deleted with revision checks and the synthetic integration class archived. Sent assignments, cancelled schedules and receipts remain for test audit. No production request or real-user write occurred. Actual hosted screenshots were visually inspected. Machine-readable, non-personal evidence is in `v150-evidence.json`.
