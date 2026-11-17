@@ -1,5 +1,14 @@
 (() => {
-  const script = document.currentScript, role = script.dataset.role === 'teacher' ? 'teacher' : 'student';
+  const script = document.currentScript, role = script?.dataset.role;
+  const guard=document.createElement('style');guard.textContent=':root[data-demo-loading="true"] body,:root[data-demo-loading="true"] body *{visibility:hidden!important}';
+  document.documentElement.dataset.demoLoading='true';document.head.append(guard);
+  function failPreview(message){
+    const show=()=>{const status=document.createElement('main');status.id='previewRoleError';status.setAttribute('role','alert');status.textContent=message;status.style.cssText='position:fixed;inset:0;padding:24px;background:var(--panel,#141716);color:var(--text,#eee);z-index:2147483647';status.style.setProperty('visibility','visible','important');document.body.append(status);if(script)signal('error');};
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',show,{once:true});else show();
+  }
+  if(!['teacher','student'].includes(role)){
+    failPreview('Önizleme rolü doğrulanamadı. Yönetici panelinden yeniden başlat.');return;
+  }
   const appearance = JSON.parse(script.dataset.appearance || '{}');
   function signal(state) {
     if(script.dataset.previewTarget==='tab'){
@@ -112,12 +121,16 @@
   document.addEventListener('DOMContentLoaded', () => {
     // Keep all navigation in this frame; a base URL must never target the parent app.
     document.querySelectorAll('a[data-route]').forEach(a=>a.setAttribute('href','#/'+a.dataset.route));
-    window.DersUI.navigate(role === 'teacher' ? 'teacher' : 'program');
+    const target=role==='teacher'?'workspace':'program';
     const deadline = Date.now() + 10000;
     const settled = () => {
-      if (window.DersBoard?.authReady && window.DersBoard.user && window.DersBoard.state.profile.role === role) signal('ready');
+      const correct=window.DersBoard?.authReady&&window.DersBoard.user?.id===id&&window.DersBoard.state.profile.role===role&&window.DersTeacher?.info?.profile?.role===role;
+      if(correct){
+        window.DersUI.navigate(target);
+        Promise.resolve(role==='teacher'?window.DersWorkspace.refresh():null).then(()=>{guard.remove();delete document.documentElement.dataset.demoLoading;signal('ready');}).catch(()=>signal('error'));
+      }
       else if (Date.now() < deadline) setTimeout(settled,50);
-      else signal('error');
+      else failPreview('Önizleme hesabının rolü doğrulanamadı. Yönetici panelinden yeniden dene.');
     };
     settled();
   });

@@ -1,4 +1,4 @@
-const CACHE_NAME = "ders-pwa-v1-5-0-r1";
+const CACHE_NAME = "ders-pwa-v1-5-0-r2";
 const APP_SHELL = [
  './motion-ledger.js','./motion.js','./motion.css','./motion-widgets.css','./motion-ui.js','./motion-ui.css',
   './class-model.js','./class-dom.js','./teacher-workspace.js','./program-tools.js','./teacher-insights.js','./program-schedules.js','./teacher-actions.js','./teacher-workspace.css','./classes.js','./classes.css',

@@ -96,7 +96,7 @@ module.exports = async ({root,browser,apiUrl,siteUrl,users,action,ids}) => {
       for (const theme of ['light','dark']) {
         await student.evaluate(t=>window.DersTheme.set(t),theme);
         assert.equal(await student.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,`${width}/${theme} overflow`);
-        const overlaps = await student.locator('#board .quest').evaluateAll(rows=>rows.some(row=>{const a=row.querySelector('.check').getBoundingClientRect(),b=row.querySelector('#board .quest-main').getBoundingClientRect();return b.left<a.right-1;}));
+        const overlaps = await student.evaluate(()=>{const rows=[...document.querySelectorAll('#board .quest')];if(!rows.length)throw Error('Expected quest rows for geometry checks');return rows.some(row=>{const check=row.querySelector('.check'),main=row.querySelector('.quest-main');if(!check||!main)throw Error('Expected checkbox and quest content');const a=check.getBoundingClientRect(),b=main.getBoundingClientRect();return b.left<a.right-1;});});
         assert.equal(overlaps,false);
         const questWidth=await student.locator('#board .quest-main').first().evaluate(e=>e.getBoundingClientRect().width);
         if(questWidth<=150){await student.screenshot({path:path.join(root,'test-results',`floating-quest-width-${width}.png`),fullPage:true});console.log('QUEST WIDTH',JSON.stringify(await student.evaluate(()=>({route:location.hash,state:history.state,programHidden:document.querySelector('#programPage').hidden,quest:document.querySelector('#board .quest-main')?.outerHTML,boardWidth:document.querySelector('#board').getBoundingClientRect().width}))));}

@@ -368,8 +368,9 @@
   trigger.onclick = open;
   $('adminClose').onclick = () => close();
   $('adminReturn').onclick = async () => {
-    if (!await authorize()) return;
-    try { await recordEvent('preview_return',currentRole); stopPreview(); $('adminStatus').textContent = 'Test notlarını kaydedebilirsin.'; await loadEvents(); }
+    const role=currentRole,token=previewToken,uid=owner;
+    if(!role||!await authorize()||uid!==owner||token!==previewToken||!dialog.open)return;
+    try { await recordEvent('preview_return',role);if(uid!==owner||token!==previewToken||!dialog.open)return;stopPreview();$('adminStatus').textContent='Test notlarını kaydedebilirsin.';await loadEvents(); }
     catch (error) { $('adminStatus').textContent = error.message; }
   };
   $('adminReset').onclick = () => {

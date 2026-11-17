@@ -1,7 +1,9 @@
 const assert=require('node:assert/strict');
 module.exports=async(page,selector,value)=>{
   const native=page.locator(selector),control=native.locator('..');
-  const option=await native.locator('option').evaluateAll((items,value)=>{const o=items.find(o=>o.value===value);return {label:o.label,week:o.parentElement.dataset.weekId};},value);
+  // Read the current option and its group in one browser task. Rendering can
+  // replace option children between a locator query and evaluateAll's callback.
+  const option=await native.evaluate((select,value)=>{const o=[...select.options].find(o=>o.value===value);if(!o)throw Error('Expected selectable option: '+value);return {label:o.label,week:o.parentElement.dataset.weekId};},value);
   await control.locator('.select-trigger').click();
   if(await native.getAttribute('data-week-groups')!==null){
     let scope=control;

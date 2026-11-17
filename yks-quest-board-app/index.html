@@ -802,7 +802,8 @@
       <a href="#/home" data-route="home" title="Ana Sayfa"><i data-lucide="layout-dashboard"></i><span>Ana Sayfa</span></a>
       <a href="#/program" data-route="program" title="Programım"><i data-lucide="notebook-tabs"></i><span>Programım</span></a>
       <a href="#/exams" data-route="exams" title="Denemelerim"><i data-lucide="chart-no-axes-combined"></i><span>Denemelerim</span></a>
-      <a href="#/teacher" data-route="teacher" title="Öğretmen"><i data-lucide="graduation-cap"></i><span>Öğretmen</span><b class="notification-count" data-teacher-count hidden></b></a>
+      <a href="#/workspace" data-route="workspace" data-teacher-workspace title="Öğretmen Çalışma Alanı" hidden><i data-lucide="layout-dashboard"></i><span>Çalışma Alanı</span></a>
+      <a href="#/teacher" data-route="teacher" data-teacher-connections title="Öğretmen"><i data-lucide="graduation-cap"></i><span data-teacher-label>Öğretmen</span><b class="notification-count" data-teacher-count hidden></b></a>
       <a href="#/history" data-route="history" title="Çalışma Geçmişi"><i data-lucide="history"></i><span>Çalışma Geçmişi</span></a>
       <a href="#/focus" data-route="focus" title="Odak Modu"><i data-lucide="timer"></i><span>Odak Modu</span></a>
       <button id="adminButton" class="nav-command" type="button" hidden title="Yönetici Paneli"><i data-lucide="user-round-pen"></i><span>Yönetici Paneli</span></button>
@@ -849,7 +850,7 @@
       <div class="section-heading"><h2>Çalışma Alanım</h2><span id="homeWeekLabel"></span></div>
       <div class="destination-grid">
         <a class="destination" href="#/program" data-route="program"><i data-lucide="notebook-tabs"></i><span><strong>Programım</strong><small id="homeProgramSummary">Henüz program yok</small></span><i data-lucide="arrow-up-right"></i></a>
-        <a class="destination" href="#/teacher" data-route="teacher"><i data-lucide="graduation-cap"></i><span><strong>Öğretmen</strong><small id="homeTeacherSummary">Bağlantılar ve talepler</small></span><i data-lucide="arrow-up-right"></i></a>
+        <a id="homeTeacherDestination" class="destination" href="#/teacher" data-route="teacher"><i data-lucide="graduation-cap"></i><span><strong id="homeTeacherTitle">Öğretmen</strong><small id="homeTeacherSummary">Bağlantılar ve talepler</small></span><i data-lucide="arrow-up-right"></i></a>
         <a class="destination" href="#/history" data-route="history"><i data-lucide="history"></i><span><strong>Çalışma Geçmişi</strong><small id="homeHistorySummary">Henüz kayıt yok</small></span><i data-lucide="arrow-up-right"></i></a>
       </div>
       <section id="dailyStudySummary" class="daily-study" aria-label="Günlük Çalışma Özeti"></section>
@@ -906,14 +907,15 @@
       </div><div class="signed-in-actions"><button id="resetButton" class="button danger" type="button"><i data-lucide="rotate-ccw"></i>Bu Haftayı Sıfırla</button><button id="deleteWeekButton" class="button danger" type="button"><i data-lucide="archive"></i>Haftayı Sil</button></div></details>
     </section></section>
     <section id="teacherPage" class="page-view teacher-card" data-page="teacher" aria-label="Öğretmen paneli" hidden>
-      <div class="card-head">
-        <div class="subject-title">
-          <h2>Bağlantılar Ve Programlar</h2>
-        </div>
-        <select id="roleSelect" class="select" aria-label="Rol seç">
-          <option value="student">Öğrenci</option>
-          <option value="teacher">Öğretmen</option>
-        </select>
+      <div class="teacher-item teacher-page-heading">
+        <h2>Bağlantılar ve Programlar</h2>
+        <label class="field teacher-role-field">
+          <span>Hesap türü</span>
+          <select id="roleSelect" class="select" aria-label="Rol seç">
+            <option value="student">Öğrenci</option>
+            <option value="teacher">Öğretmen</option>
+          </select>
+        </label>
       </div>
       <div id="teacherPanel" class="teacher-panel"></div>
     </section>

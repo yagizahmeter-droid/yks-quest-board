@@ -178,8 +178,24 @@ svg.lucide { width: 19px; height: 19px; flex-shrink: 0; stroke-width: 1.8; }
 #manualQuestError { color:var(--red); }
 #manualQuestError:empty { display:none; }
 .teacher-card, .history-card { margin-top: 0; }
-.teacher-card > .card-head { border: 0; padding: 0 0 18px; }
+.teacher-card > .teacher-page-heading { display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:20px;margin:0 0 18px; }
+.teacher-page-heading h2 { flex:1 1 240px;min-width:0;margin:0;font-size:16px;line-height:1.4;overflow-wrap:normal;word-break:normal; }
+.teacher-role-field { flex:0 1 200px;width:200px;min-width:0;margin:0; }
+.teacher-role-field .select-control { width:100%; }
+@media(max-width:720px) {
+  .teacher-card > .teacher-page-heading { align-items:stretch;gap:12px;padding:16px; }
+  .teacher-page-heading h2 { flex-basis:100%;font-size:15px; }
+  .teacher-role-field { flex:1 1 100%;width:100%; }
+}
 .teacher-panel { padding: 0; gap: 12px; }
+.teacher-panel > .teacher-classes-entry { margin:0; }
+.teacher-classes-entry > div { min-width:0;flex:1; }
+.teacher-panel .teacher-classes-entry p { max-width:none; }
+.teacher-connections-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;align-items:start;min-width:0; }
+.teacher-connections-grid > .teacher-tools { min-width:0;max-width:none;margin:0;padding:16px;align-content:start; }
+.teacher-connections-grid > .teacher-tools[data-account-role="teacher"] { display:flex;flex-wrap:wrap;align-items:center;gap:12px; }
+.teacher-connections-grid .invite-result:empty { display:none; }
+.teacher-panel > .sync-head { gap:12px;flex-wrap:wrap; }
 .teacher-item, .history-item { padding: 16px; background: var(--panel); border-radius: var(--radius-card); gap: 6px; }
 .teacher-item strong, .history-item strong { overflow-wrap: anywhere; font-size: 13px; }
 .teacher-tools { padding: 16px 0; max-width: 520px; }

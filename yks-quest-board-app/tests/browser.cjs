@@ -48,9 +48,9 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
     const createComposerFixture=require('./class-composer-fixture.cjs')({asUser,ids});
     if(process.env.V150_UI_REGRESSION){
-      const cases={'personal':'personal-catalog.cjs','catalog':'catalog-browser.cjs','general':'teacher-general-browser.cjs','legacy':'v1141-browser.cjs','forms':['teacher-general-browser.cjs','v1141-browser.cjs']},name=cases[process.env.V150_UI_REGRESSION];assert.ok(name,'Unknown focused UI case');
+      const cases={'personal':'personal-catalog.cjs','catalog':'catalog-browser.cjs','general':'teacher-general-browser.cjs','legacy':'v1141-browser.cjs','forms':['teacher-general-browser.cjs','v1141-browser.cjs'],'role-isolation':'teacher-admin-role-isolation.cjs'},name=cases[process.env.V150_UI_REGRESSION];assert.ok(name,'Unknown focused UI case');
       await action(ids[4],'init_profile',{role:'student',name:'Focused regression student'});const initial=await action(ids[4],'read_board');await action(ids[4],'sync_board',{expected_version:initial.version,state:{...personal,profile:initial.state?.profile||{displayName:'Focused regression student'}}});
-      for(const file of [].concat(name))await require('./'+file)({createComposerFixture,root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;
+      for(const file of [].concat(name))await require('./'+file)({createComposerFixture,root,browser,admin,asUser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;
     }
     if(process.env.V150_WORKSPACE_BROWSER==='1'){await require('./v150-workspace-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,ids,asUser});return;}
     if(process.env.V130_ADMIN_CLASSES_ONLY==='1'){const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,admin,asUser};await require('./admin-classes.cjs')(options);if(process.env.ADMIN_CLASSES_REGRESSION==='1')await require('./admin-preview-fix.cjs')(options);return;}
@@ -108,8 +108,14 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     console.log('PASS Browser teacher sends, student accepts and second device sees completion');
     await s.locator('#board .quest').filter({hasText:'Kaldırma Kuvveti'}).getByRole('button',{name:'Değişiklik İste'}).click();
     assert.equal(await s.locator('#editTitle').getAttribute('readonly'),'');await s.fill('#editDetail','Basınç güncellendi');await s.getByRole('button',{name:'İsteği Gönder'}).click();
-    await s.locator('#questDialog').waitFor({state:'hidden'});await t.locator('#teacherPanel [data-action="refresh"]').click();
-    const approved=t.waitForResponse(r=>r.url().endsWith('/rpc/ders_action')&&r.request().postDataJSON()?.p_action==='resolve_change');await t.getByRole('button',{name:'Değişikliği Onayla'}).click();assert.ok((await approved).ok());await s.evaluate(()=>window.DersBoard.flush());await pointerSelect(s,'#weekSelect',await s.evaluate(()=>DersBoard.state.weeks.find(w=>w.name==='Browser Program').id));
+    await s.locator('#questDialog').waitFor({state:'hidden'});await t.evaluate(()=>DersTeacher.refresh());
+    let releaseRefresh,heldRefresh=false;const refreshGate=new Promise(resolve=>releaseRefresh=resolve);
+    const holdRefresh=async route=>{if(!heldRefresh&&route.request().postDataJSON()?.p_action==='overview'){heldRefresh=true;const response=await route.fetch();await refreshGate;await route.fulfill({response});}else await route.continue();};
+    await t.route('**/rpc/ders_action',holdRefresh);const refreshing=t.waitForRequest(r=>r.url().endsWith('/rpc/ders_action')&&r.postDataJSON()?.p_action==='overview');
+    await t.locator('#teacherPanel [data-action="refresh"]').click();await refreshing;
+    const approval=t.locator('#teacherPanel [data-action="change-approve"]');assert.equal(await approval.isDisabled(),true);assert.equal(await t.locator('#teacherPanel').getAttribute('aria-busy'),'true');
+    const approved=t.waitForResponse(r=>r.url().endsWith('/rpc/ders_action')&&r.request().postDataJSON()?.p_action==='resolve_change');const clickApproval=approval.click();releaseRefresh();await clickApproval;assert.ok((await approved).ok());await t.unroute('**/rpc/ders_action',holdRefresh);
+    await s.evaluate(()=>window.DersBoard.flush());await pointerSelect(s,'#weekSelect',await s.evaluate(()=>DersBoard.state.weeks.find(w=>w.name==='Browser Program').id));
     await s.locator('#board .quest').filter({hasText:'Basınç güncellendi'}).waitFor();assert.equal(await s.locator('#board .quest-title').getByText('Kaldırma Kuvveti',{exact:true}).count(),1);console.log('PASS Browser change request and teacher approval');
     await pointerSelect(s,'#weekSelect','original');await s.locator('#board .quest').filter({hasText:'Temel Kavramlar'}).locator('.check').click();await s.evaluate(()=>window.DersBoard.flush());
     await s.getByRole('button',{name:/Tamamlananlar/}).click();assert.equal(await s.locator('#board .quest.done').count(),1);

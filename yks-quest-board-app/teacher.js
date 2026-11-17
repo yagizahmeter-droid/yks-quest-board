@@ -15,6 +15,13 @@
   const button = (text, action, id = '', extra = '') => `<button class="button" type="button" data-action="${action}" data-id="${esc(id)}" ${extra}>${text}</button>`;
   const input = (label, id, type = 'text', value = '') => `<label class="field">${label}<input class="input" id="${id}" type="${type}" value="${esc(value)}" ${type === 'number' ? 'min="5" max="10000" step="5"' : ''}></label>`;
   const row = (title, detail, controls = '') => `<div class="teacher-item"><strong>${esc(title)}</strong><span class="sync-status">${esc(detail)}</span><div class="signed-in-actions">${controls}</div></div>`;
+  function setBusy(value) {
+    busy=value;panel.setAttribute('aria-busy',String(value));
+    for(const root of [panel,dialog])for(const control of root.querySelectorAll('button[data-action]')){
+      if(value&&!control.disabled){control.dataset.teacherPending='true';control.disabled=true;}
+      else if(!value&&control.dataset.teacherPending==='true'){delete control.dataset.teacherPending;control.disabled=false;}
+    }
+  }
   function resetOwner(uid) {
     if (owner === uid) return;
     overview = null; snapshot = ''; closeDialog(true); owner = uid;
@@ -79,19 +86,20 @@
     window.DersBoard.setProfile(overview.profile);
     const connections = overview.connections;
     const approved = connections.filter(c => c.status === 'approved');
-    panel.innerHTML = `<div class="sync-head"><strong>${esc(overview.profile.display_name)} · ${teacher ? 'Öğretmen' : 'Öğrenci'}</strong>${button('Yenile', 'refresh')}</div>`;
+    panel.innerHTML = `<div class="sync-head"><strong>${esc(overview.profile.display_name)} · ${teacher ? 'Öğretmen' : 'Öğrenci'}</strong><div class="signed-in-actions">${teacher?button('Çalışma Alanını Aç','workspace'):''}${button('Yenile', 'refresh')}</div></div>`;
     panel.insertAdjacentHTML('beforeend', '<section class="teacher-classes-entry" aria-labelledby="teacherClassesTitle"><div><h3 id="teacherClassesTitle">Sınıflarım</h3><p class="sync-status">'+(teacher?'Sınıf oluştur, öğrenci davet et; toplu programları, ortak hedefleri ve sınıf ilerlemesini yönet.':'Sınıf davetlerini, görevlerini, ortak hedeflerini ve gizlilik tercihlerini buradan aç.')+'</p></div>'+button('<i data-lucide="graduation-cap"></i>Sınıflarım', 'classes', '', 'id="openTeacherClasses"')+'</section>');
+    const connectionArea=document.createElement('div');connectionArea.className='teacher-connections-grid';panel.append(connectionArea);
     if (teacher) {
-      panel.insertAdjacentHTML('beforeend', `<div class="teacher-tools">${button('Davet Kodu Oluştur', 'invite')}<output id="inviteResult" class="invite-result"></output></div>`);
+      connectionArea.insertAdjacentHTML('beforeend', `<div class="teacher-tools teacher-item" data-account-role="teacher">${button('Davet Kodu Oluştur', 'invite')}<output id="inviteResult" class="invite-result"></output></div>`);
     } else {
-      panel.insertAdjacentHTML('beforeend', `<div class="teacher-tools">${input('Öğretmen Davet Kodu', 'inviteInput')}${button('Bağlantı İste', 'join')}</div>`);
+      connectionArea.insertAdjacentHTML('beforeend', `<div class="teacher-tools teacher-item" data-account-role="student">${input('Öğretmen Davet Kodu', 'inviteInput')}${button('Bağlantı İste', 'join')}</div>`);
     }
-    if (teacher) panel.insertAdjacentHTML('beforeend', `<div class="signed-in-actions">${button('Çalışma Alanını Aç','workspace')}</div><div class="student-grid">${approved.map(c => `<button class="student-card" type="button" data-action="student" data-id="${esc(c.student_id)}"><span class="avatar" aria-hidden="true">${esc(c.name.slice(0,1))}</span><span><strong>${esc(c.name)}</strong><small>Bağlı öğrenci</small></span><i data-lucide="chevron-right"></i></button>`).join('')}</div>`);
+    if (teacher) panel.insertAdjacentHTML('beforeend', `<div class="student-grid">${approved.map(c => `<button class="student-card" type="button" data-action="student" data-id="${esc(c.student_id)}"><span class="avatar" aria-hidden="true">${esc(c.name.slice(0,1))}</span><span><strong>${esc(c.name)}</strong><small>Bağlı öğrenci</small></span><i data-lucide="chevron-right"></i></button>`).join('')}</div>`);
     for (const c of connections.filter(c => c.status === 'pending' || (!teacher && c.status === 'approved'))) {
       const controls = teacher && c.status === 'pending'
         ? button('Onayla', 'connection-approve', c.id) + button('Reddet', 'connection-reject', c.id)
         : c.status === 'approved' ? (teacher ? button('İlerlemeyi Gör', 'student', c.student_id) : '') + button('Bağlantıyı Kaldır', 'disconnect', c.id) : '';
-      panel.insertAdjacentHTML('beforeend', row(c.name, labels[c.status], controls));
+      connectionArea.insertAdjacentHTML('beforeend', row(c.name, labels[c.status], controls));
     }
     if (!connections.some(c => c.status === 'approved' || c.status === 'pending')) panel.insertAdjacentHTML('beforeend', '<p class="sync-status">Henüz öğretmen-öğrenci bağlantısı yok.</p>');
     for (const a of overview.assignments) {
@@ -112,6 +120,7 @@
       panel.insertAdjacentHTML('beforeend','<section class="change-requests" aria-labelledby="myRequestsTitle"><h3 id="myRequestsTitle">Değişiklik Taleplerim</h3><div class="request-tabs" role="tablist" aria-label="Talep durumu">'+[['pending','Bekleyen'],['approved','Kabul Edilen'],['rejected','Reddedilen']].map(([s,l])=>'<button class="button '+(s===requestsTab?'is-active':'')+'" type="button" role="tab" aria-selected="'+(s===requestsTab)+'" data-request-tab="'+s+'">'+l+' ('+all.filter(r=>r.status===s).length+')</button>').join('')+'</div><div class="request-list" role="tabpanel">'+(all.filter(r=>r.status===requestsTab).map(requestCard).join('')||'<p class="sync-status">'+({pending:'Bekleyen değişiklik talebin yok.',approved:'Henüz kabul edilen değişiklik talebin yok.',rejected:'Reddedilen değişiklik talebin yok.'}[requestsTab])+'</p>')+'</div></section>');
       panel.querySelectorAll('[data-request-tab]').forEach((b,i,buttons)=>{b.onclick=()=>{const motion=window.DersMotion?.ui?.beginTabs(panel,{key:'requests:'+owner,value:b.dataset.requestTab,index:i,nav:b.parentElement});requestsTab=b.dataset.requestTab;render(true);window.DersMotion?.ui?.endTabs(motion,panel,panel.querySelector('[data-request-tab]')?.parentElement);};b.onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[n].click();panel.querySelectorAll('[data-request-tab]')[n].focus();}};});
     }
+    setBusy(busy);
   }
   function requestCard(r){const p=r.requested_changes||{},date=v=>v?new Date(v).toLocaleString('tr-TR',{timeZone:'Europe/Istanbul'}):'—';return '<article class="teacher-item request-card" data-request-id="'+esc(r.id)+'" data-status="'+esc(r.status)+'"><strong>'+esc(p.type==='topic_title'?'Konu Adı Değişikliği':'Görev Değişikliği')+'</strong><dl>'+[['Öğretmen',r.teacher_name||overview.assignments.find(a=>a.id===r.assignment_id)?.name||'Öğretmen'],['Program',r.week_name||'Geçmiş program'],['Ders',r.category_name||'Belirtilmemiş'],['Mevcut',p.current_title||r.title],['İstenen',p.title],['Ayrıntı',p.type==='topic_title'?'':p.detail],['XP',p.type==='topic_title'?'':p.xp],['Gerekçe',p.reason],['Gönderilme',date(r.created_at)],['Durum',{pending:'Beklemede',approved:'Kabul Edildi',rejected:'Reddedildi'}[r.status]],['Sonuçlanma',r.resolved_at?date(r.resolved_at):'']].filter(([,v])=>v!==''&&v!=null).map(([k,v])=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>').join('')+'</dl></article>';}
   function renderDraft() {
@@ -248,7 +257,7 @@
   async function run(action, id) {
     if(action==='classes'){if(!window.DersClasses){window.DersBoard.toast('Sınıf ekranı yüklenemedi. Sayfayı yenileyip tekrar dene.');return;}window.DersUI.navigate('classes');await window.DersClasses.refresh();return;}
     if(action==='send'&&Date.now()<sendAfter)return;
-    if (busy) return; busy = true;
+    if (busy) return; setBusy(true);
     try {
       if (action === 'init') await rpc('init_profile', { role: roleSelect.value, name: document.getElementById('profileName').value.trim() });
       else if (action === 'invite') {
@@ -288,7 +297,7 @@
       } else if (action === 'change-approve' || action === 'change-reject') await rpc('resolve_change', { id,status:action.endsWith('approve') ? 'approved' : 'rejected' });
       await refresh(); window.DersBoard.toast(action === 'refresh' ? 'Güncellendi' : 'İşlem tamamlandı');
     } catch (error) { const output = document.getElementById('assignmentError'); if (action === 'send' && output) output.textContent = error.message; else window.DersBoard.toast(error.message || 'İşlem tamamlanamadı.'); }
-    finally { busy = false; }
+    finally { setBusy(false); }
   }
   function onAction(event) { const target = event.target.closest('[data-action]'); if (target) { event.preventDefault(); run(target.dataset.action,target.dataset.id); } }
   panel.addEventListener('click', onAction); dialog.addEventListener('click', onAction);
