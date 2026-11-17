@@ -99,6 +99,9 @@
 
   function draw() {
     let route = current.route;
+    if(route==='workspace'&&teacherInfo&&teacherInfo.profile?.role!=='teacher'){
+      route='teacher';current=stateFor(route,current.depth);history.replaceState(current,'','#/teacher');
+    }
     const loading = privateRoutes.has(route) && !window.DersBoard.authReady;
     if (!loading && privateRoutes.has(route) && !window.DersBoard.user) {
       intended = route; route = 'account'; current = stateFor(route, current.depth); history.replaceState(current, '', '#/account');
@@ -169,6 +172,15 @@
     $('profileDisplayName').textContent = name;
     $('profileRole').textContent = s.profile?.displayName ? (s.profile.role === 'teacher' ? 'Öğretmen' : 'Öğrenci') : 'Hesap türü seçilmedi';
     $('accountOnboarding').hidden = !uid || Boolean(s.profile?.displayName);
+    const role=uid?teacherInfo?.profile?.role:null,isTeacher=role==='teacher';
+    document.querySelector('[data-teacher-workspace]').hidden=!isTeacher;
+    const connections=document.querySelector('[data-teacher-connections]');
+    const connectionLabel=isTeacher?'Bağlantılar':role==='student'?'Öğretmenim':'Öğretmen';
+    connections.querySelector('[data-teacher-label]').textContent=connectionLabel;
+    connections.title=isTeacher?'Bağlantılar ve Programlar':connectionLabel;
+    titles.teacher=isTeacher?'Bağlantılar ve Programlar':connectionLabel;
+    const destination=$('homeTeacherDestination');destination.dataset.route=isTeacher?'workspace':'teacher';destination.href='#/'+destination.dataset.route;
+    $('homeTeacherTitle').textContent=isTeacher?'Öğretmen Çalışma Alanı':connectionLabel;
     const status = $('syncStatus').textContent;
     $('navigationSync').dataset.status = uid ? (/eşitlendi/i.test(status) ? 'synced' : 'pending') : 'signed-out';
     $('navigationSync').querySelector('small').textContent = uid ? (/eşitlendi/i.test(status) ? 'Bulutla eşitlendi' : navigator.onLine ? 'Eşitleme bekliyor' : 'Çevrimdışı') : 'Oturum kapalı';

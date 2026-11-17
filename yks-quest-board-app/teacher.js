@@ -79,19 +79,20 @@
     window.DersBoard.setProfile(overview.profile);
     const connections = overview.connections;
     const approved = connections.filter(c => c.status === 'approved');
-    panel.innerHTML = `<div class="sync-head"><strong>${esc(overview.profile.display_name)} · ${teacher ? 'Öğretmen' : 'Öğrenci'}</strong>${button('Yenile', 'refresh')}</div>`;
+    panel.innerHTML = `<div class="sync-head"><strong>${esc(overview.profile.display_name)} · ${teacher ? 'Öğretmen' : 'Öğrenci'}</strong><div class="signed-in-actions">${teacher?button('Çalışma Alanını Aç','workspace'):''}${button('Yenile', 'refresh')}</div></div>`;
     panel.insertAdjacentHTML('beforeend', '<section class="teacher-classes-entry" aria-labelledby="teacherClassesTitle"><div><h3 id="teacherClassesTitle">Sınıflarım</h3><p class="sync-status">'+(teacher?'Sınıf oluştur, öğrenci davet et; toplu programları, ortak hedefleri ve sınıf ilerlemesini yönet.':'Sınıf davetlerini, görevlerini, ortak hedeflerini ve gizlilik tercihlerini buradan aç.')+'</p></div>'+button('<i data-lucide="graduation-cap"></i>Sınıflarım', 'classes', '', 'id="openTeacherClasses"')+'</section>');
+    const connectionArea=document.createElement('div');connectionArea.className='teacher-connections-grid';panel.append(connectionArea);
     if (teacher) {
-      panel.insertAdjacentHTML('beforeend', `<div class="teacher-tools">${button('Davet Kodu Oluştur', 'invite')}<output id="inviteResult" class="invite-result"></output></div>`);
+      connectionArea.insertAdjacentHTML('beforeend', `<div class="teacher-tools teacher-item" data-account-role="teacher">${button('Davet Kodu Oluştur', 'invite')}<output id="inviteResult" class="invite-result"></output></div>`);
     } else {
-      panel.insertAdjacentHTML('beforeend', `<div class="teacher-tools">${input('Öğretmen Davet Kodu', 'inviteInput')}${button('Bağlantı İste', 'join')}</div>`);
+      connectionArea.insertAdjacentHTML('beforeend', `<div class="teacher-tools teacher-item" data-account-role="student">${input('Öğretmen Davet Kodu', 'inviteInput')}${button('Bağlantı İste', 'join')}</div>`);
     }
-    if (teacher) panel.insertAdjacentHTML('beforeend', `<div class="signed-in-actions">${button('Çalışma Alanını Aç','workspace')}</div><div class="student-grid">${approved.map(c => `<button class="student-card" type="button" data-action="student" data-id="${esc(c.student_id)}"><span class="avatar" aria-hidden="true">${esc(c.name.slice(0,1))}</span><span><strong>${esc(c.name)}</strong><small>Bağlı öğrenci</small></span><i data-lucide="chevron-right"></i></button>`).join('')}</div>`);
+    if (teacher) panel.insertAdjacentHTML('beforeend', `<div class="student-grid">${approved.map(c => `<button class="student-card" type="button" data-action="student" data-id="${esc(c.student_id)}"><span class="avatar" aria-hidden="true">${esc(c.name.slice(0,1))}</span><span><strong>${esc(c.name)}</strong><small>Bağlı öğrenci</small></span><i data-lucide="chevron-right"></i></button>`).join('')}</div>`);
     for (const c of connections.filter(c => c.status === 'pending' || (!teacher && c.status === 'approved'))) {
       const controls = teacher && c.status === 'pending'
         ? button('Onayla', 'connection-approve', c.id) + button('Reddet', 'connection-reject', c.id)
         : c.status === 'approved' ? (teacher ? button('İlerlemeyi Gör', 'student', c.student_id) : '') + button('Bağlantıyı Kaldır', 'disconnect', c.id) : '';
-      panel.insertAdjacentHTML('beforeend', row(c.name, labels[c.status], controls));
+      connectionArea.insertAdjacentHTML('beforeend', row(c.name, labels[c.status], controls));
     }
     if (!connections.some(c => c.status === 'approved' || c.status === 'pending')) panel.insertAdjacentHTML('beforeend', '<p class="sync-status">Henüz öğretmen-öğrenci bağlantısı yok.</p>');
     for (const a of overview.assignments) {

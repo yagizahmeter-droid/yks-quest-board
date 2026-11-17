@@ -48,9 +48,9 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
     const createComposerFixture=require('./class-composer-fixture.cjs')({asUser,ids});
     if(process.env.V150_UI_REGRESSION){
-      const cases={'personal':'personal-catalog.cjs','catalog':'catalog-browser.cjs','general':'teacher-general-browser.cjs','legacy':'v1141-browser.cjs','forms':['teacher-general-browser.cjs','v1141-browser.cjs']},name=cases[process.env.V150_UI_REGRESSION];assert.ok(name,'Unknown focused UI case');
+      const cases={'personal':'personal-catalog.cjs','catalog':'catalog-browser.cjs','general':'teacher-general-browser.cjs','legacy':'v1141-browser.cjs','forms':['teacher-general-browser.cjs','v1141-browser.cjs'],'role-isolation':'teacher-admin-role-isolation.cjs'},name=cases[process.env.V150_UI_REGRESSION];assert.ok(name,'Unknown focused UI case');
       await action(ids[4],'init_profile',{role:'student',name:'Focused regression student'});const initial=await action(ids[4],'read_board');await action(ids[4],'sync_board',{expected_version:initial.version,state:{...personal,profile:initial.state?.profile||{displayName:'Focused regression student'}}});
-      for(const file of [].concat(name))await require('./'+file)({createComposerFixture,root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;
+      for(const file of [].concat(name))await require('./'+file)({createComposerFixture,root,browser,admin,asUser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,action,ids});return;
     }
     if(process.env.V150_WORKSPACE_BROWSER==='1'){await require('./v150-workspace-browser.cjs')({root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,ids,asUser});return;}
     if(process.env.V130_ADMIN_CLASSES_ONLY==='1'){const options={root,browser,apiUrl:`http://127.0.0.1:${api.address().port}`,siteUrl:`http://127.0.0.1:${site.address().port}`,users,admin,asUser};await require('./admin-classes.cjs')(options);if(process.env.ADMIN_CLASSES_REGRESSION==='1')await require('./admin-preview-fix.cjs')(options);return;}
