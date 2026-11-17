@@ -10,6 +10,12 @@ Eksik bağlantı navigasyondaydı: v1.5.0 Teacher Workspace yüklenmesine rağme
 
 Test sırasında ikinci bir hata yeniden üretildi: Admin Paneline Dön yetki kontrolünü beklerken panel kapatılırsa değişken `currentRole` temizleniyor, işlem geçmişine null bağlam gönderilip HTTP 400 oluşuyordu. Geri dönüş artık başladığı rolü, kullanıcıyı ve önizleme neslini korur; geçersizleşmiş callback yeni önizlemeyi kapatamaz.
 
+Production kapısının tekrarında öğretmen panelinde Yenile sürerken etkin görünen Onayla düğmesine basılmasının `busy` kontrolünde sessizce yutulduğu da kaydedildi. Bekleyen işlem boyunca ilgili eylem düğmeleri artık native disabled durumunu taşır; render ile yeniden oluşturulsalar da bu durum korunur ve işlem bitince eski kullanılabilirlikleri geri gelir. Entegrasyon testi gerçek yenileme yanıtını kontrollü bekleterek bu aralığı, erişilebilir bekleme durumunu ve sonrasında değişiklik onayının gerçekten gönderilip öğrenciye ulaşmasını doğrular. Mevcut davranış assertion'ları korunur.
+
+Uzun önizleme testinde 15 saniyelik normal board eşitlemesinin eski JSON profil etiketini yeniden yükleyebildiği görüldü. Bu, Auth veya sunucudaki kullanıcı rolünün değişmesi değildir. Hesap başlığı ve başlangıç ekranı kararı artık navigasyonla aynı doğrulanmış sunucu profilini kullanır. Öğrenci/öğretmen testi, yerel JSON'a ters rol etiketi koyarak gerçek sunucu rolünün ekranda korunmasını ayrıca sınar; bu değişiklik yalnızca test penceresinin belleğinde tutulup geri alınır. Önizleme izolasyonu testinde karşılaştırmalar normal eşitleme tamamlandıktan sonra yapılır ve canonical sunucu board/sürüm/XP eşitliği de ayrıca aranır.
+
+Test yardımcılarında ayrıca render sırasında kopabilen option/satır referansları vardı: `evaluateAll` ile önceden alınan çocuklar, callback çalışana kadar yenilenebiliyordu. Seçenek ve grup bilgisi, satır geometrisiyle aynı şekilde tek tarayıcı görevi içinde güncel kökten okunur. Gerçek fare seçimi, değer eşitliği, tüm satırların geometri ve veri koruma assertion'ları korunur; eksik seçenek/satır açık test hatasıdır.
+
 Başlık düzenindeki kök neden, ders kartlarına ait genel `.card-head` sınıfının bağlantılar başlığında da kullanılmasıydı. Natural/Cloud tema kuralları bu alanı etkiliyordu. Başlık artık ortak temalı kart yüzeyini ve kendine ait sınıfları kullanır. Açıklamadaki gereksiz `62ch` sınırı, tekrarlanan boşluklar ve davet alanındaki sabit genişlik etkisi giderildi. Öğrencinin davet alanı ile bağlı öğretmenleri uyarlanabilir grid içindedir; mobilde tek sütundur.
 
 ## Değişen uygulama dosyaları

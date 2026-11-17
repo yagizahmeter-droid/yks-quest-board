@@ -108,8 +108,14 @@ module.exports=async ({root,deps,action,asUser,admin,ids,personal})=>{
     console.log('PASS Browser teacher sends, student accepts and second device sees completion');
     await s.locator('#board .quest').filter({hasText:'Kaldırma Kuvveti'}).getByRole('button',{name:'Değişiklik İste'}).click();
     assert.equal(await s.locator('#editTitle').getAttribute('readonly'),'');await s.fill('#editDetail','Basınç güncellendi');await s.getByRole('button',{name:'İsteği Gönder'}).click();
-    await s.locator('#questDialog').waitFor({state:'hidden'});await t.locator('#teacherPanel [data-action="refresh"]').click();
-    const approved=t.waitForResponse(r=>r.url().endsWith('/rpc/ders_action')&&r.request().postDataJSON()?.p_action==='resolve_change');await t.getByRole('button',{name:'Değişikliği Onayla'}).click();assert.ok((await approved).ok());await s.evaluate(()=>window.DersBoard.flush());await pointerSelect(s,'#weekSelect',await s.evaluate(()=>DersBoard.state.weeks.find(w=>w.name==='Browser Program').id));
+    await s.locator('#questDialog').waitFor({state:'hidden'});await t.evaluate(()=>DersTeacher.refresh());
+    let releaseRefresh,heldRefresh=false;const refreshGate=new Promise(resolve=>releaseRefresh=resolve);
+    const holdRefresh=async route=>{if(!heldRefresh&&route.request().postDataJSON()?.p_action==='overview'){heldRefresh=true;const response=await route.fetch();await refreshGate;await route.fulfill({response});}else await route.continue();};
+    await t.route('**/rpc/ders_action',holdRefresh);const refreshing=t.waitForRequest(r=>r.url().endsWith('/rpc/ders_action')&&r.postDataJSON()?.p_action==='overview');
+    await t.locator('#teacherPanel [data-action="refresh"]').click();await refreshing;
+    const approval=t.locator('#teacherPanel [data-action="change-approve"]');assert.equal(await approval.isDisabled(),true);assert.equal(await t.locator('#teacherPanel').getAttribute('aria-busy'),'true');
+    const approved=t.waitForResponse(r=>r.url().endsWith('/rpc/ders_action')&&r.request().postDataJSON()?.p_action==='resolve_change');const clickApproval=approval.click();releaseRefresh();await clickApproval;assert.ok((await approved).ok());await t.unroute('**/rpc/ders_action',holdRefresh);
+    await s.evaluate(()=>window.DersBoard.flush());await pointerSelect(s,'#weekSelect',await s.evaluate(()=>DersBoard.state.weeks.find(w=>w.name==='Browser Program').id));
     await s.locator('#board .quest').filter({hasText:'Basınç güncellendi'}).waitFor();assert.equal(await s.locator('#board .quest-title').getByText('Kaldırma Kuvveti',{exact:true}).count(),1);console.log('PASS Browser change request and teacher approval');
     await pointerSelect(s,'#weekSelect','original');await s.locator('#board .quest').filter({hasText:'Temel Kavramlar'}).locator('.check').click();await s.evaluate(()=>window.DersBoard.flush());
     await s.getByRole('button',{name:/Tamamlananlar/}).click();assert.equal(await s.locator('#board .quest.done').count(),1);

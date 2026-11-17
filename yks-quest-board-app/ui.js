@@ -166,12 +166,13 @@
     const historyCount=(window.DersStudy?.visibleHistory(s.studyHistory)||s.studyHistory).length;
     $('homeHistorySummary').textContent = historyCount ? `${historyCount} çalışma kaydı` : 'Henüz kayıt yok';
     $('guestNavigation').hidden = Boolean(uid); $('memberNavigation').hidden = !uid; $('accountProfile').hidden = !uid;
-    const name = s.profile?.displayName || board.user?.email?.split('@')[0] || 'Hesabım';
+    const profile=uid&&teacherInfo?.profile?{role:teacherInfo.profile.role,displayName:teacherInfo.profile.display_name}:s.profile;
+    const name = profile?.displayName || board.user?.email?.split('@')[0] || 'Hesabım';
     const initials = name.trim().split(/\s+/).slice(0,2).map(n => n[0]).join('').toLocaleUpperCase('tr-TR');
     $('userInitials').textContent = initials; $('profileAvatar').textContent = initials; $('navigationUser').textContent = name;
     $('profileDisplayName').textContent = name;
-    $('profileRole').textContent = s.profile?.displayName ? (s.profile.role === 'teacher' ? 'Öğretmen' : 'Öğrenci') : 'Hesap türü seçilmedi';
-    $('accountOnboarding').hidden = !uid || Boolean(s.profile?.displayName);
+    $('profileRole').textContent = profile?.displayName ? (profile.role === 'teacher' ? 'Öğretmen' : 'Öğrenci') : 'Hesap türü seçilmedi';
+    $('accountOnboarding').hidden = !uid || Boolean(profile?.displayName);
     const role=uid?teacherInfo?.profile?.role:null,isTeacher=role==='teacher';
     document.querySelector('[data-teacher-workspace]').hidden=!isTeacher;
     const connections=document.querySelector('[data-teacher-connections]');
